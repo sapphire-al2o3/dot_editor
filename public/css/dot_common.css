@@ -1,0 +1,125 @@
+* {
+	padding: 0;
+	margin: 0;
+	font-family: "メイリオ", Meiryo;
+}
+
+a {
+	text-decoration: none;
+	color: #0AF;
+}
+
+a:hover, a:focus {
+	text-decoration: underline;
+}
+
+a:visited {
+	color: #08D;
+	text-decoration: underline;
+}
+
+input {
+	vertical-align: middle;
+}
+
+html {
+	-webkit-font-smoothing: antialiased;
+}
+
+body {
+	background-color: #FFF;
+	border-top: 6px solid #0AF;
+}
+
+#container {
+	margin: 0 auto;
+	width: 480px;
+	background-color: #FFF;
+}
+
+#header {
+}
+
+#header h1 {
+	
+	font-size: 20pt;
+	font-family: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Verdana, Tahoma, sans-serif;
+}
+
+#search {
+	float: right;
+	margin-top: -32px;
+	margin-right: 16px;
+}
+
+#search input[type="text"] {
+	width: 160px;
+	font-size: 13px;
+	margin-right: -30px;
+	border: 1px solid #08D;
+}
+
+#search input[type="submit"] {
+/*	margin-left: 30px;*/
+	text-indent: -9999px;
+	width: 24px;
+	height: 24px;
+	border: none;
+	background: url("../images/search.png") no-repeat transparent;
+	cursor: pointer;
+}
+
+#search input[type="submit"]:hover {
+	background-position: bottom;
+}
+
+.nav {
+	font-size: 10pt;
+	border-bottom: 2px solid #08D;
+	clear: both;
+}
+
+.nav ul {
+	padding-bottom: 4px;
+}
+
+.nav ul li {
+	padding-left: 16px;
+	padding-right: 8px;
+	display: inline-block;
+	background: url("../images/navi.png") left center no-repeat;
+}
+
+.nav ul li a {
+	text-align: center;
+	display: block;
+	font-family: Meiryo, Georgia, FreeSerif, Times, serif;
+}
+
+#footer {
+	font-size: 9pt;
+	border-top: 2px solid #08D;
+	border-bottom: 8px solid #08D;
+	padding-top: 4px;
+	padding-bottom: 4px;
+}
+
+#footer p {
+	text-align: center;
+	color: #777;
+}
+
+#footer ul {
+	text-align: center;
+}
+
+#footer ul li {
+	display: inline-block;
+	margin: 0 8px;
+}
+
+.copyright {
+	text-align: center;
+	margin-top: 4px;
+	color: #777;
+}

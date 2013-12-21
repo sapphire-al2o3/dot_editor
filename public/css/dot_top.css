@@ -1,0 +1,80 @@
+h2 {
+	text-align: center;
+	margin-top: 4px;
+	margin-bottom: 4px;
+	font-family: Arial;
+	color: #08D;
+	font-size: 18pt;
+	font-weight: normal;
+}
+
+.nav a {
+	font-family: Arial, Helvetica, sans-serif;
+
+}
+
+h2 a {
+	color: #FFF;
+	font-weight: normal;
+	background-color: #08D;
+	font-size: 16pt;
+	padding: 2px 16px;
+	border: 1px solid #08D;
+	box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 0 inset, rgba(0, 0, 0, 0.4) 0 1px 4px 0;
+}
+
+h2 a:visited {
+	color: #FFF;
+}
+
+table {
+	border-spacing: 8px;
+}
+
+tr {
+	height: 108px;
+}
+
+td {
+	text-align: center;
+	width: 108px;
+	border: 1px solid #CCC;
+	border-radius: 6px;
+}
+
+td:hover {
+	border: 1px solid #0CF;
+}
+
+td p {
+	font-size: 9pt;
+}
+
+td a {
+	display: block;
+	height: 64px;
+	line-height: 64px;
+}
+
+td a img {
+	vertical-align: middle;
+}
+
+.dot-title {
+	color: #777;
+}
+
+.dot-author {
+	line-height: 16px;
+	font-size: 8pt;
+	color: #777;
+}
+
+.dot-author img {
+	vertical-align: top;
+	margin-right: 4px;
+}
+
+#draw {
+	margin-bottom: 16px;
+}

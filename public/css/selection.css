@@ -1,0 +1,19 @@
+#editor-canvas #selection {
+	left: 96px;
+	top: 12px;
+/*	display: none;*/
+/*	cursor: move;*/
+	background-color: rgba(0, 0, 0, 0.1);
+/*	background-color: #FFF;*/
+
+	border: 1px dashed #000;
+	border-image-source: url("../images/dash_rect_2.gif");
+	border-image-slice: 1;
+	border-image-repeat: repeat;
+/*	background: url("../images/dash_rect.gif") repeat;*/
+}
+
+#editor-canvas #selection.active {
+	background-color: transparent;
+	cursor: move;
+}

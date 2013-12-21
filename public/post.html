@@ -1,0 +1,91 @@
+<!doctype HTML>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Dot Editor Alpha</title>
+		<link href="./css/dot_common.css" media="screen" rel="stylesheet" type="text/css" />
+		<link href="./css/dot_post.css" media="screen" rel="stylesheet" type="text/css" />
+		<link rel="shortcut icon" href="./images/favicon.png" />
+		<script src="./js/canvas.js"></script>
+		<script src="./js/base64.js"></script>
+	</head>
+	<body>
+		<div id="container">
+			<div id="header">
+				<h1><a href="/"><img src="./images/dota_32x32.png" /></a></h1>
+			</div>
+			
+<!--			<div contenteditable="true">hogehoge</div>-->
+			<p>Twitterへドット絵を投稿します。</p>
+			<form action="/auth/twitter/post" method="post">
+				
+				<div id="image-scale">
+					<input type="radio" name="scale" id="scale-1" value="1" checked /><label for="scale-1">等倍</label>
+					<input type="radio" name="scale" id="scale-2" value="2" /><label for="scale-2">2倍</label>
+					<input type="radio" name="scale" id="scale-3" value="3" /><label for="scale-3">3倍</label>
+					<input type="radio" name="scale" id="scale-4" value="4" /><label for="scale-4">4倍</label>
+				</div>
+				<div id="dot-preview"><canvas id="canvas"></canvas></div>
+				<p><textarea id="text" name="text">#dotA</textarea></p>
+				<p><span id="text-count">134</span></p>
+				<p><input type="submit" id="post" value="投稿する" /></p>
+				<input type="hidden" id="image" name="image" />
+			</form>
+			<script>
+				(function() {
+					var canvas = document.getElementById('canvas'),
+						ctx = canvas.getContext('2d'),
+						text = document.getElementById('text'),
+						textCount = document.getElementById('text-count'),
+						image;
+					
+					function render(index, paltte, scale) {
+						canvas.width = index.width * scale ^ 0;
+						canvas.height = index.height * scale ^ 0;
+						drawIndexedImageData(ctx, image.indexData, image.paletteData, scale);
+					}
+					
+					if(window.opener) {
+						image = window.opener.getImage();
+						if(image) {
+							render(image.indexData, image.paletteData, 1);
+						}
+						console.log(image);
+					} else {
+						window.location.href = '/';
+					}
+					
+					document.getElementById('image-scale').addEventListener('change', function(e) {
+						if(image && /scale-[1-4]/.test(e.target.getAttribute('id'))) {
+							var scale = parseInt(e.target.value, 10);
+							render(image.indexData, image.paletteData, scale);
+						}
+					});
+					
+					text.addEventListener('keyup', function(e) {
+						textCount.textContent = '' + (140 - text.value.length);
+					});
+					
+					document.getElementById('post').addEventListener('click', function(e) {
+						var palette = Array.prototype.filter.call(image.paletteData.data, function(e, i) {
+							return i % 4 !== 3;
+						});
+						var json = {
+							index: Base64.encode(image.indexData.data),
+							palette: Base64.encode(palette),
+							width: image.indexData.width,
+							height: image.indexData.height,
+							transparent: 0
+						};
+						console.log(json.index);
+						document.getElementById('image').value = JSON.stringify(json);
+					});
+				})();
+			</script>
+		<div id="footer">
+			<p>動作環境: Windows7, Google Chrome, Firefox, Opera で動作確認</p>
+			<p class="copyright">Copyright 2013 <a href="https://twitter.com/sapphire_al2o3">@sapphire_al2o3</a></p>
+		</div>
+		</div>
+	</body>
+</html>

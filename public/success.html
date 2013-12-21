@@ -1,0 +1,55 @@
+<!doctype HTML>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Dot Editor Alpha</title>
+		<link href="./css/dot_common.css" media="screen" rel="stylesheet" type="text/css" />
+		<link rel="shortcut icon" href="./images/favicon.png" />
+		<script src="./js/canvas.js"></script>
+		<script src="./js/base64.js"></script>
+		<style>
+			p {
+				font-size: 12px;
+				text-align: center;
+				color: #555;
+			}
+			#close {
+				color: #555;
+				font-weight: bold;
+				margin-bottom: 16px;
+				background: none;
+				border: 0;
+				transition: background-color 0.4s;
+				padding: 4px 24px;
+				cursor: pointer;
+			}
+			
+			#close:hover {
+				background-color: #34c0f4;
+				color: #FFF;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="container">
+			<div id="header">
+				<h1><a href="/"><img src="./images/dota_32x32.png" /></a></h1>
+			</div>
+			
+<!--			<div contenteditable="true">hogehoge</div>-->
+			<p style="padding: 48px 0;">Twitterへドット絵を投稿しました。</p>
+			<p><input type="button" id="close" value="とじる" /></p>
+			<script>
+				(function() {
+					document.getElementById('close').addEventListener('click', function() {
+						window.close();
+					});
+				})();
+			</script>
+			<div id="footer">
+				<p>動作環境: Windows7, Google Chrome, Firefox, Opera で動作確認</p>
+				<p class="copyright">Copyright 2013 <a href="https://twitter.com/sapphire_al2o3">@sapphire_al2o3</a></p>
+			</div>
+		</div>
+	</body>
+</html>
