@@ -212,7 +212,7 @@ editor: Editor
 		preview.canvas.width = indexData.width;
 		preview.canvas.height = indexData.height;
 		Palette.convert(paletteData);
-		drawIndexedImageData(preview, indexData, paletteData, option.scale);
+		drawIndexedImageData(preview, indexData, paletteData, 1);
 		return preview.canvas.toDataURL();
 	}
 
