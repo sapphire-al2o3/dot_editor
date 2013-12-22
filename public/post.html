@@ -2,7 +2,7 @@
 <html>
 	<head>
 		<meta charset="utf-8" />
-		<title>Dot Editor Alpha</title>
+		<title>Dot Editor</title>
 		<link href="./css/dot_common.css" media="screen" rel="stylesheet" type="text/css" />
 		<link href="./css/dot_post.css" media="screen" rel="stylesheet" type="text/css" />
 		<link rel="shortcut icon" href="./images/favicon.png" />
@@ -26,7 +26,7 @@
 					<input type="radio" name="scale" id="scale-4" value="4" /><label for="scale-4">4倍</label>
 				</div>
 				<div id="dot-preview"><canvas id="canvas"></canvas></div>
-				<p><textarea id="text" name="text">#dotA</textarea></p>
+				<p><textarea id="text" name="text">#dotA http://dot-a.herokuapp.com/</textarea></p>
 				<p><span id="text-count">134</span></p>
 				<p><input type="submit" id="post" value="投稿する" /></p>
 				<input type="hidden" id="image" name="image" />
@@ -38,6 +38,8 @@
 						text = document.getElementById('text'),
 						textCount = document.getElementById('text-count'),
 						image;
+					
+					textCount.textContent = '' + (140 - text.value.length);
 					
 					function render(index, paltte, scale) {
 						canvas.width = index.width * scale ^ 0;
@@ -52,7 +54,7 @@
 						}
 						console.log(image);
 					} else {
-						window.location.href = '/';
+//						window.location.href = '/';
 					}
 					
 					document.getElementById('image-scale').addEventListener('change', function(e) {

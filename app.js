@@ -64,8 +64,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // 404
 app.use(function(req, res, next) {
-  res.status(404);
-  res.render('404');
+//  res.status(404);
+//  res.render('404');
+	res.redirect('/');
 });
 
 // development only
@@ -95,16 +96,15 @@ app.post('/auth/twitter/post', function(req, res) {
 	var text = req.body.text,
 		image = JSON.parse(req.body.image);
 	
-	var scale = req.body.scale ? parseInt(req.body.scale, 10) : 1;
-	
-	var paletteData = new Buffer(image.palette, 'base64');
-	
-	// 拡大する
-	indexData = scaling(new Buffer(image.index, 'base64'), image.width, image.height, scale);
-	image.width *= scale;
-	image.height *= scale;
-	
 	if(req.user && image) {
+		var scale = req.body.scale ? parseInt(req.body.scale, 10) : 1,
+			paletteData = new Buffer(image.palette, 'base64');
+		
+		// 拡大する
+		var indexData = scaling(new Buffer(image.index, 'base64'), image.width, image.height, scale);
+		image.width *= scale;
+		image.height *= scale;
+		
 		
 		var img = new PNG({
 			width: image.width,
@@ -112,7 +112,6 @@ app.post('/auth/twitter/post', function(req, res) {
 			colorType: 3,
 			filterType: 0,
 		});
-		
 		
 		img.data = indexData;
 		img.palette = paletteData;
@@ -139,7 +138,7 @@ app.post('/auth/twitter/post', function(req, res) {
 		
 		var r = request.post(url, function(err, data, response) {
 			if(err) {
-				console.log(err);
+//				console.log(err);
 				res.redirect('/failure.html');
 			}
 			res.redirect('/success.html');
@@ -150,10 +149,10 @@ app.post('/auth/twitter/post', function(req, res) {
 		
 		form.append('status', text);
 		form.append('media[]', img.pack2());
-		console.log('ok');
+//		console.log('ok');
 		
 	} else {
-		console.log('ng');
+//		console.log('ng');
 		res.redirect('/auth/twitter');
 	}
 });
@@ -169,5 +168,5 @@ app.get('/post', function(req, res) {
 });
 
 http.createServer(app).listen(app.get('port'), function(){
-  console.log('Express server listening on port ' + app.get('port'));
+	console.log('Express server listening on port ' + app.get('port'));
 });
