@@ -18,6 +18,10 @@ a:visited {
 	text-decoration: underline;
 }
 
+a img {
+	border: 0;
+}
+
 input {
 	vertical-align: middle;
 }
