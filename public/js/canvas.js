@@ -614,7 +614,7 @@ function drawIndexedImage(ctx, image, palette, scale, paletteData) {
 		}
 	}
 	*/
-	console.log(palette.length, w, h);
+//	console.log(palette.length, w, h);
 	for(var k = 0, n = palette.length; k < n; k++) {
 		ctx.fillStyle = palette[k];
 		for(var i = 0; i < h; i++) {

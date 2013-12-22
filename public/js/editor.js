@@ -431,7 +431,7 @@ editor: Editor
 				$('#color-picker').fadeToggle();
 			});
 			ColorPicker('color-picker', function (c) {
-				Palette.setColor(c);
+				Palette.setColor(Color.rgb(c[0], c[1], c[2]));
 			});
 		}
 		

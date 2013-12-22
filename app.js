@@ -56,6 +56,11 @@ app.use(express.methodOverride());
 
 app.use(express.cookieParser('madomado'));
 app.use(express.session({secret: 'homuhomu'}));
+//app.use(express.session({
+//	secret: 'homuhomu',
+//	cookie: {},
+//	store: new MemcachedStore()
+//}));
 app.use(passport.initialize());
 app.use(passport.session());
 
