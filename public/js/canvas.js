@@ -609,7 +609,7 @@ function drawIndexedImage(ctx, image, palette, scale, paletteData) {
 			ctx.fill();
 			total += count;
 			if(total === l) {
-				break;	
+				break;
 			}
 		}
 	}
@@ -646,7 +646,7 @@ function drawIndexedImage(ctx, image, palette, scale, paletteData) {
 //	ctx.putImageData(dst, 0, 0);
 }
 
-function drawIndexedImageData(ctx, image, palette, scale) {
+function drawIndexedImageData(ctx, image, palette, scale, transparent) {
 	var index = 0,
 		data = image.data,
 		paletteData = palette.data,
@@ -654,7 +654,8 @@ function drawIndexedImageData(ctx, image, palette, scale) {
 		w = dest.width,
 		h = dest.height,
 		stride = image.width,
-		destData = dest.data;
+		destData = dest.data,
+		t = transparent === undefined ? 256 : transparent;
 	for(var i = 0, p = 0; i < h; i++) {
 		var y = i / scale ^ 0;
 		for(var j = 0; j < w; j++) {
@@ -664,7 +665,7 @@ function drawIndexedImageData(ctx, image, palette, scale) {
 			destData[p] = paletteData[pindex];
 			destData[p + 1] = paletteData[pindex + 1];
 			destData[p + 2] = paletteData[pindex + 2];
-			destData[p + 3] = 255;
+			destData[p + 3] = t === data[index] ? 0 : 255;
 			p += 4;
 		}
 	}

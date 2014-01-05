@@ -25,6 +25,9 @@
 					<input type="radio" name="scale" id="scale-3" value="3" /><label for="scale-3">3倍</label>
 					<input type="radio" name="scale" id="scale-4" value="4" /><label for="scale-4">4倍</label>
 				</div>
+				<div>
+					<input type="checkbox" id="transparent" /><label for="transparent">背景を透明にする(背景のピクセルをクリック)</label>
+				</div>
 				<div id="dot-preview"><canvas id="canvas"></canvas></div>
 				<p><textarea id="text" name="text">#dotA http://dot-a.herokuapp.com/</textarea></p>
 				<p><span id="text-count">134</span></p>
@@ -37,30 +40,48 @@
 						ctx = canvas.getContext('2d'),
 						text = document.getElementById('text'),
 						textCount = document.getElementById('text-count'),
+						scale = 1,
+						transparent = 256,
 						image;
 					
 					textCount.textContent = '' + (140 - text.value.length);
 					
-					function render(index, paltte, scale) {
+					function render(index, paltte) {
 						canvas.width = index.width * scale ^ 0;
 						canvas.height = index.height * scale ^ 0;
-						drawIndexedImageData(ctx, image.indexData, image.paletteData, scale);
+						drawIndexedImageData(ctx, image.indexData, image.paletteData, scale, transparent);
 					}
 					
-					if(window.opener) {
+					if(window.opener && window.opener.getImage) {
 						image = window.opener.getImage();
 						if(image) {
-							render(image.indexData, image.paletteData, 1);
+							render(image.indexData, image.paletteData);
 						}
-						console.log(image);
 					} else {
 						window.location.href = '/';
 					}
 					
 					document.getElementById('image-scale').addEventListener('change', function(e) {
 						if(image && /scale-[1-4]/.test(e.target.getAttribute('id'))) {
-							var scale = parseInt(e.target.value, 10);
-							render(image.indexData, image.paletteData, scale);
+							scale = parseInt(e.target.value, 10);
+							render(image.indexData, image.paletteData);
+						}
+					});
+					
+					document.getElementById('transparent').addEventListener('change', function(e) {
+						console.log(e.target.checked);
+						transparent = e.target.checked ? 0 : 256;
+						render(image.indexData, image.paletteData);
+					});
+					
+					document.getElementById('canvas').addEventListener('click', function(e) {
+						if(document.getElementById('transparent').checked) {
+							var rect = e.target.getBoundingClientRect(),
+								x = (e.pageX - rect.left) / scale ^ 0,
+								y = (e.pageY - rect.top) / scale ^ 0;
+							transparent = image.indexData.data[y * image.indexData.width + x];
+							console.log(x, y, transparent);
+							render(image.indexData, image.paletteData);
 						}
 					});
 					
@@ -77,7 +98,7 @@
 							palette: Base64.encode(palette),
 							width: image.indexData.width,
 							height: image.indexData.height,
-							transparent: 0
+							transparent: transparent
 						};
 						console.log(json.index);
 						document.getElementById('image').value = JSON.stringify(json);

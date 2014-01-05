@@ -608,13 +608,13 @@ editor: Editor
     		$('#overlay').fadeIn();
         }
 	
-        Palette.change(function(e) {
-            // パレットが変更された際のイベント
-            drawIndexedImage(ctx, indexData, palette, option.scale);
-            drawPreview();
-        });
-        Palette.setFrontColor(1);
-        palette = Palette.getPaletteData();
+		Palette.change(function(e) {
+			// パレットが変更された際のイベント
+			drawIndexedImage(ctx, indexData, palette, option.scale);
+			drawPreview();
+		});
+		Palette.setFrontColor(1);
+		palette = Palette.getPaletteData();
 	
 		$('canvas').bind('contextmenu', function(e) {
 			if(down) {

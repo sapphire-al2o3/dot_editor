@@ -11,9 +11,17 @@ textarea {
 	font-size: 13px;
 }
 
+canvas {
+	background-image: url("../images/background.png");
+}
+
 #dot-preview {
 	text-align: center;
 	padding: 8px;
+}
+
+label {
+	font-size: 12px;
 }
 
 input[type="radio"] {
@@ -21,10 +29,14 @@ input[type="radio"] {
 }
 
 input[type="radio"] + label {
-	font-size: 12px;
 	padding-right: 16px;
 	padding-top: 4px;
 	padding-bottom: 4px;
+	color: #999;
+}
+
+input[type="checkbox"] + label {
+	padding-right: 16px;
 	color: #999;
 }
 
@@ -32,10 +44,14 @@ input[type="radio"]:checked + label {
 	color: #555;
 }
 
-input[type="radio"] {
+input[type="checkbox"]:checked + label {
+	color: #555;
+}
+
+input[type="radio"], input[type="checkbox"] {
 	display: none;
 }
-input[type="radio"] + label:before {
+input[type="radio"] + label:before, input[type="checkbox"] + label:before {
 	content: "";
 	display: inline-block;
 	margin-right: 4px;
@@ -46,7 +62,7 @@ input[type="radio"] + label:before {
 	transition-duration: 0.4s;
 }
 
-input[type="radio"]:checked + label:before {
+input[type="radio"]:checked + label:before, input[type="checkbox"]:checked + label:before {
 	background-color: #34c0f4;
 }
 
