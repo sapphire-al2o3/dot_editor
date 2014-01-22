@@ -69,9 +69,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // 404
 app.use(function(req, res, next) {
-//  res.status(404);
+	res.status(404);
 //  res.render('404');
-	res.redirect('/');
+	res.redirect('404.html');
 });
 
 // development only

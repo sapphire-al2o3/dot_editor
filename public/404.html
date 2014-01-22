@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>404</title>
+		<link href="./css/dot_common.css" media="screen" rel="stylesheet" type="text/css" />
+		<link rel="shortcut icon" href="./images/favicon.png" />
+		<style>
+			p {
+				font-size: 12px;
+				text-align: center;
+				color: #555;
+			}
+			#close {
+				color: #555;
+				font-weight: bold;
+				margin-bottom: 16px;
+				background: none;
+				border: 0;
+				transition: background-color 0.4s;
+				padding: 4px 24px;
+				cursor: pointer;
+			}
+			
+			#close:hover {
+				background-color: #34c0f4;
+				color: #FFF;
+			}
+			p {
+				line-height: 2em;
+			}
+			canvas {
+/*				border: 1px solid #EEE;*/
+				margin-bottom: 16px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="container">
+			<div id="header">
+				<h1><a href="/"><img src="./images/dota_32x32.png" /></a></h1>
+			</div>
+			<p><canvas id="canvas" width="304" height="128"></canvas></p>
+			<p>お探しのページが見つかりませんでした。</p>
+			<p><a href="/">トップページへ戻る</a></p>
+			<script>
+				(function() {
+					var canvas = document.getElementById('canvas'),
+						ctx = canvas.getContext('2d'),
+						w = canvas.width,
+						h = canvas.height;
+					
+					var p404 = [
+						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,1,1,0,0,0,1,1,1,0,0,0,0,1,1,0,0],
+						[0,0,1,0,1,0,0,1,0,0,0,1,0,0,1,0,1,0,0],
+						[0,0,1,0,1,0,0,1,0,0,0,1,0,0,1,0,1,0,0],
+						[0,1,0,0,1,0,0,1,0,0,0,1,0,1,0,0,1,0,0],
+						[0,1,1,1,1,1,0,1,0,0,0,1,0,1,1,1,1,1,0],
+						[0,0,0,0,1,0,0,0,1,1,1,0,0,0,0,0,1,0,0],
+						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+					];
+					
+					function render() {
+						ctx.clearRect(0, 0, w, h);
+						ctx.fillStyle = '#09F';
+						for(var i = 0; i < 8; i++) {
+							for(var j = 0; j < 19; j++) {
+								if(p404[i][j]) {
+									ctx.fillRect(j * 16, i * 16, 16, 16);
+								}
+							}
+						}
+						ctx.fill();
+					}
+					
+					var k = 0;
+					/*
+					setInterval(function() {
+						p404[k / 19 ^ 0][k % 19 ^ 0] = 1 - p404[k / 19 ^ 0][k % 19 ^ 0];
+						k++;
+						if(k >= 19 * 8) k = 0;
+						render();
+					}, 1000 / 30);
+					*/
+					canvas.addEventListener('click', function(e) {
+						var r = e.target.getBoundingClientRect(),
+							x = (e.clientX - r.left) / 16 ^ 0,
+							y = (e.clientY - r.top) / 16 ^ 0;
+						p404[y][x] = 1 - p404[y][x];
+						render();
+					});
+					
+					render();
+				})();
+			</script>
+			<div id="footer">
+				<p>動作環境: Windows7, Google Chrome, Firefox, Opera で動作確認</p>
+				<p class="copyright">Copyright 2013 <a href="https://twitter.com/sapphire_al2o3">@sapphire_al2o3</a></p>
+			</div>
+		</div>
+	</body>
+</html>
