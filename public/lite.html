@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title>Dot Editor Lite</title>
+		<link href="./css/dot_common.css" media="screen" rel="stylesheet" type="text/css" />
+		<link rel="shortcut icon" href="./images/favicon.png" />
+		<script src="./js/base64.js"></script>
+		<script src="./js/canvas.js"></script>
+		<style>
+			p {
+				font-size: 12px;
+				text-align: center;
+				color: #555;
+			}
+			#close {
+				color: #555;
+				font-weight: bold;
+				margin-bottom: 16px;
+				background: none;
+				border: 0;
+				transition: background-color 0.4s;
+				padding: 4px 24px;
+				cursor: pointer;
+			}
+			
+			#close:hover {
+				background-color: #34c0f4;
+				color: #FFF;
+			}
+			p {
+				line-height: 2em;
+			}
+			canvas {
+				border: 1px solid #EEE;
+				margin-bottom: 16px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="container">
+			<div id="header">
+				<h1><a href="/"><img src="./images/dota_32x32.png" /></a></h1>
+			</div>
+			<p><canvas id="canvas" width="256" height="256"></canvas></p>
+			<p><a href="" id="encode">URLに変換</a></p>
+			<div id="footer">
+				<p>動作環境: Google Chrome, Firefox, Opera で動作確認</p>
+				<p class="copyright">Copyright 2013 <a href="https://twitter.com/sapphire_al2o3">@sapphire_al2o3</a></p>
+			</div>
+		</div>
+		<script>
+			(function() {
+				var canvas = document.getElementById('canvas'),
+					ctx = canvas.getContext('2d'),
+					w = canvas.width,
+					h = canvas.height;
+				
+				var image = createIndexData(16, 16);
+				
+				var hash = location.hash.slice(1);
+				
+				if(hash) {
+					var data = Base64.decode(hash);
+					unpack(data, image.data);
+					console.log(image);
+					render(image, 16);
+				}
+				
+				var r;
+				
+				canvas.addEventListener('mousedown', function(e) {
+					r = canvas.getBoundingClientRect();
+					var x = e.pageX - r.left,
+						y = e.pageY - r.top;
+				});
+				
+				function pack(data, p) {
+					var k = 0;
+					p = p || [];
+					for(var i = 0, n = data.length / 8 ^ 0; i < n; i++) {
+						p[i] = 0;
+						for(var j = 0; j < 8; j++) {
+							p[i] |= (data[k++] !== 0) << j;
+						}
+					}
+					return p;
+				}
+				
+				function unpack(data, p) {
+					var k = 0;
+					p = p || [];
+					for(var i = 0, n = data.length; i < n; i++) {
+						for(var j = 0; j < 8; j++) {
+							p[k++] = (data[i] >> j) & 1;
+						}
+					}
+					return p;
+				}
+				
+				function encode(image) {
+					var w = image.width,
+						h = image.height,
+						data = image.data;
+					return Base64.encode(data);
+				}
+				
+				function render(image, scale) {
+					var data = image.data,
+						w = image.width,
+						h = image.height;
+					ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+					ctx.fillStyle = '#000';
+					for(var i = 0; i < h; i++) {
+						for(var j = 0; j < w; j++) {
+							if(data[i * w + j]) {
+								ctx.fillRect(j * scale, i * scale, scale, scale);
+							}
+						}
+					}
+					ctx.fill();
+				}
+				var w = 16,
+					s = 16;
+				canvas.addEventListener('click', function(e) {
+					var r = e.target.getBoundingClientRect(),
+						x = (e.clientX - r.left) / s ^ 0,
+						y = (e.clientY - r.top) / s ^ 0;
+					image.data[y * w + x] = 1 - image.data[y * w + x];
+					render(image, 16);
+				});
+				
+				document.getElementById('encode').addEventListener('click', function(e) {
+					var data = pack(image.data);
+					location.hash = Base64.encode(data);
+					e.preventDefault();
+				});
+			})();
+		</script>
+	</body>
+</html>
