@@ -1,5 +1,5 @@
 <!doctype html>
-<html>
+<html lang="ja">
 	<head>
 		<meta charset="utf-8" />
 		<title>Dot Editor Lite</title>
@@ -45,7 +45,6 @@
 			<p><canvas id="canvas" width="256" height="256"></canvas></p>
 			<p><a href="" id="encode">URLに変換</a></p>
 			<div id="footer">
-				<p>動作環境: Google Chrome, Firefox, Opera で動作確認</p>
 				<p class="copyright">Copyright 2013 <a href="https://twitter.com/sapphire_al2o3">@sapphire_al2o3</a></p>
 			</div>
 		</div>
@@ -54,26 +53,55 @@
 				var canvas = document.getElementById('canvas'),
 					ctx = canvas.getContext('2d'),
 					w = canvas.width,
-					h = canvas.height;
+					h = canvas.height,
+					scale = 16;
 				
-				var image = createIndexData(16, 16);
+				var image = createIndexData(24, 24);
 				
 				var hash = location.hash.slice(1);
 				
 				if(hash) {
 					var data = Base64.decode(hash);
 					unpack(data, image.data);
-					console.log(image);
-					render(image, 16);
+				}
+				resize(image, scale);
+				
+				var r, px, py, index = 1;
+				
+				function mousemove(e) {
+					var x = (e.pageX - r.left) / scale ^ 0,
+						y = (e.pageY - r.top) / scale ^ 0;
+					drawLine(ctx, px, py, x, y, image, index, scale);
+					px = x;
+					py = y;
+					e.preventDefault();
 				}
 				
-				var r;
+				function mouseup(e) {
+					document.removeEventListener('mouseup', mouseup);
+					document.removeEventListener('mousemove', mousemove);
+				}
 				
 				canvas.addEventListener('mousedown', function(e) {
 					r = canvas.getBoundingClientRect();
-					var x = e.pageX - r.left,
-						y = e.pageY - r.top;
+					px = (e.pageX - r.left) / scale ^ 0;
+					py = (e.pageY - r.top) / scale ^ 0;
+					index = 1 - image.data[py * image.width + px];
+					ctx.fillStyle = index ? '#000' : '#FFF';
+					drawDot(ctx, px, py, image, index, scale);
+					document.addEventListener('mousemove', mousemove);
+					document.addEventListener('mouseup', mouseup);
+					e.preventDefault();
 				});
+				
+				function sub(data, p) {
+					p = p || [];
+					p[0] = data[0];
+					for(var i = 1, n = data.length; i < n; i++) {
+						p[i] = data[i] - data[i - 1];
+					}
+					return p;
+				}
 				
 				function pack(data, p) {
 					var k = 0;
@@ -105,6 +133,12 @@
 					return Base64.encode(data);
 				}
 				
+				function resize(image, scale) {
+					canvas.width = scale * image.width;
+					canvas.height = scale * image.height;
+					render(image, scale);
+				}
+				
 				function render(image, scale) {
 					var data = image.data,
 						w = image.width,
@@ -120,21 +154,26 @@
 					}
 					ctx.fill();
 				}
-				var w = 16,
-					s = 16;
-				canvas.addEventListener('click', function(e) {
-					var r = e.target.getBoundingClientRect(),
-						x = (e.clientX - r.left) / s ^ 0,
-						y = (e.clientY - r.top) / s ^ 0;
-					image.data[y * w + x] = 1 - image.data[y * w + x];
-					render(image, 16);
-				});
 				
 				document.getElementById('encode').addEventListener('click', function(e) {
 					var data = pack(image.data);
+					console.log(data.length);
+					console.log(RLE.encode(data).length);
 					location.hash = Base64.encode(data);
 					e.preventDefault();
 				});
+				
+				var dota = {
+					clear: clear.bind(null, ctx, image),
+					resize: resize.bind(null, image),
+					flipH: function() {
+//						ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+						flipH(ctx, image);
+						render(image, scale);
+					}
+				};
+				
+				this.dota = dota;
 			})();
 		</script>
 	</body>
