@@ -2,16 +2,31 @@
 <html lang="ja">
 	<head>
 		<meta charset="utf-8" />
+		<meta name="viewport" content="width=400" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<title>Dot Editor Lite</title>
 		<link href="./css/dot_common.css" media="screen" rel="stylesheet" type="text/css" />
 		<link rel="shortcut icon" href="./images/favicon.png" />
 		<script src="./js/base64.js"></script>
 		<script src="./js/canvas.js"></script>
+		<script src="./js/selector.js"></script>
 		<style>
+			#header {
+				margin-bottom: 8px;
+			}
+			
+			#container {
+				width: 400px;
+			}
 			p {
 				font-size: 12px;
 				text-align: center;
 				color: #555;
+			}
+			#tweet {
+/*				float: right;*/
+				margin-top: -20px;
+				text-align: left;
 			}
 			#close {
 				color: #555;
@@ -29,12 +44,100 @@
 				color: #FFF;
 			}
 			p {
-				line-height: 2em;
+				line-height: 1.5;
+				
 			}
-			canvas {
-				border: 1px solid #EEE;
+			.scroll div {
+				width: 384px;
+				height: 384px;
+				overflow: hidden;
+				border: 8px solid #DDD;
+				transition: border 0.5s, width 0.5s, height 0.5s;
+			}
+			
+			.scroll {
+				position: relative;
+				text-align: center;
 				margin-bottom: 16px;
 			}
+			
+			.scale div {
+				border: 32px solid #DDD;
+				width: 336px;
+				height: 336px;
+			}
+			
+			.scroll span {
+				display: block;
+				width: 0;
+				height: 0;
+				background-color: #34c0f4;
+				position: absolute;
+
+				cursor: pointer;
+				z-index: 1;
+			}
+			
+			span.thumb-left {
+				top: 32px;
+				left: 0px;
+				transition: width 0.5s;
+			}
+			
+			span.thumb-top {
+				top: 0;
+				left: 32px;
+				transition: height 0.5s;
+			}
+			
+			span.thumb-bottom {
+				bottom: 0;
+				left: 32px;
+				transition: height 0.5s;
+			}
+			
+			span.thumb-right {
+				top: 32px;
+				right: 0;
+				transition: width 0.5s;
+			}
+			
+			.scale span {
+				width: 32px;
+				height: 32px;
+				display: block;
+				opacity: 1;
+			}
+			
+			ul {
+				list-style: none;
+				margin-bottom: 8px;
+			}
+			
+			li {
+				display: inline-block;
+			}
+			
+			img {
+				vertical-align : middle
+			}
+			#canvas {
+				background-color: #FFF;
+			}
+			
+			canvas#hidden {
+				display: none;
+			}
+			
+			.article {
+				margin-bottom: 16px;
+				padding: 8px;
+			}
+			
+			.article p {
+				text-align: left;
+			}
+			
 		</style>
 	</head>
 	<body>
@@ -42,10 +145,31 @@
 			<div id="header">
 				<h1><a href="/"><img src="./images/dota_32x32.png" /></a></h1>
 			</div>
-			<p><canvas id="canvas" width="256" height="256"></canvas></p>
+			<ul>
+				<li id="zoom"><img src="./images/zoomin_icon.png"></li>
+				<li id="undo"><img src="./images/undo_icon.png"></li>
+				<li id="trash"><img src="./images/trash_icon.png"></li>
+			</ul>
+			<div id="scroll" class="scroll">
+				<span id="thumb-left" class="thumb-left"></span>
+				<span id="thumb-top" class="thumb-top"></span>
+<!--				<span class="thumb-bottom"></span>-->
+<!--				<span class="thumb-right"></span>-->
+				<div><canvas id="canvas" width="256" height="256"></canvas></div>
+			</div>
+			<canvas id="hidden"></canvas>
+<!--			<p><img id="preview" /><canvas id="buffer"></canvas></p>-->
+			
 			<p><a href="" id="encode">URLに変換</a></p>
+			<p id="tweet"><a href="https://twitter.com/share" class="twitter-share-button" data-via="sapphire_al2o3">Tweet</a>
+<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></p>
+			<div class="article">
+				<p>2色のドット絵を描くツールです。</p>
+				<p>クリックすると黒が白、白が黒に反転します。</p>
+				<p>描き終わったら「URLに変換」をクリックするとアドレスバーのURLが変わります。</p>
+			</div>
 			<div id="footer">
-				<p class="copyright">Copyright 2013 <a href="https://twitter.com/sapphire_al2o3">@sapphire_al2o3</a></p>
+				<p class="copyright">Copyright 2014 <a href="https://twitter.com/sapphire_al2o3">@sapphire_al2o3</a></p>
 			</div>
 		</div>
 		<script>
@@ -55,6 +179,8 @@
 					w = canvas.width,
 					h = canvas.height,
 					scale = 16;
+				
+				var $ = Selector;
 				
 				var image = createIndexData(24, 24);
 				
@@ -67,6 +193,29 @@
 				resize(image, scale);
 				
 				var r, px, py, index = 1;
+				
+				$('scroll').addEventListener('mousedown', function(e) {
+//					console.log('hoge');
+				});
+				
+				$('zoom').addEventListener('click', function() {
+					scale = scale === 32 ? 16 : 32;
+					if(scale === 16) {
+						canvas.style.marginLeft = 0;
+						canvas.style.marginTop = 0;
+					}
+					document.querySelector('.scroll').classList.toggle('scale');
+					resize(image, scale);
+					
+				});
+				
+				$('undo').addEventListener('click', function() {
+					undo();
+				});
+				
+				$('trash').addEventListener('click', function() {
+					clear(ctx, image);
+				});
 				
 				function mousemove(e) {
 					var x = (e.pageX - r.left) / scale ^ 0,
@@ -82,16 +231,128 @@
 					document.removeEventListener('mousemove', mousemove);
 				}
 				
-				canvas.addEventListener('mousedown', function(e) {
+				function mousedown(e) {
+					record();
 					r = canvas.getBoundingClientRect();
 					px = (e.pageX - r.left) / scale ^ 0;
 					py = (e.pageY - r.top) / scale ^ 0;
 					index = 1 - image.data[py * image.width + px];
-					ctx.fillStyle = index ? '#000' : '#FFF';
+					ctx.fillStyle = palette[index];
 					drawDot(ctx, px, py, image, index, scale);
 					document.addEventListener('mousemove', mousemove);
 					document.addEventListener('mouseup', mouseup);
 					e.preventDefault();
+					e.stopPropagation();
+				}
+				
+				function touchend(e) {
+					document.removeEventListener('touchmove', touchmove);
+					document.removeEventListener('touchend', touchend);
+				}
+				
+				function touchmove(e) {
+					e.preventDefault();
+					var touches = e.changedTouches;
+					if(touches.length > 0) {
+						var x = (touches[0].pageX - r.left) / scale ^ 0,
+							y = (touches[0].pageY - r.top) / scale ^ 0;
+						drawLine(ctx, px, py, x, y, image, index, scale);
+						px = x;
+						py = y;
+					}
+				}
+				
+				function touchstart(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					var touches = e.changedTouches;
+					if(touches.length > 0) {
+						record();
+						r = canvas.getBoundingClientRect();
+						px = (touches[0].pageX - r.left) / scale ^ 0;
+						py = (touches[0].pageY - r.top) / scale ^ 0;
+						index = 1 - image.data[py * image.width + px];
+						ctx.fillStyle = palette[index];
+						drawDot(ctx, px, py, image, index, scale);
+						
+						document.addEventListener('touchmove', touchmove);
+						document.addEventListener('touchend', touchend);
+					}
+				}
+				
+				var palette = ['rgba(255,255,255,1)', '#000'];
+				
+				canvas.addEventListener('mousedown', mousedown);
+				canvas.addEventListener('touchstart', touchstart);
+				
+				var scroll = $('scroll'),
+					thumbTop = $('thumb-top'),
+					thumbBottom = $('thumb-bottom'),
+					thumbLeft = $('thumb-left'),
+					thumbRight = $('thumb-right');
+				
+				function move(e) {
+					e.stopPropagation();
+					e.preventDefault();
+					
+					var pageX, pageY;
+					if(e.changedTouches && e.chengedTouches.length > 1) {
+						pageX = e.changedTouches[0].pageX;
+						pageY = e.changedTouches[0].pageY;
+					} else {
+						pageX = e.pageX;
+						pageY = e.pageY;
+					}
+					
+					var r = scroll.getBoundingClientRect(),
+						x = (pageX - r.left - 32) / (400 - 64),
+						y = (pageY - r.top - 32) / (400 - 64);
+					
+					if(x >= 0 && x <= 1) {
+						canvas.style.marginLeft = (-x * 432 ^ 0) + 'px';
+						thumbTop.style.left = (x * 304 ^ 0) + 32 + 'px';
+					}
+					if(y >= 0 && y <= 1) {
+						canvas.style.marginTop = (-y * 432 ^ 0) + 'px';
+						thumbLeft.style.top = (y * 304 ^ 0) + 32 + 'px';
+//						thumbRight.style.top = (y * 304 ^ 0) + 32 + 'px';
+					}
+				}
+				
+				function up() {
+					document.removeEventListener('mousemove', move);
+					document.removeEventListener('mouseup', up);
+				}
+				
+				function scrollTouchUp() {
+					document.removeEventListener('touchmove', move);
+					document.removeEventListener('touchup', scrollTouchUp);
+				}
+				
+				scroll.addEventListener('mousedown', function(e) {
+					var t = document,
+						r = scroll.getBoundingClientRect();
+					
+					if(scale === 16) {
+						return;
+					}
+					
+					move(e);
+					t.addEventListener('mousemove', move);
+					t.addEventListener('mouseup', up);
+				});
+				
+				scroll.addEventListener('touchstart', function(e) {
+					var t = document,
+						r = scroll.getBoundingClientRect();
+					
+					if(scale === 16) {
+						return;
+					}
+					
+					move(e);
+					t.addEventListener('touchmove', move);
+					t.addEventListener('touchend', scrollTouchUp);
 				});
 				
 				function sub(data, p) {
@@ -136,14 +397,16 @@
 				function resize(image, scale) {
 					canvas.width = scale * image.width;
 					canvas.height = scale * image.height;
-					render(image, scale);
+					render(ctx, image, scale);
 				}
 				
-				function render(image, scale) {
+				function render(ctx, image, scale) {
 					var data = image.data,
 						w = image.width,
 						h = image.height;
 					ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+					ctx.fillStyle = '#FFF';
+					ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 					ctx.fillStyle = '#000';
 					for(var i = 0; i < h; i++) {
 						for(var j = 0; j < w; j++) {
@@ -155,6 +418,10 @@
 					ctx.fill();
 				}
 				
+//				var buf = document.getElementById('hidden').getContext('2d');
+//				render(buf, image, 1);
+//				document.getElementById('preview').src = document.getElementById('hidden').toDataURL();
+				
 				document.getElementById('encode').addEventListener('click', function(e) {
 					var data = pack(image.data);
 					console.log(data.length);
@@ -163,14 +430,36 @@
 					e.preventDefault();
 				});
 				
+				var undoBuffer = [];
+				
+				function record() {
+					var back = undoBuffer[undoBuffer.length - 1];
+					
+					var temp = new Uint8Array(image.width * image.height / 8);
+					pack(image.data, temp);
+					undoBuffer.push(temp);
+				}
+				
+				// undo
+				function undo() {
+					var temp = undoBuffer.pop();
+					
+					if(temp) {
+						unpack(temp, image.data);
+						console.log(image);
+						render(ctx, image, scale);
+					}
+				}
+				
+				// debug
 				var dota = {
 					clear: clear.bind(null, ctx, image),
 					resize: resize.bind(null, image),
 					flipH: function() {
-//						ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 						flipH(ctx, image);
-						render(image, scale);
-					}
+						render(ctx, image, scale);
+					},
+					undo: undo
 				};
 				
 				this.dota = dota;
