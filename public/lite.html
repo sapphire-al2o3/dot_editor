@@ -424,8 +424,6 @@
 				
 				document.getElementById('encode').addEventListener('click', function(e) {
 					var data = pack(image.data);
-					console.log(data.length);
-					console.log(RLE.encode(data).length);
 					location.hash = Base64.encode(data);
 					e.preventDefault();
 				});
@@ -446,7 +444,6 @@
 					
 					if(temp) {
 						unpack(temp, image.data);
-						console.log(image);
 						render(ctx, image, scale);
 					}
 				}
