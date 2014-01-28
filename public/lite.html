@@ -25,6 +25,7 @@
 			}
 			#tweet {
 /*				float: right;*/
+				margin-left: 8px;
 				margin-top: -20px;
 				text-align: left;
 			}
@@ -75,7 +76,7 @@
 				position: absolute;
 
 				cursor: pointer;
-				z-index: 1;
+/*				z-index: 1;*/
 			}
 			
 			span.thumb-left {
@@ -106,15 +107,22 @@
 				width: 32px;
 				height: 32px;
 				display: block;
-				opacity: 1;
+/*				opacity: 1;*/
 			}
 			
-			ul {
-				list-style: none;
+			h2 {
+				font-size: 18px;
+				color: #08D;
 				margin-bottom: 8px;
 			}
 			
-			li {
+			ul.tools {
+				list-style: none;
+				padding: 0 8px;
+				margin-bottom: 8px;
+			}
+			
+			ul.tools li {
 				display: inline-block;
 			}
 			
@@ -125,7 +133,7 @@
 				background-color: #FFF;
 			}
 			
-			canvas#hidden {
+			canvas#buffer {
 				display: none;
 			}
 			
@@ -138,6 +146,12 @@
 				text-align: left;
 			}
 			
+			.help {
+				font-size: 12px;
+				color: #555;
+				padding: 8px;
+			}
+			
 		</style>
 	</head>
 	<body>
@@ -145,10 +159,12 @@
 			<div id="header">
 				<h1><a href="/"><img src="./images/dota_32x32.png" /></a></h1>
 			</div>
-			<ul>
+			<ul class="tools">
 				<li id="zoom"><img src="./images/zoomin_icon.png"></li>
+<!--				<li id="zoomout"><img src="./images/zoomout_icon.png"></li>-->
 				<li id="undo"><img src="./images/undo_icon.png"></li>
 				<li id="trash"><img src="./images/trash_icon.png"></li>
+				<li><img id="preview" /><canvas id="buffer"></canvas></li>
 			</ul>
 			<div id="scroll" class="scroll">
 				<span id="thumb-left" class="thumb-left"></span>
@@ -157,16 +173,24 @@
 <!--				<span class="thumb-right"></span>-->
 				<div><canvas id="canvas" width="256" height="256"></canvas></div>
 			</div>
-			<canvas id="hidden"></canvas>
 <!--			<p><img id="preview" /><canvas id="buffer"></canvas></p>-->
 			
-			<p><a href="" id="encode">URLに変換</a></p>
+			<p><a href="#" id="encode">URLに変換</a></p>
 			<p id="tweet"><a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
 <script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></p>
 			<div class="article">
 				<p>2色のドット絵を描くツールです。</p>
 				<p>クリックすると黒が白、白が黒に反転します。</p>
 				<p>描き終わったら「URLに変換」をクリックするとアドレスバーのURLが変わります。</p>
+			</div>
+			<div class="help">
+				<h2>Help</h2>
+				<ul>
+					<li><img src="./images/zoomin_icon.png" />拡大する</li>
+					<li><img src="./images/undo_icon.png" />元に戻す</li>
+					<li><img src="./images/trash_icon.png" />すべて消す</li>
+				</dl>
+				<p><a id="to-top">上へ戻る</a></p>
 			</div>
 			<div id="footer">
 				<p class="copyright">Copyright 2014 <a href="https://twitter.com/sapphire_al2o3">@sapphire_al2o3</a></p>
@@ -192,28 +216,31 @@
 				}
 				resize(image, scale);
 				
-				var r, px, py, index = 1;
-				
-				$('scroll').addEventListener('mousedown', function(e) {
-//					console.log('hoge');
-				});
+				var r, px, py, index = 1,
+					offsetX = 0, offsetY = 0;
 				
 				$('zoom').addEventListener('click', function() {
 					scale = scale === 32 ? 16 : 32;
-					if(scale === 16) {
-						canvas.style.marginLeft = 0;
-						canvas.style.marginTop = 0;
-					}
+					canvas.style.marginLeft = (scale === 16 ? 0 : offsetX) + 'px';
+					canvas.style.marginTop = (scale === 16 ? 0 : offsetY) + 'px';
 					document.querySelector('.scroll').classList.toggle('scale');
 					resize(image, scale);
 					
 				});
+				
+//				$('zoomout').addEventListener('click', function() {
+//					scale = scale === 2 ? 16 : 2;
+//					canvas.style.marginLeft = 0;
+//					canvas.style.marginTop = 0;
+//					resize(image, scale);
+//				});
 				
 				$('undo').addEventListener('click', function() {
 					undo();
 				});
 				
 				$('trash').addEventListener('click', function() {
+					record();
 					clear(ctx, image);
 				});
 				
@@ -296,7 +323,7 @@
 					e.preventDefault();
 					
 					var pageX, pageY;
-					if(e.changedTouches && e.chengedTouches.length > 1) {
+					if(e.changedTouches && e.changedTouches.length > 0) {
 						pageX = e.changedTouches[0].pageX;
 						pageY = e.changedTouches[0].pageY;
 					} else {
@@ -304,16 +331,17 @@
 						pageY = e.pageY;
 					}
 					
-					var r = scroll.getBoundingClientRect(),
-						x = (pageX - r.left - 32) / (400 - 64),
+					var x = (pageX - r.left - 32) / (400 - 64),
 						y = (pageY - r.top - 32) / (400 - 64);
 					
 					if(x >= 0 && x <= 1) {
-						canvas.style.marginLeft = (-x * 432 ^ 0) + 'px';
+						offsetX = -x * 432 ^ 0;
+						canvas.style.marginLeft = offsetX + 'px';
 						thumbTop.style.left = (x * 304 ^ 0) + 32 + 'px';
 					}
 					if(y >= 0 && y <= 1) {
-						canvas.style.marginTop = (-y * 432 ^ 0) + 'px';
+						offsetY = -y * 432 ^ 0;
+						canvas.style.marginTop = offsetY + 'px';
 						thumbLeft.style.top = (y * 304 ^ 0) + 32 + 'px';
 //						thumbRight.style.top = (y * 304 ^ 0) + 32 + 'px';
 					}
@@ -330,10 +358,10 @@
 				}
 				
 				scroll.addEventListener('mousedown', function(e) {
-					var t = document,
-						r = scroll.getBoundingClientRect();
+					var t = document;
+					r = scroll.getBoundingClientRect();
 					
-					if(scale === 16) {
+					if(scale < 32) {
 						return;
 					}
 					
@@ -343,10 +371,10 @@
 				});
 				
 				scroll.addEventListener('touchstart', function(e) {
-					var t = document,
-						r = scroll.getBoundingClientRect();
+					var t = document;
+					r = scroll.getBoundingClientRect();
 					
-					if(scale === 16) {
+					if(scale < 32) {
 						return;
 					}
 					
@@ -404,7 +432,7 @@
 					var data = image.data,
 						w = image.width,
 						h = image.height;
-					ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+//					ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 					ctx.fillStyle = '#FFF';
 					ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 					ctx.fillStyle = '#000';
@@ -418,6 +446,11 @@
 					ctx.fill();
 				}
 				
+				var buffer = $('buffer');
+				function preview(ctx, image) {
+					
+				}
+				
 //				var buf = document.getElementById('hidden').getContext('2d');
 //				render(buf, image, 1);
 //				document.getElementById('preview').src = document.getElementById('hidden').toDataURL();
@@ -425,6 +458,11 @@
 				document.getElementById('encode').addEventListener('click', function(e) {
 					var data = pack(image.data);
 					location.hash = Base64.encode(data);
+					e.preventDefault();
+				});
+				
+				$('to-top').addEventListener('click', function(e) {
+					window.scrollTo(0, 0);
 					e.preventDefault();
 				});
 				
