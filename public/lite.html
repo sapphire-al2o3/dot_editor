@@ -486,7 +486,7 @@
 					var data = pack(image.data),
 						hash = Base64.encode(data),
 						url = location.origin + location.pathname + '#' + hash;
-					e.target.href += '?url=' +  encodeURIComponent(url);
+					e.target.href = 'https://twitter.com/share?url=' +  encodeURIComponent(url);
 					console.log(e.target.href);
 //					e.preventDefault();
 				});
