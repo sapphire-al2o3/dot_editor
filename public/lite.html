@@ -156,6 +156,23 @@
 				list-style: none;
 			}
 			
+			#tweet {
+				width: 80px;
+				background-image: linear-gradient(#fff, #dedede);
+			}
+			
+			#tweet-button {
+				text-decoration: none;
+				display: block;
+				padding: 2px 5px 2px 28px;
+				background: url('https://twitter.com/favicons/favicon.ico') 4px center no-repeat;
+				border: 1px solid #ccc;
+				border-radius: 3px;
+				font-size: 11px;
+				font-weight: bold;
+				color: #555;
+			}
+			
 		</style>
 	</head>
 	<body>
@@ -180,8 +197,7 @@
 <!--			<p><img id="preview" /><canvas id="buffer"></canvas></p>-->
 			
 			<p><a href="#" id="encode">URLに変換</a></p>
-			<p id="tweet"><a href="https://twitter.com/share" class="twitter-share-button">Tweet</a>
-<script>!function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+'://platform.twitter.com/widgets.js';fjs.parentNode.insertBefore(js,fjs);}}(document, 'script', 'twitter-wjs');</script></p>
+			<p id="tweet"><a href="https://twitter.com/share" id="tweet-button" target="_blank">Tweet</a></p>
 			<div class="article">
 				<p>2色のドット絵を描くツールです。</p>
 				<p>クリックすると黒が白、白が黒に反転します。</p>
@@ -462,7 +478,17 @@
 				document.getElementById('encode').addEventListener('click', function(e) {
 					var data = pack(image.data);
 					location.hash = Base64.encode(data);
+//					$('tweet-button').setAttribute('data-url', location.href);
 					e.preventDefault();
+				});
+				
+				$('tweet-button').addEventListener('click', function(e) {
+					var data = pack(image.data),
+						hash = Base64.encode(data),
+						url = location.origin + location.pathname + '#' + hash;
+					e.target.href += '?url=' +  encodeURIComponent(url);
+					console.log(e.target.href);
+//					e.preventDefault();
 				});
 				
 				$('to-top').addEventListener('click', function(e) {
