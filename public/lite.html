@@ -117,6 +117,7 @@
 			}
 			
 			ul.tools {
+				
 				list-style: none;
 				padding: 0 8px;
 				margin-bottom: 8px;
@@ -124,6 +125,9 @@
 			
 			ul.tools li {
 				display: inline-block;
+				font-family: icomoon;
+				font-size: 20px;
+				color: #555;
 			}
 			
 			img {
@@ -165,12 +169,28 @@
 				text-decoration: none;
 				display: block;
 				padding: 2px 5px 2px 28px;
-				background: url('https://twitter.com/favicons/favicon.ico') 4px center no-repeat;
+				background: url("https://twitter.com/favicons/favicon.ico") 4px center no-repeat;
 				border: 1px solid #ccc;
 				border-radius: 3px;
 				font-size: 11px;
 				font-weight: bold;
 				color: #555;
+			}
+			
+			.icon-undo:before {
+				content: "\e600";
+			}
+			.icon-zoom-in:before {
+				content: "\e601";
+			}
+			.icon-zoom-out:before {
+				content: "\e602";
+			}
+			.icon-search:before {
+				content: "\e603";
+			}
+			.icon-remove:before {
+				content: "\e604";
 			}
 			
 		</style>
@@ -182,7 +202,7 @@
 			</div>
 			<ul class="tools">
 				<li id="zoom"><img src="./images/zoomin_icon.png"></li>
-<!--				<li id="zoomout"><img src="./images/zoomout_icon.png"></li>-->
+				<li id="zoomout"><img src="./images/zoomout_icon.png"></li>
 				<li id="undo"><img src="./images/undo_icon.png"></li>
 				<li id="trash"><img src="./images/trash_icon.png"></li>
 				<li><img id="preview" /><canvas id="buffer"></canvas></li>
@@ -201,16 +221,17 @@
 			<div class="article">
 				<p>2色のドット絵を描くツールです。</p>
 				<p>クリックすると黒が白、白が黒に反転します。</p>
-				<p>描き終わったら「URLに変換」をクリックするとアドレスバーのURLが変わります。</p>
+				<p>描き終えて「URLに変換」をクリックするとアドレスバーのURLが変わります。URLをそのまま貼り付ければドット絵へのリンクになります。</p>
 			</div>
 			<div class="help">
 				<h2>Help</h2>
 				<ul>
 					<li><img src="./images/zoomin_icon.png" />拡大する</li>
+					<li><img src="./images/zoomout_icon.png" />縮小する</li>
 					<li><img src="./images/undo_icon.png" />元に戻す</li>
 					<li><img src="./images/trash_icon.png" />すべて消す</li>
 				</dl>
-				<p><a id="to-top">上へ戻る</a></p>
+				<p><a id="to-top" href="#">上へ戻る</a></p>
 			</div>
 			<div id="footer">
 				<p class="copyright">Copyright 2014 <a href="https://twitter.com/sapphire_al2o3">@sapphire_al2o3</a></p>
@@ -248,12 +269,13 @@
 					
 				});
 				
-//				$('zoomout').addEventListener('click', function() {
-//					scale = scale === 2 ? 16 : 2;
-//					canvas.style.marginLeft = 0;
-//					canvas.style.marginTop = 0;
-//					resize(image, scale);
-//				});
+				$('zoomout').addEventListener('click', function() {
+					scale = scale === 1 ? 16 : 1;
+					canvas.style.marginLeft = '0px';
+					canvas.style.marginTop = (scale === 1 ? 200 - 24 / 2 : 0) + 'px';
+					document.querySelector('.scroll').classList.remove('scale');
+					resize(image, scale);
+				});
 				
 				$('undo').addEventListener('click', function() {
 					undo();
@@ -487,8 +509,6 @@
 						hash = Base64.encode(data),
 						url = location.origin + location.pathname + '#' + hash;
 					e.target.href = 'https://twitter.com/share?url=' +  encodeURIComponent(url);
-					console.log(e.target.href);
-//					e.preventDefault();
 				});
 				
 				$('to-top').addEventListener('click', function(e) {
