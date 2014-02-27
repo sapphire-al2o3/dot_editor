@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.0"
+   width="1000"
+   height="1000"
+   id="svg5496"
+   sodipodi:version="0.32"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="icon.svg"
+   inkscape:output_extension="org.inkscape.output.svg.inkscape">
+  <metadata
+     id="metadata5594">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     inkscape:window-height="838"
+     inkscape:window-width="1440"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     borderopacity="1.0"
+     bordercolor="#666666"
+     pagecolor="#ffffff"
+     id="base"
+     showgrid="false"
+     showguides="true"
+     inkscape:guide-bbox="true"
+     inkscape:zoom="0.32102648"
+     inkscape:cx="-38.925113"
+     inkscape:cy="632.68732"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:current-layer="layer4"
+     inkscape:window-maximized="1">
+    <sodipodi:guide
+       orientation="horizontal"
+       position="605.72687,-26.431718"
+       id="guide5596" />
+    <inkscape:grid
+       type="xygrid"
+       id="grid3462" />
+  </sodipodi:namedview>
+  <defs
+     id="defs5498">
+    <inkscape:perspective
+       sodipodi:type="inkscape:persp3d"
+       inkscape:vp_x="0 : 500 : 1"
+       inkscape:vp_y="0 : 1000 : 0"
+       inkscape:vp_z="1000 : 500 : 1"
+       inkscape:persp3d-origin="500 : 333.33333 : 1"
+       id="perspective3931" />
+    <font
+       horiz-adv-x="1024"
+       id="font3933"
+       inkscape:label="font 1">
+      <font-face
+         units-per-em="1024"
+         id="font-face3935"
+         font-family="toolicon" />
+      <missing-glyph
+         d="M0,0h1000v1024h-1000z"
+         id="missing-glyph3937" />
+      <glyph
+         glyph-name="グリフ 1"
+         id="glyph4323"
+         unicode="0"
+         d="m 400,984 -40,-80 -160,0 0,-80 640,0 0,80 -160,0 -40,80 -240,0 z M 200,744 320,64 l 400,0 120,680 -640,0 z" />
+      <glyph
+         glyph-name="グリフ 2"
+         id="glyph4330"
+         unicode="1"
+         d="m 227.17088,665.32122 -140.418491,140.4185 0,-491.4647 491.464691,0 L 437.7986,454.6935 c 0,0 102.13647,169.68283 244.38681,134.57506 142.25029,-35.10778 91.66862,-272.66305 36.45015,-450.51664 0,0 173.46364,212.61569 182.59264,389.26583 9.129,176.65014 -109.35712,297.62944 -235.34345,318.59036 C 539.89843,867.56903 372.37229,804.36209 227.17088,665.32122 z" />
+      <glyph
+         glyph-name="グリフ 3"
+         id="glyph4340"
+         unicode="2"
+         d="M 410.04604,919.54075 C 230.50441,917.26657 85.671042,770.99696 85.671042,590.91575 c 0,-181.49917 147.125818,-328.625 328.624998,-328.625 70.66486,0 136.12935,22.30018 189.71875,60.25 L 804.73354,121.822 881.82729,198.91575 681.35854,399.3845 c 38.74758,53.92799 61.5625,120.05558 61.5625,191.53125 0,181.49918 -147.12582,328.625 -328.625,328.625 -1.41796,0 -2.83629,0.0179 -4.25,0 z m 4.25,-91.875 c 130.74822,0 236.75,-106.00178 236.75,-236.75 0,-130.74822 -106.00178,-236.71875 -236.75,-236.71875 -130.74822,0 -236.75,105.97053 -236.75,236.71875 0,130.74822 106.00178,236.75 236.75,236.75 z" />
+    </font>
+  </defs>
+  <g
+     id="layer1" />
+  <path
+     style="fill:#000000;fill-opacity:1;stroke:none"
+     d="M 400 40 L 360 120 L 200 120 L 200 200 L 840 200 L 840 120 L 680 120 L 640 40 L 400 40 z M 200 280 L 320 960 L 720 960 L 840 280 L 200 280 z "
+     id="path3810" />
+  <g
+     inkscape:groupmode="layer"
+     id="layer4"
+     inkscape:label="レイヤー"
+     style="display:inline">
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none"
+       d="m 227.17088,358.67878 -140.418491,-140.4185 0,491.4647 491.464691,0 L 437.7986,569.3065 c 0,0 102.13647,-169.68283 244.38681,-134.57506 142.25029,35.10778 91.66862,272.66305 36.45015,450.51664 0,0 173.46364,-212.61569 182.59264,-389.26583 C 910.3572,319.33211 791.87108,198.35281 665.88475,177.39189 539.89843,156.43097 372.37229,219.63791 227.17088,358.67878 z"
+       id="path4325"
+       inkscape:connector-curvature="0"
+       sodipodi:nodetypes="ccccczczzc" />
+  </g>
+  <g
+     inkscape:groupmode="layer"
+     id="layer5"
+     inkscape:label="レイヤー#1"
+     style="display:none">
+    <path
+       style="fill:#000000;fill-opacity:1;stroke:none"
+       d="m 410.04604,104.45925 c -179.54163,2.27418 -324.374998,148.54379 -324.374998,328.625 0,181.49917 147.125818,328.625 328.624998,328.625 70.66486,0 136.12935,-22.30018 189.71875,-60.25 L 804.73354,902.178 881.82729,825.08425 681.35854,624.6155 c 38.74758,-53.92799 61.5625,-120.05558 61.5625,-191.53125 0,-181.49918 -147.12582,-328.625 -328.625,-328.625 -1.41796,0 -2.83629,-0.0179 -4.25,0 z m 4.25,91.875 c 130.74822,0 236.75,106.00178 236.75,236.75 0,130.74822 -106.00178,236.71875 -236.75,236.71875 -130.74822,0 -236.75,-105.97053 -236.75,-236.71875 0,-130.74822 106.00178,-236.75 236.75,-236.75 z"
+       id="path4362"
+       inkscape:connector-curvature="0" />
+  </g>
+</svg>
