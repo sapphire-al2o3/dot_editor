@@ -120,11 +120,11 @@
 				}
 				
 				if(r) {
-					a[i++] = (length - 1) | 128;
+					a[i++] = length | 128;
 					a[i++] = p;
 				} else {
-					a[i++] = length - 1;
-					for(var k = 0; k < length; k++, t++) {
+					a[i++] = length;
+					for(var k = 0; k <= length; k++, t++) {
 						a[i++] = b[t];
 					}
 				}
