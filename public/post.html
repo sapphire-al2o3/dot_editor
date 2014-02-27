@@ -85,8 +85,12 @@
 						}
 					});
 					
+					function strlen(str) {
+						return str.length - (str.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g)||[]).length;
+					}
+					
 					text.addEventListener('keyup', function(e) {
-						textCount.textContent = '' + (140 - text.value.length);
+						textCount.textContent = '' + (140 - strlen(text.value));
 					});
 					
 					document.getElementById('post').addEventListener('click', function(e) {
