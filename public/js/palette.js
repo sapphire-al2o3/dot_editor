@@ -37,7 +37,7 @@ require('color.js')
 		return v > max ? max : v < min ? min : v;
 	}
 
-    // グラデーションを設定する
+	// グラデーションを設定する
 	function setGradient(elm, start, end) {
 		var bender = ['-webkit-', '-moz-', '-ms-', '-o-', ''];
 		for(var i = 0, l = bender.length; i < l; i++) {
@@ -45,7 +45,7 @@ require('color.js')
 		}
 	}
 	
-    // トランジションを設定する
+	// トランジションを設定する
 	function setTransition(elm, enable) {
 		var bender = ['webkit', 'moz', 'ms', 'o', ''],
 			events = ['webkitTransitionEnd', 'transitionend', 'transitionend', 'oTransitionEnd', 'transitionend'];
@@ -56,8 +56,8 @@ require('color.js')
 			});
 		}
 	}
-    
-    // パレット
+	
+	// パレット
 	var Palette = function (d) {
 		
 		var hex = false,
@@ -126,27 +126,62 @@ require('color.js')
 				}
 			}, false);
 			
-			/*
-			セルのコピー
-			function downCell(e) {
-				var down = true;
-			}
+			var down = false,
+				activeIndex,
+				startColor,
+				startIndex,
+				color,
+				start,
+				active;
 			
-			function upCell(e) {
-				
-				removeEventListener('mouseup', upCell, false);
-				removeEventListener('mousemove', moveCell, false);
+			// セルのコピー
+			function downCell(e) {
+				if (e.target.localName === 'td') {
+					var row = e.target.parentNode.rowIndex,
+						col = e.target.cellIndex;
+					console.log(row, col);
+					activeIndex = row * 16 + col;
+					active = e.target;
+					start = e.target;
+					startColor = e.target.style.backgroundColor;
+					startIndex = activeIndex;
+					table.style.cursor = 'default';
+					down = true;
+				}
 				e.preventDefault();
 				return false;
 			}
 			
-			function moveCell(e) {
-			
+			function upCell(e) {
+				down = false;
+//				table.removeEventListener('mouseup', upCell, false);
+//				table.removeEventListener('mousemove', moveCell, false);
+				var t = palettes[startIndex];
+				palettes[startIndex] = palettes[activeIndex];
+				palettes[activeIndex] = t;
+				e.preventDefault();
+				return false;
 			}
 			
-			table.addEventListener('mousedown', downCell, false);
 			
-			*/
+			
+			function moveCell(e) {
+				if (down && e.target.localName === 'td') {
+					var row = e.target.parentNode.rowIndex,
+						col = e.target.cellIndex;
+					if(activeIndex !== row * 16 + col) {
+						active.style.backgroundColor = color;
+						color = e.target.style.backgroundColor;
+						start.style.backgroundColor = color;
+						e.target.style.backgroundColor = startColor;
+						activeIndex = row * 16 + col;
+						active = e.target;
+					}
+				}
+			}
+			table.addEventListener('mousedown', downCell);
+			table.addEventListener('mousemove', moveCell);
+			table.addEventListener('mouseup', upCell);
 			
 			// 0番目のパレットを選択しておく
 			selected = cells[0];
@@ -277,7 +312,7 @@ require('color.js')
 			frontColor = color;
 		}
 		
-        // 基数を設定する
+		// 基数を設定する
 		function setRadix(r) {
 			hex = r;
 			nums.forEach(function(e) {
@@ -442,8 +477,8 @@ require('color.js')
 			$.bind(elm, 'mouseout', mouseoutHandler);
 		};
 	}(document);
-
-    // スライダー
+	
+	// スライダー
 	var Slider = function() {
 		var down = false,
 			value = 0,

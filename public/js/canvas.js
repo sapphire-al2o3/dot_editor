@@ -113,9 +113,7 @@ function drawLine(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 			}
 			ctx.rect(x * s ^ 0, y * s ^ 0, s, s);
 			if(data) {
-				if(y < h && x < w) {
-					data[y * w + x] = paletteIndex;
-				}
+				data[y * w + x] = paletteIndex;
 			}
 			y += sy;
 			e += dx2;
@@ -596,7 +594,7 @@ function drawIndexedImage(ctx, image, palette, scale, paletteData) {
 					if(len) {
 						ctx.rect(x * size, y, size * len, size);
 						len = 0;
-                    }
+					}
 				}
 				index++;
 			}

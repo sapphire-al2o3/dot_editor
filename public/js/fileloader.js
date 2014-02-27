@@ -13,7 +13,7 @@
 		return true;
 	}
 	
-    // PNG画像からパレットを取得する
+	// PNG画像からパレットを取得する
 	function getPngPalette(buffer, paletteData) {
 		// PNGか判定
 		var png =
