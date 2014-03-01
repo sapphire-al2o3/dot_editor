@@ -47,7 +47,8 @@ function clear(ctx, indexData)
 ### 白黒画像を表示するサンプルコード
 
 ```javascript
-var ctx = document.getElementById('canvas').getContext('2d');
+var ctx = document.getElementById('canvas').getContext('2d'),
+    image = createIndexData(24, 24);
 
 render(ctx, image, 16);
 
