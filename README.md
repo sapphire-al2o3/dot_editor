@@ -55,6 +55,7 @@ function render(ctx, image, scale) {
     var data = image.data,
         w = image.width,
         h = image.height;
+    scale = scale || ctx.canvas.width / image.width;
     ctx.fillStyle = '#FFF';
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = '#000';
