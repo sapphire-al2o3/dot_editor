@@ -12,14 +12,17 @@ var fs = require('fs');
 var PNG = require('pngjs').PNG;
 var request = require('request');
 var scaling = require('./imagescaling.js').scaling;
+var config = require('./config');
 
 var app = express();
 
 var passport = require('passport'),
 	TwitterStrategy = require('passport-twitter').Strategy;
 
-var CONSUMER_KEY = 'ktMyeOz1A3nk2S54RQQPA',
-	CONSUMER_SECRET = 'WkhjhyFreraOlxyhLlrQw773U9wLnDTU37m0Y6u9ek';
+var CONSUMER_KEY = config.consumerKey,
+	CONSUMER_SECRET = config.consumerSecret;
+
+console.log(CONSUMER_KEY, CONSUMER_SECRET);
 
 // Passport sessionのセットアップ
 passport.serializeUser(function(user, done) {
