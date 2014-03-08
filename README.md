@@ -68,7 +68,6 @@ function render(ctx, image, scale) {
             }
         }
     }
-    ctx.fill();
 }
 ```
 
