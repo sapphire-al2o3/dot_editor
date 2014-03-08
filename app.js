@@ -22,8 +22,6 @@ var passport = require('passport'),
 var CONSUMER_KEY = config.consumerKey,
 	CONSUMER_SECRET = config.consumerSecret;
 
-console.log(CONSUMER_KEY, CONSUMER_SECRET);
-
 // Passport sessionのセットアップ
 passport.serializeUser(function(user, done) {
 	done(null, user);
