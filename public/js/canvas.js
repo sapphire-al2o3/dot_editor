@@ -4,7 +4,7 @@
 
 'use strict';
 
-// スクリーンとインデックスデータを消去する
+// キャンバスとインデックスデータを消去する
 function clear(ctx, indexData) {
 	ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 	if(indexData) {
@@ -190,10 +190,7 @@ function fillRect(ctx, x0, y0, x1, y1, indexData, index, scale) {
 			}
 		}
 	}
-	
-	ctx.beginPath();
-	ctx.rect(left * s, top * s, (right - left + 1) * s, (bottom - top + 1) * s);
-	ctx.fill();
+	ctx.fillRect(left * s, top * s, (right - left + 1) * s, (bottom - top + 1) * s);
 }
 
 // 塗りつぶし
@@ -237,9 +234,9 @@ function eps(x0, y0, x1, y1, x, y) {
 }
 
 function setPixel(data, x, y, w, h, value) {
-    if(data && x >= 0 && x < w && y >= 0 && y < h) {
-        data[y * w + x] = value;
-    }
+	if(data && x >= 0 && x < w && y >= 0 && y < h) {
+		data[y * w + x] = value;
+	}
 }
 
 // 円を描画する
@@ -470,7 +467,7 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		cy = y0 + b,
 		n = a / Math.sqrt(b2 / a2 + 1) - 0.5;
 	
-	console.log(n);
+//	console.log(n);
 	
 	y = y1;
 	x = ((x0 + x1) >> 1);
@@ -696,7 +693,6 @@ function drawImage(ctx, image, dx, dy, dw, dh) {
 			index += 4;
 		}
 	}
-	//ctx.fill();
 }
 
 // 水平方向反転
@@ -861,7 +857,6 @@ function convertIndexedImage(src, image, palette) {
 			g = data[i + 1],
 			b = data[i + 2],
 			a = data[i + 3],
-			//color = r << 24 | g << 16 | b << 8 | a,
 			color = rgb(r, g, b),
 			index = pal.indexOf(color);
 		if(index < 0) {
@@ -889,14 +884,6 @@ function convertIndexedImageByPalette(src, indexData, paletteData, backIndex) {
 		idx = indexData.data,
 		pal = paletteData.data;
 	
-		for(var j = 0; j < pal.length; j += 4) {
-//			if(r === pal[j] && g === pal[j + 1] && b === pal[j + 3]) {
-//				index = j / 4;
-//				break;
-//			}
-//			console.log(pal[j], pal[j + 1], pal[j + 2]);
-		}
-	
 	for(var i = 0, n = data.length; i < n; i += 4) {
 		var r = data[i],
 			g = data[i + 1],
@@ -904,20 +891,13 @@ function convertIndexedImageByPalette(src, indexData, paletteData, backIndex) {
 			a = data[i + 3],
 			index = -1;
 		
-		if(a === 0) {
-			console.log(r, g, b);
-//			index = backIndex;
-		}
-//		} else {
-			for(var j = 0; j < pal.length; j += 4) {
-				if(r === pal[j] && g === pal[j + 1] && b === pal[j + 2]) {
-					index = j / 4;
-					break;
-				}
+		for(var j = 0; j < pal.length; j += 4) {
+			if(r === pal[j] && g === pal[j + 1] && b === pal[j + 2]) {
+				index = j / 4;
+				break;
 			}
-//		}
+		}
 		idx[i / 4] = index;
-//		console.log(r, g, b, a, index);
 	}
 }
 
@@ -1036,11 +1016,45 @@ function pasteIndexData(src, dst, x, y, sw, sh, dw, dh) {
 function fillIndexData(src, index, x, y, w, h) {
 	var data = src.data,
 		width = src.width;
-//	console.log('fillIndex');
 	for(var i = y; i < y + h; i++) {
 		var n = i * width;
 		for(var j = x; j < x + w; j++) {
 			data[n + j] = index;
 		}
+	}
+}
+
+// 未使用色の削除
+function removeUnusedColor(indexData, palette) {
+	var data = indexData.data,
+		used = [];
+	
+	for(var i = 0; i < palette.length; i++) {
+		used.push(0);
+	}
+	
+	var max = 0;
+	
+	for(var i = 0, l = data.length; i < l; i++) {
+		var index = data[i];
+		used[index]++;
+		if(index > max) max = index;
+	}
+	
+	var k = 0;
+	for(i = 0; i <= max; i++) {
+		if(used[i] > 0) {
+			palette[k] = palette[i];
+			used[i] = k++;
+		}
+	}
+	
+	for(i = k; i < palette.length; i++) {
+		palette[i] = '#000000';
+	}
+	
+	for(i = 0; i < l; i++) {
+		index = data[i];
+		data[i] = used[index];
 	}
 }
