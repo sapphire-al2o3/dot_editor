@@ -21,4 +21,4 @@ module.exports.scaling = function(data, width, height, scale, result) {
 	
 	return result;
 };
-        
+
