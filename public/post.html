@@ -105,6 +105,7 @@
 							transparent: transparent
 						};
 						console.log(json.index);
+						document.getElementById('post').setAttribute('disabled');
 						document.getElementById('image').value = JSON.stringify(json);
 					});
 				})();
