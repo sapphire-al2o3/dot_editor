@@ -82,6 +82,11 @@ input[type="submit"]:hover {
 	color: #EEE;
 }
 
+input[type="submit"][disabled] {
+	background-color: #DDD;
+	color: #999;
+}
+
 p {
 	font-size: 12px;
 	text-align: center;
