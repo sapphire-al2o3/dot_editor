@@ -13,6 +13,11 @@ canvas.jsの関数
 function createIndexData(w, h)
 ```
 
+### 画像のパレットデータを作る
+```javascript
+function createPaletteData(n)
+```
+
 ### 点を描く
 
 キャンバスに点を描く。
