@@ -17,7 +17,7 @@
 			
 <!--			<div contenteditable="true">hogehoge</div>-->
 			<p>Twitterへドット絵を投稿します。</p>
-			<form action="/auth/twitter/post" method="post">
+			<form action="/auth/twitter/post" method="post" id="post-form">
 				
 				<div id="image-scale">
 					<input type="radio" name="scale" id="scale-1" value="1" checked /><label for="scale-1">等倍</label>
@@ -31,7 +31,7 @@
 				<div id="dot-preview"><canvas id="canvas"></canvas></div>
 				<p><textarea id="text" name="text">#dotA http://dot-a.herokuapp.com/</textarea></p>
 				<p><span id="text-count">134</span></p>
-				<p><img src="./images/loading_1.gif" /></p>
+				<p><img id="loading" src="./images/loading_1.gif" /></p>
 				<p><input type="submit" id="post" value="投稿する" /></p>
 				<input type="hidden" id="image" name="image" />
 			</form>
@@ -94,7 +94,7 @@
 						textCount.textContent = '' + (140 - strlen(text.value));
 					});
 					
-					document.getElementById('post').addEventListener('click', function(e) {
+					document.getElementById('post-form').addEventListener('submit', function(e) {
 						var palette = Array.prototype.filter.call(image.paletteData.data, function(e, i) {
 							return i % 4 !== 3;
 						});
@@ -106,9 +106,10 @@
 							transparent: transparent
 						};
 						
-						document.getElementById('post').setAttribute('disabled');
+						document.getElementById('post').setAttribute('disabled', '');
 						document.getElementById('image').value = JSON.stringify(json);
-					});
+						document.getElementById('loading').style.display = 'inline';
+					}, true);
 				})();
 			</script>
 		<div id="footer">
