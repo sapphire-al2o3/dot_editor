@@ -31,6 +31,7 @@
 				<div id="dot-preview"><canvas id="canvas"></canvas></div>
 				<p><textarea id="text" name="text">#dotA http://dot-a.herokuapp.com/</textarea></p>
 				<p><span id="text-count">134</span></p>
+				<p><img src="./images/loading_1.gif" /></p>
 				<p><input type="submit" id="post" value="投稿する" /></p>
 				<input type="hidden" id="image" name="image" />
 			</form>
@@ -104,7 +105,7 @@
 							height: image.indexData.height,
 							transparent: transparent
 						};
-						console.log(json.index);
+						
 						document.getElementById('post').setAttribute('disabled');
 						document.getElementById('image').value = JSON.stringify(json);
 					});
