@@ -13,6 +13,7 @@ var PNG = require('pngjs').PNG;
 var request = require('request');
 var scaling = require('./imagescaling.js').scaling;
 var config = require('./config');
+var favicon = require('serve-favicon');
 
 var app = express();
 
@@ -49,8 +50,8 @@ passport.use(new TwitterStrategy({
 app.set('port', process.env.PORT || 3000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
-app.use(express.favicon());
-app.use(express.logger('dev'));
+app.use(favicon(__dirname + '/public/images/favicon.png'));
+//app.use(express.logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded());
 app.use(express.methodOverride());
