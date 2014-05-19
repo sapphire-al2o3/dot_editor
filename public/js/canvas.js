@@ -245,7 +245,7 @@ function drawEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		right = Math.max(x0, x1),
 		top = Math.min(y0, y1),
 		bottom = Math.max(y0, y1),
-        data = indexData ? indexData.data : null;
+		data = indexData ? indexData.data : null;
 	
 	x0 = left;
 	x1 = right;
@@ -261,7 +261,7 @@ function drawEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		w = scale,
 		h = scale,
 		iw = indexData.width,
-        ih = indexData.height;
+		ih = indexData.height;
 		
 	//console.log(x0, y0, x1, y1, w, h);
 	ctx.beginPath();
@@ -272,9 +272,9 @@ function drawEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 //		data[y0 * iw + ((x0 + x1) >> 1)] = paletteIndex;
 //		data[y1 * iw + ((x0 + x1) >> 1)] = paletteIndex;
 //	}
-    setPixel(data, (x0 + x1) >> 1, y0, iw, ih, paletteIndex);
-    setPixel(data, (x0 + x1) >> 1, y1, iw, ih, paletteIndex);
-    
+	setPixel(data, (x0 + x1) >> 1, y0, iw, ih, paletteIndex);
+	setPixel(data, (x0 + x1) >> 1, y1, iw, ih, paletteIndex);
+
 	if((dx & 1)) {
 		ctx.rect(x + w, y0 * h, w, h);
 		ctx.rect(x + w, y1 * h, w, h);
@@ -282,8 +282,8 @@ function drawEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 //			data[y0 * iw + ((x0 + x1) >> 1) + 1] = paletteIndex;
 //			data[y1 * iw + ((x0 + x1) >> 1) + 1] = paletteIndex;
 //		}
-        setPixel(data, ((x0 + x1) >> 1) + 1, y0, iw, ih, paletteIndex);
-        setPixel(data, ((x0 + x1) >> 1) + 1, y1, iw, ih, paletteIndex);
+		setPixel(data, ((x0 + x1) >> 1) + 1, y0, iw, ih, paletteIndex);
+		setPixel(data, ((x0 + x1) >> 1) + 1, y1, iw, ih, paletteIndex);
 	}
 	
 	var y = ((y0 + y1) >> 1) * h;
@@ -293,8 +293,8 @@ function drawEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 //		data[((y0 + y1) >> 1)  * iw + x0] = paletteIndex;
 //		data[((y0 + y1) >> 1)  * iw + x1] = paletteIndex;
 //	}
-    setPixel(data, x0, (y0 + y1) >> 1, iw, ih, paletteIndex);
-    setPixel(data, x1, (y0 + y1) >> 1, iw, ih, paletteIndex);
+	setPixel(data, x0, (y0 + y1) >> 1, iw, ih, paletteIndex);
+	setPixel(data, x1, (y0 + y1) >> 1, iw, ih, paletteIndex);
 	if((dy & 1)) {
 		ctx.rect(x0 * w, y + h, w, h);
 		ctx.rect(x1 * w, y + h, w, h);
@@ -302,8 +302,8 @@ function drawEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 //			data[(((y0 + y1) >> 1)  + 1) * iw + x0] = paletteIndex;
 //			data[(((y0 + y1) >> 1)  + 1) * iw + x1] = paletteIndex;
 //		}
-        setPixel(data, x0, ((y0 + y1) >> 1)  + 1, iw, ih, paletteIndex);
-        setPixel(data, x1, ((y0 + y1) >> 1)  + 1, iw, ih, paletteIndex);
+		setPixel(data, x0, ((y0 + y1) >> 1)  + 1, iw, ih, paletteIndex);
+		setPixel(data, x1, ((y0 + y1) >> 1)  + 1, iw, ih, paletteIndex);
 	}
 	
 	var a2 = a * a,
@@ -337,11 +337,11 @@ function drawEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 //			data[y * iw + x1 - x + x0] = paletteIndex;
 //			data[(y1 - y + y0) * iw + x] = paletteIndex;
 //			data[(y1 - y + y0) * iw + x1 - x + x0] = paletteIndex;
-            
-            setPixel(data, x, y, iw, ih, paletteIndex);
-            setPixel(data, x1 - x + x0, y, iw, ih, paletteIndex);
-            setPixel(data, x, y1 - y + y0, iw, ih, paletteIndex);
-            setPixel(data, x1 - x + x0, y1 - y + y0, iw, ih, paletteIndex);
+
+			setPixel(data, x, y, iw, ih, paletteIndex);
+			setPixel(data, x1 - x + x0, y, iw, ih, paletteIndex);
+			setPixel(data, x, y1 - y + y0, iw, ih, paletteIndex);
+			setPixel(data, x1 - x + x0, y1 - y + y0, iw, ih, paletteIndex);
 		}
 	}
 	if(y - 1 <= cy) {

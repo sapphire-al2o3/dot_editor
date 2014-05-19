@@ -243,9 +243,7 @@ editor: Editor
 			option.scale = option.scales[option.zoom];
 			resize();
 			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
-			if(option.gridOn && option.zoom > 2) {
-				drawGrid(work, option);
-			}
+			grid();
 		}
 		console.timeEnd('zoomIn');
 		$('#zoomRate').text('x ' + option.scale);
@@ -261,10 +259,7 @@ editor: Editor
 			option.scale = option.scales[option.zoom];
 			resize();
 			drawIndexedImage(ctx, indexData, palette, option.scale);
-			
-			if(option.gridOn && option.zoom > 2) {
-				drawGrid(work, option);
-			}
+			grid();
 		}
 		console.log(option.zoom);
 		$('#zoomRate').text('x ' + option.scale);
@@ -279,15 +274,20 @@ editor: Editor
 		$('#zoomRate').text('x ' + option.scale);
 	}
 	
+	// グリッドの表示
+	function grid() {
+		if(option.gridOn && option.zoom > 2) {
+			drawGrid(work, option);
+		}
+	}
+	
 	// グリッドの表示切替
 	function toggleGrid() {
 		$('#grid').toggleClass('selected');
 		option.gridOn = !option.gridOn;
 		option.imageWidth = indexData.width;
 		if(option.gridOn) {
-			if(option.zoom > 2) {
-				drawGrid(work, option);
-			}
+			grid();
 			// 大グリッドがずれる
 //			drawGrid(selectionCtx, option);
 		} else {
@@ -574,40 +574,40 @@ editor: Editor
 			drawPreview();
 		});
 	
-        if(mode === 'fork' || mode === 'edit') {
-            $('#new-image').hide();
-            
-            load(docId, function(data) {
-                $('#loading').hide();
-                Base64.decode(data.palette, paletteData.data);
-                indexData = createIndexData(data.width, data.height);
-                Base64.decode(data.index, indexData.data);
-                
-                palette = [];
-                for(var i = 0, j = 0; i < paletteData.data.length; i++, j += 4) {
-                    palette.push(Color.rgb(paletteData.data[j], paletteData.data[j + 1], paletteData.data[j + 2]));
-                }
-                
-                selection.indexData = createIndexData(data.width, data.height);
-                Palette.setPaletteData(palette);
-                resize();
-                drawIndexedImage(ctx, indexData, palette, option.scale);
-                drawPreview();
-            });
-        } else {
-            createImage(48, 48);
-            selection.indexData = createIndexData(48, 48);
-            resize();
-//            $('#new-image').hide();
-            palette = [
-                '#FFF', '#000', '#F00', '#0F0', '#00F', '#FF0', '#F0F', '#0FF', '#888',
-                '#F88', '#8F8', '#88F', '#FF8', '#8FF', '#F8F'];
-            
-            Palette.setPaletteData(palette);
-            Palette.convert(paletteData);
-            drawPreview();
-    		$('#overlay').fadeIn();
-        }
+		if(mode === 'fork' || mode === 'edit') {
+			$('#new-image').hide();
+
+			load(docId, function(data) {
+				$('#loading').hide();
+				Base64.decode(data.palette, paletteData.data);
+				indexData = createIndexData(data.width, data.height);
+				Base64.decode(data.index, indexData.data);
+
+				palette = [];
+				for(var i = 0, j = 0; i < paletteData.data.length; i++, j += 4) {
+					palette.push(Color.rgb(paletteData.data[j], paletteData.data[j + 1], paletteData.data[j + 2]));
+				}
+
+				selection.indexData = createIndexData(data.width, data.height);
+				Palette.setPaletteData(palette);
+				resize();
+				drawIndexedImage(ctx, indexData, palette, option.scale);
+				drawPreview();
+			});
+		} else {
+			createImage(48, 48);
+			selection.indexData = createIndexData(48, 48);
+			resize();
+	//            $('#new-image').hide();
+			palette = [
+				'#FFF', '#000', '#F00', '#0F0', '#00F', '#FF0', '#F0F', '#0FF', '#888',
+				'#F88', '#8F8', '#88F', '#FF8', '#8FF', '#F8F'];
+
+			Palette.setPaletteData(palette);
+			Palette.convert(paletteData);
+			drawPreview();
+			$('#overlay').fadeIn();
+		}
 	
 		Palette.change(function(e) {
 			// パレットが変更された際のイベント
@@ -622,7 +622,7 @@ editor: Editor
 				// 左クリック中
 				down = false;
 				work.clearRect(0, 0, work.canvas.width, work.canvas.height);
-				if(option.gridOn && option.zoom > 2) drawGrid(work, option);
+				grid();
 			} else {
 				var x = Math.floor((e.pageX - left) / option.scale),
 					y = Math.floor((e.pageY - top) / option.scale);
@@ -846,7 +846,7 @@ editor: Editor
 					selectHandler.move(x, y, points[1], points[0]);
 				break;
 			}
-			if(option.gridOn) drawGrid(work, option);
+			grid();
 		}
 		e.preventDefault();
 		return false;
@@ -875,7 +875,7 @@ editor: Editor
 				} else if(tool === 'select') {
 					selectHandler.up(x, y, points[1], points[0]);
 				}
-				if(option.gridOn && option.zoom > 2) drawGrid(work, option);
+				grid();
 			}
 			
 			$(document).unbind('mouseup', mouseupHandler);
