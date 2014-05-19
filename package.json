@@ -6,11 +6,12 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "3.4.7",
+    "express": "*",
     "jade": "*",
     "passport": "*",
     "passport-twitter": "*",
     "request": "*",
+    "serve-favicon": "*",
     "pngjs": "https://github.com/sapphire-al2o3/node-pngjs/tarball/master"
   },
   "engines": {
