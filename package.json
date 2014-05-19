@@ -12,6 +12,7 @@
     "passport-twitter": "*",
     "request": "*",
     "serve-favicon": "*",
+    "body-parser": "*",
     "pngjs": "https://github.com/sapphire-al2o3/node-pngjs/tarball/master"
   },
   "engines": {

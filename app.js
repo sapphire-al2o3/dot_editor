@@ -14,6 +14,7 @@ var request = require('request');
 var scaling = require('./imagescaling.js').scaling;
 var config = require('./config');
 var favicon = require('serve-favicon');
+var bodyParser = require('body-parser');
 
 var app = express();
 
@@ -52,9 +53,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 app.use(favicon(__dirname + '/public/images/favicon.png'));
 //app.use(express.logger('dev'));
-app.use(express.json());
-app.use(express.urlencoded());
-app.use(express.methodOverride());
+app.use(bodyParser());
 
 app.use(express.cookieParser('madomado'));
 app.use(express.session({secret: 'homuhomu'}));
