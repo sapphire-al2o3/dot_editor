@@ -531,27 +531,7 @@ editor: Editor
 			dropper = true;
 		});
 		
-		
-		$('#upload').click(function (e) {
-			$('#property').show();
-			$('#overlay').show();
-			$('#overlay').addClass('show');
-			$('#property img').get(0).src = drawPreview();
-			
-			// 以前のテキストを入力しておく
-			if(mode === 'edit') {
-                $('#property-title').val('');
-                $('#property-name').val('');
-                $('#property-comment').val('');
-            }
-            KeyMapper.unbind(document);
-        });
-    
-		$('#download').click(function(e) {
-		});
-		
 		$('#twitter').click(function(e) {
-//			window.open('./post.html');
 			window.open('/auth/twitter');
 		});
 		
@@ -598,7 +578,7 @@ editor: Editor
 			createImage(48, 48);
 			selection.indexData = createIndexData(48, 48);
 			resize();
-	//            $('#new-image').hide();
+//			$('#new-image').hide();
 			palette = [
 				'#FFF', '#000', '#F00', '#0F0', '#00F', '#FF0', '#F0F', '#0FF', '#888',
 				'#F88', '#8F8', '#88F', '#FF8', '#8FF', '#F8F'];
@@ -691,7 +671,7 @@ editor: Editor
 				x = sx > x ? x : sx;
 				y = sy > y ? y : sy;
 
-				if(w !== 0 && h !== 0) {
+				if(w > 0 && h > 0) {
 					$('#selection').css({
 						left: x + 'px',
 						top: y + 'px',
@@ -733,124 +713,124 @@ editor: Editor
 			}
 		};
 		
-	$('#work').mousedown(function(e) {
-		left = canvas.getBoundingClientRect().left;
-		top = canvas.getBoundingClientRect().top;
-		var x = e.pageX - left,
-			y = e.pageY - top,
-			size = option.scale;
-		
-		points = [y / size ^ 0, x / size ^ 0];
-		
-		if(e.altKey) {
-			// スポイト
-			paletteIndex = indexData.data[(points[0] * indexData.width + points[1])];
-			Palette.setFrontColor(paletteIndex);
-		} else if(dropper) {
-			paletteIndex = indexData.data[(points[0] * indexData.width + points[1])];
-			Palette.setFrontColor(paletteIndex);
-			
-			// ツールアイコンをもとに戻す
-			if(dropper) {
-				activeTool && activeTool.removeClass('selected');
-				activeTool = prevTool.addClass('selected');
-				// 選択範囲解除
-				if(tool !== 'select' && selectHandler.enable) {
-					deselect();
-					$('#selection').hide();
+		$('#work').mousedown(function(e) {
+			left = canvas.getBoundingClientRect().left;
+			top = canvas.getBoundingClientRect().top;
+			var x = e.pageX - left,
+				y = e.pageY - top,
+				size = option.scale;
+
+			points = [y / size ^ 0, x / size ^ 0];
+
+			if(e.altKey) {
+				// スポイト
+				paletteIndex = indexData.data[(points[0] * indexData.width + points[1])];
+				Palette.setFrontColor(paletteIndex);
+			} else if(dropper) {
+				paletteIndex = indexData.data[(points[0] * indexData.width + points[1])];
+				Palette.setFrontColor(paletteIndex);
+
+				// ツールアイコンをもとに戻す
+				if(dropper) {
+					activeTool && activeTool.removeClass('selected');
+					activeTool = prevTool.addClass('selected');
+					// 選択範囲解除
+					if(tool !== 'select' && selectHandler.enable) {
+						deselect();
+						$('#selection').hide();
+					}
+					dropper = false;
 				}
-				dropper = false;
-			}
-		} else if(e.shiftKey) {
-			// スクロール
-		} else if(e.button === 0) {
-			record();
-			paletteIndex = Palette.getFrontIndex();
-			ctx.fillStyle = Palette.getFrontColor();
-			work.fillStyle = ctx.fillStyle;
-			switch(tool) {
-			case 'pen':
-				down = true;
-				drawDot(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
-				break;
-			case 'paint':
-				paint(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
-				break;
-			case 'line':
-			case 'rect':
-			case 'frect':
-				drawDot(work, points[1], points[0], null, paletteIndex, option.scale);
-			case 'ellipse':
-			case 'fellipse':
-				down = true;
-				break;
-			case 'select':
-			case 'move':
-//				if(option.selection.enable && rectIn(option.selection.region, x, y)) {
-//					tool = 'move';
-//				}
-//				down = true;
-					
-					selectHandler.down(points[1], points[0]);
+			} else if(e.shiftKey) {
+				// スクロール
+			} else if(e.button === 0) {
+				record();
+				paletteIndex = Palette.getFrontIndex();
+				ctx.fillStyle = Palette.getFrontColor();
+				work.fillStyle = ctx.fillStyle;
+				switch(tool) {
+				case 'pen':
 					down = true;
-				break;
-			default:
+					drawDot(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
+					break;
+				case 'paint':
+					paint(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
+					break;
+				case 'line':
+				case 'rect':
+				case 'frect':
+					drawDot(work, points[1], points[0], null, paletteIndex, option.scale);
+				case 'ellipse':
+				case 'fellipse':
+					down = true;
+					break;
+				case 'select':
+				case 'move':
+	//				if(option.selection.enable && rectIn(option.selection.region, x, y)) {
+	//					tool = 'move';
+	//				}
+	//				down = true;
+
+						selectHandler.down(points[1], points[0]);
+						down = true;
+					break;
+				default:
+				}
+
+				$(document).bind('mouseup', mouseupHandler);
+				$(document).bind('mousemove', mousemoveHandler);
+			} else if(e.button === 1) {
 			}
-			
-			$(document).bind('mouseup', mouseupHandler);
-			$(document).bind('mousemove', mousemoveHandler);
-		} else if(e.button === 1) {
-		}
-		// Google Chromeで選択カーソルになるのを防ぐ
-		e.preventDefault();
-	});
-	
-	function mousemoveHandler(e) {
-		if(down) {
-			var size = option.scale,
-				x = (e.pageX - left) / size ^ 0,
-				y = (e.pageY - top) / size ^ 0,
-				w = work.canvas.width,
-				h = work.canvas.height,
-				context = { palette: paletteIndex, option: option },
-				dummy = { width: indexData.width, height: indexData.height };
-			if(points[1] === x && points[0] === y) {
-				return false;
+			// Google Chromeで選択カーソルになるのを防ぐ
+			e.preventDefault();
+		});
+		
+		function mousemoveHandler(e) {
+			if(down) {
+				var size = option.scale,
+					x = (e.pageX - left) / size ^ 0,
+					y = (e.pageY - top) / size ^ 0,
+					w = work.canvas.width,
+					h = work.canvas.height,
+					context = { palette: paletteIndex, option: option },
+					dummy = { width: indexData.width, height: indexData.height };
+				if(points[1] === x && points[0] === y) {
+					return false;
+				}
+				work.clearRect(0, 0, w, h);
+				switch(tool) {
+				case 'pen':
+					var px = points.pop(),
+						py = points.pop();
+					context.data = indexData.data;
+					drawLine(ctx, px, py, x, y, indexData, paletteIndex, option.scale);
+					points.push(y);
+					points.push(x);
+					break;
+				case 'line':
+					drawLine(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
+					break;
+				case 'rect':
+					drawRect(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
+					break;
+				case 'frect':
+					fillRect(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
+					break;
+				case 'ellipse':
+					drawEllipse(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
+					break;
+				case 'fellipse':
+					fillEllipse(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
+					break;
+				case 'select':
+						selectHandler.move(x, y, points[1], points[0]);
+					break;
+				}
+				grid();
 			}
-			work.clearRect(0, 0, w, h);
-			switch(tool) {
-			case 'pen':
-				var px = points.pop(),
-					py = points.pop();
-				context.data = indexData.data;
-				drawLine(ctx, px, py, x, y, indexData, paletteIndex, option.scale);
-				points.push(y);
-				points.push(x);
-				break;
-			case 'line':
-				drawLine(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
-				break;
-			case 'rect':
-				drawRect(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
-				break;
-			case 'frect':
-				fillRect(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
-				break;
-			case 'ellipse':
-				drawEllipse(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
-				break;
-			case 'fellipse':
-				fillEllipse(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
-				break;
-			case 'select':
-					selectHandler.move(x, y, points[1], points[0]);
-				break;
-			}
-			grid();
-		}
-		e.preventDefault();
-		return false;
-	};
+			e.preventDefault();
+			return false;
+		};
 		
 		function mouseupHandler(e) {
 			e.preventDefault();
@@ -892,7 +872,6 @@ editor: Editor
 	
 		var offsetX, offsetY;
 		$('#selection').mousedown(function(e) {
-			e.preventDefault();
 			var rect = e.target.getBoundingClientRect();
 			left = e.target.offsetLeft;
 			top = e.target.offsetTop;
@@ -902,7 +881,7 @@ editor: Editor
 			console.log(offsetX, offsetY, left, top);
 			$(document).bind('mouseup', moveHandler.up);
 			$(document).bind('mousemove', moveHandler.move);
-			
+			e.preventDefault();
 		});
 		
 		var moveHandler = {
@@ -946,53 +925,10 @@ editor: Editor
 				}
 			}
 		};
-		
-	$('#property form').submit(function() {
-		
-		try {
-		
-			// 投稿ボタンを無効化
-			$('#property-submit').attr('disabled', true);
-			var json = {
-				_index: Base64.encode(indexData.data, option.imageWidth * option.imageHeight),
-				_palette: Base64.encode(paletteData.data),
-				_image: $('#property img').get(0).src,
-				width: option.imageWidth,
-				height: option.imageHeight,
-				title: $('#property-title').val(),
-				name: $('#property-name').val(),
-				comment: $('#property-comment').val()
-			};
-			
-			url = '/_je/image';
-			
-			if(mode === 'edit') {
-				url += '?_method=put';
-				json._docId = docId;
-			}
-		
-		} catch(e) {
-			console.log(e);
-		}
-		
-		// 画像の投稿
-		$.post(url, { _doc: JSON.stringify(json) }, function(data) {
-			$(window).unbind('beforeunload');
-			location.href = './dot_preview.html#' + data._docId;
-			//$('#property-submit').removeAttr('disabled');
-			//$('#property').hide();
-			//$('#overlay').hide();
-			//KeyMapper.bind(document);
-		}, 'json').error(function () {
-			console.log("error");
-			$('#property-submit').removeAttr('disabled');
-		});
-		return false;
-	});
 	
-//	$(window).bind('beforeunload', function (e) {
-//		return 'ページを移動すると編集した情報が失われます';
-//	});
+//		$(window).bind('beforeunload', function (e) {
+//			return 'ページを移動すると編集した情報が失われます';
+//		});
 	
 	});
 
@@ -1030,7 +966,6 @@ editor: Editor
 		indexData = createIndexData(w, h);
 		Base64.decode(result.indexData, indexData.data);
 		Base64.decode(result.paletteData, paletteData.data);
-//		
 		selection.indexData = createIndexData(indexData.width, indexData.height);
 		Palette.setPaletteData(paletteData);
 		Palette.setFrontColor(0);
