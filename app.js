@@ -15,6 +15,9 @@ var scaling = require('./imagescaling.js').scaling;
 var config = require('./config');
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+var session = require('express-session');
+var errorHandler = require('errorhandler');
 
 var app = express();
 
@@ -55,8 +58,8 @@ app.use(favicon(__dirname + '/public/images/favicon.png'));
 //app.use(express.logger('dev'));
 app.use(bodyParser());
 
-app.use(express.cookieParser('madomado'));
-app.use(express.session({secret: 'homuhomu'}));
+app.use(cookieParser('madomado'));
+app.use(session({secret: 'homuhomu'}));
 //app.use(express.session({
 //	secret: 'homuhomu',
 //	cookie: {},
@@ -65,19 +68,17 @@ app.use(express.session({secret: 'homuhomu'}));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
 // 404
 app.use(function(req, res, next) {
 	res.status(404);
-//  res.render('404');
 	res.redirect('404.html');
 });
 
 // development only
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+	app.use(errorHandler());
 }
 
 // ルーティング

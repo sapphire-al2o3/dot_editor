@@ -13,6 +13,9 @@
     "request": "*",
     "serve-favicon": "*",
     "body-parser": "*",
+    "cookie-parser": "*",
+    "express-session": "*",
+    "errorhandler": "*",
     "pngjs": "https://github.com/sapphire-al2o3/node-pngjs/tarball/master"
   },
   "engines": {
