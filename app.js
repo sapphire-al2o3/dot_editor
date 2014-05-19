@@ -146,6 +146,7 @@ app.post('/auth/twitter/post', function(req, res) {
 			if(err) {
 //				console.log(err);
 				res.redirect('/failure.html');
+				return;
 			}
 			res.redirect('/success.html');
 		});
