@@ -118,11 +118,43 @@ require('color.js')
 					//setTransition(bars[1].firstChild, true);
 					//setTransition(bars[2].firstChild, true);
 					
-					selectColor(e.target.style.backgroundColor);
 					selected.className = '';
 					selected = e.target;
 					selected.className = ' selected';
 					frontIndex = row * 16 + col;
+					
+					if(copy) {
+						if(active) {
+							palettes[frontIndex] = palettes[startIndex];
+							e.target.style.backgroundColor = active.style.backgroundColor;
+							active = false;
+							active.className = '';
+							if(onchange) onchange();
+						} else {
+							active = e.target;
+							active.className = 'start';
+							startIndex = frontIndex;
+						}
+					}
+					
+					if(swap) {
+						if(active) {
+							var t = palettes[startIndex];
+							palettes[startIndex] = palettes[frontIndex];
+							palettes[frontIndex] = t;
+							e.target.style.backgroundColor = palettes[frontIndex];
+							active.style.backgroundColor = palettes[startIndex];
+							active = false;
+							active.className = '';
+							if(onchange) onchange();
+						} else {
+							active = e.target;
+							active.className = 'start';
+							startIndex = frontIndex;
+						}
+					}
+					
+					selectColor(selected.style.backgroundColor);
 				}
 			}, false);
 			
@@ -132,14 +164,16 @@ require('color.js')
 				startIndex,
 				color,
 				start,
-				active;
+				active,
+				tool,
+				copy = false,
+				swap = false;
 			
-			// セルのコピー
+			// ドラッグでセルのコピー
 			function downCell(e) {
 				if (e.target.localName === 'td') {
 					var row = e.target.parentNode.rowIndex,
 						col = e.target.cellIndex;
-					console.log(row, col);
 					activeIndex = row * 16 + col;
 					active = e.target;
 					start = e.target;
@@ -163,8 +197,6 @@ require('color.js')
 				return false;
 			}
 			
-			
-			
 			function moveCell(e) {
 				if (down && e.target.localName === 'td') {
 					var row = e.target.parentNode.rowIndex,
@@ -179,9 +211,9 @@ require('color.js')
 					}
 				}
 			}
-			table.addEventListener('mousedown', downCell);
-			table.addEventListener('mousemove', moveCell);
-			table.addEventListener('mouseup', upCell);
+//			table.addEventListener('mousedown', downCell);
+//			table.addEventListener('mousemove', moveCell);
+//			table.addEventListener('mouseup', upCell);
 			
 			// 0番目のパレットを選択しておく
 			selected = cells[0];
@@ -274,6 +306,24 @@ require('color.js')
 				$.bind(target, 'mousedown', mousedownHandler);
 			});
 			
+			$.bind($('palette-copy'), 'click', function(e) {
+				copy = !copy;
+				swap = false;
+				if(active) active.className = '';
+				active = null;
+				$('palette-copy').className = copy ? 'selected' : '';
+				$('palette-swap').className = swap ? 'selected' : '';
+			});
+			
+			$.bind($('palette-swap'), 'click', function(e) {
+				swap = !swap;
+				copy = false;
+				if(active) active.className = '';
+				active = null;
+				$('palette-swap').className = swap ? 'selected' : '';
+				$('palette-copy').className = copy ? 'selected' : '';
+			});
+			
 			paletteElement.style.display = 'block';
 		}
 		
@@ -292,7 +342,7 @@ require('color.js')
 				color = Color.rgb(r, g, b);
 			}
 			
-			$q('#front-color').style['backgroundColor'] = color;
+			$q('#front-color').style.backgroundColor = color;
 			nums[0].value = r;
 			nums[1].value = g;
 			nums[2].value = b;
@@ -305,9 +355,9 @@ require('color.js')
 				r = (r * 96 / 255 ^ 0);
 				g = (g * 96 / 255 ^ 0);
 				b = (b * 96 / 255 ^ 0);
-				bars[0].firstChild.style['left'] = range(r, 0, 96) - 2 + 'px';
-				bars[1].firstChild.style['left'] = range(g, 0, 96) - 2 + 'px';
-				bars[2].firstChild.style['left'] = range(b, 0, 96) - 2 + 'px';
+				bars[0].firstChild.style.left = range(r, 0, 96) - 2 + 'px';
+				bars[1].firstChild.style.left = range(g, 0, 96) - 2 + 'px';
+				bars[2].firstChild.style.left = range(b, 0, 96) - 2 + 'px';
 			}
 			frontColor = color;
 		}
@@ -334,7 +384,7 @@ require('color.js')
 			setPaletteData: function(p) {
 				if(Array.isArray(p)) {
 					p.forEach(function(e, i) {
-						cells[i].style['backgroundColor'] = e;
+						cells[i].style.backgroundColor = e;
 						cells[i].setAttribute('title', e);
 					});
 					for(var i = 0, n = p.length; i < n; i++) {

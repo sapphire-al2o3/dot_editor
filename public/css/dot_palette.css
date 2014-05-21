@@ -73,6 +73,10 @@
 	background-image: url("../images/selected.png");
 }
 
+#palette table tr td.start {
+	outline: 2px solid #D50;
+}
+
 #palette #front-color {
 	margin-top: 4px;
 	width: 24px;
@@ -140,6 +144,37 @@
 	width: 8px;
 	margin-top: 4px;
 	margin-left: 4px;
+}
+
+#palette ul {
+	list-style: none;
+	font-size: 10px;
+	margin-bottom: 2px;
+}
+
+#palette ul li {
+	display: inline-block;
+	background-image: -webkit-linear-gradient(top, #FFF, #FFF 25%, #F7F7F7);
+	background-image: linear-gradient(top, #E7E7E7, #DDD 25%, #F7F7F7);
+	box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 0 inset, rgba(0, 0, 0, 0.1) 0 1px 2px 0;
+	border: 1px solid #CCC;
+	border-radius: 3px;
+	width: 22px;
+	text-align: center;
+	cursor: pointer;
+}
+
+#palette ul li img {
+	margin-top: 2px;
+}
+
+#palette ul li.selected {
+	border: 1px solid #AAA;
+	background-image: -webkit-linear-gradient(top, #E7E7E7, #DDD 25%, #F7F7F7);
+	background-image: -moz-linear-gradient(top, #E7E7E7, #DDD 25%, #F7F7F7);
+	background-image: -o-linear-gradient(top, #E7E7E7, #DDD 25%, #F7F7F7);
+	background-image: linear-gradient(top, #E7E7E7, #DDD 25%, #F7F7F7);
+	box-shadow: rgba(0, 0, 0, 0.2) 0 1px 3px 0px inset;
 }
 
 .left, .right {
