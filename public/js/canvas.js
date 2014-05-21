@@ -1058,3 +1058,18 @@ function removeUnusedColor(indexData, palette) {
 		data[i] = used[index];
 	}
 }
+
+// インデックスの値を置換する
+function swapColor(indexData, a, b) {
+	var data = indexData.data;
+	
+	for(var i = 0, l = data.length; i < l; i++) {
+		if(data[i] === a) {
+			data[i] = b;
+		} else if(data[i] == b) {
+			data[i] = a;
+		}
+	}
+}
+
+
