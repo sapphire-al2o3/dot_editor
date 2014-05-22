@@ -131,7 +131,7 @@ app.post('/auth/twitter/post', function(req, res) {
 		}
 //		img.pack().pipe(fs.createWriteStream('./uploads/out.png'));
 		
-		res.redirect('/success.html');
+//		res.redirect('/success.html');
 		
 		var url = 'https://api.twitter.com/1.1/statuses/update_with_media.json';
 		
