@@ -536,6 +536,14 @@ editor: Editor
 			window.open('/auth/twitter');
 		});
 		
+		$('#save').click(function() {
+			save();
+		});
+		
+		$('#load').click(function() {
+			load();
+		});
+		
 		// 投稿フォーム
 		$('#property-close').click(function(e) {
 			$('#property').hide();
@@ -961,21 +969,23 @@ editor: Editor
 
 	// ローカルストレージから読み込み
 	function load() {
-		var result = Storage.load(),
-			w = parseInt(result.width, 10),
-			h = parseInt(result.height, 10);
-		indexData = createIndexData(w, h);
-		Base64.decode(result.indexData, indexData.data);
-		Base64.decode(result.paletteData, paletteData.data);
-		selection.indexData = createIndexData(indexData.width, indexData.height);
-		Palette.setPaletteData(paletteData);
-		Palette.setFrontColor(0);
-		palette = Palette.getPaletteData();
-		resize();
-		drawIndexedImage(ctx, indexData, palette, option);
-		drawPreview();
+		var result = Storage.load();
 		
-		console.log(indexData.width, indexData.height, palette.length, 'loaded');
+		if(result) {
+			var w = parseInt(result.width, 10),
+				h = parseInt(result.height, 10);
+			indexData = createIndexData(w, h);
+			Base64.decode(result.indexData, indexData.data);
+			Base64.decode(result.paletteData, paletteData.data);
+			selection.indexData = createIndexData(indexData.width, indexData.height);
+			Palette.setPaletteData(paletteData);
+			Palette.setFrontColor(0);
+			palette = Palette.getPaletteData();
+			resize();
+			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
+			drawPreview();
+			console.log(indexData.width, indexData.height, palette.length, 'loaded');
+		}
 	}
 
 	// コマンドが確定した時点で呼び出す(コマンドがキャンセルされることがあるため)

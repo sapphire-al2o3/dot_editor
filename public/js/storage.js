@@ -27,7 +27,7 @@
 		}
 	}
 	
-    // 保存する
+	// 保存する
 	Storage.save = function(items) {
 		if(localStorage) {
 			for(var i in items) {
@@ -37,17 +37,17 @@
 			}
 		}
 	};
-    
-    // 読み込む
+	
+	// 読み込む
 	Storage.load = function() {
-		var result = {};
 		if(localStorage) {
+			var result = {};
 			for(var i = 0; i < localStorage.length; i++) {
 				var key = localStorage.key(i);
 				result[key] = localStorage.getItem(key);
 			}
+			return result;
 		}
-		return result;
 	};
 	
 	global.Storage = Storage;

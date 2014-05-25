@@ -280,16 +280,16 @@
 }
 
 #editor-tools li.tools-info {
-    cursor: default;
-    font-family: "Arial";
-    font-weight: bold;
-    background: none;
-    border: none;
-    font-size: 10pt;
-    height: auto;
-    width: 32px;
-    box-shadow: none;
-    color: #444;
+	cursor: default;
+	font-family: "Arial";
+	font-weight: bold;
+	background: none;
+	border: none;
+	font-size: 10pt;
+	height: auto;
+	width: 32px;
+	box-shadow: none;
+	color: #444;
 }
 
 #editor-tools li.tools-info:hover {
@@ -451,6 +451,14 @@
 
 #editor-tools #twitter:before {
 	content: url("../images/twitter_icon.png");
+}
+
+#editor-tools #save:before {
+	content: url("../images/upload_icon.png");
+}
+
+#editor-tools #load:before {
+	content: url("../images/download_icon.png");
 }
 
 #editor-tools #upload {
