@@ -26,7 +26,7 @@
 	}
 	
 	function setText() {
-		var text = $.qa('form label');
+		var text = $.qa('form label', elm);
 		text[0].textContent = 'H:' + h;
 		text[1].textContent = 'S:' + ((1 - s) * 100 ^ 0) + '%';
 		text[2].textContent = 'V:' + (v * 100 ^ 0) + '%';
@@ -44,7 +44,7 @@
 		if(h < 0) h = 0;
 		if(h > 360) h = 360;
 		$('color').style.backgroundColor = 'hsl(' + h + ',100%,50%)';
-//		setText();
+		setText();
 		color = Color.hsv(h, 1 - s, v);
 		if(change) {
 			change(color);
@@ -64,7 +64,7 @@
 		$.bind('mousemove', moveColor);
 		$.bind('mouseup', upColorHandler);
 		down = true;
-//		setText();
+		setText();
 		e.preventDefault();
 		return false;
 	}
