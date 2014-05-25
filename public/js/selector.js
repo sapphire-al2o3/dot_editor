@@ -4,8 +4,8 @@
 (function(global, document) {
 	'use strict';
 	
-	function $(e, p) {
-		return p ? p.getElementById(e) : document.getElementById(e);
+	function $(e) {
+		return document.getElementById(e);
 	}
 	
 	function $q(e, p) {
