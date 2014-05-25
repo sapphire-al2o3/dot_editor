@@ -619,6 +619,7 @@ editor: Editor
 				Palette.setFrontColor(paletteIndex);
 			}
 			e.preventDefault();
+			e.stopPropagation();
 			return false;
 		});
 	
