@@ -605,6 +605,10 @@ editor: Editor
 		});
 		Palette.setFrontColor(1);
 		palette = Palette.getPaletteData();
+		$('#palette-opt').click(function() {
+			removeUnusedColor(indexData, palette);
+			Palette.setPaletteData(palette);
+		});
 	
 		$('#work').bind('contextmenu', function(e) {
 			if(down) {
