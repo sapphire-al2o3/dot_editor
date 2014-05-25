@@ -606,7 +606,7 @@ editor: Editor
 		Palette.setFrontColor(1);
 		palette = Palette.getPaletteData();
 	
-		$('canvas').bind('contextmenu', function(e) {
+		$('#work').bind('contextmenu', function(e) {
 			if(down) {
 				// 左クリック中
 				down = false;
