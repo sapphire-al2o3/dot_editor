@@ -976,7 +976,7 @@ editor: Editor
 	function load() {
 		var result = Storage.load();
 		
-		if(result) {
+		if(result.indexData) {
 			var w = parseInt(result.width, 10),
 				h = parseInt(result.height, 10);
 			indexData = createIndexData(w, h);
