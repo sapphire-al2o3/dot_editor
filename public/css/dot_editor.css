@@ -51,13 +51,13 @@
 }
 
 #view {
-    width: 96px;
+	width: 96px;
 	text-align: center;
 }
 
 #view canvas {
-    margin-top: 4px;
-    border: 1px solid #CCC;
+	margin-top: 4px;
+	border: 1px solid #CCC;
 }
 
 /*--------------------------------------------------------------------------
@@ -130,7 +130,7 @@
 	color: #FFF;
 	background-color: #0AF;
 	cursor: pointer;
-    text-decoration: none;
+	text-decoration: none;
 }
 
 #property a {
@@ -176,30 +176,30 @@
 }
 
 #new-image ul li {
-    list-style: none;
+	list-style: none;
 }
 
 #new-image form input[type="radio"] {
-    display: none;
+	display: none;
 }
 
 #new-image form input[type="radio"] + label:before {
-    content: "";
-    width: 12px;
-    height: 12px;
-    display: inline-block;
-    margin-right: 4px;
-    background-image: url("../images/radio.png");
+	content: "";
+	width: 12px;
+	height: 12px;
+	display: inline-block;
+	margin-right: 4px;
+	background-image: url("../images/radio.png");
 }
 
 #new-image form input[type="radio"]:checked + label:before {
-    background-color: #0AF;
+	background-color: #0AF;
 /*    box-shadow: 0 0 0 2px #FFF inset;*/
-    background-position: 0 -12px;
+	background-position: 0 -12px;
 }
 
 #new-image input[type="radio"] + label:hover:before {
-    background-color: #CEF;
+	background-color: #CEF;
 }
 
 #new-image input[type="button"] {
@@ -213,9 +213,9 @@
 	line-height: 20px;
 	height: 24px;
 	box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0px;
-    width: 96px;
-    margin: 2px 4px;
-    display: inline-block;
+	width: 96px;
+	margin: 2px 4px;
+	display: inline-block;
 }
 
 #new-image input[type="button"]:hover {
@@ -223,12 +223,12 @@
 	color: #FFF;
 	background-color: #0AF;
 	cursor: pointer;
-    text-decoration: none;
+	text-decoration: none;
 }
 
 #new-image form label {
-    color: #444;
-    font-size: 9pt;
+	color: #444;
+	font-size: 9pt;
 }
 
 #new-image form input:before {
@@ -271,7 +271,6 @@
 	border-radius: 3px;
 	box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 0 inset, rgba(0, 0, 0, 0.1) 0 1px 2px 0;
 	background-image: -webkit-linear-gradient(top, #FFF, #FFF 25%, #F7F7F7);
-	background-image: -moz-linear-gradient(top, #FFF, #FFF 25%, #F7F7F7);
 	background-image: -o-linear-gradient(top, #FFF, #FFF 25%, #F7F7F7);
 	background-image: linear-gradient(#FFF, #FFF 25%, #F7F7F7);
 	display: inline-block;
@@ -312,7 +311,6 @@
 	border-radius: 3px;
 	box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.4);
 	-webkit-transition: visibility 0s linear 0.4s, opacity 0.4s linear 0.2s;
-	-moz-transition: opacity 0.4s linear 0.2s;
 	transition: opacity 0.4s linear 0.2s;
 	min-width: 32px;
 	display: inline;
@@ -351,13 +349,11 @@
 }
 
 #editor-tools li.selected, #editor-tools li:active {
-/*	background-position: 0 -24px;*/
 	border: 1px solid #AAA;
-	background-image: -webkit-linear-gradient(top, #E7E7E7, #DDD 25%, #F7F7F7);
-	background-image: -moz-linear-gradient(top, #E7E7E7, #DDD 25%, #F7F7F7);
-	background-image: -o-linear-gradient(top, #E7E7E7, #DDD 25%, #F7F7F7);
-	background-image: linear-gradient(top, #E7E7E7, #DDD 25%, #F7F7F7);
-	box-shadow: rgba(0, 0, 0, 0.2) 0 1px 3px 0px inset;
+	background-image: -webkit-linear-gradient(#E7E7E7, #DDD 25%, #F7F7F7);
+	background-image: -o-linear-gradient(#E7E7E7, #DDD 25%, #F7F7F7);
+	background-image: linear-gradient(#E7E7E7, #DDD 25%, #F7F7F7);
+	box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.2);
 }
 
 #editor-tools #pen:before {
