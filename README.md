@@ -3,6 +3,8 @@ dot_editor
 
 これはブラウザで動くドット絵エディタなのだ
 
+http://dot-a.herokuapp.com/
+
 ## 描画API
 
 canvas.jsの関数
