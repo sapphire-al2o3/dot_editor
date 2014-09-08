@@ -226,7 +226,7 @@ require('color.js')
 					var r = parseInt(nums[0].value, nums[0].getAttribute('radix') ? 16 : 10),
 						g = parseInt(nums[1].value, nums[1].getAttribute('radix') ? 16 : 10),
 						b = parseInt(nums[2].value, nums[2].getAttribute('radix') ? 16 : 10),
-						color = Color.rgba(r, g, b);
+						color = Color.rgb(r, g, b);
 					selectColor(color);
 					setColor(color, frontIndex);
 				}, false);
