@@ -359,7 +359,7 @@ editor: Editor
 		KeyMapper.assign('Shift+3', toggleGrid);
 		
 		KeyMapper.assign('A', function () {
-			var layer = new Layer(canvas.width, canvas.height);
+//			var layer = new Layer(canvas.width, canvas.height);
 			
 		});
 		KeyMapper.assign('Ctrl+S', save);
