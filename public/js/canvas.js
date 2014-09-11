@@ -370,11 +370,11 @@ function drawEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 //                if(x >= 0 && x < iw) data[y * iw + x] = paletteIndex;
 //                if(x1 - x + x0 >= 0 && x1 - x + x0 < iw) data[y * iw + x1 - x + x0] = paletteIndex;
 //            }
-            setPixel(data, x, y, iw, ih, paletteIndex);
-            setPixel(data, x1 - x + x0, y, iw, ih, paletteIndex);
-            setPixel(data, x, y1 - y + y0, iw, ih, paletteIndex);
-            setPixel(data, x1 - x + x0, y1 - y + y0, iw, ih, paletteIndex);
-            
+			setPixel(data, x, y, iw, ih, paletteIndex);
+			setPixel(data, x1 - x + x0, y, iw, ih, paletteIndex);
+			setPixel(data, x, y1 - y + y0, iw, ih, paletteIndex);
+			setPixel(data, x1 - x + x0, y1 - y + y0, iw, ih, paletteIndex);
+
 //            if(y1 - y + y0 >= 0 && y1 - y + y0 < ih) {
 //                if(x >= 0 && x < iw) data[(y1 - y + y0) * iw + x] = paletteIndex;
 //                data[(y1 - y + y0) * iw + x1 - x + x0] = paletteIndex;
@@ -940,6 +940,7 @@ function createPaletteData(n) {
 	};
 }
 
+// 拡大した画像を返す
 function scaling(indexData, scale) {
 	var w = indexData.width * scale ^ 0,
 		h = indexData.height * scale ^ 0,

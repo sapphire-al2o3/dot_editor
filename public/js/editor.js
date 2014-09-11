@@ -945,14 +945,6 @@ editor: Editor
 		//png = png.replace("image/png", "image/octet-stream");
 		window.open(png, 'save');
 	}
-	
-	function saveImage() {
-		var png = document.getElementById('canvas').toDataURL();
-		png = png.replace("image/png", "image/octet-stream");
-		var image = document.getElementById('preview');
-		image.src = png;
-		$('#log').text(png);
-	}
 
 	// ローカルストレージに保存
 	function save() {
