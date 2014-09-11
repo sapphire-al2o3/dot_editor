@@ -86,6 +86,7 @@ bug
 ・プレビューウィンドウで右クリックすると下のキャンバスの色をスポイトしてしまう
 ・描画時にキャンバス外で右クリックしてもキャンセルされない
 ・HSVのカラー選択で表示される数値が変わっていない
+・パレットに数値入力した時にキャンバスのサイズがおかしくなる
 
 画面遷移
 サイズ選択ダイアログ
@@ -544,13 +545,6 @@ editor: Editor
 			load();
 		});
 		
-		// 投稿フォーム
-		$('#property-close').click(function(e) {
-			$('#property').hide();
-			$('#overlay').hide();
-			KeyMapper.bind(document);
-		});
-		
 		// サイズの指定
 		$('#new-image-submit').click(function (e) {
 			$('#new-image').hide();
@@ -992,21 +986,20 @@ editor: Editor
 			console.log(indexData.width, indexData.height, palette.length, 'loaded');
 		}
 	}
-
+	
+	// 編集履歴を記録する
 	// コマンドが確定した時点で呼び出す(コマンドがキャンセルされることがあるため)
 	function record() {
 		var back = tempData[tempData.length - 1];
 		
 		if(back) {
 			var diff = diffIndexData(back.data, indexData.data);
-//			console.log(diff.head, diff.tail);
 		}
 		
 		var temp = createIndexData(indexData.width, indexData.height);
 		
 		copyRangeIndexData(indexData, temp);
 		tempData.push(temp);
-//		console.log(redo);
 //		redo.length = 0;
 	}
 	
