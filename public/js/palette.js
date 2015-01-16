@@ -429,8 +429,10 @@ require('color.js')
 				selectColor(palettes[index]);
 			},
 			getBackColor: function() {
+				return backColor;
 			},
 			getBackIndex: function() {
+				return backIndex;
 			},
 			setColor: function(color) {
 				setColor(color, frontIndex);
