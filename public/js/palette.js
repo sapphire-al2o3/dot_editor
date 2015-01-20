@@ -324,6 +324,10 @@ require('color.js')
 				$('palette-copy').className = copy ? 'selected' : '';
 			});
 			
+			$.bind($('palette-transparent'), 'click', function(e) {
+				
+			});
+			
 			paletteElement.style.display = 'block';
 		}
 		
