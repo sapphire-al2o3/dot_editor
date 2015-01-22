@@ -154,6 +154,10 @@ require('color.js')
 						}
 					}
 					
+					if(transparent) {
+						backIndex = frontIndex;
+					}
+					
 					selectColor(selected.style.backgroundColor);
 				}
 			}, false);
@@ -167,7 +171,8 @@ require('color.js')
 				active,
 				tool,
 				copy = false,
-				swap = false;
+				swap = false,
+				transparent = false;
 			
 			// ドラッグでセルのコピー
 			function downCell(e) {
@@ -306,9 +311,18 @@ require('color.js')
 				$.bind(target, 'mousedown', mousedownHandler);
 			});
 			
+			function setPaletteTool() {
+				if(active) active.className = '';
+				active = null;
+				$('palette-copy').className = copy ? 'selected' : '';
+				$('palette-swap').className = swap ? 'selected' : '';
+				$('palette-transparent').className = transparent ? 'selected' : '';
+			}
+			
 			$.bind($('palette-copy'), 'click', function(e) {
 				copy = !copy;
 				swap = false;
+				transparent = false;
 				if(active) active.className = '';
 				active = null;
 				$('palette-copy').className = copy ? 'selected' : '';
@@ -318,13 +332,17 @@ require('color.js')
 			$.bind($('palette-swap'), 'click', function(e) {
 				swap = !swap;
 				copy = false;
+				transparent = false;
 				if(active) active.className = '';
 				active = null;
 				$('palette-swap').className = swap ? 'selected' : '';
 				$('palette-copy').className = copy ? 'selected' : '';
 			});
 			$.bind($('palette-transparent'), 'click', function(e) {
-				
+				copy = false;
+				swap = false;
+				transparent = !transparent;
+				setPaletteTool();
 			});
 			
 			paletteElement.style.display = 'block';
@@ -461,7 +479,7 @@ require('color.js')
 	}(document);
 
 	// スピンボタン
-	var Spin = function(document) {
+	var Spin = function() {
 		var down = false,
 			target,
 			timerId = 0,
@@ -531,7 +549,7 @@ require('color.js')
 			$.bind(elm, 'mouseup', mouseupHandler);
 			$.bind(elm, 'mouseout', mouseoutHandler);
 		};
-	}(document);
+	}();
 	
 	// スライダー
 	var Slider = function() {

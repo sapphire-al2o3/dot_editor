@@ -1034,7 +1034,7 @@ editor: Editor
 		selectionCtx.drawImage(canvas, x, y, w, h, 0, 0, w, h);
 		
 		// 背景色を抜く
-//		drawClearColor(selectionCtx, selection.indexData, 0, option);
+//		drawClearColor(selectionCtx, selection.indexData, Palette.getBackIndex(), option.scale);
 		
 		ctx.fillStyle = palette[0];
 		ctx.fillRect(r.x * s, r.y * s, r.w * s, r.h * s);
