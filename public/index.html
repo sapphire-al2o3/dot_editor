@@ -82,6 +82,7 @@
 					<ul id="palette-tools">
 						<li id="palette-copy"><img src="./images/palette_copy_icon.png" title="色のコピー" /></li>
 						<li id="palette-swap"><img src="./images/palette_swap_icon.png" title="色の入れ替え" /></li>
+						<li id="palette-transparent"><img src="./images/palette_transparent_icon.png" title="背景色の指定"></li>
 						<li id="palette-opt"><img src="./images/palette_opt_icon.png" title="未使用色の削除" /></li>
 					</ul>
 					<table cellspacing="0"><tbody></tbody></table>
@@ -109,19 +110,6 @@
 			</div>
 		</div>
 		
-		<div id="property" class="widget">
-			<p>ドット絵の投稿</p>
-			<div><img /><canvas id="preview"></canvas></div>
-			<form action="/dot_editor/register/picture" method="post">
-				<table>
-				<tr><th><label>Title</label></th><td><input type="text" id="property-title" name="title" /></td></tr>
-				<tr><th><label>Name</label></th><td><input type="text" id="property-name" name="name" /></td></tr>
-				<tr><th><label>Comment</label></th><td><textarea id="property-comment" name="comment"></textarea></td></tr>
-				</table>
-				<input type="hidden" value="" name="image" />
-				<input type="button" id="property-close" class="close" value="Cancel" /><input type="submit" id="property-submit" value="Post Image" />
-			</form>
-		</div>
 		<div id="new-image" class="widget">
 			<p>ドット絵の大きさ</p>
 			<form>

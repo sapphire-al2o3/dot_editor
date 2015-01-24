@@ -6,20 +6,6 @@
 	
 	var Storage = {};
 	
-	// localStorageに保存する
-	function saveSettings(option) {
-		if(localStorage) {
-			localStorage.setItem();
-		}
-	}
-	
-	// local storageから読み込む
-	function loadSettings(option) {
-		if(localStorage) {
-			option.grid.color1 = localStorage.getItem('');
-		}
-	}
-	
 	// 削除する
 	function clearSettings(option) {
 		if(localStorage) {
@@ -32,8 +18,6 @@
 		if(localStorage) {
 			for(var i in items) {
 				localStorage.setItem(i, items[i]);
-				
-//				console.log(i, items[i]);
 			}
 		}
 	};
