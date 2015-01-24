@@ -5,7 +5,7 @@ dot_editor
 
 http://dot-a.herokuapp.com/
 
-!img(dot_editor_ss.png)
+![スクリーンショット](dot_editor_ss.png)
 
 ## 描画API
 
