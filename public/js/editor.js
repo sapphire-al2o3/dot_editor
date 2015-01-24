@@ -270,7 +270,7 @@ editor: Editor
 	// 等倍
 	function zoomDefault() {
 		option.zoom = 0;
-		option.scale = option.scales[option.zomm];
+		option.scale = option.scales[option.zoom];
 		resize();
 		drawIndexedImage(ctx, indexData, palette, option.scale);
 		$('#zoomRate').text('x ' + option.scale);
@@ -302,7 +302,6 @@ editor: Editor
 	// 選択範囲の移動
 	function moveSelection(ox, oy, x, y) {
 		var s = $('#selection');
-		console.log(ox, oy, x, y);
 		x = (x - ox + option.selection.region.x) * option.scale + 1;
 		y = (option.selection.region.y) * option.scale + 1;
 		s.css({ 'left': x, 'top': y });
@@ -779,8 +778,8 @@ editor: Editor
 	//				}
 	//				down = true;
 
-						selectHandler.down(points[1], points[0]);
-						down = true;
+					selectHandler.down(points[1], points[0]);
+					down = true;
 					break;
 				default:
 				}
@@ -831,7 +830,7 @@ editor: Editor
 					fillEllipse(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
 					break;
 				case 'select':
-						selectHandler.move(x, y, points[1], points[0]);
+					selectHandler.move(x, y, points[1], points[0]);
 					break;
 				}
 				grid();
