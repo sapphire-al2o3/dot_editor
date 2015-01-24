@@ -5,20 +5,30 @@ dot_editor
 
 http://dot-a.herokuapp.com/
 
+!img(dot_editor_ss.png)
+
 ## 描画API
 
 canvas.jsの関数
 
 ### 画像のインデックスデータを作る
 
+幅と高さを指定して画像のインデックスデータを作る。
+
 ```javascript
 function createIndexData(w, h)
 ```
 
+- w: 画像の幅
+- h: 画像の高さ
+
 ### 画像のパレットデータを作る
+
 ```javascript
 function createPaletteData(n)
 ```
+
+- n: パレット数
 
 ### 点を描く
 
@@ -27,6 +37,12 @@ function createPaletteData(n)
 ```javascript
 function drawDot(ctx, x, y, indexData, paletteIndex, scale)
 ```
+
+- ctx: Canvasのコンテキスト
+- x, y: 座標
+- indexData: 画像のインデックスデータ
+- paletteIndex: パレット番号
+- scale: 拡大率
 
 ### 直線を描く
 
@@ -43,6 +59,21 @@ function drawLine(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale)
 - paletteIndex: パレット番号
 - scale: 拡大率
 
+### 円を描く
+
+キャンバスに楕円を描く。
+
+```javascript
+function drawEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale)
+```
+
+- ctx: Canvasのコンテキスト
+- x0, y0: 楕円に外接する四角形の左上の座標
+- x1, y1: 楕円に外接する四角形の右下の座標
+- indexData: 画像のインデックスデータ
+- paletteIndex: パレット番号
+- scale: 拡大率
+
 ### 画像を消す
 
 キャンバスを透明にしてインデックスデータを0にする。
@@ -50,6 +81,9 @@ function drawLine(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale)
 ```javascript
 function clear(ctx, indexData)
 ```
+
+- ctx: Canvasのコンテキスト
+- indexData: 画像のインデックスデータ
 
 ### 白黒画像を表示するサンプルコード
 
