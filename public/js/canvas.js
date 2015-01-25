@@ -869,7 +869,7 @@ function convertIndexedImage(src, image, palette) {
 			paletteData[p + 3] = 255;
 			
 			if(count > 256) {
-				throw "色数オーバー";
+				throw '色数オーバー';
 			}
 		}
 		indexData[j] = index;

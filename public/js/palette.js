@@ -60,8 +60,7 @@ require('color.js')
 	// パレット
 	var Palette = function (d) {
 		
-		var hex = false,
-			paletteElement = null,
+		var paletteElement = null,
 			table = null,
 			selected = null,
 			frontColor = '',
@@ -172,7 +171,8 @@ require('color.js')
 				tool,
 				copy = false,
 				swap = false,
-				transparent = false;
+				transparent = false,
+				hex = false;
 			
 			// ドラッグでセルのコピー
 			function downCell(e) {
@@ -225,28 +225,27 @@ require('color.js')
 			selected.className = 'selected';
 			selectColor(selected.style.backgroundColor);
 			
-			// 数値入力ボックス
-			nums.forEach(function(e) {
-				e.addEventListener('change', function() {
-					var r = parseInt(nums[0].value, nums[0].getAttribute('radix') ? 16 : 10),
-						g = parseInt(nums[1].value, nums[1].getAttribute('radix') ? 16 : 10),
-						b = parseInt(nums[2].value, nums[2].getAttribute('radix') ? 16 : 10),
-						color = Color.rgb(r, g, b);
-					selectColor(color);
-					setColor(color, frontIndex);
-				}, false);
-			});
+			function getNumValue(i) {
+				var radix = nums[i].getAttribute('radix') ^ 0;
+				return parseInt(nums[i].value, radix);
+			}
 			
 			// spin event
 			function changeSpin() {
-				var r = parseInt(nums[0].value, nums[0].getAttribute('radix') ? 16 : 10),
-					g = parseInt(nums[1].value, nums[1].getAttribute('radix') ? 16 : 10),
-					b = parseInt(nums[2].value, nums[2].getAttribute('radix') ? 16 : 10),
+				var r = getNumValue(0),
+					g = getNumValue(1),
+					b = getNumValue(2),
 					color = Color.rgb(r, g, b);
 				selectColor(color);
 				setColor(color, frontIndex);
 			}
 			
+			// 数値入力ボックス
+			nums.forEach(function(e) {
+				e.addEventListener('change', changeSpin, false);
+			});
+			
+			// スピンボタン
 			Array.prototype.forEach.call($.qa('.left, .right'), function(e) {
 				Spin(e, changeSpin);
 			});
@@ -254,7 +253,6 @@ require('color.js')
 			// color slider event
 			bars.forEach(function(e) {
 				var down = false,
-					radix = $('color-num-r').getAttribute('radix') ? 16 : 10,
 					target = e,
 					left = 0,
 					border = 1,
@@ -269,10 +267,10 @@ require('color.js')
 					var x = e.clientX - left - border,
 						v = range(x / width, 0.0, 1.0);
 					input = $(target.getAttribute('for'));
-					input.value = v * 255 ^ 0;
-					var r = parseInt(nums[0].value, radix),
-						g = parseInt(nums[1].value, radix),
-						b = parseInt(nums[2].value, radix);
+					input.value = (v * 255 ^ 0).toString(input.getAttribute('radix') ^ 0);
+					var r = getNumValue(0),
+						g = getNumValue(1),
+						b = getNumValue(2);
 					color = Color.rgb(r, g, b);
 					selectColor([r, g, b]);
 					setColor(color, frontIndex);
@@ -289,10 +287,10 @@ require('color.js')
 					if(down) {
 						var x = e.clientX - left - border,
 							v = range(x / width, 0.0, 1.0);
-						input.value = v * 255 ^ 0;
-						var r = parseInt(nums[0].value, radix),
-							g = parseInt(nums[1].value, radix),
-							b = parseInt(nums[2].value, radix);
+						input.value = (v * 255 ^ 0).toString(input.getAttribute('radix') ^ 0);
+						var r = getNumValue(0),
+							g = getNumValue(1),
+							b = getNumValue(2);
 						selectColor([r, g, b]);
 						color = Color.rgba(r, g, b, 1.0);
 						//x = range(x, -border, width - border + 1);
@@ -323,20 +321,14 @@ require('color.js')
 				copy = !copy;
 				swap = false;
 				transparent = false;
-				if(active) active.className = '';
-				active = null;
-				$('palette-copy').className = copy ? 'selected' : '';
-				$('palette-swap').className = swap ? 'selected' : '';
+				setPaletteTool();
 			});
 			
 			$.bind($('palette-swap'), 'click', function(e) {
 				swap = !swap;
 				copy = false;
 				transparent = false;
-				if(active) active.className = '';
-				active = null;
-				$('palette-swap').className = swap ? 'selected' : '';
-				$('palette-copy').className = copy ? 'selected' : '';
+				setPaletteTool();
 			});
 			$.bind($('palette-transparent'), 'click', function(e) {
 				copy = false;
@@ -344,8 +336,18 @@ require('color.js')
 				transparent = !transparent;
 				setPaletteTool();
 			});
+			$.bind($('palette-hex'), 'click', function(e) {
+				hex = !hex;
+				this.className = hex ? 'selected' : '';
+				setRadix(hex ? 16 : 10);
+			});
 			
 			paletteElement.style.display = 'block';
+		}
+		
+		function setNumValue(i, v) {
+			var radix = nums[i].getAttribute('radix');
+			return v.toString(radix);
 		}
 		
 		// パレットの色を選択する
@@ -364,9 +366,9 @@ require('color.js')
 			}
 			
 			$q('#front-color').style.backgroundColor = color;
-			nums[0].value = r;
-			nums[1].value = g;
-			nums[2].value = b;
+			nums[0].value = setNumValue(0, r);
+			nums[1].value = setNumValue(1, g);
+			nums[2].value = setNumValue(2, b);
 			setGradient(bars[0], Color.rgb(0, g, b), Color.rgb(255, g, b));
 			setGradient(bars[1], Color.rgb(r, 0, b), Color.rgb(r, 255, b));
 			setGradient(bars[2], Color.rgb(r, g, 0), Color.rgb(r, g, 255));
@@ -385,12 +387,11 @@ require('color.js')
 		
 		// 基数を設定する
 		function setRadix(r) {
-			hex = r;
 			nums.forEach(function(e) {
-				var elm = $(e),
-					radix =  elm.getAttribute('radix') ? 16 : 10,
+				var elm = e,
+					radix = elm.getAttribute('radix') ^ 0,
 					val = parseInt(elm.value, radix);
-				elm.setAttribute(r);
+				elm.setAttribute('radix', r);
 				elm.value = val.toString(r).toUpperCase();
 			});
 		}

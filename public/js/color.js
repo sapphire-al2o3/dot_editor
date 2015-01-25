@@ -1,5 +1,5 @@
 /*jslint bitwise: true */
-(function(global) {
+(function (global) {
 	'use strict';
 	
 	function hex(v) {
@@ -11,7 +11,7 @@
 	}
 	
 	function rgba2str(r, g, b, a) {
-		return 'rgba(' + (r&0xFF) + ',' + (g&0xFF) + ',' + (b&0xFF) + ',' + a + ')';
+		return 'rgba(' + (r & 0xFF) + ',' + (g & 0xFF) + ',' + (b & 0xFF) + ',' + a + ')';
 	}
 	
 	function array2str(a) {
@@ -33,11 +33,11 @@
 			n = Math.min(r, g, b),
 			c = m - n,
 			h = 0;
-		if(c === 0) return [0, 0, m];
-		if(m === r) h = (g - b) / c;
-		else if(m === g) h = (b - r) / c + 2;
-		else if(m === b) h = (r - g) / c + 4;
-		if(h < 0) h += 6;
+		if (c === 0) return [0, 0, m];
+		if (m === r) h = (g - b) / c;
+		else if (m === g) h = (b - r) / c + 2;
+		else if (m === b) h = (r - g) / c + 4;
+		if (h < 0) h += 6;
 		return [h * 60 ^ 0, c / m, m / 255];
 	}
 	
