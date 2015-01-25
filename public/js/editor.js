@@ -204,7 +204,8 @@ editor: Editor
 	var selection = {
 		region: { x: 0, y: 0, w: 0, h: 0 },
 		enable: false,
-		indexData: null
+		indexData: null,
+		transparent: false
 	};
 
 	editor.context = context;
@@ -634,6 +635,7 @@ editor: Editor
 		// 範囲選択
 		selectHandler = {
 			enable: false,
+			transparent: false,
 			x: 0,
 			y: 0,
 			w: 0,
@@ -712,8 +714,9 @@ editor: Editor
 				$('#selection').css({ width: w + 'px', height: h + 'px' });
 				
 				if(w > 0 && h > 0) {
-					cut();
+					cut(this.transparent);
 					this.enable = true;
+					selection.transparent = this.transparent;
 					selection.enable = true;
 					selectionCtx.canvas.classList.add('active');
 				}
@@ -777,7 +780,7 @@ editor: Editor
 	//					tool = 'move';
 	//				}
 	//				down = true;
-
+					selectHandler.transparent = e.ctrlKey;
 					selectHandler.down(points[1], points[0]);
 					down = true;
 					break;
@@ -1019,7 +1022,7 @@ editor: Editor
 	}
 
 	// 切り取り
-	var cut = function() {
+	var cut = function(transparent) {
 		var s = option.scale,
 			r = selection.region,
 			x = r.x * s,
@@ -1032,19 +1035,21 @@ editor: Editor
 		
 		selectionCtx.drawImage(canvas, x, y, w, h, 0, 0, w, h);
 		
-		// 背景色を抜く
-//		drawClearColor(selectionCtx, selection.indexData, Palette.getBackIndex(), option.scale);
-		
 		ctx.fillStyle = palette[0];
 		ctx.fillRect(r.x * s, r.y * s, r.w * s, r.h * s);
 		selection.indexData.width = r.w;
 		selection.indexData.height = r.h;
 		copyIndexData(indexData, selection.indexData, r.x, r.y, r.w, r.h);
 		fillIndexData(indexData, 0, r.x, r.y, r.w, r.h);
+		
+		if(transparent) {
+			// 背景色を抜く
+			drawClearColor(selectionCtx, selection.indexData, Palette.getBackIndex(), option.scale);
+		}
 	};
 	
 	// 選択解除
-	var deselect = function() {
+	var deselect = function(transparent) {
 		if(!selection.enable) return;
 		selection.enable = false;
 		var s = option.scale,
@@ -1052,7 +1057,7 @@ editor: Editor
 			x = r.x * s,
 			y = r.y * s;
 		ctx.drawImage(selectionCtx.canvas, x, y);
-		copyIndexData(selection.indexData, indexData, 0, 0, r.w, r.h, r.x, r.y);
+		copyIndexData(selection.indexData, indexData, 0, 0, r.w, r.h, r.x, r.y, transparent && Palette.getBackIndex());
 		$('#selection').hide();
 		
 		drawPreview();
@@ -1062,7 +1067,7 @@ editor: Editor
 	var paste = function() {
 		if(!selection.enable) return;
 		
-		deselect();
+		deselect(selection.transparent);
 		$('#selection').css({
 			'left': 0,
 			'top': 0
