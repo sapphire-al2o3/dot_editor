@@ -392,7 +392,7 @@ require('color.js')
 					radix = elm.getAttribute('radix') ^ 0,
 					val = parseInt(elm.value, radix);
 				elm.setAttribute('radix', r);
-				elm.value = val.toString(r).toUpperCase();
+				elm.value = val.toString(r);
 			});
 		}
 		
