@@ -1049,15 +1049,16 @@ editor: Editor
 	};
 	
 	// 選択解除
-	var deselect = function(transparent) {
+	var deselect = function() {
 		if(!selection.enable) return;
 		selection.enable = false;
 		var s = option.scale,
 			r = selection.region,
 			x = r.x * s,
-			y = r.y * s;
+			y = r.y * s,
+			transparentIndex = selection.transparent && Palette.getBackIndex();
 		ctx.drawImage(selectionCtx.canvas, x, y);
-		copyIndexData(selection.indexData, indexData, 0, 0, r.w, r.h, r.x, r.y, transparent && Palette.getBackIndex());
+		copyIndexData(selection.indexData, indexData, 0, 0, r.w, r.h, r.x, r.y, transparentIndex);
 		$('#selection').hide();
 		
 		drawPreview();
@@ -1067,7 +1068,7 @@ editor: Editor
 	var paste = function() {
 		if(!selection.enable) return;
 		
-		deselect(selection.transparent);
+		deselect();
 		$('#selection').css({
 			'left': 0,
 			'top': 0
