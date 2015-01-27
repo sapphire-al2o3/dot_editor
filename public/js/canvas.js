@@ -701,10 +701,9 @@ function flipH(ctx, indexData) {
 		w = indexData.width,
 		h = indexData.height;
 	
-	ctx.save();
 	ctx.setTransform(-1, 0, 0, 1, ctx.canvas.width, 0);
 	ctx.drawImage(ctx.canvas, 0, 0);
-	ctx.restore();
+	ctx.resetTransform();
 	
 	for(var i = 0; i < h; i++) {
 		var y = i * w;
@@ -722,10 +721,9 @@ function flipV(ctx, indexData) {
 		w = indexData.width,
 		h = indexData.height;
 	
-	ctx.save();
 	ctx.setTransform(1, 0, 0, -1, 0, ctx.canvas.height);
 	ctx.drawImage(ctx.canvas, 0, 0);
-	ctx.restore();
+	ctx.resetTransform();
 	
 	for(var i = 0; i < h / 2; i++) {
 		var y = i * w,
@@ -744,10 +742,9 @@ function rotate90R(ctx, indexData) {
 		w = indexData.width,
 		h = indexData.height;
 	
-	ctx.save();
 	ctx.setTransform(0, 1, -1, 0, ctx.canvas.height, 0);
 	ctx.drawImage(ctx.canvas, 0, 0);
-	ctx.restore();
+	ctx.resetTransform();
 	
 	for(var i = 0; i < h; i++) {
 		var y = i * w;
@@ -776,10 +773,9 @@ function rotate90L(ctx, indexData) {
 		h = indexData.height,
 		x, y, i, j, tmp;
 	
-	ctx.save();
 	ctx.setTransform(0, -1, 1, 0, 0, ctx.canvas.height);
 	ctx.drawImage(ctx.canvas, 0, 0);
-	ctx.restore();
+	ctx.resetTransform();
 	
 	for(i = 0; i < h; i++) {
 		y = i * w;
