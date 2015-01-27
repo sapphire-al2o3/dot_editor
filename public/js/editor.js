@@ -228,7 +228,6 @@ editor: Editor
 		option.canvasHeight = canvas.height;
 		work.canvas.width = canvas.width;
 		work.canvas.height = canvas.height;
-		
 		if(selection.enable) {
 //			selectionCtx.canvas.width
 //			selectionCtx.canvas.height = selection.region.w
@@ -554,6 +553,8 @@ editor: Editor
 				size = [16, 32, 48, 64][index];
 			createImage(size, size);
 			resize();
+			ctx.fillStyle = palette[0];
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
 			drawPreview();
 		});
 	
@@ -578,16 +579,20 @@ editor: Editor
 				drawPreview();
 			});
 		} else {
+			palette = [
+				'#FFF', '#000', '#F00', '#0F0', '#00F', '#FF0', '#F0F', '#0FF', '#888',
+				'#F88', '#8F8', '#88F', '#FF8', '#8FF', '#F8F'
+			];
+
+			Palette.setPaletteData(palette);
+			Palette.convert(paletteData);
+			
 			createImage(48, 48);
 			selection.indexData = createIndexData(48, 48);
 			resize();
 //			$('#new-image').hide();
-			palette = [
-				'#FFF', '#000', '#F00', '#0F0', '#00F', '#FF0', '#F0F', '#0FF', '#888',
-				'#F88', '#8F8', '#88F', '#FF8', '#8FF', '#F8F'];
-
-			Palette.setPaletteData(palette);
-			Palette.convert(paletteData);
+			ctx.fillStyle = palette[0];
+			ctx.fillRect(0, 0, canvas.width, canvas.height);
 			drawPreview();
 			$('#overlay').fadeIn();
 		}
