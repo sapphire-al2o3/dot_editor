@@ -701,10 +701,20 @@ function flipH(ctx, indexData) {
 		w = indexData.width,
 		h = indexData.height;
 	
-	ctx.setTransform(-1, 0, 0, 1, ctx.canvas.width, 0);
-	ctx.drawImage(ctx.canvas, 0, 0);
-	ctx.resetTransform();
+//	ctx.setTransform(-1, 0, 0, 1, ctx.canvas.width, 0);
+//	ctx.drawImage(ctx.canvas, 0, 0);
+//	ctx.resetTransform();
 	
+	flipImageH(data, w, h);
+	
+	var imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+	
+	flipImageV(new Uint32Array(imageData.data.buffer), imageData.width, imageData.height);
+	
+	ctx.putImageData(imageData, 0, 0);
+}
+
+function flipImageH(data, w, h) {
 	for(var i = 0; i < h; i++) {
 		var y = i * w;
 		for(var j = 0; j < w / 2; j++) {
@@ -721,10 +731,21 @@ function flipV(ctx, indexData) {
 		w = indexData.width,
 		h = indexData.height;
 	
-	ctx.setTransform(1, 0, 0, -1, 0, ctx.canvas.height);
-	ctx.drawImage(ctx.canvas, 0, 0);
-	ctx.resetTransform();
+	// 透明部分が上書きされてしまう
+//	ctx.setTransform(1, 0, 0, -1, 0, ctx.canvas.height);
+//	ctx.drawImage(ctx.canvas, 0, 0);
+//	ctx.resetTransform();
 	
+	flipImageV(data, w, h);
+	
+	var imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+	
+	flipImageV(new Uint32Array(imageData.data.buffer), imageData.width, imageData.height);
+	
+	ctx.putImageData(imageData, 0, 0);
+}
+
+function flipImageV(data, w, h) {
 	for(var i = 0; i < h / 2; i++) {
 		var y = i * w,
 			x = (h - i - 1) * w;
@@ -742,28 +763,20 @@ function rotate90R(ctx, indexData) {
 		w = indexData.width,
 		h = indexData.height;
 	
-	ctx.setTransform(0, 1, -1, 0, ctx.canvas.height, 0);
-	ctx.drawImage(ctx.canvas, 0, 0);
-	ctx.resetTransform();
+//	ctx.setTransform(0, 1, -1, 0, ctx.canvas.height, 0);
+//	ctx.drawImage(ctx.canvas, 0, 0);
+//	ctx.resetTransform();
 	
-	for(var i = 0; i < h; i++) {
-		var y = i * w;
-		for(var j = i; j < w; j++) {
-			var tmp = data[y + j];
-			data[y + j] = data[j * w + i];
-			data[j * w + i] = tmp;
-		}
-	}
+	mirrorImageXY(data, w, h);
+	flipImageH(data, w, h);
 	
-	for(i = 0; i < h; i++) {
-		y = i * w;
-		var x = y + w - 1;
-		for(j = 0; j < w / 2; j++) {
-			tmp = data[y + j];
-			data[y + j] = data[x - j];
-			data[x - j] = tmp;
-		}
-	}
+	var imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height),
+		buffer = new Uint32Array(imageData.data.buffer);
+	
+	mirrorImageXY(buffer, imageData.width, imageData.height);
+	flipImageH(buffer, imageData.width, imageData.height);
+	
+	ctx.putImageData(imageData, 0, 0);
 }
 
 // 左90度回転
@@ -773,26 +786,29 @@ function rotate90L(ctx, indexData) {
 		h = indexData.height,
 		x, y, i, j, tmp;
 	
-	ctx.setTransform(0, -1, 1, 0, 0, ctx.canvas.height);
-	ctx.drawImage(ctx.canvas, 0, 0);
-	ctx.resetTransform();
+//	ctx.setTransform(0, -1, 1, 0, 0, ctx.canvas.height);
+//	ctx.drawImage(ctx.canvas, 0, 0);
+//	ctx.resetTransform();
 	
-	for(i = 0; i < h; i++) {
-		y = i * w;
-		for(j = i; j < w; j++) {
-			tmp = data[y + j];
+	mirrorImageXY(data, w, h);
+	flipImageV(data, w, h);
+	
+	var imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height),
+		buffer = new Uint32Array(imageData.data.buffer);
+	
+	mirrorImageXY(buffer, imageData.width, imageData.height);
+	flipImageV(buffer, imageData.width, imageData.height);
+	
+	ctx.putImageData(imageData, 0, 0);
+}
+
+function mirrorImageXY(data, w, h) {
+	for(var i = 0; i < h; i++) {
+		var y = i * w;
+		for(var j = i; j < w; j++) {
+			var tmp = data[y + j];
 			data[y + j] = data[j * w + i];
 			data[j * w + i] = tmp;
-		}
-	}
-	
-	for(i = 0; i < h / 2; i++) {
-		x = (h - i - 1) * w;
-		y = i * w;
-		for(j = 0; j < w; j++) {
-			tmp = data[y + j];
-			data[y + j] = data[x + j];
-			data[x + j] = tmp; 
 		}
 	}
 }
