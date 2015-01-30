@@ -1045,7 +1045,7 @@ editor: Editor
 		selection.indexData.width = r.w;
 		selection.indexData.height = r.h;
 		copyIndexData(indexData, selection.indexData, r.x, r.y, r.w, r.h);
-		fillIndexData(indexData, 0, r.x, r.y, r.w, r.h);
+		fillIndexData(indexData, Palette.getBackIndex(), r.x, r.y, r.w, r.h);
 		
 		if(transparent) {
 			// 背景色を抜く
