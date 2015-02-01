@@ -336,10 +336,11 @@ editor: Editor
 		KeyMapper.assign('R', toggleTool('rect'));
 		KeyMapper.assign('Ctrl+Z', undo);
 		KeyMapper.assign('Ctrl+Y', redo);
-		KeyMapper.assign('M', function () { tool = 'select'; });
+		KeyMapper.assign('M', toggleTool('select'));
 		
 		KeyMapper.assign('Ctrl+A', function () {
 			var r = selection.region;
+			toggleTool('select')();
 			$('#selection').css({
 				'left': 0,
 				'top': 0,
@@ -350,6 +351,7 @@ editor: Editor
 			r.y = 0;
 			r.w = ctx.canvas.width;
 			r.h = ctx.canvas.height;
+			selectHandler.enable = true;
 			$('#selection').show();
 		});
 			
@@ -369,7 +371,7 @@ editor: Editor
 			fillEllipse(ctx, 0, 0, 15, 15, indexData, paletteIndex, option.scale);
 		});
 		
-		KeyMapper.bind(document);
+		KeyMapper.bind(document, 'down');
 	})();
 
 	function createImage(w, h) {
