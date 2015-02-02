@@ -87,6 +87,7 @@ bug
 ・描画時にキャンバス外で右クリックしてもキャンセルされない
 ・HSVのカラー選択で表示される数値が変わっていない
 ・パレットに数値入力した時にキャンバスのサイズがおかしくなる
+・楕円で(0, 0, 15, 15)の大きさで描画したときに円の形がおかしい
 
 画面遷移
 サイズ選択ダイアログ
@@ -364,10 +365,6 @@ editor: Editor
 		});
 		KeyMapper.assign('Ctrl+S', save);
 		KeyMapper.assign('Ctrl+L', load);
-		
-		KeyMapper.assign('T', function() {
-			fillEllipse(ctx, 0, 0, 15, 15, indexData, paletteIndex, option.scale);
-		});
 		
 		KeyMapper.bind(document);
 	})();
