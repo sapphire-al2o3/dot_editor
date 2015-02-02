@@ -368,7 +368,7 @@ editor: Editor
 		KeyMapper.assign('Ctrl+S', save);
 		KeyMapper.assign('Ctrl+L', load);
 		
-		KeyMapper.bind(document, 'down);
+		KeyMapper.bind(document, 'down');
 	})();
 
 	function createImage(w, h) {
