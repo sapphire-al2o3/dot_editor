@@ -292,7 +292,7 @@ require('color.js')
 							g = getNumValue(1),
 							b = getNumValue(2);
 						selectColor([r, g, b]);
-						color = Color.rgba(r, g, b, 1.0);
+						color = Color.rgb(r, g, b, 1.0);
 						//x = range(x, -border, width - border + 1);
 						//cursor.style['left'] = x + 'px';
 					}
