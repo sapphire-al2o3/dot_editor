@@ -819,6 +819,7 @@ function shiftH(ctx, indexData, shift, scale) {
 		w = indexData.width,
 		h = indexData.height;
 	for(var i = 0; i < h; i++) {
+		var y = i * w;
 		for(var j = 0; j < w; j++) {
 			var tmp = data[0];
 		}
@@ -827,9 +828,15 @@ function shiftH(ctx, indexData, shift, scale) {
 
 // 垂直方向シフト
 function shiftV(ctx, indexData, shift, scale) {
-	var h = indexData.height;
+	var data = indexData.data,
+		w = indexData.width,
+		h = indexData.height;
 	for(var i = 0; i < h; i++) {
-		
+		var y = i * w;
+		for(var j = 0; j < w; j++) {
+			var tmp = data[y + j];
+			data[y + j] = data[(i + shift) * w + j];
+		}
 	}
 }
 
