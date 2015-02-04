@@ -308,6 +308,23 @@ editor: Editor
 		s.css({ 'left': x, 'top': y });
 	}
 	
+	function selectAll() {
+		var r = selection.region;
+		toggleTool('select')();
+		$('#selection').css({
+			'left': 0,
+			'top': 0,
+			'width': ctx.canvas.width,
+			'height': ctx.canvas.height
+		});
+		r.x = 0;
+		r.y = 0;
+		r.w = ctx.canvas.width;
+		r.h = ctx.canvas.height;
+		selectHandler.enable = true;
+		$('#selection').show();
+	}
+	
 	(function initialize() {
 		
 		function selectTool(t) {
@@ -321,8 +338,8 @@ editor: Editor
 			{ key: 'C', f: zoomDefault, name: '等倍' },
 			{ key: 'P', f: selectTool('pen'), name: 'ペン' },
 			{ key: 'L', f: selectTool('line'), name: '直線' },
-			{ key: 'R', f: function() { tool = 'rect'; }, name: '矩形' },
-			{ key: 'F', f: function() { tool = 'paint'; }, name: '塗りつぶし' },
+			{ key: 'R', f: selectTool('rect'), name: '矩形' },
+			{ key: 'F', f: selectTool('paint'), name: '塗りつぶし' },
 			{ key: 'M', f: selectTool('select'), name: '範囲選択' },
 			{ key: 'Shift+3', f: toggleGrid, name: 'グリッド' },
 			{ key: 'Ctrl+Z', f: undo, name: '元に戻す' },
@@ -339,32 +356,13 @@ editor: Editor
 		KeyMapper.assign('Ctrl+Y', redo);
 		KeyMapper.assign('M', toggleTool('select'));
 		
-		KeyMapper.assign('Ctrl+A', function () {
-			var r = selection.region;
-			toggleTool('select')();
-			$('#selection').css({
-				'left': 0,
-				'top': 0,
-				'width': ctx.canvas.width,
-				'height': ctx.canvas.height
-			});
-			r.x = 0;
-			r.y = 0;
-			r.w = ctx.canvas.width;
-			r.h = ctx.canvas.height;
-			selectHandler.enable = true;
-			$('#selection').show();
-		});
+		KeyMapper.assign('Ctrl+A', selectAll);
 			
 			// 選択範囲の解除
 		KeyMapper.assign('Ctrl+D', deselect);
 //		KeyMapper.assign('1', function () { drawSelectionRegion(work, 10, 10, 16, 16, option); });
 		KeyMapper.assign('Shift+3', toggleGrid);
 		
-		KeyMapper.assign('A', function () {
-//			var layer = new Layer(canvas.width, canvas.height);
-			
-		});
 		KeyMapper.assign('Ctrl+S', save);
 		KeyMapper.assign('Ctrl+L', load);
 		
@@ -535,13 +533,8 @@ editor: Editor
 			window.open('/auth/twitter');
 		});
 		
-		$('#save').click(function() {
-			save();
-		});
-		
-		$('#load').click(function() {
-			load();
-		});
+		$('#save').click(save);
+		$('#load').click(load);
 		
 		// サイズの指定
 		$('#new-image-submit').click(function (e) {
