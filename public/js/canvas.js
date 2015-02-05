@@ -817,11 +817,24 @@ function mirrorImageXY(data, w, h) {
 function shiftH(ctx, indexData, shift, scale) {
 	var data = indexData.data,
 		w = indexData.width,
-		h = indexData.height;
+		h = indexData.height,
+		tmp = createIndexData(w, h);
+	shiftImageH(data, tmp.data, w, h, shift);
+	indexData.data = tmp.data;
+	
+	var imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height),
+		tmpData = ctx.createImageData(imageData.width, imageData.height),
+		buffer = new Uint32Array(imageData.data.buffer),
+		tmpBuffer = new Uint32Array(tmpData.data.buffer);
+	shiftImageH(buffer, tmpBuffer, imageData.width, imageData.height, shift * scale);
+	ctx.putImageData(tmpData, 0, 0);
+}
+
+function shiftImageH(data, tmp, w, h, shift) {
 	for(var i = 0; i < h; i++) {
 		var y = i * w;
 		for(var j = 0; j < w; j++) {
-			var tmp = data[0];
+			tmp[y + (j + shift) % w] = data[y + j];
 		}
 	}
 }
@@ -830,12 +843,25 @@ function shiftH(ctx, indexData, shift, scale) {
 function shiftV(ctx, indexData, shift, scale) {
 	var data = indexData.data,
 		w = indexData.width,
-		h = indexData.height;
+		h = indexData.height,
+		tmp = createIndexData(w, h);
+	shiftImageV(data, tmp.data, w, h, shift);
+	indexData.data = tmp.data;
+	
+	var imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height),
+		tmpData = ctx.createImageData(imageData.width, imageData.height),
+		buffer = new Uint32Array(imageData.data.buffer),
+		tmpBuffer = new Uint32Array(tmpData.data.buffer);
+	shiftImageV(buffer, tmpBuffer, imageData.width, imageData.height, shift * scale);
+	ctx.putImageData(tmpData, 0, 0);
+}
+
+function shiftImageV(data, tmp, w, h, shift) {
 	for(var i = 0; i < h; i++) {
-		var y = i * w;
+		var y = i * w,
+			yy = ((i + shift) % h) * w;
 		for(var j = 0; j < w; j++) {
-			var tmp = data[y + j];
-			data[y + j] = data[(i + shift) * w + j];
+			tmp[yy + j] = data[y + j];
 		}
 	}
 }

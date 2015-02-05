@@ -355,6 +355,12 @@ editor: Editor
 		KeyMapper.assign('Ctrl+Z', undo);
 		KeyMapper.assign('Ctrl+Y', redo);
 		KeyMapper.assign('M', toggleTool('select'));
+		KeyMapper.assign('H', function() {
+			shiftH(ctx, indexData, 1, option.scale);
+		});
+		KeyMapper.assign('V', function() {
+			shiftV(ctx, indexData, 1, option.scale);
+		});
 		
 		KeyMapper.assign('Ctrl+A', selectAll);
 			
