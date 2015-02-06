@@ -465,6 +465,7 @@ editor: Editor
 		
 		// ローカルファイルの読み込み
 		FileLoader.onload = function(i, p) {
+			deselect();
 			indexData = i;
 			paletteData = p;
 			selection.indexData = createIndexData(indexData.width, indexData.height);
@@ -970,6 +971,7 @@ editor: Editor
 		if(result.indexData) {
 			var w = parseInt(result.width, 10),
 				h = parseInt(result.height, 10);
+			deselect();
 			indexData = createIndexData(w, h);
 			Base64.decode(result.indexData, indexData.data);
 			Base64.decode(result.paletteData, paletteData.data);
