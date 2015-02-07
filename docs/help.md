@@ -58,7 +58,7 @@ img()
 投稿されたドット絵は他の人に観てもらうことができます。
 投稿しないままページを移動した場合、描いたドット絵は消えてしまうので注意してください。
 
-![upload](./dot_help/upload.png)
+![upload](./images/upload.png)
 
 ツールバーの投稿アイコンをクリックします。
 投稿ウィンドウが表示されるのでタイトル、(名前)、コメントを入れて「Post」を左クリックします。
@@ -73,7 +73,7 @@ img()
 
 ### ペン
 
-![pen](./dot_help/pen.png)
+![pen](./images/pen.png)
 ペンツールを選択している状態でキャンバスの上で左クリックしてドラッグすることで線を描くことができます。
 
 ###スポイト
@@ -84,42 +84,42 @@ Altキーと左クリックでもスポイト機能が使えます。
 
 ###ズーム
 
-![zoomin](./dot_help/zoomin.png)
-![zoomout](./dot_help/zoomout.png)
+![zoomin](./images/zoomin.png)
+![zoomout](./images/zoomout.png)
 表示領域を拡大・縮小します。
 ショートカットキーでも拡大(Z)、縮小(X)させることができます。
 等倍(C)で100%になります。
 
 ### 直線
 
-![line](./dot_help/line.png)
+![line](./images/line.png)
 直線ツールを選択して、キャンバスの上で左クリックしてドラッグすると直線が引けます。
 ドラッグしている状態で右クリックした場合はキャンセルします。
 
 ### 矩形
-![rect](./dot_help/rect.png)![fillrect](./dot_help/fillrect.png)
+![rect](./images/rect.png)![fillrect](./images/fillrect.png)
 矩形ツールを選択して、キャンバス上で矩形の開始点を左クリックして終了点までドラッグします。
 ドラッグした範囲に矩形が描画されます。
 塗りつぶしの矩形ツールを選択している場合は、塗りつぶされた矩形が描けます。
 
 ### 円、塗りつぶし円
 
-![ellipse](./dot_help/ellipse.png)
-![fillellipse](./dot_help/fillellipse.png)
+![ellipse](./images/ellipse.png)
+![fillellipse](./images/fillellipse.png)
 円を描きます。
 ツールバーから円ツールを選択します。キャンバスの上で左クリックしてドラッグすると円が描けます。
 塗りつぶしの円ツールを選択してる場合は、中が塗りつぶされた円が描けます。
 
 ### バケツ(塗りつぶし)
 
-![fill](./dot_help/fill.png)
+![fill](./images/fill.png)
 同じ色の領域を塗りつぶします。
 バケツツールを選択します。クリックした領域を選択されている色で塗りつぶします。
 
 
 ### 選択範囲
 
-![selection](./dot_help/selection.png)
+![selection](./images/selection.png)
 
 + 選択範囲アイコンをクリックします。
 + キャンバス上をクリックしてドラッグすると選択範囲が作られます。
