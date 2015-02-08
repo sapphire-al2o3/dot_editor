@@ -84,6 +84,10 @@ Altキーと左クリックでもスポイト機能が使えます。
 
 ### 左右反転、上下反転、回転
 
+![fliph](./images/fliph.png)
+![flipv](./images/flipv.png)
+![rotate](./images/rotate.png)
+
 クリックすると画像を左右反転させます。
 
 ## パレット
