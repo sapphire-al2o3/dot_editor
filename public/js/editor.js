@@ -892,6 +892,8 @@ editor: Editor
 			down = true;
 			offsetX = e.pageX;
 			offsetY = e.pageY;
+			moveHandler.offsetX = e.pageX;
+			moveHandler.offsetY = e.pageY;
 			console.log(offsetX, offsetY, left, top);
 			$(document).bind('mouseup', moveHandler.up);
 			$(document).bind('mousemove', moveHandler.move);
@@ -926,11 +928,11 @@ editor: Editor
 					e.preventDefault();
 					e.stopPropagation();
 					var s = option.scale,
-						x = ((e.pageX - offsetX + left) / s ^ 0) * s,
-						y = ((e.pageY - offsetY + top) / s ^ 0) * s;
+						x = ((e.pageX - offsetX + left) / s ^ 0),
+						y = ((e.pageY - offsetY + top) / s ^ 0);
 					
-					selection.region.x = (e.pageX - offsetX + left) / s ^ 0;
-					selection.region.y = (e.pageY - offsetY + top) / s ^ 0;
+					selection.region.x = x;
+					selection.region.y = y;
 					
 					$(document).unbind('mouseup', moveHandler.up);
 					$(document).unbind('mousemove', moveHandler.move);
