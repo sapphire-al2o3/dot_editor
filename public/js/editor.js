@@ -291,8 +291,6 @@ editor: Editor
 		option.imageWidth = indexData.width;
 		if(option.gridOn) {
 			grid();
-			// 大グリッドがずれる
-//			drawGrid(selectionCtx, option);
 		} else {
 			work.clearRect(0, 0, work.canvas.width, work.canvas.height);
 			// draw selection region
@@ -728,8 +726,9 @@ editor: Editor
 		};
 		
 		$('#work').mousedown(function(e) {
-			left = canvas.getBoundingClientRect().left;
-			top = canvas.getBoundingClientRect().top;
+			var r = canvas.getBoundingClientRect();
+			left = window.scrollX + r.left;
+			top = window.scrollY + r.top;
 			var x = e.pageX - left,
 				y = e.pageY - top,
 				size = option.scale;
