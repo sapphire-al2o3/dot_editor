@@ -969,7 +969,7 @@ editor: Editor
 	function load() {
 		var result = Storage.load();
 		
-		if(result.indexData) {
+		if(result && result.indexData) {
 			var w = parseInt(result.width, 10),
 				h = parseInt(result.height, 10);
 			deselect();
