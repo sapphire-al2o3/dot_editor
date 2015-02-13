@@ -121,7 +121,7 @@ editor: Editor
 
 必要なモジュール
 ・color.js       Color
-・palette.js
+・palette.js     Palette
 ・colorpicker.js
 ・selection.js
 ・keymapper.js   KeyMapper
@@ -249,7 +249,7 @@ editor: Editor
 			grid();
 		}
 		console.timeEnd('zoomIn');
-		$('#zoomRate').text('x ' + option.scale);
+//		$('#zoomRate').text('x ' + option.scale);
 	}
 
 	// 縮小
@@ -265,7 +265,7 @@ editor: Editor
 			grid();
 		}
 		console.log(option.zoom);
-		$('#zoomRate').text('x ' + option.scale);
+//		$('#zoomRate').text('x ' + option.scale);
 	}
 
 	// 等倍
@@ -274,7 +274,7 @@ editor: Editor
 		option.scale = option.scales[option.zoom];
 		resize();
 		drawIndexedImage(ctx, indexData, palette, option.scale);
-		$('#zoomRate').text('x ' + option.scale);
+//		$('#zoomRate').text('x ' + option.scale);
 	}
 	
 	// グリッドの表示
@@ -300,10 +300,9 @@ editor: Editor
 
 	// 選択範囲の移動
 	function moveSelection(ox, oy, x, y) {
-		var s = $('#selection');
 		x = (x - ox + option.selection.region.x) * option.scale + 1;
 		y = (option.selection.region.y) * option.scale + 1;
-		s.css({ 'left': x, 'top': y });
+		$('#selection').css({ 'left': x, 'top': y });
 	}
 	
 	function selectAll() {
