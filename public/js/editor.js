@@ -393,7 +393,7 @@ editor: Editor
 		paletteData = createPaletteData(256);
 	}
 
-	$(function() {
+	(function() {
 		var hash = location.hash.slice(1),
 			param = hash.split('=');
 	
@@ -406,7 +406,7 @@ editor: Editor
 		}
 		
 		initEditor();
-	});
+	})();
 
 	var activeTool,
 		selectHandler;
@@ -426,7 +426,7 @@ editor: Editor
 	}
 
 
-	$(window).load(function() {
+	(function() {
 		if(typeof Palette !== 'undefined') {
 			Palette.create('palette');
 			Palette.setColorPicker(function (e) {
@@ -944,7 +944,7 @@ editor: Editor
 //			return 'ページを移動すると編集した情報が失われます';
 //		});
 	
-	});
+	})();
 
 	function saveFile() {
 		var png = document.getElementById('canvas').toDataURL();
