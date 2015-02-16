@@ -167,6 +167,9 @@ editor: Editor
 		dropper = false,
 		mode;
 	
+	var $grid = Selector('grid'),
+		$selection = Selector('selection');
+	
 	var editor = {
 		width: 64,
 		height: 64
@@ -286,7 +289,7 @@ editor: Editor
 	
 	// グリッドの表示切替
 	function toggleGrid() {
-		$('#grid').toggleClass('selected');
+		$grid.classList.toggle('selected');
 		option.gridOn = !option.gridOn;
 		option.imageWidth = indexData.width;
 		if(option.gridOn) {
@@ -302,24 +305,20 @@ editor: Editor
 	function moveSelection(ox, oy, x, y) {
 		x = (x - ox + option.selection.region.x) * option.scale + 1;
 		y = (option.selection.region.y) * option.scale + 1;
-		$('#selection').css({ 'left': x, 'top': y });
+		Selector.position($selection, x, y);
 	}
 	
 	function selectAll() {
 		var r = selection.region;
 		toggleTool('select')();
-		$('#selection').css({
-			'left': 0,
-			'top': 0,
-			'width': ctx.canvas.width,
-			'height': ctx.canvas.height
-		});
+		Selector.position($selection, 0, 0);
+		Selector.size($selection, ctx.canvas.width, ctx.canvas.height);
 		r.x = 0;
 		r.y = 0;
 		r.w = ctx.canvas.width;
 		r.h = ctx.canvas.height;
 		selectHandler.enable = true;
-		$('#selection').show();
+		Selector.show($selection);
 	}
 	
 	(function initialize() {
@@ -419,7 +418,7 @@ editor: Editor
 			// 選択範囲解除
 			if(tool !== 'select' && selectHandler.enable) {
 				deselect();
-				$('#selection').hide();
+				Selector.hide($selection);
 			}
 			dropper = false;
 		};
@@ -655,11 +654,8 @@ editor: Editor
 				
 				selectionCtx.clearRect(0, 0, selectionCtx.canvas.width, selectionCtx.canvas.height);
 				
-				$('#selection').css({
-					left: this.x + 'px',
-					top: this.y + 'px'
-				});
-				$('#selection').hide();
+				Selector.position($selection, this.x, this.y);
+				Selector.hide($selection);
 				selectionCtx.canvas.classList.remove('active');
 				
 			},
@@ -682,12 +678,9 @@ editor: Editor
 				y = sy > y ? y : sy;
 
 				if(w > 0 && h > 0) {
-					$('#selection').css({
-						left: x + 'px',
-						top: y + 'px',
-						width: w + 'px',
-						height: h + 'px'
-					}).show();
+					Selector.position($selection, x, y);
+					Selector.size($selection, w, h);
+					Selector.show($selection);
 				}
 			},
 			up: function(x, y) {
@@ -712,8 +705,7 @@ editor: Editor
 
 				selectionCtx.canvas.width = w;
 				selectionCtx.canvas.height = h;
-				$('#selection').css({ width: w + 'px', height: h + 'px' });
-				
+				Selector.size($selection, w, h);
 				if(w > 0 && h > 0) {
 					cut(this.transparent);
 					this.enable = true;
@@ -749,7 +741,7 @@ editor: Editor
 					// 選択範囲解除
 					if(tool !== 'select' && selectHandler.enable) {
 						deselect();
-						$('#selection').hide();
+						Selector.hide($selection);
 					}
 					dropper = false;
 				}
@@ -914,10 +906,7 @@ editor: Editor
 					var s = option.scale,
 						x = ((e.pageX - offsetX + left) / s ^ 0) * s,
 						y = ((e.pageY - offsetY + top) / s ^ 0) * s;
-					$('#selection').css({
-						'left': x + 'px',
-						'top': y + 'px'
-					});
+					Selector.position($selection, x, y);
 				}
 				return false;
 			},
@@ -1064,7 +1053,7 @@ editor: Editor
 			transparentIndex = selection.transparent && Palette.getBackIndex();
 		ctx.drawImage(selectionCtx.canvas, x, y);
 		copyIndexData(selection.indexData, indexData, 0, 0, r.w, r.h, r.x, r.y, transparentIndex);
-		$('#selection').hide();
+		Selector.hide($selection);
 		
 		drawPreview();
 	};
@@ -1074,13 +1063,10 @@ editor: Editor
 		if(!selection.enable) return;
 		
 		deselect();
-		$('#selection').css({
-			'left': 0,
-			'top': 0
-		});
+		Selector.position($selection, 0, 0);
 		selection.region.x = 0;
 		selection.region.y = 0;
-		$('#selection').show();
+		Selector.show($selection);
 		selection.enable = true;
 	};
 	
