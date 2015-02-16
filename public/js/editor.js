@@ -875,7 +875,7 @@ editor: Editor
 		}
 	
 		var offsetX, offsetY;
-		$('#selection').mousedown(function(e) {
+		Selector.bind($selection, 'mousedown', function(e) {
 			var rect = e.target.getBoundingClientRect();
 			left = e.target.offsetLeft;
 			top = e.target.offsetTop;

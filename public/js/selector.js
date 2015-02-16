@@ -35,19 +35,19 @@
 	};
 	
 	$.bind = function(e, event, func) {
-		if(typeof e !== 'string') {
-			e.addEventListener(event, func, false);
-		} else {
-			document.addEventListener(e, event, false);
+		if(typeof e === 'string') {
+			e = document;
+			func = event;
 		}
+		e.addEventListener(event, func, false);
 	};
 	
 	$.unbind = function(e, event, func) {
-		if(typeof e !== 'string') {
-			e.removeEventListener(event, func, false);
-		} else {
-			document.addEventListener(e, event, false);
+		if(typeof e === 'string') {
+			e = document;
+			func = event;
 		}
+		e.removeEventListener(event, func, false);
 	};
 	
 	$.d = document;
