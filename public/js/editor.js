@@ -441,7 +441,7 @@ editor: Editor
 			new Widget('color-picker');
 			new Widget('view');
 			
-			preview = Selector.q('#view canvas').getContext('2d');
+			preview = Selector('view').lastChild.getContext('2d');
 		}
 	
 		var usedPalette = {};
