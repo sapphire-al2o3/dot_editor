@@ -452,11 +452,9 @@ editor: Editor
 		var left = canvas.getBoundingClientRect().left,
 			top = canvas.getBoundingClientRect().top;
 		
-		
 		Selector.position(Selector('palette'), 420, top + 4);
 		Selector.position(Selector('view'), 420, top + 280);
-		
-		$('#overlay').show();
+		Selector.show(Selector('overlay'));
 		
 		// ローカルファイルの読み込み
 		FileLoader.onload = function(i, p) {
