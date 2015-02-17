@@ -453,9 +453,8 @@ editor: Editor
 			top = canvas.getBoundingClientRect().top;
 		
 		
-		$('#palette').css({'left': left + 420 + 'px', 'top': top + 4 + 'px'});
-		$('#view').css({'left': left + 420 + 'px', 'top': top + 280 + 'px'});
-		$('#zoomRate').text('x 4');
+		Selector.position(Selector('palette'), 420, top + 4);
+		Selector.position(Selector('view'), 420, top + 280);
 		
 		$('#overlay').show();
 		
