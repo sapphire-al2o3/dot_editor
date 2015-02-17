@@ -441,7 +441,7 @@ editor: Editor
 			new Widget('color-picker');
 			new Widget('view');
 			
-			preview = $('#view canvas').get(0).getContext('2d');
+			preview = Selector.q('#view canvas').getContext('2d');
 		}
 	
 		var usedPalette = {};
@@ -469,7 +469,7 @@ editor: Editor
 			drawIndexedImage(ctx, indexData, palette, option.scale);
 			drawPreview();
 		};
-		FileLoader.bind($('#container').get(0));
+		FileLoader.bind(Selector('container'));
 		
 		activeTool = $('#pen');
 		
