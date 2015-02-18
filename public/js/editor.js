@@ -321,14 +321,12 @@ editor: Editor
 	
 	// 水平反転
 	function flipHorz() {
-		function() {
-			if(selection.enable) {
-				flipH(selectionCtx, selection.indexData);
-			} else {
-				record();
-				flipH(ctx, indexData);
-				drawPreview();
-			}
+		if(selection.enable) {
+			flipH(selectionCtx, selection.indexData);
+		} else {
+			record();
+			flipH(ctx, indexData);
+			drawPreview();
 		}
 	}
 	
