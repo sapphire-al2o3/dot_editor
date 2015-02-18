@@ -308,6 +308,47 @@ editor: Editor
 		Selector.position($selection, x, y);
 	}
 	
+	// 垂直反転
+	function flipVert() {
+		if(selection.enable) {
+			flipV(selectionCtx, selection.indexData);
+		} else {
+			record();
+			flipV(ctx, indexData);
+			drawPreview();
+		}
+	}
+	
+	// 水平反転
+	function flipHorz() {
+		function() {
+			if(selection.enable) {
+				flipH(selectionCtx, selection.indexData);
+			} else {
+				record();
+				flipH(ctx, indexData);
+				drawPreview();
+			}
+		}
+	}
+	
+	// 回転
+	function rotateRight() {
+		if(selection.enable) {
+			var w = selectionCtx.canvas.width,
+				h = selectionCtx.canvas.height;
+			// 長方形の選択範囲を回転させるには一旦別の領域にコピーしておかないと消えてしまう
+//			$('#selection').css({ width: h + 'px', height: w + 'px' });
+//			selectionCtx.canvas.width = h;
+//			selectionCtx.canvas.height = w;
+			rotate90R(selectionCtx, selection.indexData);
+		} else {
+			record();
+			rotate90R(ctx, indexData);
+			drawPreview();
+		}
+	}
+	
 	function selectAll() {
 		var r = selection.region;
 		toggleTool('select')();
@@ -474,10 +515,10 @@ editor: Editor
 		activeTool = $('#pen');
 		
 		// Tool
-		$('#zoomin').click(zoomIn);
-		$('#zoomout').click(zoomOut);
-		$('#grid').click(toggleGrid);
-		$('#undo').click(undo);
+		Selector.bind(Selector('zoomin'), 'click', zoomIn);
+		Selector.bind(Selector('zoomout'), 'click', zoomOut);
+		Selector.bind(Selector('grid'), 'click', toggleGrid);
+		Selector.bind(Selector('undo'), 'click', undo);
 		$('#paint').click(toggleTool('paint'));
 		$('#pen').click(toggleTool('pen'));
 		$('#line').click(toggleTool('line'));
@@ -487,39 +528,9 @@ editor: Editor
 		$('#fellipse').click(toggleTool('fellipse'));
 		$('#select').click(toggleTool('select'));
 		$('#copy').click(paste);
-		$('#flipv').click(function() {
-			if(selection.enable) {
-				flipV(selectionCtx, selection.indexData);
-			} else {
-				record();
-				flipV(ctx, indexData);
-				drawPreview();
-			}
-		});
-		$('#fliph').click(function() {
-			if(selection.enable) {
-				flipH(selectionCtx, selection.indexData);
-			} else {
-				record();
-				flipH(ctx, indexData);
-				drawPreview();
-			}
-		});
-		$('#rotater').click(function() {
-			if(selection.enable) {
-				var w = selectionCtx.canvas.width,
-					h = selectionCtx.canvas.height;
-				// 長方形の選択範囲を回転させるには一旦別の領域にコピーしておかないと消えてしまう
-//				$('#selection').css({ width: h + 'px', height: w + 'px' });
-//				selectionCtx.canvas.width = h;
-//				selectionCtx.canvas.height = w;
-				rotate90R(selectionCtx, selection.indexData);
-			} else {
-				record();
-				rotate90R(ctx, indexData);
-				drawPreview();
-			}
-		});
+		$('#flipv').click(flipVert);
+		$('#fliph').click(flipHorz);
+		$('#rotater').click(rotateRight);
 		
 		// スポイトツール
 		$('#dropper').click(function() {
