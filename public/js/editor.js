@@ -452,8 +452,9 @@ editor: Editor
 	function toggleTool(t) {
 		return function (e) {
 			tool = t;
-			activeTool && activeTool.removeClass('selected');
-			activeTool = $('#' + t).addClass('selected');
+			activeTool && activeTool.classList.remove('selected');
+			activeTool = Selector(t);
+			activeTool.classList.add('selected')
 			// 選択範囲解除
 			if(tool !== 'select' && selectHandler.enable) {
 				deselect();
@@ -510,31 +511,32 @@ editor: Editor
 		};
 		FileLoader.bind(Selector('container'));
 		
-		activeTool = $('#pen');
+		activeTool = Selector('pen');
 		
 		// Tool
 		Selector.bind(Selector('zoomin'), 'click', zoomIn);
 		Selector.bind(Selector('zoomout'), 'click', zoomOut);
 		Selector.bind(Selector('grid'), 'click', toggleGrid);
 		Selector.bind(Selector('undo'), 'click', undo);
-		$('#paint').click(toggleTool('paint'));
-		$('#pen').click(toggleTool('pen'));
-		$('#line').click(toggleTool('line'));
-		$('#rect').click(toggleTool('rect'));
-		$('#frect').click(toggleTool('frect'));
-		$('#ellipse').click(toggleTool('ellipse'));
-		$('#fellipse').click(toggleTool('fellipse'));
-		$('#select').click(toggleTool('select'));
-		$('#copy').click(paste);
-		$('#flipv').click(flipVert);
-		$('#fliph').click(flipHorz);
-		$('#rotater').click(rotateRight);
+		Selector.bind(Selector('paint'), 'click', toggleTool('paint'));
+		Selector.bind(Selector('pen'), 'click', toggleTool('pen'));
+		Selector.bind(Selector('line'), 'click', toggleTool('line'));
+		Selector.bind(Selector('rect'), 'click', toggleTool('rect'));
+		Selector.bind(Selector('frect'), 'click', toggleTool('frect'));
+		Selector.bind(Selector('ellipse'), 'click', toggleTool('ellipse'));
+		Selector.bind(Selector('fellipse'), 'click', toggleTool('fellipse'));
+		Selector.bind(Selector('select'), 'click', toggleTool('select'));
+		Selector.bind(Selector('copy'), 'click', paste);
+		Selector.bind(Selector('flipv'), 'click', flipVert);
+		Selector.bind(Selector('fliph'), 'click', flipHorz);
+		Selector.bind(Selector('rotater'), 'click', rotateRight);
 		
 		// スポイトツール
-		$('#dropper').click(function() {
+		Selector.bind(Selector('dropper'), 'click', function() {
 			prevTool = activeTool;
-			activeTool && activeTool.removeClass('selected');
-			activeTool = $(this).addClass('selected');
+			activeTool && activeTool.classList.remove('selected');
+			activeTool = Selector('dropper');
+			activeTool.classList.add('selected');
 			dropper = true;
 		});
 		
