@@ -709,7 +709,7 @@ function flipH(ctx, indexData) {
 	
 	var imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
 	
-	flipImageV(new Uint32Array(imageData.data.buffer), imageData.width, imageData.height);
+	flipImageH(new Uint32Array(imageData.data.buffer), imageData.width, imageData.height);
 	
 	ctx.putImageData(imageData, 0, 0);
 }
