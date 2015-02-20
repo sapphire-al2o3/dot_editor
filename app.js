@@ -18,6 +18,7 @@ var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
 var session = require('express-session');
 var errorHandler = require('errorhandler');
+var morgan = require('morgan');
 
 var app = express();
 
@@ -68,6 +69,7 @@ app.use(session({secret: 'homuhomu', resave: false, saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(morgan('dev', { immediate: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // 404
