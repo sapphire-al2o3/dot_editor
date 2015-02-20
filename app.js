@@ -73,9 +73,10 @@ app.use(morgan('dev', { immediate: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // 404
-app.use(function(req, res, next) {
+app.use(function(err, req, res, next) {
+	console.log(err);
 	res.status(404);
-	res.redirect('404.html');
+	res.redirect('/404.html');
 });
 
 // development only
