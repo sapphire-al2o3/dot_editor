@@ -549,7 +549,7 @@ editor: Editor
 		
 		// サイズの指定
 		$('#new-image-submit').click(function (e) {
-			$('#new-image').hide();
+			Selector.hide(Selector('new-image'));
 			$('#overlay').fadeOut();
 			KeyMapper.bind(document);
 			var index = parseInt($('#new-image input[name="size"]:checked').val(), 10),
@@ -744,8 +744,9 @@ editor: Editor
 
 				// ツールアイコンをもとに戻す
 				if(dropper) {
-					activeTool && activeTool.removeClass('selected');
-					activeTool = prevTool.addClass('selected');
+					activeTool && activeTool.classList.remove('selected');
+					activeTool = prevTool;
+					activeTool.classList.add('selected')
 					// 選択範囲解除
 					if(tool !== 'select' && selectHandler.enable) {
 						deselect();
@@ -789,8 +790,8 @@ editor: Editor
 				default:
 				}
 
-				$(document).bind('mouseup', mouseupHandler);
-				$(document).bind('mousemove', mousemoveHandler);
+				Selector.bind('mouseup', mouseupHandler);
+				Selector.bind('mousemove', mousemoveHandler);
 			} else if(e.button === 1) {
 			}
 			// Google Chromeで選択カーソルになるのを防ぐ
@@ -870,8 +871,8 @@ editor: Editor
 				grid();
 			}
 			
-			$(document).unbind('mouseup', mouseupHandler);
-			$(document).unbind('mousemove', mousemoveHandler);
+			Selector.unbind('mouseup', mouseupHandler);
+			Selector.unbind('mousemove', mousemoveHandler);
 			
 			// 等倍ウィンドウの更新
 			drawPreview();
