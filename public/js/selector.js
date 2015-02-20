@@ -36,16 +36,18 @@
 	
 	$.bind = function(e, event, func) {
 		if(typeof e === 'string') {
-			e = document;
 			func = event;
+			event = e;
+			e = document;
 		}
 		e.addEventListener(event, func, false);
 	};
 	
 	$.unbind = function(e, event, func) {
 		if(typeof e === 'string') {
-			e = document;
 			func = event;
+			event = e;
+			e = document;
 		}
 		e.removeEventListener(event, func, false);
 	};
