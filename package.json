@@ -6,7 +6,7 @@
     "start": "node app.js"
   },
   "dependencies": {
-    "express": "*",
+    "express": "4.x",
     "jade": "*",
     "passport": "*",
     "passport-twitter": "*",
@@ -19,7 +19,7 @@
     "pngjs": "https://github.com/sapphire-al2o3/node-pngjs/tarball/master"
   },
   "engines": {
-    "node": "0.10.x",
-    "npm": "1.4.x"
+    "node": "0.12.x",
+    "npm": "2.5.x"
   }
 }
