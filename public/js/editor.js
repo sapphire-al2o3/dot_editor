@@ -540,12 +540,12 @@ editor: Editor
 			dropper = true;
 		});
 		
-		$('#twitter').click(function(e) {
+		Selector.bind(Selector('twitter'), 'click', function(e) {
 			window.open('/auth/twitter');
 		});
 		
-		$('#save').click(save);
-		$('#load').click(load);
+		Selector.bind(Selector('save'), 'click', save);
+		Selector.bind(Selector('load'), 'click', load);
 		
 		// サイズの指定
 		$('#new-image-submit').click(function (e) {
