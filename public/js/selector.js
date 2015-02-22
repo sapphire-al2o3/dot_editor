@@ -24,6 +24,10 @@
 		e.style.display = 'none';
 	};
 	
+	$.toggle = function(e) {
+		e.style.display !== 'none' ? $.hide(e) : $.show(e);
+	};
+	
 	$.position = function(e, x, y) {
 		e.style.left = x + 'px';
 		e.style.top = y + 'px';
@@ -50,6 +54,17 @@
 			e = document;
 		}
 		e.removeEventListener(event, func, false);
+	};
+	
+	function fadeOutEnd(e) {
+		e.target.style.display = 'none';
+		$.unbind(e.target, 'transitionend', fadeOutEnd);
+	}
+	
+	$.fadeOut = function(e) {
+		e.style['transition'] = 'opacity 0.6s ease';
+		e.style['opacity'] = '0.0';
+		$.bind(e, 'transitionend', fadeOutEnd);
 	};
 	
 	$.d = document;

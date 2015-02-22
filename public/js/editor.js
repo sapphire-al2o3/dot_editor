@@ -469,7 +469,8 @@ editor: Editor
 		if(typeof Palette !== 'undefined') {
 			Palette.create('palette');
 			Palette.setColorPicker(function (e) {
-				$('#color-picker').fadeToggle();
+//				$('#color-picker').fadeToggle();
+				Selector.toggle(Selector('color-picker'));
 			});
 			ColorPicker('color-picker', function (c) {
 				Palette.setColor(Color.rgb(c[0], c[1], c[2]));
@@ -548,11 +549,12 @@ editor: Editor
 		Selector.bind(Selector('load'), 'click', load);
 		
 		// サイズの指定
-		$('#new-image-submit').click(function (e) {
+		Selector.bind(Selector('new-image-submit'), 'click', function(e) {
 			Selector.hide(Selector('new-image'));
-			$('#overlay').fadeOut();
+//			$('#overlay').fadeOut();
+			Selector.fadeOut(Selector('overlay'));
 			KeyMapper.bind(document);
-			var index = parseInt($('#new-image input[name="size"]:checked').val(), 10),
+			var index = parseInt(Selector.q('#new-image input[name="size"]:checked').value, 10),
 				size = [16, 32, 48, 64][index];
 			createImage(size, size);
 			resize();
@@ -562,10 +564,10 @@ editor: Editor
 		});
 	
 		if(mode === 'fork' || mode === 'edit') {
-			$('#new-image').hide();
+			Selector.hide(Selector('new-image'));
 
 			load(docId, function(data) {
-				$('#loading').hide();
+				Selector.hide(Selector('loading'));
 				Base64.decode(data.palette, paletteData.data);
 				indexData = createIndexData(data.width, data.height);
 				Base64.decode(data.index, indexData.data);
@@ -597,7 +599,8 @@ editor: Editor
 			ctx.fillStyle = palette[0];
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
 			drawPreview();
-			$('#overlay').fadeIn();
+//			$('#overlay').fadeIn();
+			Selector.show(Selector('overlay'));
 		}
 	
 		Palette.change(function(e) {
@@ -607,12 +610,12 @@ editor: Editor
 		});
 		Palette.setFrontColor(1);
 		palette = Palette.getPaletteData();
-		$('#palette-opt').click(function() {
+		Selector.bind(Selector('palette-opt'), 'click', function() {
 			removeUnusedColor(indexData, palette);
 			Palette.setPaletteData(palette);
 		});
-	
-		$('#work').bind('contextmenu', function(e) {
+		
+		Selector.bind(Selector('work'), 'contextmenu', function(e) {
 			if(down) {
 				// 左クリック中
 				down = false;
@@ -628,17 +631,6 @@ editor: Editor
 			e.stopPropagation();
 			return false;
 		});
-	
-		var toolHandler = {
-			down: function(x, y, e) {
-				
-			},
-			move: function(x, y, px, py, e) {
-				
-			},
-			up: function(x, y, e) {
-			}
-		};
 		
 		// 範囲選択
 		selectHandler = {
@@ -724,7 +716,7 @@ editor: Editor
 			}
 		};
 		
-		$('#work').mousedown(function(e) {
+		Selector.bind(Selector('work'), 'mousedown', function(e) {
 			var r = canvas.getBoundingClientRect();
 			left = window.scrollX + r.left;
 			top = window.scrollY + r.top;
@@ -894,8 +886,8 @@ editor: Editor
 			moveHandler.offsetX = e.pageX;
 			moveHandler.offsetY = e.pageY;
 			console.log(offsetX, offsetY, left, top);
-			$(document).bind('mouseup', moveHandler.up);
-			$(document).bind('mousemove', moveHandler.move);
+			Selector.bind('mouseup', moveHandler.up);
+			Selector.bind('mousemove', moveHandler.move);
 			e.preventDefault();
 		});
 		
@@ -930,8 +922,8 @@ editor: Editor
 					selection.region.x = x;
 					selection.region.y = y;
 					
-					$(document).unbind('mouseup', moveHandler.up);
-					$(document).unbind('mousemove', moveHandler.move);
+					Selector.unbind('mouseup', moveHandler.up);
+					Selector.unbind('mousemove', moveHandler.move);
 					
 					down = false;
 				}
