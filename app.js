@@ -53,23 +53,15 @@ passport.use(new TwitterStrategy({
 
 // all environments
 app.set('port', process.env.PORT || 3000);
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
 app.use(favicon(__dirname + '/public/images/favicon.png'));
-//app.use(express.logger('dev'));
+app.use(morgan('dev'));
 app.use(bodyParser.json());
 
 app.use(cookieParser('madomado'));
 app.use(session({secret: 'homuhomu', resave: false, saveUninitialized: true}));
-//app.use(express.session({
-//	secret: 'homuhomu',
-//	cookie: {},
-//	store: new MemcachedStore()
-//}));
 app.use(passport.initialize());
 app.use(passport.session());
 
-app.use(morgan('dev', { immediate: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // 404

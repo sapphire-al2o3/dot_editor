@@ -7,7 +7,6 @@
   },
   "dependencies": {
     "express": "4.x",
-    "morgan": "*",
     "jade": "*",
     "passport": "*",
     "passport-twitter": "*",
@@ -17,6 +16,7 @@
     "cookie-parser": "*",
     "express-session": "*",
     "errorhandler": "*",
+    "morgan": "*",
     "pngjs": "https://github.com/sapphire-al2o3/node-pngjs/tarball/master"
   },
   "engines": {
