@@ -67,6 +67,12 @@
 		$.bind(e, 'transitionend', fadeOutEnd);
 	};
 	
+	$.fadeIn = function(e) {
+		e.style['transition'] = 'opacity 0.6s ease';
+		e.style['opacity'] = '1.0';
+		e.style.display = 'block';
+	};
+	
 	$.d = document;
 	$.q = $q;
 	$.qa = $qa;

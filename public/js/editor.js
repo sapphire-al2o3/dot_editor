@@ -233,8 +233,6 @@ editor: Editor
 		work.canvas.width = canvas.width;
 		work.canvas.height = canvas.height;
 		if(selection.enable) {
-//			selectionCtx.canvas.width
-//			selectionCtx.canvas.height = selection.region.w
 		}
 	}
 	
@@ -399,9 +397,8 @@ editor: Editor
 		
 		KeyMapper.assign('Ctrl+A', selectAll);
 			
-			// 選択範囲の解除
+		// 選択範囲の解除
 		KeyMapper.assign('Ctrl+D', deselect);
-//		KeyMapper.assign('1', function () { drawSelectionRegion(work, 10, 10, 16, 16, option); });
 		KeyMapper.assign('Shift+3', toggleGrid);
 		
 		KeyMapper.assign('Ctrl+S', save);
@@ -595,7 +592,6 @@ editor: Editor
 			createImage(48, 48);
 			selection.indexData = createIndexData(48, 48);
 			resize();
-//			$('#new-image').hide();
 			ctx.fillStyle = palette[0];
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
 			drawPreview();
