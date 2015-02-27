@@ -64,4 +64,4 @@
 	
 	global.Color = Color;
 	
-}(this));
+})(this);

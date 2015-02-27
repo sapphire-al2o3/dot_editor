@@ -43,6 +43,7 @@
 		this.end = 0;
 		this.begin = 0;
 		this.timer = 0;
+		this.repeat = false;
 	}
 	
 	AnimationView.prototype.addFrame = function(frame) {
@@ -81,4 +82,4 @@
 	
 	global.AnimationView = AnimationView;
 	
-}(this));
+})(this);
