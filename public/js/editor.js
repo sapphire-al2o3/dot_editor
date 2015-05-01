@@ -148,19 +148,16 @@ editor: Editor
 	'use strict';
 	
 	// サーバのURL
-	var url = '',
-		docId = 0,
+	var docId = 0,
 		canvas,
 		ctx,
 		work,
 		preview,
 		selectionCtx,
-		imageData,
 		indexData,
 		paletteData,
 		palette,
 		down = false,
-		colorIndex = 0,
 		paletteIndex = 1,
 		prevTool = 'pen',
 		tool = 'pen',
@@ -451,7 +448,7 @@ editor: Editor
 			tool = t;
 			activeTool && activeTool.classList.remove('selected');
 			activeTool = $(t);
-			activeTool.classList.add('selected')
+			activeTool.classList.add('selected');
 			// 選択範囲解除
 			if(tool !== 'select' && selectHandler.enable) {
 				deselect();
@@ -734,7 +731,7 @@ editor: Editor
 				if(dropper) {
 					activeTool && activeTool.classList.remove('selected');
 					activeTool = prevTool;
-					activeTool.classList.add('selected')
+					activeTool.classList.add('selected');
 					// 選択範囲解除
 					if(tool !== 'select' && selectHandler.enable) {
 						deselect();
