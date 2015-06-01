@@ -505,7 +505,7 @@ require('color.js')
 		
 		function mousedownHandler(e) {
 			target = $(this.getAttribute('for'));
-			radix = target.getAttribute('radix') ? 16 : 10;
+			radix = target.getAttribute('radix') === '16' ? 16 : 10;
 			min = parseInt(target.getAttribute('min'), 10);
 			max = parseInt(target.getAttribute('max'), 10);
 			step = parseInt(this.getAttribute('step'), 10);
