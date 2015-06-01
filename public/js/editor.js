@@ -1010,7 +1010,7 @@ editor: Editor
 	}
 
 	// 切り取り
-	var cut = function(transparent) {
+	function cut(transparent) {
 		var s = option.scale,
 			r = selection.region,
 			x = r.x * s,
@@ -1037,7 +1037,7 @@ editor: Editor
 	};
 	
 	// 選択解除
-	var deselect = function() {
+	function deselect() {
 		if(!selection.enable) return;
 		selection.enable = false;
 		var s = option.scale,
@@ -1053,7 +1053,7 @@ editor: Editor
 	};
 	
 	// 貼り付け
-	var paste = function() {
+	function paste() {
 		if(!selection.enable) return;
 		
 		deselect();
@@ -1065,7 +1065,7 @@ editor: Editor
 	};
 	
 	// 画面更新
-	var refresh = function() {
+	function refresh() {
 		drawIndexedImage(ctx, indexData, palette, option);
 	};
 
