@@ -221,6 +221,54 @@ function paint(ctx, x, y, indexData, paletteIndex, scale) {
 	ctx.fill();
 }
 
+// アウトライン描画
+function drawOutline(ctx, x, y, indexData, paletteIndex, scale) {
+	var data = indexData.data,
+		w = indexData.width,
+		h = indexData.height,
+		c = data[y * w + x],
+		s = scale,
+		tmp = createIndexData(w, h);
+	
+	if(c == paletteIndex) {
+		return;
+	}
+	
+	
+	(function f(x, y) {
+		if(x >= w || x < 0) return;
+		if(y >= h || y < 0) return;
+		if(data[y * w + x] === c && tmp.data[y * w + x] == 0) {
+			tmp.data[y * w + x] = 1;
+			
+			f(x - 1, y);
+			f(x + 1, y);
+			f(x, y - 1);
+			f(x, y + 1);
+		}
+	})(x, y);
+	
+	ctx.beginPath();
+	
+	// 縮退させる
+	for(var i = 1; i < h - 1; i++) {
+		for(var j = 1; j < w - 1; j++) {
+			var p = tmp.data[i * w + j] === 1;
+			var u = tmp.data[i * w + j - w] === 1;
+			var d = tmp.data[i * w + j + w] === 1;
+			var l = tmp.data[i * w + j - 1] === 1;
+			var r = tmp.data[i * w + j + 1] === 1;
+			
+			if(p && !(u && d && l && r)) {
+				data[i * w + j] = paletteIndex;
+				ctx.rect(j * s ^ 0, i * s ^ 0, s, s);
+			}
+		}
+	}
+	
+	ctx.fill();
+}
+
 function eps(x0, y0, x1, y1, x, y) {
 	var dx = (x1 - x0),
 		dy = (y1 - y0),
