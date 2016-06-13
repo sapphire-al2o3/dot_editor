@@ -401,6 +401,10 @@ editor: Editor
 		KeyMapper.assign('Ctrl+S', save);
 		KeyMapper.assign('Ctrl+L', load);
 		
+		KeyMapper.assign('O', function() {
+			tool = 'outline';
+		});
+		
 		KeyMapper.bind(document, 'down');
 	})();
 
@@ -753,6 +757,9 @@ editor: Editor
 					break;
 				case 'paint':
 					paint(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
+					break;
+				case 'outline':
+					drawOutline(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
 					break;
 				case 'line':
 				case 'rect':
