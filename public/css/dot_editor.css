@@ -361,7 +361,7 @@
 }
 
 .editor-tools #paint:before {
-	content: url("../images/outline_icon.png");
+	content: url("../images/paint_icon.png");
 }
 
 .editor-tools #line:before {
@@ -467,12 +467,20 @@
 	box-shadow: rgba(255, 255, 255, 0.2) 0 1px 0 0 inset, rgba(0, 172, 238, 0.4) 0 1px 4px 0;
 }
 
-.editor-tools #outline {
+.editor-tools #outline:before {
 	content: url("../images/outline_icon.png");
+}
+
+.editor-tools #tools {
+	content: url("../images/show_tools_icon.png");
 }
 
 .editor-tools:after {
 	clear: both;
+}
+
+#tools-2 {
+	display: none;
 }
 
 #overlay {

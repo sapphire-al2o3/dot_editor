@@ -88,6 +88,7 @@ bug
 ・HSVのカラー選択で表示される数値が変わっていない
 ・パレットに数値入力した時にキャンバスのサイズがおかしくなる
 ・楕円で(0, 0, 15, 15)の大きさで描画したときに円の形がおかしい
+・カラーピッカーを出すのに2回クリックしないといけない
 
 画面遷移
 サイズ選択ダイアログ
@@ -545,6 +546,10 @@ editor: Editor
 		
 		$.bind($('save'), 'click', save);
 		$.bind($('load'), 'click', load);
+		
+		$.bind($('tools'), 'click', function(e) {
+			$.toggle($('tools-2'));
+		});
 		
 		// サイズの指定
 		$.bind($('new-image-submit'), 'click', function(e) {
