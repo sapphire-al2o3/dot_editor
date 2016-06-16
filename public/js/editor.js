@@ -356,6 +356,12 @@ editor: Editor
 		$.show($selection);
 	}
 	
+	function shift(x, y) {
+		record();
+		shiftH(ctx, indexData, x, option.scale);
+		drawPreview();
+	}
+	
 	(function initialize() {
 		
 		function selectTool(t) {
