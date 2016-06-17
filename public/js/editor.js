@@ -358,7 +358,8 @@ editor: Editor
 	
 	function shift(x, y) {
 		record();
-		shiftH(ctx, indexData, x, option.scale);
+		if(x !== 0) shiftH(ctx, indexData, x, option.scale);
+		if(y !== 0) shiftV(ctx, indexData, y, option.scale);
 		drawPreview();
 	}
 	
@@ -556,6 +557,11 @@ editor: Editor
 		$.bind($('tools'), 'click', function(e) {
 			$.toggle($('tools-2'));
 		});
+		
+		$.bind($('shiftl'), 'click', shift.bind(null, -1, 0));
+		$.bind($('shiftr'), 'click', shift.bind(null, 1, 0));
+		$.bind($('shiftu'), 'click', shift.bind(null, 0, -1));
+		$.bind($('shiftd'), 'click', shift.bind(null, 0, 1));
 		
 		// サイズの指定
 		$.bind($('new-image-submit'), 'click', function(e) {
