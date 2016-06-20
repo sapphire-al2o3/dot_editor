@@ -471,6 +471,22 @@
 	content: url("../images/outline_icon.png");
 }
 
+.editor-tools #shiftl:before {
+	content: url("../images/shift_l_icon.png");
+}
+
+.editor-tools #shiftr:before {
+	content: url("../images/shift_r_icon.png");
+}
+
+.editor-tools #shiftu:before {
+	content: url("../images/shift_u_icon.png");
+}
+
+.editor-tools #shiftd:before {
+	content: url("../images/shift_d_icon.png");
+}
+
 .editor-tools #tools {
 	content: url("../images/show_tools_icon.png");
 }
