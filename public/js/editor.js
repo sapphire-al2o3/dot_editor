@@ -558,6 +558,7 @@ editor: Editor
 			$.toggle($('tools-2'));
 		});
 		
+		$.bind($('outline'), 'click', toggleTool('outline'));
 		$.bind($('shiftl'), 'click', shift.bind(null, -1, 0));
 		$.bind($('shiftr'), 'click', shift.bind(null, 1, 0));
 		$.bind($('shiftu'), 'click', shift.bind(null, 0, -1));
