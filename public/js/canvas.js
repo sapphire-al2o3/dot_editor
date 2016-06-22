@@ -884,7 +884,7 @@ function shiftImageH(data, tmp, w, h, shift) {
 	for(var i = 0; i < h; i++) {
 		var y = i * w;
 		for(var j = 0; j < w; j++) {
-			tmp[y + (j + shift) % w] = data[y + j];
+			tmp[y + (w + j + shift) % w] = data[y + j];
 		}
 	}
 }
@@ -909,7 +909,7 @@ function shiftV(ctx, indexData, shift, scale) {
 function shiftImageV(data, tmp, w, h, shift) {
 	for(var i = 0; i < h; i++) {
 		var y = i * w,
-			yy = ((i + shift) % h) * w;
+			yy = ((h + i + shift) % h) * w;
 		for(var j = 0; j < w; j++) {
 			tmp[yy + j] = data[y + j];
 		}
