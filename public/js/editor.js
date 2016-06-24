@@ -80,6 +80,7 @@ bug
 ・キーでツールを切り替えてもボタンが選択状態にならない(fix)
 ・塗りつぶし円の真ん中が正しく塗りつぶされていない場合がある(fix)
 ・カラーピッカーを出すのに2回クリックしないといけない(fix)
+・画像を読み込んだ時にグリッドが消える(fix)
 
 ・スクロールしてペンで描画すると位置がずれている
 ・細長い楕円の描画が途中で切れている
@@ -90,7 +91,6 @@ bug
 ・HSVのカラー選択で表示される数値が変わっていない
 ・パレットに数値入力した時にキャンバスのサイズがおかしくなる
 ・楕円で(0, 0, 15, 15)の大きさで描画したときに円の形がおかしい
-・画像を読み込んだ時にグリッドが消える
 
 画面遷移
 サイズ選択ダイアログ
@@ -516,6 +516,7 @@ editor: Editor
 			palette = Palette.getPaletteData();
 			resize();
 			drawIndexedImage(ctx, indexData, palette, option.scale);
+			grid();
 			drawPreview();
 		};
 		FileLoader.bind($('container'));
@@ -991,6 +992,7 @@ editor: Editor
 			palette = Palette.getPaletteData();
 			resize();
 			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
+			grid();
 			drawPreview();
 			console.log(indexData.width, indexData.height, palette.length, 'loaded');
 		}
