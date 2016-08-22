@@ -145,8 +145,8 @@ require('color.js')
 							palettes[frontIndex] = t;
 							e.target.style.backgroundColor = palettes[frontIndex];
 							active.style.backgroundColor = palettes[startIndex];
-							active = false;
 							active.className = '';
+							active = null;
 							if(onchange) onchange();
 						} else {
 							active = e.target;
