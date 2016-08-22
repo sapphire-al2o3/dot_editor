@@ -126,8 +126,10 @@ require('color.js')
 						if(active) {
 							palettes[frontIndex] = palettes[startIndex];
 							e.target.style.backgroundColor = active.style.backgroundColor;
-							active = false;
 							active.className = '';
+							active = null;
+							copy = false;
+							setPaletteTool();
 							if(onchange) onchange();
 						} else {
 							active = e.target;
