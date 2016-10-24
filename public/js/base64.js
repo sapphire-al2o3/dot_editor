@@ -119,10 +119,14 @@
 						j++;
 						length++;
 					}
-					j++;
 					
-					a[i++] = length;
-					for(var k = 0; k <= length; k++, t++) {
+					if(j >= l - 1) {
+						length++;
+						j++;
+					}
+					
+					a[i++] = length - 1;
+					for(var k = 0; k < length; k++, t++) {
 						a[i++] = b[t];
 					}
 				}
