@@ -103,10 +103,10 @@
 				var length = 0,
 					t = j,
 					p = b[j],
-					r = p === b[j + 1];
+					r = j + 1 < l && p === b[j + 1];
 				
 				if(r) {
-					while(p === b[j + 1] && j < l - 1 && length !== 127) {
+					while(j < l - 1 && p === b[j + 1] && length !== 127) {
 						j++;
 						length++;
 					}
@@ -115,7 +115,7 @@
 					a[i++] = length | 128;
 					a[i++] = p;
 				} else {
-					while(b[j] !== b[j + 1] && j < l - 1 && length !== 127) {
+					while(j < l - 1 && b[j] !== b[j + 1] && length !== 127) {
 						j++;
 						length++;
 					}
@@ -126,7 +126,7 @@
 						a[i++] = b[t];
 					}
 				}
-			} while(j < l);
+			} while(j < l - 1);
 			return a;
 		},
 		decode: function(b, a) {
