@@ -126,7 +126,7 @@
 						a[i++] = b[t];
 					}
 				}
-			} while(j < l - 1);
+			} while(j < l);
 			return a;
 		},
 		decode: function(b, a) {
