@@ -111,18 +111,16 @@
 						length++;
 					}
 					j++;
+					
+					a[i++] = length | 128;
+					a[i++] = p;
 				} else {
 					while(b[j] !== b[j + 1] && j < l - 1 && length !== 127) {
 						j++;
 						length++;
 					}
 					j++;
-				}
-				
-				if(r) {
-					a[i++] = length | 128;
-					a[i++] = p;
-				} else {
+					
 					a[i++] = length;
 					for(var k = 0; k <= length; k++, t++) {
 						a[i++] = b[t];
