@@ -253,17 +253,20 @@ function drawOutline(ctx, x, y, indexData, paletteIndex, scale) {
 	// 縮退させる
 	for(var i = 0; i < h; i++) {
 		for(var j = 0; j < w; j++) {
-			var k = i * w + j;
-			var p = tmp[k] === 1;
-			var b = false;
-			if(i > 0) b |= tmp[k - w] === 0;
-			if(i < h - 1) b |= tmp[k + w] === 0;
-			if(j > 0) b |= tmp[k - 1] === 0;
-			if(j < w - 1) b |= tmp[k + 1] === 0;
+			var k = i * w + j,
+				p = tmp[k] === 1;
 			
-			if(p && b) {
-				data[i * w + j] = paletteIndex;
-				ctx.rect(j * s ^ 0, i * s ^ 0, s, s);
+			
+			if(p) {
+				var b = false;
+				if(i > 0) b |= tmp[k - w] === 0;
+				if(i < h - 1) b |= tmp[k + w] === 0;
+				if(j > 0) b |= tmp[k - 1] === 0;
+				if(j < w - 1) b |= tmp[k + 1] === 0;
+				if(b) {
+					data[i * w + j] = paletteIndex;
+					ctx.rect(j * s ^ 0, i * s ^ 0, s, s);
+				}
 			}
 		}
 	}
@@ -767,7 +770,7 @@ function flipH(ctx, indexData) {
 function flipImageH(data, w, h) {
 	for(var i = 0; i < h; i++) {
 		var y = i * w;
-		for(var j = 0; j < w / 2; j++) {
+		for(var j = 0; j < (w / 2 ^ 0); j++) {
 			var tmp = data[y + j];
 			data[y + j] = data[y + w - j - 1];
 			data[y + w - j - 1] = tmp;
@@ -796,7 +799,7 @@ function flipV(ctx, indexData) {
 }
 
 function flipImageV(data, w, h) {
-	for(var i = 0; i < h / 2; i++) {
+	for(var i = 0; i < (h / 2 ^ 0); i++) {
 		var y = i * w,
 			x = (h - i - 1) * w;
 		for(var j = 0; j < w; j++) {
@@ -833,12 +836,7 @@ function rotate90R(ctx, indexData) {
 function rotate90L(ctx, indexData) {
 	var data = indexData.data,
 		w = indexData.width,
-		h = indexData.height,
-		x, y, i, j, tmp;
-	
-//	ctx.setTransform(0, -1, 1, 0, 0, ctx.canvas.height);
-//	ctx.drawImage(ctx.canvas, 0, 0);
-//	ctx.resetTransform();
+		h = indexData.height;
 	
 	mirrorImageXY(data, w, h);
 	flipImageV(data, w, h);
@@ -855,12 +853,13 @@ function rotate90L(ctx, indexData) {
 function mirrorImageXY(data, w, h) {
 	for(var i = 0; i < h; i++) {
 		var y = i * w;
-		for(var j = i; j < w; j++) {
+		for(var j = i + 1; j < w; j++) {
 			var tmp = data[y + j];
-			data[y + j] = data[j * w + i];
-			data[j * w + i] = tmp;
+			data[y + j] = data[j * h + i];
+			data[j * h + i] = tmp;
 		}
 	}
+	return data;
 }
 
 // 水平方向シフト
