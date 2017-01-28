@@ -73,6 +73,10 @@
 	background-image: url("../images/selected.png");
 }
 
+#palette table tr td.bgcolor {
+	background-image: url("../images/bgcolor.png");
+}
+
 #palette table tr td.start {
 	outline: 2px solid #D50;
 }
