@@ -778,6 +778,15 @@ function flipImageH(data, w, h) {
 	}
 }
 
+function copyFlipImageH(src, dst, w, h) {
+	for(var i = 0; i < h; i++) {
+		var y = i * w;
+		for(var j = 0; j < w; j++) {
+			data[y + w - j - 1] = src[y + j];
+		}
+	}
+}
+
 // 垂直方向反転
 function flipV(ctx, indexData) {
 	var data = indexData.data,
@@ -814,22 +823,30 @@ function flipImageV(data, w, h) {
 function rotate90R(ctx, indexData) {
 	var data = indexData.data,
 		w = indexData.width,
-		h = indexData.height;
+		h = indexData.height,
+		temp = createIndexData(h, w);
 	
-//	ctx.setTransform(0, 1, -1, 0, ctx.canvas.height, 0);
-//	ctx.drawImage(ctx.canvas, 0, 0);
-//	ctx.resetTransform();
-	
-	mirrorImageXY(data, w, h);
-	flipImageH(data, w, h);
+	copyMirrorImageXY(data, temp.data, w, h);
+	flipImageH(temp.data, temp.width, temp.height);
 	
 	var imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height),
 		buffer = new Uint32Array(imageData.data.buffer);
 	
-	mirrorImageXY(buffer, imageData.width, imageData.height);
-	flipImageH(buffer, imageData.width, imageData.height);
+	if(w === h) {
+		mirrorImageXY(buffer, imageData.width, imageData.height);
+		flipImageH(buffer, imageData.width, imageData.height);
+		ctx.putImageData(imageData, 0, 0);
+	} else {
+		var tempImageData = ctx.createImageData(ctx.canvas.height, ctx.canvas.width),
+			tempBuffer = new Uint32Array(tempImageData.data.buffer);
+		copyMirrorImageXY(buffer, tempBuffer, imageData.width, imageData.height);
+		flipImageH(tempBuffer, tempImageData.width, tempImageData.height);
+		ctx.canvas.width = imageData.height;
+		ctx.canvas.height = imageData.width;
+		ctx.putImageData(tempImageData, 0, 0);
+	}
 	
-	ctx.putImageData(imageData, 0, 0);
+	return temp;
 }
 
 // 左90度回転
@@ -860,6 +877,16 @@ function mirrorImageXY(data, w, h) {
 		}
 	}
 	return data;
+}
+
+function copyMirrorImageXY(src, dst, w, h) {
+	for(var i = 0; i < h; i++) {
+		var y = i * w;
+		for(var j = 0; j < w; j++) {
+			dst[j * h + i] = src[y + j];
+		}
+	}
+	return dst;
 }
 
 // 水平方向シフト

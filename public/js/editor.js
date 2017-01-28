@@ -335,10 +335,10 @@ editor: Editor
 			var w = selectionCtx.canvas.width,
 				h = selectionCtx.canvas.height;
 			// 長方形の選択範囲を回転させるには一旦別の領域にコピーしておかないと消えてしまう
-//			$('#selection').css({ width: h + 'px', height: w + 'px' });
-//			selectionCtx.canvas.width = h;
-//			selectionCtx.canvas.height = w;
-			rotate90R(selectionCtx, selection.indexData);
+			$.size($selection, selectionCtx.canvas.height, selectionCtx.canvas.width);
+			selection.indexData = rotate90R(selectionCtx, selection.indexData);
+			selection.region.w = selection.indexData.width;
+			selection.region.h = selection.indexData.height;
 		} else {
 			record();
 			rotate90R(ctx, indexData);
@@ -353,8 +353,8 @@ editor: Editor
 		$.size($selection, ctx.canvas.width, ctx.canvas.height);
 		r.x = 0;
 		r.y = 0;
-		r.w = ctx.canvas.width;
-		r.h = ctx.canvas.height;
+		r.w = indexData.width;
+		r.h = indexData.height;
 		selectHandler.enable = true;
 		$.show($selection);
 	}
