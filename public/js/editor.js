@@ -577,6 +577,7 @@ editor: Editor
 			var index = parseInt($.q('#new-image input[name="size"]:checked').value, 10),
 				size = [16, 32, 48, 64][index];
 			createImage(size, size);
+			selection.indexData = createImage(size, size);
 			resize();
 			ctx.fillStyle = palette[0];
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
