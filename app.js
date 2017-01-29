@@ -55,6 +55,7 @@ passport.use(new TwitterStrategy({
 app.set('port', process.env.PORT || 3000);
 app.use(favicon(__dirname + '/public/images/favicon.png'));
 app.use(morgan('dev'));
+app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
 app.use(cookieParser('madomado'));
@@ -97,7 +98,6 @@ app.get('/auth', function(req, res) {
 app.post('/auth/twitter/post', function(req, res) {
 	var text = req.body.text,
 		image = JSON.parse(req.body.image);
-	
 	if(req.user && image) {
 		var scale = req.body.scale ? parseInt(req.body.scale, 10) : 1,
 			paletteData = new Buffer(image.palette, 'base64');
