@@ -20,7 +20,7 @@
     "pngjs": "https://github.com/sapphire-al2o3/node-pngjs/tarball/master"
   },
   "engines": {
-    "node": "0.12.x",
-    "npm": "2.5.x"
+    "node": "5.6.x",
+    "npm": "3.6.x"
   }
 }
