@@ -953,9 +953,9 @@ editor: Editor
 			}
 		};
 	
-		$(window).bind('beforeunload', function (e) {
+		window.onbeforeunload = function(e) {
 			return 'ページを移動すると編集した情報が失われます';
-		});
+		};
 	
 	})();
 
