@@ -558,9 +558,9 @@ editor: Editor
 		$.bind($('save'), 'click', save);
 		$.bind($('load'), 'click', load);
 		
-		$.bind($('tools'), 'click', function(e) {
-			$.toggle($('tools-2'));
-		});
+//		$.bind($('tools'), 'click', function(e) {
+//			$.toggle($('tools-2'));
+//		});
 		
 		$.bind($('outline'), 'click', toggleTool('outline'));
 		$.bind($('shiftl'), 'click', shift.bind(null, -1, 0));
@@ -953,9 +953,9 @@ editor: Editor
 			}
 		};
 	
-//		$(window).bind('beforeunload', function (e) {
-//			return 'ページを移動すると編集した情報が失われます';
-//		});
+		$(window).bind('beforeunload', function (e) {
+			return 'ページを移動すると編集した情報が失われます';
+		});
 	
 	})();
 

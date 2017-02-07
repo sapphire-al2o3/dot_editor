@@ -332,17 +332,17 @@ require('color.js')
 				transparent = false;
 				setPaletteTool();
 			});
-			$.bind($('palette-transparent'), 'click', function(e) {
-				copy = false;
-				swap = false;
-				transparent = !transparent;
-				setPaletteTool();
-			});
-			$.bind($('palette-hex'), 'click', function(e) {
-				hex = !hex;
-				this.className = hex ? 'selected' : '';
-				setRadix(hex ? 16 : 10);
-			});
+//			$.bind($('palette-transparent'), 'click', function(e) {
+//				copy = false;
+//				swap = false;
+//				transparent = !transparent;
+//				setPaletteTool();
+//			});
+//			$.bind($('palette-hex'), 'click', function(e) {
+//				hex = !hex;
+//				this.className = hex ? 'selected' : '';
+//				setRadix(hex ? 16 : 10);
+//			});
 			
 			paletteElement.style.display = 'block';
 		}
