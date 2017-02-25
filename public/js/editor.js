@@ -490,7 +490,7 @@ editor: Editor
 			new Widget('palette');
 			new Widget('color-picker');
 			new Widget('view');
-			
+			new Widget('animation');
 			preview = $('view').lastChild.getContext('2d');
 		}
 	
