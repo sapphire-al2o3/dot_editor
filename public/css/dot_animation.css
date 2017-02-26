@@ -1,0 +1,17 @@
+#animation {
+	text-align: center;
+}
+
+#animation div, #animation ul {
+	text-align: left;
+}
+
+#animation canvas {
+	border: 1px solid #CCC;
+	margin-top: 4px;
+}
+
+#animation-frame {
+	margin-left: 108px;
+	margin-top: -28px;
+}
