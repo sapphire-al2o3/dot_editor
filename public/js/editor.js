@@ -486,6 +486,9 @@ editor: Editor
 			});
 		}
 		
+		if(typeof AnimationView !== 'undefined') {
+		}
+		
 		if(typeof Widget !== 'undefined') {
 			new Widget('palette');
 			new Widget('color-picker');
@@ -502,8 +505,9 @@ editor: Editor
 		var left = canvas.getBoundingClientRect().left,
 			top = canvas.getBoundingClientRect().top;
 		
-		$.position($('palette'), 420, top + 4);
-		$.position($('view'), 420, top + 280);
+		$.position($('palette'), 536, top + 4);
+		$.position($('view'), 536, top + 300);
+		$.position($('animation'), 740, top + 4);
 		$.show($('overlay'));
 		
 		// ローカルファイルの読み込み
@@ -952,6 +956,23 @@ editor: Editor
 				}
 			}
 		};
+		
+		$.bind($('anim-add'), 'click', function() {
+			console.log('add frame')
+		});
+		
+		$.bind($('anim-remove'), 'click', function() {
+			console.log('add remove')
+		});
+		
+		$.bind($('anim-play'), 'click', function() {
+			console.log('play')
+		});
+		
+		$.bind($('anim-stop'), 'click', function() {
+			console.log('stop')
+		});
+	
 	
 		window.onbeforeunload = function(e) {
 			return 'ページを移動すると編集した情報が失われます';
