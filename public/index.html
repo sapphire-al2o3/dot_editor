@@ -9,6 +9,7 @@
 	<link href="./css/widget.css" media="screen" rel="stylesheet" type="text/css" />
 	<link href="./css/dot_palette.css" media="screen" rel="stylesheet" type="text/css" />
 	<link href="./css/selection.css" media="screen" rel="stylesheet" type="text/css" />
+	<link href="./css/dot_animation.css" media="screen" rel="stylesheet" type="text/css" />
 	<link rel="shortcut icon" href="./images/favicon.png" />
 	<script src="./js/base64.js" type="text/javascript"></script>
 	<script src="./js/selector.js" type="text/javascript"></script>
@@ -117,6 +118,20 @@
 				<div><img src="./images/color.png" id="color" /><span id="color-picker-cursor"></span></div><div><img src="./images/hue.png" id="hue" /><span id="hue-cursor"></span></div>
 				<!-- <form><input type="text" value="#AAAAAA" /></form> -->
 				<form><label id="color-picker-h">H:0</label><label id="color-picker-s">S:50%</label><label id="color-picker-v">V:50%</label></form>
+			</div>
+			<div id="animation" class="widget"><p>Animation</p>
+				<canvas width="64" height="64"></canvas>
+				<ul class="tools-small">
+					<li><img src="images/anim_add_icon.png" title="フレーム追加"></li>
+					<li><img src="images/anim_remove_icon.png" title="フレーム追加"></li>
+					<li><img src="images/anim_stop_icon.png" title="停止"></li>
+					<li><img src="images/anim_play_icon.png" title="再生"></li>
+				</ul>
+				<div id="animation-frame">
+					<span class="left" for="animation-frame-num" step="-1" radix="10"></span>
+					<input id="animation-frame-num" class="form-number" type="text" min="0" max="255" value="0">
+					<span class="right" for="animation-frame-num" step="1"></span>
+				</div>
 			</div>
 		</div>
 		
