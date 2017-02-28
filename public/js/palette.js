@@ -448,6 +448,7 @@ require('color.js')
 			setFrontColor: function(index) {
 				selected.className = '';
 				selected = cells[index];
+				console.assert(selected !== undefined, index);
 				selected.className = 'selected';
 				frontIndex = index;
 				selectColor(palettes[index]);
