@@ -502,8 +502,8 @@ editor: Editor
 		var left = canvas.getBoundingClientRect().left,
 			top = canvas.getBoundingClientRect().top;
 		
-		$.position($('palette'), 420, top + 4);
-		$.position($('view'), 420, top + 280);
+		$.position($('palette'), left + 420, top + 4);
+		$.position($('view'), left + 420, top + 280);
 		$.show($('overlay'));
 		
 		// ローカルファイルの読み込み
