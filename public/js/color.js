@@ -33,7 +33,7 @@
 			n = Math.min(r, g, b),
 			c = m - n,
 			h = 0;
-		if (c === 0) return [0, 0, m];
+		if (c === 0) return [0, 0, m / 255];
 		if (m === r) h = (g - b) / c;
 		else if (m === g) h = (b - r) / c + 2;
 		else if (m === b) h = (r - g) / c + 4;
