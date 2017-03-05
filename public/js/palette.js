@@ -316,7 +316,7 @@ require('color.js')
 				active = null;
 				$('palette-copy').className = copy ? 'selected' : '';
 				$('palette-swap').className = swap ? 'selected' : '';
-				$('palette-transparent').className = transparent ? 'selected' : '';
+//				$('palette-transparent').className = transparent ? 'selected' : '';
 			}
 			
 			$.bind($('palette-copy'), 'click', function(e) {
