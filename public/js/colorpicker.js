@@ -97,7 +97,19 @@
 	}
 	
 	ColorPicker.setColor = function(color) {
+		if(elm.style.display === 'none') {
+			return;
+		}
 		
+		var hsv = Color.rgb2hsv(color[0], color[1], color[2]);
+		h = hsv[0];
+		s = hsv[1];
+		v = hsv[2];
+		$('color').style.backgroundColor = 'hsl(' + h + ',100%,50%)';
+		$('hue-cursor').style.top = h * 128 / 360 + 1 + 'px';
+		colorCursor.style['left'] = s * 127 + 'px';
+		colorCursor.style['top'] = v * 127 + 'px';
+		setText();
 	};
 	
 	global.ColorPicker = ColorPicker;
