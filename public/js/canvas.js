@@ -581,8 +581,8 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 }
 
 // グリッドを表示する
-function drawGrid(ctx, option) {
-	var size = option.scale,
+function drawGrid(ctx, option, scale) {
+	var size = scale,
 		l = option.grid.size,
 		n = option.imageWidth,
 		w = ctx.canvas.width,

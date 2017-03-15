@@ -282,7 +282,7 @@ editor: Editor
 	// グリッドの表示
 	function grid() {
 		if(option.gridOn && option.zoom > 2) {
-			drawGrid(work, option);
+			drawGrid(work, option, option.scale);
 		}
 	}
 	
@@ -1061,6 +1061,12 @@ editor: Editor
 		selection.indexData.height = r.h;
 		copyIndexData(indexData, selection.indexData, r.x, r.y, r.w, r.h);
 		fillIndexData(indexData, Palette.getBackIndex(), r.x, r.y, r.w, r.h);
+		
+//		drawIndexedImage(selectionCtx, selection.indexData, palette, option.scale);
+		
+//		if(option.gridOn && option.zoom > 2) {
+//			drawGrid(selectionCtx, option, option.scale);
+//		}
 		
 		if(transparent) {
 			// 背景色を抜く
