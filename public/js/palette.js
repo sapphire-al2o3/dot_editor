@@ -72,7 +72,8 @@ require('color.js')
 			record = [],
 			bars = [],
 			nums = [],
-			onchange;
+			onchange,
+			histroy = [];
 		
 		// 指定のパレットの色を変更する
 		function setColor(color, index, event) {
@@ -398,6 +399,10 @@ require('color.js')
 			});
 		}
 		
+		function record() {
+			
+		}
+		
 		return {
 			create: function(elm) {
 				createPalette(elm);
@@ -478,6 +483,12 @@ require('color.js')
 				cells.forEach(function(e, i) {
 					e.style.backgroundColor = palette[i];
 				});
+			},
+			undo: function() {
+				if(histroy.length > 0) {
+					histroy.pop();
+//					selectColor();
+				}
 			}
 		};
 	}(document);
