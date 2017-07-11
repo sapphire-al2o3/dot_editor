@@ -8,8 +8,8 @@
   "dependencies": {
     "express": "4.x",
     "jade": "*",
-    "passport": "*",
-    "passport-twitter": "*",
+    "passport": "0.3.2",
+    "passport-twitter": "1.0.4",
     "request": "*",
     "serve-favicon": "*",
     "body-parser": "*",
