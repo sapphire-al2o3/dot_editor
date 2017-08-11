@@ -488,6 +488,19 @@
 	content: url("../images/show_tools_icon.png");
 }
 
+.editor-tools #open-image:before {
+	content: url("../images/image_open_icon.png");
+}
+
+.editor-tools #open-image label {
+	width: 100%;
+	height: 100%;
+}
+
+.editor-tools #open-image input[type=file] {
+	display: none;
+}
+
 .editor-tools:after {
 	clear: both;
 }

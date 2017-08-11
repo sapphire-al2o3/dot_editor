@@ -79,12 +79,10 @@
 	var FileLoader = {
 		target: null,
 		onload: function() {},
-		dropHandler: function(e) {
+		load: function(file) {
 			var reader = new FileReader(),
 				image = new Image(),
 				that = this;
-			
-			e.preventDefault();
 			
 			reader.onload = function(e) {
 				var result = reader.result.split(',');
@@ -119,10 +117,14 @@
 					if(that.onload) that.onload(indexData, paletteData);
 				};
 				image.src = result[0] + ',' + Base64.encode(buffer);
-				
 				console.log('image loaded');
 			};
-			reader.readAsDataURL(e.dataTransfer.files[0]);
+			reader.readAsDataURL(file);
+		},
+		dropHandler: function(e) {
+			e.preventDefault();
+			
+			this.load(e.dataTransfer.files[0]);
 			return false;
 		},
 		dragHandler: function(e) {

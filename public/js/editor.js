@@ -558,15 +558,23 @@ editor: Editor
 		$.bind($('save'), 'click', save);
 		$.bind($('load'), 'click', load);
 		
-//		$.bind($('tools'), 'click', function(e) {
-//			$.toggle($('tools-2'));
-//		});
+		$.bind($('tools'), 'click', function(e) {
+			$.toggle($('tools-2'));
+		});
 		
 		$.bind($('outline'), 'click', toggleTool('outline'));
 		$.bind($('shiftl'), 'click', shift.bind(null, -1, 0));
 		$.bind($('shiftr'), 'click', shift.bind(null, 1, 0));
 		$.bind($('shiftu'), 'click', shift.bind(null, 0, -1));
 		$.bind($('shiftd'), 'click', shift.bind(null, 0, 1));
+		$.bind($('open-image'), 'click', function() {
+			$('open-button').click();
+		});
+		
+		$.bind($('open-button'), 'change', function(e) {
+			console.log(e);
+			FileLoader.load(e.target.files[0]);
+		});
 		
 		// サイズの指定
 		$.bind($('new-image-submit'), 'click', function(e) {
