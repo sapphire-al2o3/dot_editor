@@ -572,7 +572,6 @@ editor: Editor
 		});
 		
 		$.bind($('open-button'), 'change', function(e) {
-			console.log(e);
 			FileLoader.load(e.target.files[0]);
 		});
 		
