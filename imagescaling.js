@@ -6,15 +6,15 @@ module.exports.scaling = function(data, width, height, scale, result) {
 		return data;
 	}
 	
-	var w = width * scale,
+	let w = width * scale,
 		h = height * scale;
 
 	result = result || new Buffer(w * h);
 	
-	for(var i = 0; i < h; i++) {
-		for(var j = 0; j < w; j++) {
-			var x = j / scale ^ 0,
-				y = i / scale ^ 0;
+	for(let i = 0; i < h; i++) {
+		let y = i / scale ^ 0;
+		for(let j = 0; j < w; j++) {
+			let x = j / scale ^ 0;
 			result[i * w + j] = data[y * width + x];
 		}
 	}
