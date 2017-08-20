@@ -351,7 +351,7 @@
 				}
 				
 				function touchmove(e) {
-					e.preventDefault();
+//					e.preventDefault();
 					var touches = e.changedTouches;
 					if(touches.length > 0) {
 						var x = (touches[0].pageX - left) / scale ^ 0,
@@ -454,7 +454,7 @@
 					}
 					
 					move(e);
-					t.addEventListener('touchmove', move);
+					t.addEventListener('touchmove', move, {passive: false});
 					t.addEventListener('touchend', scrollTouchUp);
 				});
 				
