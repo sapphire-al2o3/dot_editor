@@ -89,9 +89,11 @@
 				var str = result[1];
 				var buffer = Base64.decode(str);
 				var paletteData = createPaletteData(256);
+				var hasPalette = false;
 				var backIndex = -1;
 				
 				if(getPngPalette(buffer, paletteData)) {
+					hasPalette = true;
 					for(var i = 0; i < paletteData.data.length; i += 4) {
 						if(paletteData.data[i + 3] === 0) {
 							backIndex = i / 4;
@@ -112,8 +114,11 @@
 					ctx.globalCompositeOperation = 'copy';
 					ctx.clearRect(0, 0, canvas.width, canvas.height);
 					ctx.drawImage(image, 0, 0);
-					convertIndexedImageByPalette(ctx.getImageData(0, 0, image.width, image.height), indexData, paletteData, backIndex);
-					
+					if(hasPalette) {
+						convertIndexedImageByPalette(ctx.getImageData(0, 0, image.width, image.height), indexData, paletteData, backIndex);
+					} else {
+						convertIndexedImage(ctx.getImageData(0, 0, image.width, image.height), indexData, paletteData);
+					}
 					if(that.onload) that.onload(indexData, paletteData);
 				};
 				image.src = result[0] + ',' + Base64.encode(buffer);

@@ -967,33 +967,33 @@ function drawClearColor(ctx, indexData, index, scale) {
 
 // 入力した画像をインデックスカラーイメージに変換する
 // 色数が256色を超えた時点でエラーにする
-function convertIndexedImage(src, image, palette) {
+function convertIndexedImage(src, indexData, paletteData) {
 	var count = 0,
-		pal = [],
+		palette = [],
 		data = src.data,
-		indexData = image.data,
-		paletteData = palette.data;
+		idx = indexData.data,
+		pal = paletteData.data;
 	for(var i = 0, j = 0, n = data.length; i < n; i += 4, j++) {
 		var r = data[i],
 			g = data[i + 1],
 			b = data[i + 2],
 			a = data[i + 3],
-			color = rgb(r, g, b),
-			index = pal.indexOf(color);
+			color = Color.rgb(r, g, b),
+			index = palette.indexOf(color);
 		if(index < 0) {
-			pal.push(color);
+			palette.push(color);
 			index = count++;
 			var p = index * 4;
-			paletteData[p] = r;
-			paletteData[p + 1] = g;
-			paletteData[p + 2] = b;
-			paletteData[p + 3] = 255;
+			pal[p] = r;
+			pal[p + 1] = g;
+			pal[p + 2] = b;
+			pal[p + 3] = 255;
 			
 			if(count > 256) {
 				throw '色数オーバー';
 			}
 		}
-		indexData[j] = index;
+		idx[j] = index;
 	}
 	
 	return pal;
