@@ -95,9 +95,9 @@ bug
 
 画面遷移
 サイズ選択ダイアログ
-　→エディタ
-　→投稿ダイアログ
-　→ビューアページ
+→エディタ
+→投稿ダイアログ
+→ビューアページ
 
 memo
 ・描画領域をブラウザ全体にしてしまうほうがいいかも
@@ -573,6 +573,7 @@ editor: Editor
 		
 		$.bind($('open-button'), 'change', function(e) {
 			FileLoader.load(e.target.files[0]);
+			e.target.value = null;
 		});
 		
 		// サイズの指定
@@ -1079,7 +1080,7 @@ editor: Editor
 			// 背景色を抜く
 			drawClearColor(selectionCtx, selection.indexData, Palette.getBackIndex(), option.scale);
 		}
-	};
+	}
 	
 	// 選択解除
 	function deselect() {
@@ -1095,7 +1096,7 @@ editor: Editor
 		$.hide($selection);
 		
 		drawPreview();
-	};
+	}
 	
 	// 貼り付け
 	function paste() {
@@ -1107,12 +1108,12 @@ editor: Editor
 		selection.region.y = 0;
 		$.show($selection);
 		selection.enable = true;
-	};
+	}
 	
 	// 画面更新
 	function refresh() {
 		drawIndexedImage(ctx, indexData, palette, option);
-	};
+	}
 
 	// サブウィンドウから呼び出すための関数
 	global.getImage = function() {
@@ -1121,6 +1122,6 @@ editor: Editor
 			indexData: indexData,
 			paletteData: paletteData,
 		};
-	};
+	}
 
 }(this, Selector));
