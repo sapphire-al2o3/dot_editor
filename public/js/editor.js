@@ -560,6 +560,7 @@ editor: Editor
 		
 		$.bind($('tools'), 'click', function(e) {
 			$.toggle($('tools-2'));
+			$('tools').classList.toggle('selected');
 		});
 		
 		$.bind($('outline'), 'click', toggleTool('outline'));
