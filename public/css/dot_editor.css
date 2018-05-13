@@ -234,6 +234,35 @@
 #new-image form input:before {
 }
 
+/*--------------------------------------------------------------------------
+ layer window
+--------------------------------------------------------------------------*/
+#layers ul {
+	list-style: none;
+}
+
+#layers input[type="checkbox"] {
+	display: none;
+}
+
+#layers input[type="checkbox"] + label:before {
+	content: "";
+	display: inline-block;
+	margin-right: 4px;
+	width: 12px;
+	height: 12px;
+	background-color: #DDD;
+	border-radius: 2px;
+}
+
+#layers label {
+	font-size: 10pt;
+	color: #777;
+}
+
+#layers input[type="checkbox"]:checked + label:before {
+	background-color: #08D;
+}
 
 /*--------------------------------------------------------------------------
  tool bar
