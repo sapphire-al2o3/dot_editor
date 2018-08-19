@@ -33,7 +33,7 @@ Model
 	var layers = [];
 	
 	Layer.add = function(w, h) {
-		var layer = {
+		let layer = {
 			width: w,
 			height: h,
 			indexData: createIndexData(w, h),
@@ -52,7 +52,7 @@ Model
 	
 	//! @brief レイヤーの削除
 	Layer.remove = function(index) {
-		var layer = layers[index];
+		let layer = layers[index];
 		$('editer-canvas').removeChild(layer.canvas);
 		layers.splice(index, 1);
 	};
@@ -60,7 +60,7 @@ Model
 	// レイヤーを上に移動する
 	Layer.up = function(index) {
 		if(index <= 0) return;
-		var t = layers[index - 1];
+		let t = layers[index - 1];
 		layers[index - 1] = layers[index];
 		layers[index] = t;
 		layers[index].canvas.setAttribute('z-index', index + 1);
@@ -69,7 +69,7 @@ Model
 	
 	Layer.down = function(index) {
 		if(index >= layers.length) return;
-		var t = layers[index - 1];
+		let t = layers[index - 1];
 		layers[index + 1] = layers[index];
 		layers[index] = t;
 		layers[index].canvas.setAttribute('z-index', index + 1);

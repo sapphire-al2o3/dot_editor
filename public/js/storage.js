@@ -16,7 +16,7 @@
 	// 保存する
 	Storage.save = function(items) {
 		if(localStorage) {
-			for(var i in items) {
+			for(let i of items) {
 				localStorage.setItem(i, items[i]);
 			}
 		}
@@ -25,7 +25,7 @@
 	// 読み込む
 	Storage.load = function() {
 		if(localStorage) {
-			var result = {};
+			let result = {};
 			for(var i = 0; i < localStorage.length; i++) {
 				var key = localStorage.key(i);
 				result[key] = localStorage.getItem(key);
