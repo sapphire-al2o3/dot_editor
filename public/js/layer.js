@@ -16,7 +16,7 @@ Model
 	
 	var document = $.d;
 	
-	var Layer = function (w, h) {
+	var Layer = function(w, h) {
 		this.width = w;
 		this.height = h;
 		this.canvas = document.createElement('canvas');
@@ -26,8 +26,8 @@ Model
 		this.canvas.setAttribute('id', 'layer-' + Layer.count++);
 		this.canvas.setAttribute('z-index', 1);
 		this.indexData = this.ctx.createImageData(w, h);
-		document.getElementById('editor-canvas').appendChild(this.canvas);
 		
+		document.getElementById('editor-canvas').appendChild(this.canvas);
 	};
 	
 	var layers = [];
@@ -48,8 +48,6 @@ Model
 		
 		layers.push(layer);
 		$('editer-canvas').appendChild(layer.canvas);
-		
-		this.count++;
 	};
 	
 	//! @brief レイヤーの削除
@@ -78,7 +76,9 @@ Model
 		layers[index + 1].canvas.setAttribute('z-index', index + 2);
 	};
 	
-	Layer.count = 0;
+	Layer.get = function(index) {
+		return layers[index];
+	};
 	
 	var LayerRenderer = {};
 	LayerRenderer.render = function (layer, option) {
