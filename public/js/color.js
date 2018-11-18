@@ -29,7 +29,7 @@
 	}
 	
 	function rgb2hsv(r, g, b) {
-		var m = Math.max(r, g, b),
+		let m = Math.max(r, g, b),
 			n = Math.min(r, g, b),
 			c = m - n,
 			h = 0;

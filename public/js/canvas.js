@@ -8,8 +8,8 @@
 function clear(ctx, indexData) {
 	ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 	if(indexData) {
-		var data = indexData.data;
-		for(var i = 0, n = data.length; i < n; i++) {
+		let data = indexData.data;
+		for(let i = 0, n = data.length; i < n; i++) {
 			data[i] = 0;
 		}
 	}
@@ -18,14 +18,14 @@ function clear(ctx, indexData) {
 // 破線の描画
 function strokeDashLine(ctx, x0, y0, x1, y1, s) {
 	'use strict';
-	var dx = x1 - x0,
+	let dx = x1 - x0,
 		dy = y1 - y0,
 		l = Math.sqrt(dx * dx + dy * dy),
 		d = l / s ^ 0;
 	ctx.beginPath();
 	ctx.moveTo(x0 - 0.5, y0 - 0.5);
-	for(var i = 1; i <= d; i += 2) {
-		var sx = x0 + dx * (i - 1) / d - 0.5,
+	for(let i = 1; i <= d; i += 2) {
+		let sx = x0 + dx * (i - 1) / d - 0.5,
 			sy = y0 + dy * (i - 1) / d - 0.5,
 			ex = x0 + dx * i / d - 0.5,
 			ey = y0 + dy * i / d - 0.5;
@@ -37,8 +37,8 @@ function strokeDashLine(ctx, x0, y0, x1, y1, s) {
 	
 	ctx.beginPath();
 	ctx.moveTo(x0 - 0.5, y0 - 0.5);
-	for(var i = 0; i <= d; i += 2) {
-		var sx = x0 + dx * (i - 1) / d - 0.5,
+	for(let i = 0; i <= d; i += 2) {
+		let sx = x0 + dx * (i - 1) / d - 0.5,
 			sy = y0 + dy * (i - 1) / d - 0.5,
 			ex = x0 + dx * i / d - 0.5,
 			ey = y0 + dy * i / d - 0.5;
@@ -58,7 +58,7 @@ function strokeDashLine(ctx, x0, y0, x1, y1, s) {
 
 // 選択範囲の表示
 function drawSelectionRegion(ctx, x0, y0, x1, y1, scale) {
-	var s = scale;
+	let s = scale;
 	ctx.strokeStyle = '#000000';
 	strokeDashLine(ctx, x0 * s, y0 * s, x1 * s, y0 * s, 3);
 	strokeDashLine(ctx, x0 * s, y1 * s, x1 * s, y1 * s, 3);
@@ -68,14 +68,14 @@ function drawSelectionRegion(ctx, x0, y0, x1, y1, scale) {
 
 // ドットの表示
 function drawDot(ctx, x, y, indexData, paletteIndex, scale) {
-	var s = scale;
+	let s = scale;
 	ctx.fillRect(x * s, y * s, s, s);
 	if(indexData) indexData.data[y * indexData.width + x] = paletteIndex;
 }
 
 // 直線の表示
 function drawLine(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
-	var dx = Math.abs(x1 - x0),
+	let dx = Math.abs(x1 - x0),
 		dy = Math.abs(y1 - y0),
 		dx2 = dx * 2,
 		dy2 = dy * 2,
@@ -89,8 +89,8 @@ function drawLine(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		s = scale;
 	ctx.beginPath();
 	if(dx >= dy) {
-		var e = -dx;
-		for(var i = 0; i <= dx; i++) {
+		let e = -dx;
+		for(let i = 0; i <= dx; i++) {
 			if(x < 0 || x >= w || y < 0 || y >= h) {
 				break;
 			}
@@ -106,8 +106,8 @@ function drawLine(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 			}
 		}
 	} else {
-		var e = -dy;
-		for(var i = 0; i <= dy; i++) {
+		let e = -dy;
+		for(let i = 0; i <= dy; i++) {
 			if(x < 0 || x >= w || y < 0 || y >= h) {
 				break;
 			}
@@ -128,7 +128,7 @@ function drawLine(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 
 // 矩形
 function drawRect(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
-	var left = Math.min(x0, x1),
+	let left = Math.min(x0, x1),
 		right = Math.max(x0, x1),
 		top = Math.min(y0, y1),
 		bottom = Math.max(y0, y1),
@@ -138,8 +138,8 @@ function drawRect(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		h = indexData ? indexData.height : 0;
 	
 	ctx.beginPath();
-	for(var i = top; i <= bottom; i++) {
-		var y = i * s;
+	for(let i = top; i <= bottom; i++) {
+		let y = i * s;
 		ctx.rect(left * s, y, s, s);
 		ctx.rect(right * s, y, s, s);
 		if(data) {
@@ -153,8 +153,8 @@ function drawRect(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 			}
 		}
 	}
-	for(var j = left + 1; j < right; j++) {
-		var x = j * s;
+	for(let j = left + 1; j < right; j++) {
+		let x = j * s;
 		ctx.rect(x, top * s, s, s);
 		ctx.rect(x, bottom * s, s, s);
 		if(data) {
@@ -169,7 +169,7 @@ function drawRect(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 
 // 塗りつぶし矩形
 function fillRect(ctx, x0, y0, x1, y1, indexData, index, scale) {
-	var left = Math.min(x0, x1),
+	let left = Math.min(x0, x1),
 		right = Math.max(x0, x1),
 		top = Math.min(y0, y1),
 		bottom = Math.max(y0, y1),
@@ -183,9 +183,9 @@ function fillRect(ctx, x0, y0, x1, y1, indexData, index, scale) {
 	if(bottom >= w) bottom = w - 1;
 	
 	if(data) {
-		for(var i = top; i<= bottom; i++) {
-			var y = i * w;
-			for(var j = left; j <= right; j++) {
+		for(let i = top; i<= bottom; i++) {
+			let y = i * w;
+			for(let j = left; j <= right; j++) {
 				data[y + j] = index;
 			}
 		}
@@ -195,7 +195,7 @@ function fillRect(ctx, x0, y0, x1, y1, indexData, index, scale) {
 
 // 塗りつぶし
 function paint(ctx, x, y, indexData, paletteIndex, scale) {
-	var data = indexData.data,
+	let data = indexData.data,
 		w = indexData.width,
 		h = indexData.height,
 		c = data[y * w + x],
@@ -223,7 +223,7 @@ function paint(ctx, x, y, indexData, paletteIndex, scale) {
 
 // アウトライン描画
 function drawOutline(ctx, x, y, indexData, paletteIndex, scale) {
-	var data = indexData.data,
+	let data = indexData.data,
 		w = indexData.width,
 		h = indexData.height,
 		c = data[y * w + x],
@@ -251,14 +251,14 @@ function drawOutline(ctx, x, y, indexData, paletteIndex, scale) {
 	ctx.beginPath();
 	
 	// 縮退させる
-	for(var i = 0; i < h; i++) {
-		for(var j = 0; j < w; j++) {
-			var k = i * w + j,
+	for(let i = 0; i < h; i++) {
+		for(let j = 0; j < w; j++) {
+			let k = i * w + j,
 				p = tmp[k] === 1;
 			
 			
 			if(p) {
-				var b = false;
+				let b = false;
 				if(i > 0) b |= tmp[k - w] === 0;
 				if(i < h - 1) b |= tmp[k + w] === 0;
 				if(j > 0) b |= tmp[k - 1] === 0;
@@ -275,7 +275,7 @@ function drawOutline(ctx, x, y, indexData, paletteIndex, scale) {
 }
 
 function eps(x0, y0, x1, y1, x, y) {
-	var dx = (x1 - x0),
+	let dx = (x1 - x0),
 		dy = (y1 - y0),
 		dx2 = dx * dx,
 		dy2 = dy * dy,
@@ -294,7 +294,7 @@ function setPixel(data, x, y, w, h, value) {
 
 // 円を描画する
 function drawEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
-	var left = Math.min(x0, x1),
+	let left = Math.min(x0, x1),
 		right = Math.max(x0, x1),
 		top = Math.min(y0, y1),
 		bottom = Math.max(y0, y1),
@@ -305,7 +305,7 @@ function drawEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 	y0 = top;
 	y1 = bottom;
 	
-	var dx = x1 - x0,
+	let dx = x1 - x0,
 		dy = y1 - y0,
 		dx2 = dx * dx,
 		dy2 = dy * dy,
@@ -318,7 +318,7 @@ function drawEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		
 	//console.log(x0, y0, x1, y1, w, h);
 	ctx.beginPath();
-	var x = ((x0 + x1) >> 1) * w;
+	let x = ((x0 + x1) >> 1) * w;
 	ctx.rect(x, y0 * h, w, h);
 	ctx.rect(x, y1 * h, w, h);
 //	if(data) {
@@ -339,7 +339,7 @@ function drawEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		setPixel(data, ((x0 + x1) >> 1) + 1, y1, iw, ih, paletteIndex);
 	}
 	
-	var y = ((y0 + y1) >> 1) * h;
+	let y = ((y0 + y1) >> 1) * h;
 	ctx.rect(x0 * w, y, w, h);
 	ctx.rect(x1 * w, y, w, h);
 //	if(data) {
@@ -359,7 +359,7 @@ function drawEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		setPixel(data, x1, ((y0 + y1) >> 1)  + 1, iw, ih, paletteIndex);
 	}
 	
-	var a2 = a * a,
+	let a2 = a * a,
 		b2 = b * b,
 		f = b2 *(-2 * a + 1) + 2 * a2,
 		o = x * b2 / a2,
@@ -371,8 +371,8 @@ function drawEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 	
 	y = y1;
 	x = ((x0 + x1) >> 1);
-	for(var i = 0; i < n; i++) {
-		var e0 = eps(x0 + 0.5, y0 + 0.5, x1 + 0.5, y1 + 0.5, x - 1 + 0.5, y + 0.5),
+	for(let i = 0; i < n; i++) {
+		let e0 = eps(x0 + 0.5, y0 + 0.5, x1 + 0.5, y1 + 0.5, x - 1 + 0.5, y + 0.5),
 			e1 = eps(x0 + 0.5, y0 + 0.5, x1 + 0.5, y1 + 0.5, x - 1 + 0.5, y - 1 + 0.5);
 		
 		if(Math.abs(e0) < Math.abs(e1)) {
@@ -405,8 +405,8 @@ function drawEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 	y = (y0 + y1) >> 1;
 	x = x1;
 	n = b / Math.sqrt(a2 / b2 + 1);
-	for(var i = 0; i < n; i++) {
-		var e0 = eps(x0 + 0.5, y0 + 0.5, x1 + 0.5, y1 + 0.5, x + 0.5, y - 1 + 0.5),
+	for(let i = 0; i < n; i++) {
+		let e0 = eps(x0 + 0.5, y0 + 0.5, x1 + 0.5, y1 + 0.5, x + 0.5, y - 1 + 0.5),
 			e1 = eps(x0 + 0.5, y0 + 0.5, x1 + 0.5, y1 + 0.5, x - 1 + 0.5, y - 1 + 0.5);
 		if(Math.abs(e0) < Math.abs(e1)) {
 			y = y - 1;
@@ -440,7 +440,7 @@ function drawEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 
 // 塗りつぶし円を描画する
 function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
-	var left = Math.min(x0, x1),
+	let left = Math.min(x0, x1),
 		right = Math.max(x0, x1),
 		top = Math.min(y0, y1),
 		bottom = Math.max(y0, y1),
@@ -451,7 +451,7 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 	y0 = top;
 	y1 = bottom;
 	
-	var dx = x1 - x0,
+	let dx = x1 - x0,
 		dy = y1 - y0,
 		dx2 = dx * dx,
 		dy2 = dy * dy,
@@ -462,11 +462,11 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		ih = data ? indexData.height : 0;
 		
 	ctx.beginPath();
-	var x = ((x0 + x1) >> 1) * s;
+	let x = ((x0 + x1) >> 1) * s;
 	ctx.rect(x, y0 * s, s, s);
 	ctx.rect(x, y1 * s, s, s);
 	if(data) {
-		var ix = (x0 + x1) >> 1;
+		let ix = (x0 + x1) >> 1;
 		if(0 <= ix && ix < iw) {
 			if(0 <= y0 && y0 < ih) data[y0 * iw + ix] = paletteIndex;
 			if(0 <= y0 && y0 < ih) data[y1 * iw + ix] = paletteIndex;
@@ -484,14 +484,14 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		}
 	}
 	
-	var y = ((y0 + y1) >> 1) * s;
+	let y = ((y0 + y1) >> 1) * s;
 	
 	ctx.rect(x0 * s, y, (x1 - x0 + 1) * s, s);
 	
 	if(data) {
-		var iy = ((y0 + y1) >> 1) * iw;
+		let iy = ((y0 + y1) >> 1) * iw;
 		if(0 <= iy && iy < ih * iw) {
-			for(var j = x0; j <= x1; j++) {
+			for(let j = x0; j <= x1; j++) {
 				if(0 <= j && j < iw) {
 					data[iy + j] = paletteIndex;
 				}
@@ -502,9 +502,9 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		ctx.rect(x0 * s, y + s, (x1 - x0 + 1) * s, s);
 		
 		if(data) {
-			var iy = (((y0 + y1) >> 1) + 1) * iw;
+			let iy = (((y0 + y1) >> 1) + 1) * iw;
 			if(0 <= iy && iy < ih * iw) {
-				for(var j = x0; j <= x1; j++) {
+				for(let j = x0; j <= x1; j++) {
 					if(0 <= j && j < iw) {
 						data[iy + j] = paletteIndex;
 					}
@@ -513,7 +513,7 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		}
 	}
 	
-	var a2 = a * a,
+	let a2 = a * a,
 		b2 = b * b,
 		f = b2 *(-2 * a + 1) + 2 * a2,
 		cx = x0 + a,
@@ -524,8 +524,8 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 	
 	y = y1;
 	x = ((x0 + x1) >> 1);
-	for(var i = 0; i < n; i++) {
-		var e0 = eps(x0 + 0.5, y0 + 0.5, x1 + 0.5, y1 + 0.5, x - 1 + 0.5, y + 0.5),
+	for(let i = 0; i < n; i++) {
+		let e0 = eps(x0 + 0.5, y0 + 0.5, x1 + 0.5, y1 + 0.5, x - 1 + 0.5, y + 0.5),
 			e1 = eps(x0 + 0.5, y0 + 0.5, x1 + 0.5, y1 + 0.5, x - 1 + 0.5, y - 1 + 0.5);
 		
 		if(Math.abs(e0) < Math.abs(e1)) {
@@ -538,7 +538,7 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		ctx.rect(x * s, (y1 - y + y0) * s, (x1 + x0 - x * 2 + 1) * s, s);
 		
 		if(data) {
-			for(var j = x; j <= x1 - x + x0; j++) {
+			for(let j = x; j <= x1 - x + x0; j++) {
 				if(0 <= j && j < iw) {
 					data[y * iw + j] = paletteIndex;
 					data[(y1 - y + y0) * iw + j] = paletteIndex;
@@ -554,8 +554,8 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 	y = (y0 + y1) >> 1;
 	x = x1;
 	n = b / Math.sqrt(a2 / b2 + 1);
-	for(var i = 0; i < n; i++) {
-		var e0 = eps(x0 + 0.5, y0 + 0.5, x1 + 0.5, y1 + 0.5, x + 0.5, y - 1 + 0.5),
+	for(let i = 0; i < n; i++) {
+		let e0 = eps(x0 + 0.5, y0 + 0.5, x1 + 0.5, y1 + 0.5, x + 0.5, y - 1 + 0.5),
 			e1 = eps(x0 + 0.5, y0 + 0.5, x1 + 0.5, y1 + 0.5, x - 1 + 0.5, y - 1 + 0.5);
 		if(Math.abs(e0) < Math.abs(e1)) {
 			y = y - 1;
@@ -568,7 +568,7 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		ctx.rect((x1 - x + x0) * s, (y1 - y + y0) * s, (x * 2 - x1 - x0  + 1) * s, s);
 		
 		if(data) {
-			for(var j = x1 - x + x0; j <= x; j++) {
+			for(let j = x1 - x + x0; j <= x; j++) {
 				if(0 <= j && j < iw) {
 					data[y * iw + j] = paletteIndex;
 					data[(y1 - y + y0) * iw + j] = paletteIndex;
@@ -582,7 +582,7 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 
 // グリッドを表示する
 function drawGrid(ctx, option, scale) {
-	var size = scale,
+	let size = scale,
 		l = option.grid.size,
 		n = option.imageWidth,
 		w = ctx.canvas.width,
@@ -590,8 +590,8 @@ function drawGrid(ctx, option, scale) {
 	ctx.strokeStyle = option.grid.color1;
 	ctx.lineWidth = 1.0;
 	ctx.beginPath();
-	for(var i = 1; i < n; i++) {
-		var x = size * i - 0.5;
+	for(let i = 1; i < n; i++) {
+		let x = size * i - 0.5;
 		ctx.moveTo(0.5, x);
 		ctx.lineTo(w + 0.5, x);
 		ctx.moveTo(x, 0);
@@ -616,24 +616,24 @@ function drawGrid(ctx, option, scale) {
 
 // インデックスカラーイメージを描画する
 function drawIndexedImage(ctx, image, palette, scale, paletteData) {
-	var data = image.data,
+	let data = image.data,
 		size = scale,
 		w = image.width,
 		h = image.height,
 		l = w * h,
 		total = 0;
 	/*
-	for(var k = 0, n = palette.length; k < n; k++) {
-		var count = 0,
+	for(let k = 0, n = palette.length; k < n; k++) {
+		let count = 0,
 			index = 0;
 		ctx.beginPath();
 		
-		for(var i = 0; i < h && count < l; i++) {
-			var y = i * size,
+		for(let i = 0; i < h && count < l; i++) {
+			let y = i * size,
 				f = false,
 				len = 0,
 				x = 0;
-			for(var j = 0; j < w; j++) {
+			for(let j = 0; j < w; j++) {
 				if(data[index] === k) {
 					if(len === 0) {
 						x = j;
@@ -663,26 +663,26 @@ function drawIndexedImage(ctx, image, palette, scale, paletteData) {
 	}
 	*/
 //	console.log(palette.length, w, h);
-	for(var k = 0, n = palette.length; k < n; k++) {
+	for(let k = 0, n = palette.length; k < n; k++) {
 		ctx.fillStyle = palette[k];
-		for(var i = 0; i < h; i++) {
-			for(var j = 0; j < w; j++) {
+		for(let i = 0; i < h; i++) {
+			for(let j = 0; j < w; j++) {
 				if(data[i * w + j] === k) {
 					ctx.fillRect(j * size, i * size, size, size);
 				}
 			}
 		}
 	}
-//	var dw = w * size,
+//	let dw = w * size,
 //		dh = w * size,
 //		dst = ctx.createImageData(w * size, h * size),
 //		dstData = dst.data,
 //		k = 0,
 //		p = paletteData.data;
-//	for(var i = 0; i < h * size; i++) {
-//		var y = (i / size ^ 0) * w;
-//		for(var j = 0; j < w * size; j++) {
-//			var x = j / size ^ 0,
+//	for(let i = 0; i < h * size; i++) {
+//		let y = (i / size ^ 0) * w;
+//		for(let j = 0; j < w * size; j++) {
+//			let x = j / size ^ 0,
 //				index = data[y + x] * 4;
 //			dstData[k] = p[index];
 //			dstData[k + 1] = p[index + 1];
@@ -695,7 +695,7 @@ function drawIndexedImage(ctx, image, palette, scale, paletteData) {
 }
 
 function drawIndexedImageData(ctx, image, palette, scale, transparent) {
-	var index = 0,
+	let index = 0,
 		data = image.data,
 		paletteData = palette.data,
 		dest = ctx.createImageData(image.width * scale, image.height * scale),
@@ -704,12 +704,12 @@ function drawIndexedImageData(ctx, image, palette, scale, transparent) {
 		stride = image.width,
 		destData = dest.data,
 		t = transparent === undefined ? 256 : transparent;
-	for(var i = 0, p = 0; i < h; i++) {
-		var y = i / scale ^ 0;
-		for(var j = 0; j < w; j++) {
-			var x = j / scale ^ 0;
+	for(let i = 0, p = 0; i < h; i++) {
+		let y = i / scale ^ 0;
+		for(let j = 0; j < w; j++) {
+			let x = j / scale ^ 0;
 			index = y * stride + x;
-			var pindex = data[index] * 4;
+			let pindex = data[index] * 4;
 			destData[p] = paletteData[pindex];
 			destData[p + 1] = paletteData[pindex + 1];
 			destData[p + 2] = paletteData[pindex + 2];
@@ -723,7 +723,7 @@ function drawIndexedImageData(ctx, image, palette, scale, transparent) {
 // 拡大して表示する
 function drawImage(ctx, image, dx, dy, dw, dh) {
 	
-	var index = 0,
+	let index = 0,
 		data = image.data,
 		c = '#000',
 		scale = 8;
@@ -731,11 +731,11 @@ function drawImage(ctx, image, dx, dy, dw, dh) {
 	dh = image.height;
 	
 	//ctx.beginPath();
-	var cx = ctx;
-	for(var i = 0; i < dh; i++) {
-		var y = i * scale;
-		for(var j = 0; j < dw; j++) {
-			var x = j * scale,
+	let cx = ctx;
+	for(let i = 0; i < dh; i++) {
+		let y = i * scale;
+		for(let j = 0; j < dw; j++) {
+			let x = j * scale,
 				color = rgb(data[index], data[index + 1], data[index + 2]);
 			
 			if(color !== c) {
@@ -750,7 +750,7 @@ function drawImage(ctx, image, dx, dy, dw, dh) {
 
 // 水平方向反転
 function flipH(ctx, indexData) {
-	var data = indexData.data,
+	let data = indexData.data,
 		w = indexData.width,
 		h = indexData.height;
 	
@@ -760,7 +760,7 @@ function flipH(ctx, indexData) {
 	
 	flipImageH(data, w, h);
 	
-	var imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+	let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
 	
 	flipImageH(new Uint32Array(imageData.data.buffer), imageData.width, imageData.height);
 	
@@ -768,10 +768,10 @@ function flipH(ctx, indexData) {
 }
 
 function flipImageH(data, w, h) {
-	for(var i = 0; i < h; i++) {
-		var y = i * w;
-		for(var j = 0; j < (w / 2 ^ 0); j++) {
-			var tmp = data[y + j];
+	for(let i = 0; i < h; i++) {
+		let y = i * w;
+		for(let j = 0; j < (w / 2 ^ 0); j++) {
+			let tmp = data[y + j];
 			data[y + j] = data[y + w - j - 1];
 			data[y + w - j - 1] = tmp;
 		}
@@ -779,9 +779,9 @@ function flipImageH(data, w, h) {
 }
 
 function copyFlipImageH(src, dst, w, h) {
-	for(var i = 0; i < h; i++) {
-		var y = i * w;
-		for(var j = 0; j < w; j++) {
+	for(let i = 0; i < h; i++) {
+		let y = i * w;
+		for(let j = 0; j < w; j++) {
 			data[y + w - j - 1] = src[y + j];
 		}
 	}
@@ -789,7 +789,7 @@ function copyFlipImageH(src, dst, w, h) {
 
 // 垂直方向反転
 function flipV(ctx, indexData) {
-	var data = indexData.data,
+	let data = indexData.data,
 		w = indexData.width,
 		h = indexData.height;
 	
@@ -800,7 +800,7 @@ function flipV(ctx, indexData) {
 	
 	flipImageV(data, w, h);
 	
-	var imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
+	let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
 	
 	flipImageV(new Uint32Array(imageData.data.buffer), imageData.width, imageData.height);
 	
@@ -808,11 +808,11 @@ function flipV(ctx, indexData) {
 }
 
 function flipImageV(data, w, h) {
-	for(var i = 0; i < (h / 2 ^ 0); i++) {
-		var y = i * w,
+	for(let i = 0; i < (h / 2 ^ 0); i++) {
+		let y = i * w,
 			x = (h - i - 1) * w;
-		for(var j = 0; j < w; j++) {
-			var tmp = data[y + j];
+		for(let j = 0; j < w; j++) {
+			let tmp = data[y + j];
 			data[y + j] = data[x + j];
 			data[x + j] = tmp; 
 		}
@@ -821,7 +821,7 @@ function flipImageV(data, w, h) {
 
 // 右90度回転
 function rotate90R(ctx, indexData) {
-	var data = indexData.data,
+	let data = indexData.data,
 		w = indexData.width,
 		h = indexData.height,
 		temp = createIndexData(h, w);
@@ -829,7 +829,7 @@ function rotate90R(ctx, indexData) {
 	copyMirrorImageXY(data, temp.data, w, h);
 	flipImageH(temp.data, temp.width, temp.height);
 	
-	var imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height),
+	let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height),
 		buffer = new Uint32Array(imageData.data.buffer);
 	
 	if(w === h) {
@@ -837,7 +837,7 @@ function rotate90R(ctx, indexData) {
 		flipImageH(buffer, imageData.width, imageData.height);
 		ctx.putImageData(imageData, 0, 0);
 	} else {
-		var tempImageData = ctx.createImageData(ctx.canvas.height, ctx.canvas.width),
+		let tempImageData = ctx.createImageData(ctx.canvas.height, ctx.canvas.width),
 			tempBuffer = new Uint32Array(tempImageData.data.buffer);
 		copyMirrorImageXY(buffer, tempBuffer, imageData.width, imageData.height);
 		flipImageH(tempBuffer, tempImageData.width, tempImageData.height);
@@ -851,14 +851,14 @@ function rotate90R(ctx, indexData) {
 
 // 左90度回転
 function rotate90L(ctx, indexData) {
-	var data = indexData.data,
+	let data = indexData.data,
 		w = indexData.width,
 		h = indexData.height;
 	
 	mirrorImageXY(data, w, h);
 	flipImageV(data, w, h);
 	
-	var imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height),
+	let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height),
 		buffer = new Uint32Array(imageData.data.buffer);
 	
 	mirrorImageXY(buffer, imageData.width, imageData.height);
@@ -868,10 +868,10 @@ function rotate90L(ctx, indexData) {
 }
 
 function mirrorImageXY(data, w, h) {
-	for(var i = 0; i < h; i++) {
-		var y = i * w;
-		for(var j = i + 1; j < w; j++) {
-			var tmp = data[y + j];
+	for(let i = 0; i < h; i++) {
+		let y = i * w;
+		for(let j = i + 1; j < w; j++) {
+			let tmp = data[y + j];
 			data[y + j] = data[j * h + i];
 			data[j * h + i] = tmp;
 		}
@@ -880,9 +880,9 @@ function mirrorImageXY(data, w, h) {
 }
 
 function copyMirrorImageXY(src, dst, w, h) {
-	for(var i = 0; i < h; i++) {
-		var y = i * w;
-		for(var j = 0; j < w; j++) {
+	for(let i = 0; i < h; i++) {
+		let y = i * w;
+		for(let j = 0; j < w; j++) {
 			dst[j * h + i] = src[y + j];
 		}
 	}
@@ -891,14 +891,14 @@ function copyMirrorImageXY(src, dst, w, h) {
 
 // 水平方向シフト
 function shiftH(ctx, indexData, shift, scale) {
-	var data = indexData.data,
+	let data = indexData.data,
 		w = indexData.width,
 		h = indexData.height,
 		tmp = createIndexData(w, h);
 	shiftImageH(data, tmp.data, w, h, shift);
 	indexData.data = tmp.data;
 	
-	var imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height),
+	let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height),
 		tmpData = ctx.createImageData(imageData.width, imageData.height),
 		buffer = new Uint32Array(imageData.data.buffer),
 		tmpBuffer = new Uint32Array(tmpData.data.buffer);
@@ -907,9 +907,9 @@ function shiftH(ctx, indexData, shift, scale) {
 }
 
 function shiftImageH(data, tmp, w, h, shift) {
-	for(var i = 0; i < h; i++) {
-		var y = i * w;
-		for(var j = 0; j < w; j++) {
+	for(let i = 0; i < h; i++) {
+		let y = i * w;
+		for(let j = 0; j < w; j++) {
 			tmp[y + (w + j + shift) % w] = data[y + j];
 		}
 	}
@@ -917,14 +917,14 @@ function shiftImageH(data, tmp, w, h, shift) {
 
 // 垂直方向シフト
 function shiftV(ctx, indexData, shift, scale) {
-	var data = indexData.data,
+	let data = indexData.data,
 		w = indexData.width,
 		h = indexData.height,
 		tmp = createIndexData(w, h);
 	shiftImageV(data, tmp.data, w, h, shift);
 	indexData.data = tmp.data;
 	
-	var imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height),
+	let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height),
 		tmpData = ctx.createImageData(imageData.width, imageData.height),
 		buffer = new Uint32Array(imageData.data.buffer),
 		tmpBuffer = new Uint32Array(tmpData.data.buffer);
@@ -933,10 +933,10 @@ function shiftV(ctx, indexData, shift, scale) {
 }
 
 function shiftImageV(data, tmp, w, h, shift) {
-	for(var i = 0; i < h; i++) {
-		var y = i * w,
+	for(let i = 0; i < h; i++) {
+		let y = i * w,
 			yy = ((h + i + shift) % h) * w;
-		for(var j = 0; j < w; j++) {
+		for(let j = 0; j < w; j++) {
 			tmp[yy + j] = data[y + j];
 		}
 	}
@@ -944,7 +944,7 @@ function shiftImageV(data, tmp, w, h, shift) {
 
 // 指定のインデックスのピクセルを透明にする
 function drawClearColor(ctx, indexData, index, scale) {
-	var data = indexData.data,
+	let data = indexData.data,
 		w = indexData.width,
 		h = indexData.height,
 		s = scale,
@@ -968,13 +968,13 @@ function drawClearColor(ctx, indexData, index, scale) {
 // 入力した画像をインデックスカラーイメージに変換する
 // 色数が256色を超えた時点でエラーにする
 function convertIndexedImage(src, indexData, paletteData) {
-	var count = 0,
+	let count = 0,
 		palette = [],
 		data = src.data,
 		idx = indexData.data,
 		pal = paletteData.data;
-	for(var i = 0, j = 0, n = data.length; i < n; i += 4, j++) {
-		var r = data[i],
+	for(let i = 0, j = 0, n = data.length; i < n; i += 4, j++) {
+		let r = data[i],
 			g = data[i + 1],
 			b = data[i + 2],
 			a = data[i + 3],
@@ -983,7 +983,7 @@ function convertIndexedImage(src, indexData, paletteData) {
 		if(index < 0) {
 			palette.push(color);
 			index = count++;
-			var p = index * 4;
+			let p = index * 4;
 			pal[p] = r;
 			pal[p + 1] = g;
 			pal[p + 2] = b;
@@ -1001,18 +1001,18 @@ function convertIndexedImage(src, indexData, paletteData) {
 
 // フルカラーイメージをインデックスイメージに変換する
 function convertIndexedImageByPalette(src, indexData, paletteData, backIndex) {
-	var data = src.data,
+	let data = src.data,
 		idx = indexData.data,
 		pal = paletteData.data;
 	
-	for(var i = 0, n = data.length; i < n; i += 4) {
-		var r = data[i],
+	for(let i = 0, n = data.length; i < n; i += 4) {
+		let r = data[i],
 			g = data[i + 1],
 			b = data[i + 2],
 			a = data[i + 3],
 			index = -1;
 		
-		for(var j = 0; j < pal.length; j += 4) {
+		for(let j = 0; j < pal.length; j += 4) {
 			if(r === pal[j] && g === pal[j + 1] && b === pal[j + 2]) {
 				index = j / 4;
 				break;
@@ -1025,9 +1025,9 @@ function convertIndexedImageByPalette(src, indexData, paletteData, backIndex) {
 
 // 画像の差分の最初と最後を取得する
 function diffIndexData(src, dst) {
-	var head = src.length,
+	let head = src.length,
 		tail = 0;
-	for(var i = 0, n = src.length; i < n; i++) {
+	for(let i = 0, n = src.length; i < n; i++) {
 		if(dst[i] !== src[i]) {
 			head = i;
 			break;
@@ -1063,15 +1063,15 @@ function createPaletteData(n) {
 
 // 拡大した画像を返す
 function scaling(indexData, scale) {
-	var w = indexData.width * scale ^ 0,
+	let w = indexData.width * scale ^ 0,
 		h = indexData.height * scale ^ 0,
 		dst = createIndexData(w, h),
 		stride = indexData.width,
 		d = dst.data,
 		s = indexData.data;
 	
-	for(var i = 0; i < h; i++) {
-		for(var j = 0; j < w; j++) {
+	for(let i = 0; i < h; i++) {
+		for(let j = 0; j < w; j++) {
 			d[i * w + j] = s[(i * stride + j) / scale ^ 0];
 		}
 	}
@@ -1080,7 +1080,7 @@ function scaling(indexData, scale) {
 
 // 指定範囲のインデックスデータをコピーする
 function copyRangeIndexData(src, dst, range) {
-	var i = range ? range.head : 0,
+	let i = range ? range.head : 0,
 		n = range ? range.tail : src.data.length,
 		s = src.data,
 		d = dst.data;
@@ -1093,7 +1093,7 @@ function copyRangeIndexData(src, dst, range) {
 // インデックスデータをコピーする
 function copyIndexData(src, dst, sx, sy, w, h, dx, dy, index) {
 	console.log('copyIndex', sx, sy, w, h, dx, dy);
-	var s = src.data,
+	let s = src.data,
 		d = dst.data,
 		sw = src.width,
 		dw = dst.width,
@@ -1112,11 +1112,11 @@ function copyIndexData(src, dst, sx, sy, w, h, dx, dy, index) {
 	}
 	w = dx + w >= dw ? dw - dx : w;
 	h = dy + h >= dh ? dh - dy : h;
-	for(var i = 0; i < h; i++) {
-		var y = (i + sy) * sw,
+	for(let i = 0; i < h; i++) {
+		let y = (i + sy) * sw,
 			z = (i + dy) * dw;
-		for(var j = 0; j < w; j++) {
-			var x = j + sx;
+		for(let j = 0; j < w; j++) {
+			let x = j + sx;
 			if(index !== s[y + x]) {
 				d[z + j + dx] = s[y + x];
 			}
@@ -1125,10 +1125,10 @@ function copyIndexData(src, dst, sx, sy, w, h, dx, dy, index) {
 }
 
 function pasteIndexData(src, dst, x, y, sw, sh, dw, dh) {
-	var w = x + dw > sw ? sw : dw,
+	let w = x + dw > sw ? sw : dw,
 		h = y + dh > sh ? sh : dh;
-	for(var i = 0; i < h; i++) {
-		for(var j = 0; j < w; j++) {
+	for(let i = 0; i < h; i++) {
+		for(let j = 0; j < w; j++) {
 //			dst[] = src[];
 		}
 	}
@@ -1136,11 +1136,11 @@ function pasteIndexData(src, dst, x, y, sw, sh, dw, dh) {
 
 // インデックスデータを塗りつぶす
 function fillIndexData(src, index, x, y, w, h) {
-	var data = src.data,
+	let data = src.data,
 		width = src.width;
-	for(var i = y; i < y + h; i++) {
-		var n = i * width;
-		for(var j = x; j < x + w; j++) {
+	for(let i = y; i < y + h; i++) {
+		let n = i * width;
+		for(let j = x; j < x + w; j++) {
 			data[n + j] = index;
 		}
 	}
@@ -1148,22 +1148,22 @@ function fillIndexData(src, index, x, y, w, h) {
 
 // 未使用色の削除
 function removeUnusedColor(indexData, palette) {
-	var data = indexData.data,
+	let data = indexData.data,
 		used = [];
 	
-	for(var i = 0; i < palette.length; i++) {
+	for(let i = 0; i < palette.length; i++) {
 		used.push(0);
 	}
 	
-	var max = 0;
+	let max = 0;
 	
-	for(var i = 0, l = data.length; i < l; i++) {
-		var index = data[i];
+	for(let i = 0, l = data.length; i < l; i++) {
+		let index = data[i];
 		used[index]++;
 		if(index > max) max = index;
 	}
 	
-	var k = 0;
+	let k = 0;
 	for(i = 0; i <= max; i++) {
 		if(used[i] > 0) {
 			palette[k] = palette[i];
@@ -1183,9 +1183,9 @@ function removeUnusedColor(indexData, palette) {
 
 // インデックスの値を置換する
 function swapColor(indexData, a, b) {
-	var data = indexData.data;
+	let data = indexData.data;
 	
-	for(var i = 0, l = data.length; i < l; i++) {
+	for(let i = 0, l = data.length; i < l; i++) {
 		if(data[i] === a) {
 			data[i] = b;
 		} else if(data[i] == b) {

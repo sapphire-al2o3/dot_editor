@@ -52,7 +52,7 @@
 	}
 	
 	function downColor(e) {
-		var y = (e.offsetY || e.layerY) - 1,
+		let y = (e.offsetY || e.layerY) - 1,
 			x = (e.offsetX || e.layerX) - 1;
 		v = x / 127;
 		s = y / 127;
