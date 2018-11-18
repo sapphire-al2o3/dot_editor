@@ -32,6 +32,8 @@ Model
 	
 	var layers = [];
 	
+	var parent = document.getElementById('editor-canvas');
+	
 	Layer.add = function(w, h) {
 		let layer = {
 			width: w,
@@ -47,13 +49,13 @@ Model
 		layer.ctx = layer.canvas.getContext('2d');
 		
 		layers.push(layer);
-		$('editer-canvas').appendChild(layer.canvas);
+		$('editor-canvas').appendChild(layer.canvas);
 	};
 	
 	//! @brief レイヤーの削除
 	Layer.remove = function(index) {
 		let layer = layers[index];
-		$('editer-canvas').removeChild(layer.canvas);
+		$('editor-canvas').removeChild(layer.canvas);
 		layers.splice(index, 1);
 	};
 	

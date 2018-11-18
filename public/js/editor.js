@@ -490,6 +490,7 @@ editor: Editor
 			new Widget('palette');
 			new Widget('color-picker');
 			new Widget('view');
+			new Widget('layers');
 			
 			preview = $('view').lastChild.getContext('2d');
 		}
@@ -962,6 +963,39 @@ editor: Editor
 				}
 			}
 		};
+		
+		
+		var $currentLayer = $.q('#layer-list li');
+		
+		$.bind($('layer-list'), 'click', (e) => {
+			if(e.target.localName === "li") {
+				console.log(e.target);
+				if($currentLayer) {
+					$currentLayer.classList.remove('selected');
+				}
+				$currentLayer = e.target;
+				$currentLayer.classList.add('selected');
+			}
+		});
+		
+		$.bind($('layer-remove'), 'click', () => {
+			console.log('remove layer');
+			if($currentLayer) {
+				$('layer-list').removeChild($currentLayer);
+			}
+		});
+		
+		
+		$.bind($('layer-add'), 'click', () => {
+			console.log('add layer');
+			let newLayer = $('layer-list-template').cloneNode(true);
+//			$('layer-list').appendChild();
+//			let newLayer = document.createElement('li');
+			newLayer.lastChild.textContent = 'new レイヤー';
+			newLayer.classList.remove('selected');
+			$('layer-list').appendChild(newLayer);
+//			Layer.add(canvas.width, canvas.height);
+		});
 	
 		window.onbeforeunload = function(e) {
 			return 'ページを移動すると編集した情報が失われます';
@@ -976,19 +1010,22 @@ editor: Editor
 	}
 
 	// ローカルストレージに保存
-	function save() {
-		Storage.save({
+	function save(name) {
+		let json = JSON.stringify({
 			indexData: Base64.encode(indexData.data),
 			width: indexData.width,
 			height: indexData.height,
 			paletteData: Base64.encode(paletteData.data)
+		});
+		Storage.save({
+			name: json
 		});
 		
 		console.log('save');
 	}
 
 	// ローカルストレージから読み込み
-	function load() {
+	function load(name) {
 		var result = Storage.load();
 		
 		if(result && result.indexData) {
