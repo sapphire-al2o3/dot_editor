@@ -996,6 +996,14 @@ editor: Editor
 			$('layer-list').appendChild(newLayer);
 //			Layer.add(canvas.width, canvas.height);
 		});
+		
+		$.bind($('layer-up'), 'click' () => {
+			console.log('up layer');
+		});
+		
+		$.bind($('layer-down'), 'click' () => {
+			console.log('down layer');
+		});
 	
 		window.onbeforeunload = function(e) {
 			return 'ページを移動すると編集した情報が失われます';
