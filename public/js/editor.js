@@ -997,11 +997,11 @@ editor: Editor
 //			Layer.add(canvas.width, canvas.height);
 		});
 		
-		$.bind($('layer-up'), 'click' () => {
-			console.log('up layer');
+		$.bind($('layer-up'), 'click', () => {
+			console.log('up layer', $('layer-list'));
 		});
 		
-		$.bind($('layer-down'), 'click' () => {
+		$.bind($('layer-down'), 'click', () => {
 			console.log('down layer');
 		});
 	
