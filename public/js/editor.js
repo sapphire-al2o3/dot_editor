@@ -969,7 +969,6 @@ editor: Editor
 		
 		$.bind($('layer-list'), 'click', (e) => {
 			if(e.target.localName === "li") {
-				console.log(e.target);
 				if($currentLayer) {
 					$currentLayer.classList.remove('selected');
 				}
@@ -998,11 +997,15 @@ editor: Editor
 		});
 		
 		$.bind($('layer-up'), 'click', () => {
-			console.log('up layer', $('layer-list'));
+			if($currentLayer && $currentLayer.previousElementSibling) {
+				$('layer-list').insertBefore($currentLayer, $currentLayer.previousElementSibling);
+			}
 		});
 		
 		$.bind($('layer-down'), 'click', () => {
-			console.log('down layer');
+			if($currentLayer && $currentLayer.nextElementSibling) {
+				$('layer-list').insertBefore($currentLayer, $currentLayer.nextElementSibling.nextElementSibling);
+			}
 		});
 	
 		window.onbeforeunload = function(e) {
