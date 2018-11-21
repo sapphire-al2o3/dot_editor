@@ -965,7 +965,8 @@ editor: Editor
 		};
 		
 		
-		var $currentLayer = $.q('#layer-list li');
+		let $layerList = $('layer-list'),
+			$currentLayer = $.q('#layer-list li');
 		
 		$.bind($('layer-list'), 'click', (e) => {
 			if(e.target.localName === "li") {
@@ -979,7 +980,7 @@ editor: Editor
 		
 		$.bind($('layer-remove'), 'click', () => {
 			console.log('remove layer');
-			if($('layer-list').childElementCount > 1) {
+			if($layerList.childElementCount > 1) {
 				if($currentLayer) {
 					let removeLayer = $currentLayer;
 					
@@ -989,7 +990,7 @@ editor: Editor
 						$currentLayer = $currentLayer.previousElementSibling;
 					}
 					$currentLayer.classList.add('selected');
-					$('layer-list').removeChild(removeLayer);
+					$layerList.removeChild(removeLayer);
 				}
 			}
 		});
@@ -1002,19 +1003,19 @@ editor: Editor
 //			let newLayer = document.createElement('li');
 			newLayer.lastChild.textContent = 'new レイヤー';
 			newLayer.classList.remove('selected');
-			$('layer-list').appendChild(newLayer);
+			$layerList.appendChild(newLayer);
 //			Layer.add(canvas.width, canvas.height);
 		});
 		
 		$.bind($('layer-up'), 'click', () => {
 			if($currentLayer && $currentLayer.previousElementSibling) {
-				$('layer-list').insertBefore($currentLayer, $currentLayer.previousElementSibling);
+				$layerList.insertBefore($currentLayer, $currentLayer.previousElementSibling);
 			}
 		});
 		
 		$.bind($('layer-down'), 'click', () => {
 			if($currentLayer && $currentLayer.nextElementSibling) {
-				$('layer-list').insertBefore($currentLayer, $currentLayer.nextElementSibling.nextElementSibling);
+				$layerList.insertBefore($currentLayer, $currentLayer.nextElementSibling.nextElementSibling);
 			}
 		});
 	
