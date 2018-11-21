@@ -979,8 +979,18 @@ editor: Editor
 		
 		$.bind($('layer-remove'), 'click', () => {
 			console.log('remove layer');
-			if($currentLayer) {
-				$('layer-list').removeChild($currentLayer);
+			if($('layer-list').childElementCount > 1) {
+				if($currentLayer) {
+					let removeLayer = $currentLayer;
+					
+					if($currentLayer.nextElementSibling) {
+						$currentLayer = $currentLayer.nextElementSibling;
+					} else {
+						$currentLayer = $currentLayer.previousElementSibling;
+					}
+					$currentLayer.classList.add('selected');
+					$('layer-list').removeChild(removeLayer);
+				}
 			}
 		});
 		
