@@ -978,6 +978,10 @@ editor: Editor
 			}
 		});
 		
+		$.bind($layerList, 'change', (e) => {
+			console.log(e.target.id);
+		});
+		
 		$.bind($('layer-remove'), 'click', () => {
 			console.log('remove layer');
 			if($layerList.childElementCount > 1) {
@@ -998,7 +1002,7 @@ editor: Editor
 		
 		$.bind($('layer-add'), 'click', () => {
 			console.log('add layer');
-			let newLayer = $('layer-list-template').cloneNode(true);
+			let newLayer = $currentLayer.cloneNode(true);
 //			$('layer-list').appendChild();
 //			let newLayer = document.createElement('li');
 			newLayer.lastChild.textContent = 'new レイヤー';
