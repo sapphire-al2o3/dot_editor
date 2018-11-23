@@ -984,8 +984,7 @@ editor: Editor
 		});
 		
 		$.bind($('layer-remove'), 'click', () => {
-			console.log('remove layer');
-			if($layerList.childElementCount > 2) {
+			if($layerList.childElementCount > 1) {
 				if($currentLayer) {
 					let removeLayer = $currentLayer;
 					
@@ -1002,12 +1001,10 @@ editor: Editor
 		
 		
 		$.bind($('layer-add'), 'click', () => {
-			console.log('add layer');
 			let newLayer = $templateLayer.cloneNode(true);
 			newLayer.lastChild.textContent = 'new レイヤー';
-			newLayer.style.display = '';
 			newLayer.id = '';
-			$layerList.insertBefore(newLayer, $templateLayer.nextElementSibling);
+			$layerList.insertBefore(newLayer, $layerList.firstElementChild);
 //			Layer.add(canvas.width, canvas.height);
 		});
 		
