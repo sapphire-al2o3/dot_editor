@@ -966,7 +966,8 @@ editor: Editor
 		
 		
 		let $layerList = $('layer-list'),
-			$currentLayer = $.q('#layer-list li');
+			$templateLayer = $('layer-list-template'),
+			$currentLayer = $layerList.lastElementChild;
 		
 		$.bind($('layer-list'), 'click', (e) => {
 			if(e.target.localName === "li") {
@@ -984,7 +985,7 @@ editor: Editor
 		
 		$.bind($('layer-remove'), 'click', () => {
 			console.log('remove layer');
-			if($layerList.childElementCount > 1) {
+			if($layerList.childElementCount > 2) {
 				if($currentLayer) {
 					let removeLayer = $currentLayer;
 					
@@ -1002,12 +1003,11 @@ editor: Editor
 		
 		$.bind($('layer-add'), 'click', () => {
 			console.log('add layer');
-			let newLayer = $currentLayer.cloneNode(true);
-//			$('layer-list').appendChild();
-//			let newLayer = document.createElement('li');
+			let newLayer = $templateLayer.cloneNode(true);
 			newLayer.lastChild.textContent = 'new レイヤー';
-			newLayer.classList.remove('selected');
-			$layerList.appendChild(newLayer);
+			newLayer.style.display = '';
+			newLayer.id = '';
+			$layerList.insertBefore(newLayer, $templateLayer.nextElementSibling);
 //			Layer.add(canvas.width, canvas.height);
 		});
 		

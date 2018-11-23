@@ -245,7 +245,7 @@
 	display: none;
 }
 
-#layers input[type="checkbox"] + label:before {
+#layers input[type="checkbox"] + span:before {
 	content: "";
 	display: inline-block;
 	margin-right: 4px;
@@ -256,14 +256,13 @@
 	margin-left: 4px;
 }
 
-#layers input[type="checkbox"]:checked + label:before {
+#layers input[type="checkbox"]:checked + span:before {
 	background-color: #08D;
 }
 
 #layer-list li {
 	font-size: 9pt;
 	color: #707070;
-	display: block;
 	margin: 2px 0px;
 	padding: 4px 2px;
 	cursor: default;
@@ -271,6 +270,10 @@
 
 #layer-list li.selected {
 	background-color: #E4EEF4;
+}
+
+#layer-list-template {
+	display: none;
 }
 
 #layer-tools {
