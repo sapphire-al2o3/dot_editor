@@ -1026,14 +1026,15 @@ function convertIndexedImageByPalette(src, indexData, paletteData, backIndex) {
 // 画像の差分の最初と最後を取得する
 function diffIndexData(src, dst) {
 	let head = src.length,
-		tail = 0;
-	for(let i = 0, n = src.length; i < n; i++) {
+		tail = 0,
+		n = src.length;
+	for(let i = 0; i < n; i++) {
 		if(dst[i] !== src[i]) {
 			head = i;
 			break;
 		}
 	}
-	for(i = n - 1; i >= 0; i--) {
+	for(let i = n - 1; i >= 0; i--) {
 		if(dst[i] !== src[i]) {
 			tail = i;
 			break;
@@ -1194,4 +1195,14 @@ function swapColor(indexData, a, b) {
 	}
 }
 
+// イメージを結合する
+function combineIndexData(src, dst, mask) {
+	let s = src.data,
+		d = dst.data;
+	for(let i = 0, l = data.let; i < l; i++) {
+		if(s[i] !== mask) {
+			d[i] = s[i];
+		}
+	}
+}
 
