@@ -39,17 +39,17 @@ Model
 			width: w,
 			height: h,
 			indexData: createIndexData(w, h),
+			transparent: 0,
 			visibility: true
 		};
 		layer.canvas = document.createElement('canvas');
-		layer.canvas.width = w;
-		layer.canvas.height = h;
-		layer.canvas.setAttribute('id', 'layer-' + this.count);
-		layer.canvas.setAttribute('z-index', this.count + 1);
+		layer.canvas.setAttribute('id', 'layer-' + layers.length);
+		layer.canvas.setAttribute('z-index', layers.length + 1);
+		layer.canvas.classList.add('layer-canvas');
 		layer.ctx = layer.canvas.getContext('2d');
 		
 		layers.push(layer);
-		$('editor-canvas').appendChild(layer.canvas);
+		return layer;
 	};
 	
 	//! @brief レイヤーの削除
@@ -80,6 +80,10 @@ Model
 	
 	Layer.get = function(index) {
 		return layers[index];
+	};
+	
+	Layer.count = function() {
+		return layers.length;
 	};
 	
 	var LayerRenderer = {};

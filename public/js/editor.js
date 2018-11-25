@@ -235,6 +235,11 @@ editor: Editor
 		work.canvas.height = canvas.height;
 		if(selection.enable) {
 		}
+//		for(let i = 0; i < Layer.count(); i++) {
+//			let layer = Layer.get(i).canvas;
+//			layer.width = canvas.width;
+//			layer.height = canvas.height;
+//		}
 	}
 	
 	// 拡大
@@ -249,6 +254,11 @@ editor: Editor
 			resize();
 			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 			grid();
+			
+			for(let i = 0; i < Layer.count(); i++) {
+				let layer = Layer.get(i);
+				drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData);
+			}
 		}
 		console.timeEnd('zoomIn');
 //		$('#zoomRate').text('x ' + option.scale);
@@ -263,10 +273,9 @@ editor: Editor
 		} else {
 			option.scale = option.scales[option.zoom];
 			resize();
-			drawIndexedImage(ctx, indexData, palette, option.scale);
+			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 			grid();
 		}
-		console.log(option.zoom);
 //		$('#zoomRate').text('x ' + option.scale);
 	}
 
@@ -1001,11 +1010,16 @@ editor: Editor
 		
 		
 		$.bind($('layer-add'), 'click', () => {
-			let newLayer = $templateLayer.cloneNode(true);
-			newLayer.lastChild.textContent = 'new レイヤー';
-			newLayer.id = '';
-			$layerList.insertBefore(newLayer, $layerList.firstElementChild);
-//			Layer.add(canvas.width, canvas.height);
+			if($layerList.childElementCount <= 8) {
+				let item = $templateLayer.cloneNode(true);
+				item.lastChild.textContent = 'new レイヤー';
+				item.id = '';
+				$layerList.insertBefore(item, $layerList.firstElementChild);
+				let layer = Layer.add(indexData.width, indexData.height);
+				layer.canvas.width = canvas.width;
+				layer.canvas.height = canvas.height;
+				$('editor-canvas').appendChild(layer.canvas);
+			}
 		});
 		
 		$.bind($('layer-up'), 'click', () => {
