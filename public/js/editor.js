@@ -989,7 +989,10 @@ editor: Editor
 		});
 		
 		$.bind($layerList, 'change', (e) => {
-			console.log(e.target.id);
+			let id = e.target.parentNode.parentNode.getAttribute('canvas-id');
+			if(id) {
+				$(id).style.display = e.target.checked ? 'block' : 'none';
+			}
 		});
 		
 		$.bind($('layer-remove'), 'click', () => {
@@ -1013,11 +1016,13 @@ editor: Editor
 			if($layerList.childElementCount <= 8) {
 				let item = $templateLayer.cloneNode(true);
 				item.lastChild.textContent = 'new レイヤー';
-				item.id = '';
+				
 				$layerList.insertBefore(item, $layerList.firstElementChild);
 				let layer = Layer.add(indexData.width, indexData.height);
 				layer.canvas.width = canvas.width;
 				layer.canvas.height = canvas.height;
+				item.removeAttribute('id');
+				item.setAttribute('canvas-id', layer.canvas.id);
 				$('editor-canvas').appendChild(layer.canvas);
 			}
 		});
