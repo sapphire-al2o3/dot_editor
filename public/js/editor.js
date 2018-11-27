@@ -998,7 +998,12 @@ editor: Editor
 		$.bind($('layer-remove'), 'click', () => {
 			if($layerList.childElementCount > 1) {
 				if($currentLayer) {
-					let removeLayer = $currentLayer;
+					let removeLayer = $currentLayer,
+						id = removeLayer.getAttribute('data-canvas-id');
+					
+					if(id) {
+						$('editor-canvas').removeChild($(id));
+					}
 					
 					if($currentLayer.nextElementSibling) {
 						$currentLayer = $currentLayer.nextElementSibling;
