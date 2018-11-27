@@ -989,7 +989,7 @@ editor: Editor
 		});
 		
 		$.bind($layerList, 'change', (e) => {
-			let id = e.target.parentNode.parentNode.getAttribute('canvas-id');
+			let id = e.target.parentNode.parentNode.getAttribute('data-canvas-id');
 			if(id) {
 				$(id).style.display = e.target.checked ? 'block' : 'none';
 			}
@@ -1022,7 +1022,7 @@ editor: Editor
 				layer.canvas.width = canvas.width;
 				layer.canvas.height = canvas.height;
 				item.removeAttribute('id');
-				item.setAttribute('canvas-id', layer.canvas.id);
+				item.setAttribute('data-canvas-id', layer.canvas.id);
 				$('editor-canvas').appendChild(layer.canvas);
 			}
 		});
