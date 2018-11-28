@@ -615,7 +615,7 @@ function drawGrid(ctx, option, scale) {
 /////////////////////////////////////////////////////
 
 // インデックスカラーイメージを描画する
-function drawIndexedImage(ctx, image, palette, scale, paletteData) {
+function drawIndexedImage(ctx, image, palette, scale, paletteData, transparent) {
 	let data = image.data,
 		size = scale,
 		w = image.width,
@@ -678,25 +678,29 @@ function drawIndexedImage(ctx, image, palette, scale, paletteData) {
 		dh = w * size,
 		dst = ctx.createImageData(w * size, h * size),
 		dstData = dst.data,
-//		u32image = new Uint32Array(dst.data.buffer),
-//		u32palette = new Uint32Array(paletteData.data.buffer),
+		u32image = new Uint32Array(dst.data.buffer),
+		u32palette = new Uint32Array(paletteData.data.buffer),
 		k = 0,
 		p = paletteData.data;
 	for(let i = 0; i < h * size; i++) {
 		let y = (i / size ^ 0) * w;
 		for(let j = 0; j < w * size; j++) {
-			let x = j / size ^ 0,
-				index = data[y + x] * 4;
-			dstData[k] = p[index];
-			dstData[k + 1] = p[index + 1];
-			dstData[k + 2] = p[index + 2];
-			dstData[k + 3] = 255;
-			k += 4;
-			
 //			let x = j / size ^ 0,
-//				index = data[y + x];
-//			u32image[k] = u32palette[index];
-//			k++;
+//				index = data[y + x] * 4;
+//			if(index !== transparent) {
+//				dstData[k] = p[index];
+//				dstData[k + 1] = p[index + 1];
+//				dstData[k + 2] = p[index + 2];
+//				dstData[k + 3] = 255;
+//			}
+//			k += 4;
+			
+			let x = j / size ^ 0,
+				index = data[y + x];
+			if(index !== transparent) {
+				u32image[k] = u32palette[index];
+			}
+			k++;
 		}
 	}
 	ctx.putImageData(dst, 0, 0);
