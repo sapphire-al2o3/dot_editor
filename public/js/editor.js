@@ -235,11 +235,11 @@ editor: Editor
 		work.canvas.height = canvas.height;
 		if(selection.enable) {
 		}
-//		for(let i = 0; i < Layer.count(); i++) {
-//			let layer = Layer.get(i).canvas;
-//			layer.width = canvas.width;
-//			layer.height = canvas.height;
-//		}
+		for(let i = 0; i < Layer.count(); i++) {
+			let layer = Layer.get(i).canvas;
+			layer.width = canvas.width;
+			layer.height = canvas.height;
+		}
 	}
 	
 	// 拡大
@@ -257,7 +257,7 @@ editor: Editor
 			
 			for(let i = 0; i < Layer.count(); i++) {
 				let layer = Layer.get(i);
-				drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData);
+				drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, 0);
 			}
 		}
 		console.timeEnd('zoomIn');
@@ -985,6 +985,10 @@ editor: Editor
 				}
 				$currentLayer = e.target;
 				$currentLayer.classList.add('selected');
+				let id = $currentLayer.getAttribute('data-canvas-id');
+				if(id) {
+					ctx = $(id).getContext('2d');
+				}
 			}
 		});
 		
@@ -1012,6 +1016,7 @@ editor: Editor
 					}
 					$currentLayer.classList.add('selected');
 					$layerList.removeChild(removeLayer);
+					Layer.remove();
 				}
 			}
 		});
@@ -1035,12 +1040,15 @@ editor: Editor
 		$.bind($('layer-up'), 'click', () => {
 			if($currentLayer && $currentLayer.previousElementSibling) {
 				$layerList.insertBefore($currentLayer, $currentLayer.previousElementSibling);
+//				Layer.up();
 			}
 		});
 		
 		$.bind($('layer-down'), 'click', () => {
 			if($currentLayer && $currentLayer.nextElementSibling) {
 				$layerList.insertBefore($currentLayer, $currentLayer.nextElementSibling.nextElementSibling);
+//				$currentLayer.getAttribute('');
+//				Layer.down();
 			}
 		});
 	
