@@ -33,6 +33,7 @@ Model
 	var layers = [];
 	
 	var parent = document.getElementById('editor-canvas');
+	let uid = 0;
 	
 	Layer.add = function(w, h) {
 		let layer = {
@@ -40,15 +41,17 @@ Model
 			height: h,
 			indexData: createIndexData(w, h),
 			transparent: 0,
-			visibility: true
+			visibility: true,
+			index: uid
 		};
 		layer.canvas = document.createElement('canvas');
-		layer.canvas.setAttribute('id', 'layer-' + layers.length);
+		layer.canvas.setAttribute('id', 'layer-' + uid);
 		layer.canvas.setAttribute('z-index', layers.length + 1);
 		layer.canvas.classList.add('layer-canvas');
 		layer.ctx = layer.canvas.getContext('2d');
 		
 		layers.push(layer);
+		uid++;
 		return layer;
 	};
 	
