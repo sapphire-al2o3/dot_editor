@@ -757,7 +757,7 @@ editor: Editor
 		};
 		
 		$.bind($('work'), 'mousedown', function(e) {
-			var r = canvas.getBoundingClientRect();
+			var r = work.canvas.getBoundingClientRect();
 			left = window.scrollX + r.left;
 			top = window.scrollY + r.top;
 			var x = e.pageX - left,
