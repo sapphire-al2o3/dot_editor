@@ -252,7 +252,7 @@ editor: Editor
 		} else {
 			option.scale = option.scales[option.zoom];
 			resize();
-			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
+//			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 			grid();
 			
 			for(let i = 0; i < Layer.count(); i++) {
@@ -273,8 +273,13 @@ editor: Editor
 		} else {
 			option.scale = option.scales[option.zoom];
 			resize();
-			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
+//			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 			grid();
+			
+			for(let i = 0; i < Layer.count(); i++) {
+				let layer = Layer.get(i);
+				drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, 0);
+			}
 		}
 //		$('#zoomRate').text('x ' + option.scale);
 	}
@@ -284,7 +289,13 @@ editor: Editor
 		option.zoom = 0;
 		option.scale = option.scales[option.zoom];
 		resize();
-		drawIndexedImage(ctx, indexData, palette, option.scale);
+//		drawIndexedImage(ctx, indexData, palette, option.scale);
+		
+		for(let i = 0; i < Layer.count(); i++) {
+			let layer = Layer.get(i);
+			drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, 0);
+		}
+		
 //		$('#zoomRate').text('x ' + option.scale);
 	}
 	
@@ -601,6 +612,7 @@ editor: Editor
 			ctx.fillStyle = palette[0];
 			ctx.fillRect(0, 0, canvas.width, canvas.height);
 			drawPreview();
+			Layer.set(ctx, canvas, indexData);
 		});
 	
 		if(mode === 'fork' || mode === 'edit') {
@@ -987,7 +999,9 @@ editor: Editor
 				$currentLayer.classList.add('selected');
 				let id = $currentLayer.getAttribute('data-canvas-id');
 				if(id) {
-					ctx = $(id).getContext('2d');
+					const layer = Layer.find(id);
+					indexData = layer.indexData;
+					ctx = layer.ctx;
 				}
 			}
 		});

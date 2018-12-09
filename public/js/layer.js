@@ -55,6 +55,18 @@ Model
 		return layer;
 	};
 	
+	Layer.set = function(ctx, canvas, indexData) {
+		let layer = {
+			transparent: 0,
+			visibility: true,
+			index: uid,
+			canvas: canvas,
+			ctx: ctx,
+			indexData: indexData
+		};
+		layers.push(layer);
+	};
+	
 	//! @brief レイヤーの削除
 	Layer.remove = function(index) {
 		let layer = layers[index];
@@ -83,6 +95,15 @@ Model
 	
 	Layer.get = function(index) {
 		return layers[index];
+	};
+	
+	Layer.find = function(id) {
+		for(let i = 0; i < layers.length; i++) {
+			if(layers[i].canvas.id === id) {
+				return layers[i];
+			}
+		}
+		return null;
 	};
 	
 	Layer.count = function() {
