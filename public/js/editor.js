@@ -1020,6 +1020,7 @@ editor: Editor
 						id = removeLayer.getAttribute('data-canvas-id');
 					
 					if(id) {
+						Layer.remove(id);
 						$('editor-canvas').removeChild($(id));
 					}
 					
@@ -1030,7 +1031,6 @@ editor: Editor
 					}
 					$currentLayer.classList.add('selected');
 					$layerList.removeChild(removeLayer);
-					Layer.remove();
 				}
 			}
 		});

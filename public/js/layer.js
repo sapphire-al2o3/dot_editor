@@ -14,7 +14,7 @@ Model
 (function (global, $) {
 	'use strict';
 	
-	var document = $.d;
+	const document = $.d;
 	
 	var Layer = function(w, h) {
 		this.width = w;
@@ -30,9 +30,7 @@ Model
 		document.getElementById('editor-canvas').appendChild(this.canvas);
 	};
 	
-	var layers = [];
-	
-	var parent = document.getElementById('editor-canvas');
+	let layers = [];
 	let uid = 0;
 	
 	Layer.add = function(w, h) {
@@ -68,10 +66,13 @@ Model
 	};
 	
 	//! @brief レイヤーの削除
-	Layer.remove = function(index) {
-		let layer = layers[index];
-		$('editor-canvas').removeChild(layer.canvas);
-		layers.splice(index, 1);
+	Layer.remove = function(id) {
+		for(let i = 0; i < layers.length; i++) {
+			if(layers[i].canvas.id === id) {
+				layers.splice(i, 1);
+				break;
+			}
+		}
 	};
 	
 	// レイヤーを上に移動する

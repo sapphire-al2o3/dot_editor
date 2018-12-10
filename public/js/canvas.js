@@ -600,7 +600,7 @@ function drawGrid(ctx, option, scale) {
 	ctx.stroke();
 	ctx.strokeStyle = option.grid.color0;
 	ctx.beginPath();
-	for(i = l; i < n; i += l) {
+	for(let i = l; i < n; i += l) {
 		x = size * i - 0.5;
 		ctx.moveTo(0.5, x);
 		ctx.lineTo(w + 0.5, x);
