@@ -537,7 +537,7 @@ editor: Editor
 			Palette.setFrontColor(0);
 			palette = Palette.getPaletteData();
 			resize();
-			drawIndexedImage(ctx, indexData, palette, option.scale);
+			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 			grid();
 			drawPreview();
 		};
@@ -632,7 +632,7 @@ editor: Editor
 				selection.indexData = createIndexData(data.width, data.height);
 				Palette.setPaletteData(palette);
 				resize();
-				drawIndexedImage(ctx, indexData, palette, option.scale);
+				drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 				drawPreview();
 			});
 		} else {
@@ -656,7 +656,7 @@ editor: Editor
 	
 		Palette.change(function(e) {
 			// パレットが変更された際のイベント
-			drawIndexedImage(ctx, indexData, palette, option.scale);
+			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 			drawPreview();
 		});
 		Palette.setFrontColor(1);
@@ -1138,7 +1138,7 @@ editor: Editor
 		
 		if(temp) {
 			copyRangeIndexData(temp, indexData);
-			drawIndexedImage(ctx, indexData, palette, option.scale);
+			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 			drawPreview();
 //			redo.push();
 		}
@@ -1150,7 +1150,7 @@ editor: Editor
 		
 		if(temp) {
 			copyRangeIndexData(temp.data, indexData.data);
-			drawIndexedImage(ctx, indexData, palette, option.scale);
+			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 			
 			tempData.push(temp);
 		}
@@ -1218,9 +1218,9 @@ editor: Editor
 	}
 	
 	// 画面更新
-	function refresh() {
-		drawIndexedImage(ctx, indexData, palette, option);
-	}
+//	function refresh() {
+//		drawIndexedImage(ctx, indexData, palette, option);
+//	}
 
 	// サブウィンドウから呼び出すための関数
 	global.getImage = function() {
