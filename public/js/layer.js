@@ -63,6 +63,8 @@ Model
 			indexData: indexData
 		};
 		layers.push(layer);
+		uid++;
+		return layer;
 	};
 	
 	//! @brief レイヤーの削除

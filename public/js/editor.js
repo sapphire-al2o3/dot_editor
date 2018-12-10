@@ -1039,7 +1039,6 @@ editor: Editor
 		$.bind($('layer-add'), 'click', () => {
 			if($layerList.childElementCount <= 8) {
 				let item = $templateLayer.cloneNode(true);
-				item.lastChild.textContent = 'new レイヤー';
 				
 				$layerList.insertBefore(item, $layerList.firstElementChild);
 				let layer = Layer.add(indexData.width, indexData.height);
@@ -1047,6 +1046,7 @@ editor: Editor
 				layer.canvas.height = canvas.height;
 				item.removeAttribute('id');
 				item.setAttribute('data-canvas-id', layer.canvas.id);
+				item.lastChild.textContent = 'レイヤー' + (layer.index + 1);
 				$('editor-canvas').appendChild(layer.canvas);
 			}
 		});
