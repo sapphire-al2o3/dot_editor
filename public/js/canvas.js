@@ -476,7 +476,7 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		ctx.rect(x + s, y0 * s, s, s);
 		ctx.rect(x + s, y1 * s, s, s);
 		if(data) {
-			ix = ((x0 + x1) >> 1) + 1;
+			let ix = ((x0 + x1) >> 1) + 1;
 			if(0 <= ix && ix < iw) {
 				if(0 <= y0 && y0 < ih) data[y0 * iw + ix] = paletteIndex;
 				if(0 <= y1 && y1 < ih) data[y1 * iw + ix] = paletteIndex;
@@ -601,7 +601,7 @@ function drawGrid(ctx, option, scale) {
 	ctx.strokeStyle = option.grid.color0;
 	ctx.beginPath();
 	for(let i = l; i < n; i += l) {
-		x = size * i - 0.5;
+		let x = size * i - 0.5;
 		ctx.moveTo(0.5, x);
 		ctx.lineTo(w + 0.5, x);
 		ctx.moveTo(x, 0.5);
