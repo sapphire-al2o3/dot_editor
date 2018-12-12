@@ -44,7 +44,7 @@ Model
 		};
 		layer.canvas = document.createElement('canvas');
 		layer.canvas.setAttribute('id', 'layer-' + uid);
-		layer.canvas.setAttribute('z-index', layers.length + 1);
+		layer.canvas.style.zIndex = layers.length + 1;
 		layer.canvas.classList.add('layer-canvas');
 		layer.ctx = layer.canvas.getContext('2d');
 		
@@ -77,23 +77,34 @@ Model
 		}
 	};
 	
+	function getIndex(id) {
+		for(let i = 0; i < layers.length; i++) {
+			if(layers[i].canvas.id === id) {
+				return i;
+			}
+		}
+		return -1;
+	}
+	
 	// レイヤーを上に移動する
-	Layer.up = function(index) {
+	Layer.up = function(id) {
+		let index = getIndex(id);
 		if(index <= 0) return;
 		let t = layers[index - 1];
 		layers[index - 1] = layers[index];
 		layers[index] = t;
-		layers[index].canvas.setAttribute('z-index', index + 1);
-		layers[index - 1].canvas.setAttribute('z-index', index);
+		layers[index].canvas.style.zIndex = index + 1;
+		layers[index - 1].canvas.style.zIndex = index;
 	};
 	
-	Layer.down = function(index) {
+	Layer.down = function(id) {
+		let index = getIndex(id);
 		if(index >= layers.length) return;
 		let t = layers[index - 1];
 		layers[index + 1] = layers[index];
 		layers[index] = t;
-		layers[index].canvas.setAttribute('z-index', index + 1);
-		layers[index + 1].canvas.setAttribute('z-index', index + 2);
+		layers[index].canvas.style.zIndex = index + 1;
+		layers[index + 1].canvas.style.zIndex = index + 2;
 	};
 	
 	Layer.get = function(index) {

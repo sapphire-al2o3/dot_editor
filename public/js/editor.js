@@ -1053,16 +1053,21 @@ editor: Editor
 		
 		$.bind($('layer-up'), 'click', () => {
 			if($currentLayer && $currentLayer.previousElementSibling) {
+				let id = $currentLayer.getAttribute('data-canvas-id');
+				if(id) {
+					Layer.up(id);
+				}
 				$layerList.insertBefore($currentLayer, $currentLayer.previousElementSibling);
-//				Layer.up();
 			}
 		});
 		
 		$.bind($('layer-down'), 'click', () => {
 			if($currentLayer && $currentLayer.nextElementSibling) {
+				let id = $currentLayer.getAttribute('data-canvas-id');
+				if(id) {
+					Layer.down(id);
+				}
 				$layerList.insertBefore($currentLayer, $currentLayer.nextElementSibling.nextElementSibling);
-//				$currentLayer.getAttribute('');
-//				Layer.down();
 			}
 		});
 	
