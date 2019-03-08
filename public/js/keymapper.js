@@ -44,10 +44,12 @@ var KeyMapper = (function () {
 			var that = this;
 			event = event || 'up';
 			keyEvent = keyEvent || function (e) {
-				var key = getKeyCode(e.keyCode, [e.ctrlKey, e.altKey, e.shiftKey]);
-				if (that.invoke(key)) {
-					e.preventDefault();
-					e.stopPropagation();
+				if (e.target.tagName !== 'INPUT') {
+					var key = getKeyCode(e.keyCode, [e.ctrlKey, e.altKey, e.shiftKey]);
+					if (that.invoke(key)) {
+						e.preventDefault();
+						e.stopPropagation();
+					}
 				}
 			};
 			target.addEventListener('key' + event, keyEvent, false);
