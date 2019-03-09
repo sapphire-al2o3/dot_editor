@@ -15,7 +15,7 @@ var KeyMapper = (function () {
 			option[1] ? 'Alt+' : '',
 			option[2] ? 'Shift+' : ''
 		].join('') : '';
-		return op + String.fromCharCode(key).toUpperCase();
+		return op + key.toUpperCase();
 	}
 	
 	return {
@@ -45,7 +45,7 @@ var KeyMapper = (function () {
 			event = event || 'up';
 			keyEvent = keyEvent || function (e) {
 				if (e.target.tagName !== 'INPUT') {
-					var key = getKeyCode(e.keyCode, [e.ctrlKey, e.altKey, e.shiftKey]);
+					var key = getKeyCode(e.key, [e.ctrlKey, e.altKey, e.shiftKey]);
 					if (that.invoke(key)) {
 						e.preventDefault();
 						e.stopPropagation();
