@@ -1070,6 +1070,27 @@ editor: Editor
 				$layerList.insertBefore($currentLayer, $currentLayer.nextElementSibling.nextElementSibling);
 			}
 		});
+		
+		$.bind($('layer-combine'), 'click', () => {
+			if($currentLayer && $currentLayer.nextElementSibling) {
+				let removeLayer = $currentLayer,
+					id = removeLayer.getAttribute('data-canvas-id');
+
+				if(id) {
+					Layer.combine(id);
+					$('editor-canvas').removeChild($(id));
+				}
+
+				if($currentLayer.nextElementSibling) {
+					$currentLayer = $currentLayer.nextElementSibling;
+				} else {
+					$currentLayer = $currentLayer.previousElementSibling;
+				}
+				$currentLayer.classList.add('selected');
+				$layerList.removeChild(removeLayer);
+
+			}
+		});
 	
 		window.onbeforeunload = function(e) {
 			return 'ページを移動すると編集した情報が失われます';

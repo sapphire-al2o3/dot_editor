@@ -107,6 +107,19 @@ Model
 		layers[index + 1].canvas.style.zIndex = index + 2;
 	};
 	
+	Layer.combine = function(id) {
+		let index = getIndex(id);
+		if(index >= layers.length) return;
+		layers[index];
+		layers[index + 1];
+		for(let i = 0; i < layers.length; i++) {
+			if(layers[i].canvas.id === id) {
+				layers.splice(i, 1);
+				break;
+			}
+		}
+	};
+	
 	Layer.get = function(index) {
 		return layers[index];
 	};
