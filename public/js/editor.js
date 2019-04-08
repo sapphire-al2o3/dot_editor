@@ -356,9 +356,9 @@ editor: Editor
 				h = selectionCtx.canvas.height;
 			// 長方形の選択範囲を回転させるには一旦別の領域にコピーしておかないと消えてしまう
 			$.size($selection, selectionCtx.canvas.height, selectionCtx.canvas.width);
-			selection.indexData = rotate90R(selectionCtx, selection.indexData);
-			selection.region.w = selection.indexData.width;
-			selection.region.h = selection.indexData.height;
+			rotate90R(selectionCtx, selection.indexData);
+			selection.region.w = selection.indexData.height;
+			selection.region.h = selection.indexData.width;
 		} else {
 			record();
 			rotate90R(ctx, indexData);
