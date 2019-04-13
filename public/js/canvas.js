@@ -841,6 +841,7 @@ function rotate90R(ctx, indexData) {
 	
 	copyMirrorImageXY(data, temp.data, w, h);
 	flipImageH(temp.data, temp.width, temp.height);
+	copyBuffer(temp.data, data, w * h);
 	
 	let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height),
 		buffer = new Uint32Array(imageData.data.buffer);
@@ -857,6 +858,9 @@ function rotate90R(ctx, indexData) {
 		ctx.canvas.width = imageData.height;
 		ctx.canvas.height = imageData.width;
 		ctx.putImageData(tempImageData, 0, 0);
+		
+		indexData.width = h;
+		indexData.height = w;
 	}
 	
 	return temp;
@@ -874,10 +878,19 @@ function rotate90L(ctx, indexData) {
 	let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height),
 		buffer = new Uint32Array(imageData.data.buffer);
 	
-	mirrorImageXY(buffer, imageData.width, imageData.height);
-	flipImageV(buffer, imageData.width, imageData.height);
-	
-	ctx.putImageData(imageData, 0, 0);
+	if(w === h) {
+		mirrorImageXY(buffer, imageData.width, imageData.height);
+		flipImageV(buffer, imageData.width, imageData.height);
+		ctx.putImageData(imageData, 0, 0);
+	} else {
+		let tempImageData = ctx.createImageData(ctx.canvas.height, ctx.canvas.width),
+			tempBuffer = new Uint32Array(tempImageData.data.buffer);
+		copyMirrorImageXY(buffer, tempBuffer, imageData.width, imageData.height);
+		flipImageV(tempBuffer, tempImageData.width, tempImageData.height);
+		ctx.canvas.width = imageData.height;
+		ctx.canvas.height = imageData.width;
+		ctx.putImageData(tempImageData, 0, 0);
+	}
 }
 
 function mirrorImageXY(data, w, h) {
@@ -1090,6 +1103,12 @@ function scaling(indexData, scale) {
 		}
 	}
 	return dst;
+}
+
+function copyBuffer(src, dst, length) {
+	for(let i = 0; i < length; i++) {
+		dst[i] = src[i];
+	}
 }
 
 // 指定範囲のインデックスデータをコピーする
