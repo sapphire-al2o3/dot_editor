@@ -836,21 +836,26 @@ function flipImageV(data, w, h) {
 function rotate90R(ctx, indexData) {
 	let data = indexData.data,
 		w = indexData.width,
-		h = indexData.height,
-		temp = createIndexData(h, w);
-	
-	copyMirrorImageXY(data, temp.data, w, h);
-	flipImageH(temp.data, temp.width, temp.height);
-	copyBuffer(temp.data, data, w * h);
+		h = indexData.height;
 	
 	let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height),
 		buffer = new Uint32Array(imageData.data.buffer);
 	
 	if(w === h) {
+		mirrorImageXY(data, w, h);
+		flipImageH(data, w, h);
+		
 		mirrorImageXY(buffer, imageData.width, imageData.height);
 		flipImageH(buffer, imageData.width, imageData.height);
 		ctx.putImageData(imageData, 0, 0);
 	} else {
+		let temp = createIndexData(h, w);
+		copyMirrorImageXY(data, temp.data, w, h);
+		flipImageH(temp.data, temp.width, temp.height);
+		copyBuffer(temp.data, data, w * h);
+		indexData.width = h;
+		indexData.height = w;
+		
 		let tempImageData = ctx.createImageData(ctx.canvas.height, ctx.canvas.width),
 			tempBuffer = new Uint32Array(tempImageData.data.buffer);
 		copyMirrorImageXY(buffer, tempBuffer, imageData.width, imageData.height);
@@ -858,12 +863,7 @@ function rotate90R(ctx, indexData) {
 		ctx.canvas.width = imageData.height;
 		ctx.canvas.height = imageData.width;
 		ctx.putImageData(tempImageData, 0, 0);
-		
-		indexData.width = h;
-		indexData.height = w;
 	}
-	
-	return temp;
 }
 
 // 左90度回転
@@ -872,17 +872,24 @@ function rotate90L(ctx, indexData) {
 		w = indexData.width,
 		h = indexData.height;
 	
-	mirrorImageXY(data, w, h);
-	flipImageV(data, w, h);
-	
 	let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height),
 		buffer = new Uint32Array(imageData.data.buffer);
 	
 	if(w === h) {
+		mirrorImageXY(data, w, h);
+		flipImageV(data, w, h);
+		
 		mirrorImageXY(buffer, imageData.width, imageData.height);
 		flipImageV(buffer, imageData.width, imageData.height);
 		ctx.putImageData(imageData, 0, 0);
 	} else {
+		let temp = createIndexData(h, w);
+		copyMirrorImageXY(data, temp.data, w, h);
+		flipImageV(temp.data, temp.width, temp.height);
+		copyBuffer(temp.data, data, w * h);
+		indexData.width = h;
+		indexData.height = w;
+		
 		let tempImageData = ctx.createImageData(ctx.canvas.height, ctx.canvas.width),
 			tempBuffer = new Uint32Array(tempImageData.data.buffer);
 		copyMirrorImageXY(buffer, tempBuffer, imageData.width, imageData.height);
