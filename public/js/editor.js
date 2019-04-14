@@ -380,10 +380,15 @@ editor: Editor
 	}
 	
 	function shift(x, y) {
-		record();
-		if(x !== 0) shiftH(ctx, indexData, x, option.scale);
-		if(y !== 0) shiftV(ctx, indexData, y, option.scale);
-		drawPreview();
+		if(selection.enable) {
+			if(x !== 0) shiftH(selectionCtx, selection.indexData, x, option.scale);
+			if(y !== 0) shiftV(selectionCtx, selection.indexData, y, option.scale);
+		} else {
+			record();
+			if(x !== 0) shiftH(ctx, indexData, x, option.scale);
+			if(y !== 0) shiftV(ctx, indexData, y, option.scale);
+			drawPreview();
+		}
 	}
 	
 	(function initialize() {
