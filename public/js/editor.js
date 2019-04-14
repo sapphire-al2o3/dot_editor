@@ -222,7 +222,6 @@ editor: Editor
 		preview.canvas.height = indexData.height;
 		Palette.convert(paletteData);
 		drawIndexedImageData(preview, indexData, paletteData, 1);
-		return preview.canvas.toDataURL();
 	}
 
 	// キャンバスをリサイズする
@@ -996,6 +995,9 @@ editor: Editor
 			$currentLayer = $layerList.lastElementChild;
 		
 		$.bind($('layer-list'), 'click', (e) => {
+			if($currentLayer === e.target) {
+				return;
+			}
 			if(e.target.localName === "li") {
 				if($currentLayer) {
 					$currentLayer.classList.remove('selected');
@@ -1007,6 +1009,7 @@ editor: Editor
 					const layer = Layer.find(id);
 					indexData = layer.indexData;
 					ctx = layer.ctx;
+					drawPreview();
 				}
 			}
 		});
