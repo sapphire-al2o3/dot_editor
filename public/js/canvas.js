@@ -1238,7 +1238,7 @@ function swapColor(indexData, a, b) {
 function mergeIndexData(src, dst, mask) {
 	let s = src.data,
 		d = dst.data;
-	for(let i = 0, l = data.let; i < l; i++) {
+	for(let i = 0, l = s.length; i < l; i++) {
 		if(s[i] !== mask) {
 			d[i] = s[i];
 		}
