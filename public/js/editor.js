@@ -1079,7 +1079,7 @@ editor: Editor
 			}
 		});
 		
-		$.bind($('layer-combine'), 'click', () => {
+		$.bind($('layer-merge'), 'click', () => {
 			if($currentLayer && $currentLayer.nextElementSibling) {
 				let removeLayer = $currentLayer,
 					id = removeLayer.getAttribute('data-canvas-id');

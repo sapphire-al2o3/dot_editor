@@ -1235,7 +1235,7 @@ function swapColor(indexData, a, b) {
 }
 
 // イメージを結合する
-function combineIndexData(src, dst, mask) {
+function mergeIndexData(src, dst, mask) {
 	let s = src.data,
 		d = dst.data;
 	for(let i = 0, l = data.let; i < l; i++) {
