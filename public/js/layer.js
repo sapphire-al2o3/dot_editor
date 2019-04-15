@@ -107,7 +107,7 @@ Model
 		layers[index + 1].canvas.style.zIndex = index + 2;
 	};
 	
-	Layer.combine = function(id) {
+	Layer.merge = function(id) {
 		let index = getIndex(id);
 		if(index >= layers.length) return;
 		layers[index];

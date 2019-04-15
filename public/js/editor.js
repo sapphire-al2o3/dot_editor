@@ -1089,21 +1089,35 @@ editor: Editor
 		$.bind($('layer-merge'), 'click', () => {
 			if($currentLayer && $currentLayer.nextElementSibling) {
 				let removeLayer = $currentLayer,
-					id = removeLayer.getAttribute('data-canvas-id');
+					removeId = removeLayer.getAttribute('data-canvas-id');
 
-				if(id) {
-					Layer.combine(id);
-					$('editor-canvas').removeChild($(id));
-				}
-
-				if($currentLayer.nextElementSibling) {
-					$currentLayer = $currentLayer.nextElementSibling;
-				} else {
-					$currentLayer = $currentLayer.previousElementSibling;
-				}
-				$currentLayer.classList.add('selected');
-				$layerList.removeChild(removeLayer);
+				if(removeId) {
+					
+					const layer = Layer.find(removeId);
+					
+					$('editor-canvas').removeChild($(removeId));
 				
+					if($currentLayer.nextElementSibling) {
+						$currentLayer = $currentLayer.nextElementSibling;
+					} else {
+						$currentLayer = $currentLayer.previousElementSibling;
+					}
+					$currentLayer.classList.add('selected');
+					
+					let id = $currentLayer.getAttribute('data-canvas-id');
+					const baseLayer = Layer.find(id);
+					
+					baseLayer.ctx.drawImage(layer.canvas, 0, 0);
+					mergeIndexData(layer.indexData, baseLayer.indexData, 0);
+					
+					$layerList.removeChild(removeLayer);
+					
+					indexData = baseLayer.indexData;
+					
+					Layer.merge(removeId);
+					
+					drawPreview();
+				}
 			}
 		});
 	
