@@ -1021,6 +1021,21 @@ editor: Editor
 			}
 		});
 		
+		$.bind($('layer-add'), 'click', () => {
+			if($layerList.childElementCount <= 8) {
+				let item = $templateLayer.cloneNode(true);
+				
+				$layerList.insertBefore(item, $layerList.firstElementChild);
+				let layer = Layer.add(indexData.width, indexData.height);
+				layer.canvas.width = canvas.width;
+				layer.canvas.height = canvas.height;
+				item.removeAttribute('id');
+				item.setAttribute('data-canvas-id', layer.canvas.id);
+				item.lastChild.textContent = 'レイヤー' + (layer.index + 1);
+				$('editor-canvas').appendChild(layer.canvas);
+			}
+		});
+		
 		$.bind($('layer-remove'), 'click', () => {
 			if($layerList.childElementCount > 1) {
 				if($currentLayer) {
@@ -1039,23 +1054,15 @@ editor: Editor
 					}
 					$currentLayer.classList.add('selected');
 					$layerList.removeChild(removeLayer);
+					
+					id = $currentLayer.getAttribute('data-canvas-id');
+					if(id) {
+						const layer = Layer.find(id);
+						indexData = layer.indexData;
+						ctx = layer.ctx;
+						drawPreview();
+					}
 				}
-			}
-		});
-		
-		
-		$.bind($('layer-add'), 'click', () => {
-			if($layerList.childElementCount <= 8) {
-				let item = $templateLayer.cloneNode(true);
-				
-				$layerList.insertBefore(item, $layerList.firstElementChild);
-				let layer = Layer.add(indexData.width, indexData.height);
-				layer.canvas.width = canvas.width;
-				layer.canvas.height = canvas.height;
-				item.removeAttribute('id');
-				item.setAttribute('data-canvas-id', layer.canvas.id);
-				item.lastChild.textContent = 'レイヤー' + (layer.index + 1);
-				$('editor-canvas').appendChild(layer.canvas);
 			}
 		});
 		
@@ -1096,7 +1103,7 @@ editor: Editor
 				}
 				$currentLayer.classList.add('selected');
 				$layerList.removeChild(removeLayer);
-
+				
 			}
 		});
 	
