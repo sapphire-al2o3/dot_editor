@@ -1113,6 +1113,7 @@ editor: Editor
 					$layerList.removeChild(removeLayer);
 					
 					indexData = baseLayer.indexData;
+					ctx = baseLayer.ctx;
 					
 					Layer.merge(removeId);
 					

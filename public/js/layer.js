@@ -89,22 +89,22 @@ Model
 	// レイヤーを上に移動する
 	Layer.up = function(id) {
 		let index = getIndex(id);
-		if(index <= 0) return;
-		let t = layers[index - 1];
-		layers[index - 1] = layers[index];
+		if(index >= layers.length) return;
+		let t = layers[index + 1];
+		layers[index + 1] = layers[index];
 		layers[index] = t;
-		layers[index].canvas.style.zIndex = index + 1;
-		layers[index - 1].canvas.style.zIndex = index;
+		layers[index].canvas.style.zIndex = index;
+		layers[index + 1].canvas.style.zIndex = index + 1;
 	};
 	
 	Layer.down = function(id) {
 		let index = getIndex(id);
-		if(index >= layers.length) return;
+		if(index <= 0) return;
 		let t = layers[index - 1];
-		layers[index + 1] = layers[index];
+		layers[index - 1] = layers[index];
 		layers[index] = t;
-		layers[index].canvas.style.zIndex = index + 1;
-		layers[index + 1].canvas.style.zIndex = index + 2;
+		layers[index].canvas.style.zIndex = index;
+		layers[index - 1].canvas.style.zIndex = index - 1;
 	};
 	
 	Layer.merge = function(id) {
