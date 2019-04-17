@@ -751,6 +751,9 @@ editor: Editor
 				var w = Math.abs(x - this.x),
 					h = Math.abs(y - this.y);
 				
+				w = w === 0 ? s : w;
+				h = h === 0 ? s : h;
+				
 				x = this.x > x ? x : this.x;
 				y = this.y > y ? y : this.y;
 				
