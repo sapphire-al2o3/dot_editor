@@ -282,7 +282,6 @@ function eps(x0, y0, x1, y1, x, y) {
 		ex = 2 * x - x0 - x1,
 		ey = 2 * y - y0 - y1,
 		e = dx2 * dy2 - dy * dy * ex * ex - dx * dx * ey * ey;
-	//console.log(e);
 	return e;
 }
 
@@ -767,10 +766,6 @@ function flipH(ctx, indexData) {
 		w = indexData.width,
 		h = indexData.height;
 	
-//	ctx.setTransform(-1, 0, 0, 1, ctx.canvas.width, 0);
-//	ctx.drawImage(ctx.canvas, 0, 0);
-//	ctx.resetTransform();
-	
 	flipImageH(data, w, h);
 	
 	let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -791,25 +786,11 @@ function flipImageH(data, w, h) {
 	}
 }
 
-function copyFlipImageH(src, dst, w, h) {
-	for(let i = 0; i < h; i++) {
-		let y = i * w;
-		for(let j = 0; j < w; j++) {
-			data[y + w - j - 1] = src[y + j];
-		}
-	}
-}
-
 // 垂直方向反転
 function flipV(ctx, indexData) {
 	let data = indexData.data,
 		w = indexData.width,
 		h = indexData.height;
-	
-	// 透明部分が上書きされてしまう
-//	ctx.setTransform(1, 0, 0, -1, 0, ctx.canvas.height);
-//	ctx.drawImage(ctx.canvas, 0, 0);
-//	ctx.resetTransform();
 	
 	flipImageV(data, w, h);
 	
@@ -1132,7 +1113,6 @@ function copyRangeIndexData(src, dst, range) {
 
 // インデックスデータをコピーする
 function copyIndexData(src, dst, sx, sy, w, h, dx, dy, index) {
-	console.log('copyIndex', sx, sy, w, h, dx, dy);
 	let s = src.data,
 		d = dst.data,
 		sw = src.width,
@@ -1160,16 +1140,6 @@ function copyIndexData(src, dst, sx, sy, w, h, dx, dy, index) {
 			if(index !== s[y + x]) {
 				d[z + j + dx] = s[y + x];
 			}
-		}
-	}
-}
-
-function pasteIndexData(src, dst, x, y, sw, sh, dw, dh) {
-	let w = x + dw > sw ? sw : dw,
-		h = y + dh > sh ? sh : dh;
-	for(let i = 0; i < h; i++) {
-		for(let j = 0; j < w; j++) {
-//			dst[] = src[];
 		}
 	}
 }
