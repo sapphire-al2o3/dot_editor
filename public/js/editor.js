@@ -256,7 +256,7 @@ editor: Editor
 			
 			for(let i = 0; i < Layer.count(); i++) {
 				let layer = Layer.get(i);
-				drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, 0);
+				drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, i === 0 ? -1 : 0);
 			}
 		}
 		console.timeEnd('zoomIn');
@@ -277,7 +277,7 @@ editor: Editor
 			
 			for(let i = 0; i < Layer.count(); i++) {
 				let layer = Layer.get(i);
-				drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, 0);
+				drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, i === 0 ? -1 : 0);
 			}
 		}
 //		$('#zoomRate').text('x ' + option.scale);
@@ -292,7 +292,7 @@ editor: Editor
 		
 		for(let i = 0; i < Layer.count(); i++) {
 			let layer = Layer.get(i);
-			drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, 0);
+			drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, i === 0 ? -1 : 0);
 		}
 		
 //		$('#zoomRate').text('x ' + option.scale);
@@ -528,7 +528,8 @@ editor: Editor
 			top = canvas.getBoundingClientRect().top;
 		
 		$.position($('palette'), left + 420, top + 4);
-		$.position($('view'), left + 420, top + 280);
+		$.position($('view'), left + 420, top + 300);
+		$.position($('layers'), left + 420, top + 380);
 		$.show($('overlay'));
 		
 		// ローカルファイルの読み込み
@@ -544,6 +545,8 @@ editor: Editor
 			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 			grid();
 			drawPreview();
+			Layer.clear();
+			Layer.set(ctx, canvas, indexData);
 		};
 		FileLoader.bind($('container'));
 		
@@ -636,6 +639,8 @@ editor: Editor
 				selection.indexData = createIndexData(data.width, data.height);
 				Palette.setPaletteData(palette);
 				resize();
+				ctx.fillStyle = palette[0];
+				ctx.fillRect(0, 0, canvas.width, canvas.height);
 				drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 				drawPreview();
 			});
