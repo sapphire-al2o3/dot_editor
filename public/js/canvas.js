@@ -73,6 +73,12 @@ function drawDot(ctx, x, y, indexData, paletteIndex, scale) {
 	if(indexData) indexData.data[y * indexData.width + x] = paletteIndex;
 }
 
+function clearDot(ctx, x, y, indexData, paletteIndex, scale) {
+	let s = scale;
+	ctx.clearRect(x * s, y * s, s, s);
+	if(indexData) indexData.data[y * indexData.width + x] = paletteIndex;
+}
+
 // 直線の表示
 function drawLine(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 	let dx = Math.abs(x1 - x0),
