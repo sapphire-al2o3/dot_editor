@@ -816,11 +816,22 @@ editor: Editor
 				record();
 				paletteIndex = Palette.getFrontIndex();
 				ctx.fillStyle = Palette.getFrontColor();
+				
+				if(paletteIndex === 0) {
+					ctx.globalCompositeOperation = 'destination-out';
+				} else {
+					ctx.globalCompositeOperation = 'source-over';
+				}
+				
 				work.fillStyle = ctx.fillStyle;
 				switch(tool) {
 				case 'pen':
 					down = true;
-					drawDot(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
+//					if(paletteIndex === 0) {
+//						clearDot(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
+//					} else {
+						drawDot(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
+//					}
 					break;
 				case 'paint':
 					paint(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
