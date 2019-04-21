@@ -67,6 +67,7 @@ require('color.js')
 			backColor = '',
 			frontIndex = 0,
 			backIndex = 0,
+			transparentIndex = 0,
 			cells = [],
 			palettes = [],
 			record = [],
@@ -449,6 +450,9 @@ require('color.js')
 			},
 			getFrontIndex: function() {
 				return frontIndex;
+			},
+			getTransparentIndex: () => {
+				return transparentIndex;
 			},
 			setFrontColor: function(index) {
 				selected.className = '';
