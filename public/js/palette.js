@@ -318,7 +318,7 @@ require('color.js')
 			});
 			
 			function setPaletteTool() {
-				if(active) active.className = '';
+				if(active) active.className = 'selected';
 				active = null;
 				$('palette-copy').className = copy ? 'selected' : '';
 				$('palette-swap').className = swap ? 'selected' : '';
