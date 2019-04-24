@@ -255,8 +255,9 @@ editor: Editor
 			grid();
 			
 			for(let i = 0; i < Layer.count(); i++) {
-				let layer = Layer.get(i);
-				drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, i === 0 ? -1 : 0);
+				let layer = Layer.get(i),
+					trans = i === 0 ? -1 : Palette.getTransparentIndex();
+				drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, trans);
 			}
 		}
 		console.timeEnd('zoomIn');
@@ -276,8 +277,9 @@ editor: Editor
 			grid();
 			
 			for(let i = 0; i < Layer.count(); i++) {
-				let layer = Layer.get(i);
-				drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, i === 0 ? -1 : 0);
+				let layer = Layer.get(i),
+					trans = i === 0 ? -1 : Palette.getTransparentIndex();
+				drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, trans);
 			}
 		}
 //		$('#zoomRate').text('x ' + option.scale);
@@ -291,8 +293,9 @@ editor: Editor
 //		drawIndexedImage(ctx, indexData, palette, option.scale);
 		
 		for(let i = 0; i < Layer.count(); i++) {
-			let layer = Layer.get(i);
-			drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, i === 0 ? -1 : 0);
+			let layer = Layer.get(i),
+				trans = i === 0 ? -1 : Palette.getTransparentIndex();
+			drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, trans);
 		}
 		
 //		$('#zoomRate').text('x ' + option.scale);
@@ -817,7 +820,7 @@ editor: Editor
 				paletteIndex = Palette.getFrontIndex();
 				ctx.fillStyle = Palette.getFrontColor();
 				
-				if(paletteIndex === 0) {
+				if(paletteIndex === Palette.getTransparentIndex()) {
 					ctx.globalCompositeOperation = 'destination-out';
 				} else {
 					ctx.globalCompositeOperation = 'source-over';

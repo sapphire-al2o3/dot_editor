@@ -169,6 +169,20 @@ require('color.js')
 				}
 			}, false);
 			
+			table.addEventListener('contextmenu', e => {
+				if (e.target.localName === 'td') {
+					let row = e.target.parentNode.rowIndex,
+						col = e.target.cellIndex;
+					
+					transparentIndex = row * 16 + col;
+					
+					if(onchange) onchange();
+					
+					e.preventDefault();
+					e.stopPropagation();
+				}
+			}, false);
+			
 			var down = false,
 				activeIndex,
 				startColor,
