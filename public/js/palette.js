@@ -126,13 +126,15 @@ require('color.js')
 					
 					if(copy) {
 						if(active) {
-							palettes[frontIndex] = palettes[startIndex];
-							e.target.style.backgroundColor = active.style.backgroundColor;
-							active.className = '';
+							if(selected !== active) {
+								palettes[frontIndex] = palettes[startIndex];
+								e.target.style.backgroundColor = active.style.backgroundColor;
+								active.className = '';
+								if(onchange) onchange();
+							}
 							active = null;
 							copy = false;
 							setPaletteTool();
-							if(onchange) onchange();
 						} else {
 							active = e.target;
 							active.className = 'start';
@@ -142,14 +144,16 @@ require('color.js')
 					
 					if(swap) {
 						if(active) {
-							var t = palettes[startIndex];
-							palettes[startIndex] = palettes[frontIndex];
-							palettes[frontIndex] = t;
-							e.target.style.backgroundColor = palettes[frontIndex];
-							active.style.backgroundColor = palettes[startIndex];
-							active.className = '';
+							if(selected !== active) {
+								let t = palettes[startIndex];
+								palettes[startIndex] = palettes[frontIndex];
+								palettes[frontIndex] = t;
+								e.target.style.backgroundColor = palettes[frontIndex];
+								active.style.backgroundColor = palettes[startIndex];
+								active.className = '';
+								if(onchange) onchange();
+							}
 							active = null;
-							if(onchange) onchange();
 						} else {
 							active = e.target;
 							active.className = 'start';
