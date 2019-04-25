@@ -21,7 +21,7 @@
 }
 
 #editor-canvas #canvas {
-	background-color: #FFF;
+/*	background-color: #FFF;*/
 	border: 1px solid #AAA;
 	position: absolute;
 	top: 0;

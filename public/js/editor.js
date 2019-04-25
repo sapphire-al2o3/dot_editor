@@ -1230,7 +1230,7 @@ editor: Editor
 		x = x < 0 ? 0 : x;
 		y = y < 0 ? 0 : y;
 		
-		selectionCtx.drawImage(canvas, x, y, w, h, 0, 0, w, h);
+		selectionCtx.drawImage(ctx.canvas, x, y, w, h, 0, 0, w, h);
 		
 		ctx.fillStyle = palette[Palette.getBackIndex()];
 		ctx.fillRect(r.x * s, r.y * s, r.w * s, r.h * s);
