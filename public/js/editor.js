@@ -241,6 +241,18 @@ editor: Editor
 		}
 	}
 	
+	function zoom() {
+		option.scale = option.scales[option.zoom];
+		resize();
+//		drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
+		for(let i = 0; i < Layer.count(); i++) {
+			let layer = Layer.get(i),
+				trans = i === 0 ? -1 : Palette.getTransparentIndex();
+			drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, trans);
+		}
+//		$('#zoomRate').text('x ' + option.scale);
+	}
+	
 	// 拡大
 	function zoomIn() {
 		deselect();
@@ -249,19 +261,10 @@ editor: Editor
 		if(option.zoom >= option.scales.length) {
 			option.zoom = option.scales.length - 1;
 		} else {
-			option.scale = option.scales[option.zoom];
-			resize();
-//			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
+			zoom();
 			grid();
-			
-			for(let i = 0; i < Layer.count(); i++) {
-				let layer = Layer.get(i),
-					trans = i === 0 ? -1 : Palette.getTransparentIndex();
-				drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, trans);
-			}
 		}
 		console.timeEnd('zoomIn');
-//		$('#zoomRate').text('x ' + option.scale);
 	}
 
 	// 縮小
@@ -271,34 +274,15 @@ editor: Editor
 		if(option.zoom < 0) {
 			option.zoom = 0;
 		} else {
-			option.scale = option.scales[option.zoom];
-			resize();
-//			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
+			zoom();
 			grid();
-			
-			for(let i = 0; i < Layer.count(); i++) {
-				let layer = Layer.get(i),
-					trans = i === 0 ? -1 : Palette.getTransparentIndex();
-				drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, trans);
-			}
 		}
-//		$('#zoomRate').text('x ' + option.scale);
 	}
 
 	// 等倍
 	function zoomDefault() {
 		option.zoom = 0;
-		option.scale = option.scales[option.zoom];
-		resize();
-//		drawIndexedImage(ctx, indexData, palette, option.scale);
-		
-		for(let i = 0; i < Layer.count(); i++) {
-			let layer = Layer.get(i),
-				trans = i === 0 ? -1 : Palette.getTransparentIndex();
-			drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, trans);
-		}
-		
-//		$('#zoomRate').text('x ' + option.scale);
+		zoom();
 	}
 	
 	// グリッドの表示
