@@ -189,18 +189,20 @@
 	width: 12px;
 	height: 12px;
 	display: inline-block;
-	margin-right: 4px;
-	background-image: url("../images/radio.png");
+	margin-right: 8px;
+/*	background-image: url("../images/radio.png");*/
+	background-color: #DDD;
+	border-radius: 2px;
 }
 
 #new-image form input[type="radio"]:checked + label:before {
 	background-color: #0AF;
 /*    box-shadow: 0 0 0 2px #FFF inset;*/
-	background-position: 0 -12px;
+/*	background-position: 0 -12px;*/
 }
 
 #new-image input[type="radio"] + label:hover:before {
-	background-color: #CEF;
+/*	background-color: #CEF;*/
 }
 
 #new-image input[type="button"] {
