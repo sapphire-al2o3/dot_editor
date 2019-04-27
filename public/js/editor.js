@@ -652,7 +652,7 @@ editor: Editor
 	
 		Palette.change(function(e) {
 			// パレットが変更された際のイベント
-			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
+			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData, Palette.getTransparentIndex());
 			drawPreview();
 		});
 		Palette.setFrontColor(1);
