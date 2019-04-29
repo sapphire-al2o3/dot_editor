@@ -1027,18 +1027,24 @@ editor: Editor
 			}
 		});
 		
+		function addLayer(width, height) {
+			let item = $templateLayer.cloneNode(true);
+				
+			$layerList.insertBefore(item, $layerList.firstElementChild);
+			let layer = Layer.add(width, height);
+			layer.canvas.width = canvas.width;
+			layer.canvas.height = canvas.height;
+			item.removeAttribute('id');
+			item.setAttribute('data-canvas-id', layer.canvas.id);
+			item.lastChild.textContent = 'レイヤー' + (layer.index + 1);
+			$('editor-canvas').appendChild(layer.canvas);
+			
+			return layer;
+		}
+		
 		$.bind($('layer-add'), 'click', () => {
 			if($layerList.childElementCount <= 8) {
-				let item = $templateLayer.cloneNode(true);
-				
-				$layerList.insertBefore(item, $layerList.firstElementChild);
-				let layer = Layer.add(indexData.width, indexData.height);
-				layer.canvas.width = canvas.width;
-				layer.canvas.height = canvas.height;
-				item.removeAttribute('id');
-				item.setAttribute('data-canvas-id', layer.canvas.id);
-				item.lastChild.textContent = 'レイヤー' + (layer.index + 1);
-				$('editor-canvas').appendChild(layer.canvas);
+				addLayer(indexData.width, indexData.height);
 			}
 		});
 		
@@ -1132,51 +1138,68 @@ editor: Editor
 			return 'ページを移動すると編集した情報が失われます';
 		};
 	
+		// レイヤーを1つ残して削除する
+		function clearLayer() {
+			for(let i = 1; i < Layer.count(); i++) {
+				let layer = Layer.get(i);
+				Layer.remove(layer.canvas.id);
+				$('editor-canvas').removeChild(layer.canvas);
+			}
+
+			for(let i = $layerList.childElementCount - 2; i >= 0; i--) {
+				$layerList.removeChild($layerList.children[i]);
+			}
+		}
+	
+		function saveFile() {
+			var png = document.getElementById('canvas').toDataURL();
+			//png = png.replace("image/png", "image/octet-stream");
+			window.open(png, 'save');
+		}
+
+		// ローカルストレージに保存
+		function save(name) {
+			let layers = [];
+			for(let i = 0; i < Layer.count(); i++) {
+				let layer = Layer.get(i);
+				layers.push(Base64.encode(layer.indexData.data));
+			}
+
+			let json = JSON.stringify({
+				indexData: layers,
+				width: indexData.width,
+				height: indexData.height,
+				paletteData: Base64.encode(paletteData.data),
+				transparent: Palette.getTransparentIndex()
+			});
+			Storage.save(name, json);
+
+			console.log('save');
+		}
+
+		// ローカルストレージから読み込み
+		function load(name) {
+			let json = Storage.load(name);
+			if(json) {
+				let data = JSON.parse(json);
+				deselect();
+				indexData = createIndexData(data.width, data.height);
+				Base64.decode(data.indexData, indexData.data);
+				Base64.decode(data.paletteData, paletteData.data);
+				selection.indexData = createIndexData(indexData.width, indexData.height);
+				Palette.setPaletteData(paletteData);
+				Palette.setFrontColor(0);
+				palette = Palette.getPaletteData();
+				resize();
+				drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
+				grid();
+				drawPreview();
+			}
+		}
+		
 	})();
 
-	function saveFile() {
-		var png = document.getElementById('canvas').toDataURL();
-		//png = png.replace("image/png", "image/octet-stream");
-		window.open(png, 'save');
-	}
 
-	// ローカルストレージに保存
-	function save(name) {
-		let json = JSON.stringify({
-			indexData: Base64.encode(indexData.data),
-			width: indexData.width,
-			height: indexData.height,
-			paletteData: Base64.encode(paletteData.data)
-		});
-		Storage.save({
-			name: json
-		});
-		
-		console.log('save');
-	}
-
-	// ローカルストレージから読み込み
-	function load(name) {
-		var result = Storage.load();
-		
-		if(result && result.indexData) {
-			var w = parseInt(result.width, 10),
-				h = parseInt(result.height, 10);
-			deselect();
-			indexData = createIndexData(w, h);
-			Base64.decode(result.indexData, indexData.data);
-			Base64.decode(result.paletteData, paletteData.data);
-			selection.indexData = createIndexData(indexData.width, indexData.height);
-			Palette.setPaletteData(paletteData);
-			Palette.setFrontColor(0);
-			palette = Palette.getPaletteData();
-			resize();
-			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
-			grid();
-			drawPreview();
-			console.log(indexData.width, indexData.height, palette.length, 'loaded');
-		}
-	}
 	
 	// 編集履歴を記録する
 	// コマンドが確定した時点で呼び出す(コマンドがキャンセルされることがあるため)

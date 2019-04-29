@@ -14,23 +14,16 @@
 	}
 	
 	// 保存する
-	Storage.save = function(items) {
+	Storage.save = (key, data) => {
 		if(localStorage) {
-			for(let i of items) {
-				localStorage.setItem(i, items[i]);
-			}
+			localStorage.setItem(key, data);
 		}
 	};
 	
 	// 読み込む
-	Storage.load = function() {
+	Storage.load = (key) => {
 		if(localStorage) {
-			let result = {};
-			for(var i = 0; i < localStorage.length; i++) {
-				var key = localStorage.key(i);
-				result[key] = localStorage.getItem(key);
-			}
-			return result;
+			return localStorage.getItem(key);
 		}
 	};
 	
