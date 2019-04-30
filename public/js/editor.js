@@ -1202,8 +1202,7 @@ editor: Editor
 				Palette.setFrontColor(0);
 				Palette.setTransparentIndex(data.transparent);
 				palette = Palette.getPaletteData();
-				resize();
-				drawIndexedImage(ctx, indexData, palette, option.scale, paletteData, Palette.getTransparentIndex());
+				zoom();
 				grid();
 				drawPreview();
 			}
