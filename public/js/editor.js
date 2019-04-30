@@ -1140,6 +1140,9 @@ editor: Editor
 	
 		// レイヤーを1つ残して削除する
 		function clearLayer() {
+			let baseLayer = Layer.get(0);
+			ctx = baseLayer.ctx;
+			indexData = baseLayer.indexData;
 			for(let i = 1; i < Layer.count(); i++) {
 				let layer = Layer.get(i);
 				$('editor-canvas').removeChild(layer.canvas);
@@ -1148,9 +1151,11 @@ editor: Editor
 			for(let i = $layerList.childElementCount - 2; i >= 0; i--) {
 				$layerList.removeChild($layerList.children[i]);
 			}
-			
+			$currentLayer = $layerList.children[0];
+			$currentLayer.classList.add('selected');
+			$currentLayer.setAttribute('data-canvas-id', baseLayer.canvas.id);
 			Layer.clear();
-			Layer.set(ctx, canvas, indexData);
+			return Layer.set(ctx, ctx.canvas, indexData);
 		}
 	
 		function saveFile() {
