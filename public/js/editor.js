@@ -1200,9 +1200,10 @@ editor: Editor
 				selection.indexData = createIndexData(indexData.width, indexData.height);
 				Palette.setPaletteData(paletteData);
 				Palette.setFrontColor(0);
+				Palette.setTransparentIndex(data.transparent);
 				palette = Palette.getPaletteData();
 				resize();
-				drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
+				drawIndexedImage(ctx, indexData, palette, option.scale, paletteData, Palette.getTransparentIndex());
 				grid();
 				drawPreview();
 			}

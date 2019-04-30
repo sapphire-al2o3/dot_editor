@@ -472,6 +472,9 @@ require('color.js')
 			getTransparentIndex: () => {
 				return transparentIndex;
 			},
+			setTransparentIndex: (index) => {
+				transparentIndex = index;
+			},
 			setFrontColor: function(index) {
 				selected.className = '';
 				selected = cells[index];
