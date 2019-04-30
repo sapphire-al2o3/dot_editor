@@ -533,7 +533,7 @@ editor: Editor
 			grid();
 			drawPreview();
 			Layer.clear();
-			Layer.set(ctx, canvas, indexData);
+			Layer.set(ctx, ctx.canvas, indexData);
 		};
 		FileLoader.bind($('container'));
 		
@@ -604,9 +604,9 @@ editor: Editor
 			selection.indexData = createIndexData(size, size);
 			resize();
 			ctx.fillStyle = palette[0];
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 			drawPreview();
-			Layer.set(ctx, canvas, indexData);
+			Layer.set(ctx, ctx.canvas, indexData);
 		});
 	
 		if(mode === 'fork' || mode === 'edit') {
@@ -627,7 +627,7 @@ editor: Editor
 				Palette.setPaletteData(palette);
 				resize();
 				ctx.fillStyle = palette[0];
-				ctx.fillRect(0, 0, canvas.width, canvas.height);
+				ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 				drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 				drawPreview();
 			});
@@ -644,7 +644,7 @@ editor: Editor
 			selection.indexData = createIndexData(48, 48);
 			resize();
 			ctx.fillStyle = palette[0];
-			ctx.fillRect(0, 0, canvas.width, canvas.height);
+			ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 			drawPreview();
 //			$('#overlay').fadeIn();
 			$.show($('overlay'));
@@ -692,8 +692,8 @@ editor: Editor
 				var s = option.scale;
 				this.x = x * s;
 				this.y = y * s;
-				this.w = canvas.width;
-				this.h = canvas.height;
+				this.w = ctx.canvas.width;
+				this.h = ctx.canvas.height;
 				
 				if(this.enable) {
 					deselect();
@@ -1142,13 +1142,15 @@ editor: Editor
 		function clearLayer() {
 			for(let i = 1; i < Layer.count(); i++) {
 				let layer = Layer.get(i);
-				Layer.remove(layer.canvas.id);
 				$('editor-canvas').removeChild(layer.canvas);
 			}
-
+			
 			for(let i = $layerList.childElementCount - 2; i >= 0; i--) {
 				$layerList.removeChild($layerList.children[i]);
 			}
+			
+			Layer.clear();
+			Layer.set(ctx, canvas, indexData);
 		}
 	
 		function saveFile() {
@@ -1183,8 +1185,17 @@ editor: Editor
 			if(json) {
 				let data = JSON.parse(json);
 				deselect();
+				clearLayer();
 				indexData = createIndexData(data.width, data.height);
-				Base64.decode(data.indexData, indexData.data);
+				Layer.clear();
+				Layer.set(ctx, ctx.canvas, indexData);
+				Base64.decode(data.indexData[0], indexData.data);
+				for(let i = 1; i < data.indexData.length; i++) {
+					let layer = addLayer(data.width, data.height);
+					layer.canvas.width = ctx.canvas.width;
+					layer.canvas.height = ctx.canvas.height;
+					Base64.decode(data.indexData[i], layer.indexData.data);
+				}
 				Base64.decode(data.paletteData, paletteData.data);
 				selection.indexData = createIndexData(indexData.width, indexData.height);
 				Palette.setPaletteData(paletteData);
