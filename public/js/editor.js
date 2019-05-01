@@ -1120,7 +1120,7 @@ editor: Editor
 					const baseLayer = Layer.find(id);
 					
 					baseLayer.ctx.drawImage(layer.canvas, 0, 0);
-					mergeIndexData(layer.indexData, baseLayer.indexData, 0);
+					mergeIndexData(layer.indexData, baseLayer.indexData, Palette.getTransparentIndex());
 					
 					$layerList.removeChild(removeLayer);
 					
