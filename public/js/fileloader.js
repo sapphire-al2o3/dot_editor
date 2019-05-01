@@ -80,7 +80,7 @@
 		target: null,
 		onload: function() {},
 		load: function(file) {
-			var reader = new FileReader(),
+			let reader = new FileReader(),
 				image = new Image(),
 				that = this;
 			
@@ -128,8 +128,9 @@
 		},
 		dropHandler: function(e) {
 			e.preventDefault();
-			
-			this.load(e.dataTransfer.files[0]);
+			if(e.dataTransfer.files.length > 0) {
+				this.load(e.dataTransfer.files[0]);
+			}
 			return false;
 		},
 		dragHandler: function(e) {
