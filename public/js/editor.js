@@ -423,9 +423,7 @@ editor: Editor
 		KeyMapper.assign('Ctrl+S', save);
 		KeyMapper.assign('Ctrl+L', load);
 		
-		KeyMapper.assign('O', function() {
-			tool = 'outline';
-		});
+		KeyMapper.assign('O', toggleTool('outline'));
 		
 		KeyMapper.bind(document, 'down');
 	})();
