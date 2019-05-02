@@ -1024,6 +1024,8 @@ editor: Editor
 			let id = e.target.parentNode.parentNode.getAttribute('data-canvas-id');
 			if(id) {
 				$(id).style.display = e.target.checked ? 'block' : 'none';
+				let layer = Layer.find(id);
+				layer.visibility = !layer.visibility;
 			}
 		});
 		
