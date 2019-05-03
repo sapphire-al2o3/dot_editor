@@ -520,6 +520,7 @@ editor: Editor
 		// ローカルファイルの読み込み
 		FileLoader.onload = function(i, p) {
 			deselect();
+			clearLayer();
 			indexData = i;
 			paletteData = p;
 			selection.indexData = createIndexData(indexData.width, indexData.height);
@@ -530,7 +531,6 @@ editor: Editor
 			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 			grid();
 			drawPreview();
-			Layer.clear();
 			Layer.set(ctx, ctx.canvas, indexData);
 		};
 		FileLoader.bind($('container'));
