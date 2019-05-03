@@ -20,12 +20,16 @@
 	margin-bottom: 4px;
 }
 
-#editor-canvas #canvas {
-/*	background-color: #FFF;*/
+#editor-canvas #canvas,
+#editor-canvas #background {
 	border: 1px solid #AAA;
 	position: absolute;
 	top: 0;
 	left: 0;
+}
+
+#editor-canvas #background {
+	background-color: #FFF;
 }
 
 #editor-canvas #work,

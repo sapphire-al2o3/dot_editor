@@ -156,6 +156,7 @@ editor: Editor
 		canvas,
 		ctx,
 		work,
+		backgroundCtx,
 		preview,
 		selectionCtx,
 		indexData,
@@ -232,6 +233,8 @@ editor: Editor
 		option.canvasHeight = canvas.height;
 		work.canvas.width = canvas.width;
 		work.canvas.height = canvas.height;
+		backgroundCtx.canvas.width = canvas.width;
+		backgroundCtx.canvas.height = canvas.height;
 		if(selection.enable) {
 		}
 		for(let i = 0; i < Layer.count(); i++) {
@@ -247,7 +250,7 @@ editor: Editor
 //		drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 		for(let i = 0; i < Layer.count(); i++) {
 			let layer = Layer.get(i),
-				trans = i === 0 ? -1 : Palette.getTransparentIndex();
+				trans = Palette.getTransparentIndex();
 			drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, trans);
 		}
 //		$('#zoomRate').text('x ' + option.scale);
@@ -445,6 +448,9 @@ editor: Editor
 		// 選択範囲のレイヤーを作成
 		selectionCtx = document.getElementById('selection').getContext('2d');
 		
+		// 背景用レイヤー
+		backgroundCtx = document.getElementById('background').getContext('2d');
+		
 		// パレットデータの作成
 		paletteData = createPaletteData(256);
 	}
@@ -603,7 +609,7 @@ editor: Editor
 			selection.indexData = createIndexData(size, size);
 			resize();
 			ctx.fillStyle = palette[0];
-			ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+			ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 			drawPreview();
 			Layer.set(ctx, ctx.canvas, indexData);
 		});
@@ -626,7 +632,7 @@ editor: Editor
 				Palette.setPaletteData(palette);
 				resize();
 				ctx.fillStyle = palette[0];
-				ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+				ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 				drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 				drawPreview();
 			});
