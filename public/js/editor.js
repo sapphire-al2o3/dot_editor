@@ -531,6 +531,7 @@ editor: Editor
 			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 			grid();
 			drawPreview();
+			Layer.clear();
 			Layer.set(ctx, ctx.canvas, indexData);
 		};
 		FileLoader.bind($('container'));
