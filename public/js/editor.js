@@ -655,9 +655,11 @@ editor: Editor
 			$.show($('overlay'));
 		}
 	
-		Palette.change(function(e) {
+		Palette.change(e => {
 			// パレットが変更された際のイベント
 			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData, Palette.getTransparentIndex());
+			backgroundCtx.canvas.style.backgroundColor = palette[Palette.getTransparentIndex()];
+			
 			drawPreview();
 		});
 		Palette.setFrontColor(1);
