@@ -1180,19 +1180,19 @@ function removeUnusedColor(indexData, palette) {
 	}
 	
 	let k = 0;
-	for(i = 0; i <= max; i++) {
+	for(let i = 0; i <= max; i++) {
 		if(used[i] > 0) {
 			palette[k] = palette[i];
 			used[i] = k++;
 		}
 	}
 	
-	for(i = k; i < palette.length; i++) {
+	for(let i = k; i < palette.length; i++) {
 		palette[i] = '#000000';
 	}
 	
-	for(i = 0; i < l; i++) {
-		index = data[i];
+	for(let i = 0, l = data.length; i < l; i++) {
+		let index = data[i];
 		data[i] = used[index];
 	}
 }
