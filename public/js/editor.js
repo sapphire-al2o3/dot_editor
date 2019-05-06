@@ -657,10 +657,12 @@ editor: Editor
 	
 		Palette.change(e => {
 			// パレットが変更された際のイベント
-			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData, Palette.getTransparentIndex());
-			backgroundCtx.canvas.style.backgroundColor = palette[Palette.getTransparentIndex()];
-			
+			for(let i = 0;i < Layer.count(); i++) {
+				let layer = Layer.get(i);
+				drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, Palette.getTransparentIndex());
+			}
 			drawPreview();
+			backgroundCtx.canvas.style.backgroundColor = palette[Palette.getTransparentIndex()];
 		});
 		Palette.setFrontColor(1);
 		palette = Palette.getPaletteData();
