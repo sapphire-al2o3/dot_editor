@@ -374,9 +374,9 @@ require('color.js')
 		
 		// パレットの色を選択する
 		function selectColor(color, cursor, x) {
-			var r, g, b;
+			let r, g, b;
 			if(typeof color === 'string') {
-				var c = Color.str(color);
+				let c = Color.strToRGB(color);
 				r = c[0];
 				g = c[1];
 				b = c[2];
@@ -454,9 +454,9 @@ require('color.js')
 				return palettes;
 			},
 			convert: function(p) {
-				var data = p.data;
-				for(var i = 0, n = data.length; i < n; i += 4) {
-					var c = Color.str(palettes[i >> 2]);
+				let data = p.data;
+				for(let i = 0, n = data.length; i < n; i += 4) {
+					let c = Color.strToRGB(palettes[i >> 2]);
 					data[i] = c[0];
 					data[i + 1] = c[1];
 					data[i + 2] = c[2];

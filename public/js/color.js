@@ -59,7 +59,7 @@
 		rgba: rgba2str,
 		hsv: hsv2rgb,
 		rgb2hsv: rgb2hsv,
-		str: str2rgb
+		strToRGB: str2rgb
 	};
 	
 	global.Color = Color;

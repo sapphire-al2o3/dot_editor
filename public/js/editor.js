@@ -682,7 +682,7 @@ editor: Editor
 					y = Math.floor((e.pageY - top) / option.scale);
 				paletteIndex = indexData.data[(y * indexData.width + x)];
 				Palette.setFrontColor(paletteIndex);
-				ColorPicker.setColor(Color.str(Palette.getFrontColor()));
+				ColorPicker.setColor(Color.strToRGB(Palette.getFrontColor()));
 			}
 			e.preventDefault();
 			e.stopPropagation();
