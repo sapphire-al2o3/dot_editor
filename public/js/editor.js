@@ -657,6 +657,7 @@ editor: Editor
 	
 		Palette.change(e => {
 			// パレットが変更された際のイベント
+			Palette.convert(paletteData);
 			for(let i = 0;i < Layer.count(); i++) {
 				let layer = Layer.get(i);
 				drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, Palette.getTransparentIndex());
