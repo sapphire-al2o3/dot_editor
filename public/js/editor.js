@@ -665,9 +665,11 @@ editor: Editor
 			drawPreview();
 			backgroundCtx.canvas.style.backgroundColor = palette[Palette.getTransparentIndex()];
 		});
+		
 		Palette.setFrontColor(1);
 		palette = Palette.getPaletteData();
-		$.bind($('palette-opt'), 'click', function() {
+		
+		$.bind($('palette-opt'), 'click', () => {
 			removeUnusedColor(indexData, palette);
 			Palette.setPaletteData(palette);
 			Palette.convert(paletteData);
