@@ -363,6 +363,9 @@ require('color.js')
 //				this.className = hex ? 'selected' : '';
 //				setRadix(hex ? 16 : 10);
 //			});
+			$.bind($('palette-undo'), 'click', (e) => {
+				
+			});
 			
 			paletteElement.style.display = 'block';
 		}
