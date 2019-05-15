@@ -70,11 +70,10 @@ require('color.js')
 			transparentIndex = 0,
 			cells = [],
 			palettes = [],
-			record = [],
 			bars = [],
 			nums = [],
 			onchange,
-			histroy = [];
+			history = [];
 		
 		// 指定のパレットの色を変更する
 		function setColor(color, index, event) {
@@ -258,6 +257,7 @@ require('color.js')
 					g = getNumValue(1),
 					b = getNumValue(2),
 					color = Color.rgb(r, g, b);
+				record(frontIndex, color);
 				selectColor(color);
 				setColor(color, frontIndex);
 			}
@@ -325,6 +325,7 @@ require('color.js')
 						$.unbind('mousemove', mousemoveHandler, false);
 						$.unbind('mouseup', mouseupHandler, false);
 						down = false;
+						record(frontIndex, color);
 						setColor(color, frontIndex);
 					}
 				}
@@ -364,7 +365,15 @@ require('color.js')
 //				setRadix(hex ? 16 : 10);
 //			});
 			$.bind($('palette-undo'), 'click', (e) => {
-				
+				if(history.length > 0) {
+					let r = history.pop();
+					selected.className = '';
+					selected = cells[r.index];
+					selected.className = 'selected';
+					frontIndex = r.index;
+					selectColor(r.color);
+					setColor(r.index, r.color);
+				}
 			});
 			
 			paletteElement.style.display = 'block';
@@ -421,8 +430,8 @@ require('color.js')
 			});
 		}
 		
-		function record() {
-			
+		function record(index, color) {
+			history.push({index: index, color: palettes[index]});
 		}
 		
 		return {
@@ -511,12 +520,6 @@ require('color.js')
 				cells.forEach(function(e, i) {
 					e.style.backgroundColor = palette[i];
 				});
-			},
-			undo: function() {
-				if(histroy.length > 0) {
-					histroy.pop();
-//					selectColor();
-				}
 			}
 		};
 	}(document);
