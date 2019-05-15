@@ -294,6 +294,7 @@ require('color.js')
 						g = getNumValue(1),
 						b = getNumValue(2);
 					color = Color.rgb(r, g, b);
+					record(frontIndex, color);
 					selectColor([r, g, b]);
 					setColor(color, frontIndex);
 					down = true;
@@ -325,7 +326,6 @@ require('color.js')
 						$.unbind('mousemove', mousemoveHandler, false);
 						$.unbind('mouseup', mouseupHandler, false);
 						down = false;
-						record(frontIndex, color);
 						setColor(color, frontIndex);
 					}
 				}
@@ -372,7 +372,7 @@ require('color.js')
 					selected.className = 'selected';
 					frontIndex = r.index;
 					selectColor(r.color);
-					setColor(r.index, r.color);
+					setColor(r.color, r.index);
 				}
 			});
 			
