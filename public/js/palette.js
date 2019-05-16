@@ -431,6 +431,13 @@ require('color.js')
 		}
 		
 		function record(index, color) {
+			if(history.length > 0) {
+				let latest = history.length - 1,
+					r = history[latest];
+				if(r.index === index && r.color === color) {
+					return;
+				}
+			}
 			history.push({index: index, color: palettes[index]});
 		}
 		
