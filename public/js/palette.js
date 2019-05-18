@@ -430,15 +430,27 @@ require('color.js')
 			});
 		}
 		
-		function record(index, color) {
+		function checkHistory(index, color) {
 			if(history.length > 0) {
 				let latest = history.length - 1,
 					r = history[latest];
 				if(r.index === index && r.color === color) {
-					return;
+					return true;
 				}
 			}
-			history.push({index: index, color: palettes[index]});
+			return false;
+		}
+		
+		function record(index, color) {
+			if(!checkHistory(index, color)) {
+				history.push({index: index, color: palettes[index]});
+			}
+		}
+		
+		function pop(index, color) {
+			if(checkHistory) {
+				history.pop();
+			}
 		}
 		
 		return {

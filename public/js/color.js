@@ -3,7 +3,7 @@
 	'use strict';
 	
 	function hex(v) {
-		return ('0' + (v ^ 0).toString(16)).slice(-2);
+		return ('0' + (v ^ 0).toString(16)).slice(-2).toUpperCase();
 	}
 	
 	function rgb2str(r, g, b) {

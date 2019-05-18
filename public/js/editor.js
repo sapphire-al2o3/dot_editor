@@ -638,8 +638,10 @@ editor: Editor
 			});
 		} else {
 			palette = [
-				'#FFF', '#000', '#F00', '#0F0', '#00F', '#FF0', '#F0F', '#0FF', '#888',
-				'#F88', '#8F8', '#88F', '#FF8', '#8FF', '#F8F'
+				'#FFFFFF', '#000000', '#FF0000', '#00FF00',
+				'#0000FF', '#FFFF00', '#FF00FF', '#00FFFF',
+				'#808080', '#FF8080', '#88FF88', '#8888FF',
+				'#FFFF80', '#80FFFF', '#FF80FF'
 			];
 
 			Palette.setPaletteData(palette);
