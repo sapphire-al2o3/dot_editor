@@ -327,6 +327,7 @@ require('color.js')
 						$.unbind('mouseup', mouseupHandler, false);
 						down = false;
 						setColor(color, frontIndex);
+						popHistory(frontIndex, color);
 					}
 				}
 				$.bind(target, 'mousedown', mousedownHandler);
@@ -441,15 +442,15 @@ require('color.js')
 			return false;
 		}
 		
-		function record(index, color) {
-			if(!checkHistory(index, color)) {
-				history.push({index: index, color: palettes[index]});
+		function popHistory(index, color) {
+			if(checkHistory(index, color)) {
+				history.pop();
 			}
 		}
 		
-		function pop(index, color) {
-			if(checkHistory) {
-				history.pop();
+		function record(index, color) {
+			if(color !== palettes[index]) {
+				history.push({index: index, color: palettes[index]});
 			}
 		}
 		
