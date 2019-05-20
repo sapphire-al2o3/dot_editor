@@ -126,6 +126,7 @@ require('color.js')
 					if(copy) {
 						if(active) {
 							if(selected !== active) {
+								record(frontIndex, palettes[startIndex]);
 								palettes[frontIndex] = palettes[startIndex];
 								e.target.style.backgroundColor = active.style.backgroundColor;
 								active.className = '';
@@ -144,6 +145,8 @@ require('color.js')
 					if(swap) {
 						if(active) {
 							if(selected !== active) {
+								record(frontIndex, palettes[startIndex]);
+								record(startIndex, palettes[frontIndex]);
 								let t = palettes[startIndex];
 								palettes[startIndex] = palettes[frontIndex];
 								palettes[frontIndex] = t;
