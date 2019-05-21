@@ -562,12 +562,14 @@ require('color.js')
 			onchange;
 		
 		function setValue(target) {
-			var val = parseInt(target.value, radix);
-			val = isNaN(val) ? min : range(val + step, min, max);
-			target.value = val.toString(radix).toUpperCase();
-			
-			if(onchange) {
-				onchange();
+			let val = parseInt(target.value, radix),
+				newVal = isNaN(val) ? min : range(val + step, min, max);
+			if(newVal !== val) {
+				target.value = newVal.toString(radix).toUpperCase();
+
+				if(onchange) {
+					onchange();
+				}
 			}
 		}
 		
