@@ -126,7 +126,7 @@ require('color.js')
 					if(copy) {
 						if(active) {
 							if(selected !== active) {
-								record(frontIndex, palettes[startIndex]);
+								record(frontIndex, palettes[startIndex], history.length);
 								palettes[frontIndex] = palettes[startIndex];
 								e.target.style.backgroundColor = active.style.backgroundColor;
 								active.className = '';
@@ -145,8 +145,8 @@ require('color.js')
 					if(swap) {
 						if(active) {
 							if(selected !== active) {
-								record(frontIndex, palettes[startIndex]);
-								record(startIndex, palettes[frontIndex]);
+								record(frontIndex, palettes[startIndex], history.length);
+								record(startIndex, palettes[frontIndex], history.length);
 								let t = palettes[startIndex];
 								palettes[startIndex] = palettes[frontIndex];
 								palettes[frontIndex] = t;
@@ -260,7 +260,7 @@ require('color.js')
 					g = getNumValue(1),
 					b = getNumValue(2),
 					color = Color.rgb(r, g, b);
-				record(frontIndex, color);
+				record(frontIndex, color, history.length);
 				selectColor(color);
 				setColor(color, frontIndex);
 			}
@@ -297,7 +297,7 @@ require('color.js')
 						g = getNumValue(1),
 						b = getNumValue(2);
 					color = Color.rgb(r, g, b);
-					record(frontIndex, color);
+					record(frontIndex, color, history.length);
 					selectColor([r, g, b]);
 					setColor(color, frontIndex);
 					down = true;
@@ -451,9 +451,9 @@ require('color.js')
 			}
 		}
 		
-		function record(index, color) {
+		function record(index, color, group) {
 			if(color !== palettes[index]) {
-				history.push({index: index, color: palettes[index]});
+				history.push({index: index, color: palettes[index], group: group});
 			}
 		}
 		
