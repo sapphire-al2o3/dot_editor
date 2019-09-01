@@ -140,7 +140,8 @@ app.post('/auth/twitter/post', function(req, res) {
 			url
 		);
 		
-		var r = request.post(url, function(err, data, response) {
+		var headers = { authorization: passport._strategies.twitter._oauth._buildAuthorizationHeaders(orderedParameters) };
+		var r = request.post({url: url, headers: headers }, function(err, data, response) {
 			if(err) {
 //				console.log(err);
 				res.redirect('/failure.html');
@@ -149,7 +150,7 @@ app.post('/auth/twitter/post', function(req, res) {
 			res.redirect('/success.html');
 		});
 		
-		r.setHeaders({ authorization: passport._strategies.twitter._oauth._buildAuthorizationHeaders(orderedParameters) });
+		
 		var form = r.form();
 		
 		form.append('status', text);
