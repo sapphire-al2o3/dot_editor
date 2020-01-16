@@ -1349,4 +1349,14 @@ editor: Editor
 		};
 	}
 
+	window.addEventListener('message', e => {
+		let image = {
+			indexData: indexData,
+			paletteData: paletteData,
+		};
+		if(e.data === 'getImage') {
+			e.source.postMessage(image, e.origin);
+		}
+	});
+
 }(this, Selector));

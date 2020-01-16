@@ -53,14 +53,17 @@
 						drawIndexedImageData(ctx, image.indexData, image.paletteData, scale, transparent);
 					}
 					
-					if(window.opener && window.opener.getImage) {
+					if(window.opener) {
+						window.opener.postMessage('getImage');
 						image = window.opener.getImage();
-						if(image) {
-							render(image.indexData, image.paletteData);
-						}
 					} else {
 						window.location.href = '/';
 					}
+
+					window.addEventListener('message', e => {
+						image = e.data;
+						render(image.indexData, image.paletteData);
+					}, false);
 					
 					document.getElementById('image-scale').addEventListener('change', function(e) {
 						if(image && /scale-[1-4]/.test(e.target.getAttribute('id'))) {
