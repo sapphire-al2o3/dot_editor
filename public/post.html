@@ -14,8 +14,6 @@
 			<div id="header">
 				<h1><a href="/"><img src="./images/dota_32x32.png" /></a></h1>
 			</div>
-			
-<!--			<div contenteditable="true">hogehoge</div>-->
 			<p>Twitterへドット絵を投稿します。</p>
 			<form action="/auth/twitter/post" method="post" id="post-form">
 				
@@ -27,6 +25,9 @@
 				</div>
 				<div>
 					<input type="checkbox" id="transparent" /><label for="transparent">背景を透明にする(背景のピクセルをクリック)</label>
+				</div>
+				<div>
+					<input type="checkbox" id="space" /><label for="space">余白をつける</label>
 				</div>
 				<div id="dot-preview"><canvas id="canvas"></canvas></div>
 				<p><textarea id="text" name="text">#pixelart http://dot-a.herokuapp.com/</textarea></p>
@@ -43,14 +44,25 @@
 						textCount = document.getElementById('text-count'),
 						scale = 1,
 						transparent = 256,
+						space = false,
 						image;
 					
 					textCount.textContent = '' + (140 - text.value.length);
 					
 					function render(index, paltte) {
-						canvas.width = index.width * scale ^ 0;
-						canvas.height = index.height * scale ^ 0;
-						drawIndexedImageData(ctx, image.indexData, image.paletteData, scale, transparent);
+						let left = 0,
+							top = 0;
+						if(space) {
+							canvas.width = 400;
+							canvas.height = 200;
+							left = (400 - index.width * scale) / 2;
+							top = (200 - index.height * scale) / 2;
+							ctx.fillRect(0, 0, 400, 200);
+						} else {
+							canvas.width = index.width * scale;
+							canvas.height = index.height * scale;
+						}
+						drawIndexedImageData(ctx, image.indexData, image.paletteData, scale, transparent, left, top);
 					}
 					
 					if(window.opener && window.opener.getImage) {
@@ -59,7 +71,7 @@
 							render(image.indexData, image.paletteData);
 						}
 					} else {
-						window.location.href = '/';
+						// window.location.href = '/';
 					}
 					
 					document.getElementById('image-scale').addEventListener('change', function(e) {
@@ -70,21 +82,30 @@
 					});
 					
 					document.getElementById('transparent').addEventListener('change', function(e) {
-						console.log(e.target.checked);
 						transparent = e.target.checked ? 0 : 256;
 						render(image.indexData, image.paletteData);
 					});
 					
-					document.getElementById('canvas').addEventListener('click', function(e) {
+					document.getElementById('canvas').addEventListener('click', e => {
 						if(document.getElementById('transparent').checked) {
-							var rect = e.target.getBoundingClientRect(),
-								x = (e.pageX - rect.left) / scale ^ 0,
-								y = (e.pageY - rect.top) / scale ^ 0;
+							let rect = e.target.getBoundingClientRect(),
+								offsetX = space ? (400 - image.indexData.width * scale) / 2 : 0,
+								offsetY = space ? (200 - image.indexData.height * scale) / 2 : 0,
+								x = (e.pageX - rect.left - offsetX) / scale ^ 0,
+								y = (e.pageY - rect.top - offsetY) / scale ^ 0;
+							if(space && (x < 0 || y < 0 || x >= image.indexData.width || y >= image.indexData.height)) {
+								x = y = 0;
+							}
 							transparent = image.indexData.data[y * image.indexData.width + x];
-							console.log(x, y, transparent);
+							console.log(e.pageX, e.pageY, x, y, transparent);
 							render(image.indexData, image.paletteData);
 						}
-					});
+					}, false);
+
+					document.getElementById('space').addEventListener('click', e => {
+						space = e.target.checked;
+						render(image.indexData, image.paletteData);
+					}, false)
 					
 					function strlen(str) {
 						return str.length - (str.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g)||[]).length;

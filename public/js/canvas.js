@@ -712,7 +712,7 @@ function drawIndexedImage(ctx, image, palette, scale, paletteData, transparent) 
 	
 }
 
-function drawIndexedImageData(ctx, image, palette, scale, transparent) {
+function drawIndexedImageData(ctx, image, palette, scale, transparent, left, top) {
 	let index = 0,
 		data = image.data,
 		paletteData = palette.data,
@@ -722,6 +722,8 @@ function drawIndexedImageData(ctx, image, palette, scale, transparent) {
 		stride = image.width,
 		destData = dest.data,
 		t = transparent === undefined ? 256 : transparent;
+	left = left === undefined ? 0 : left,
+	top = top === undefined ? 0 : top;
 	for(let i = 0, p = 0; i < h; i++) {
 		let y = i / scale ^ 0;
 		for(let j = 0; j < w; j++) {
@@ -735,7 +737,7 @@ function drawIndexedImageData(ctx, image, palette, scale, transparent) {
 			p += 4;
 		}
 	}
-	ctx.putImageData(dest, 0, 0);
+	ctx.putImageData(dest, left, top);
 }
 
 // 拡大して表示する
