@@ -6,6 +6,7 @@
 		<link href="./css/dot_common.css" media="screen" rel="stylesheet" type="text/css" />
 		<link href="./css/dot_post.css" media="screen" rel="stylesheet" type="text/css" />
 		<link rel="shortcut icon" href="./images/favicon.png" />
+		<script src="./js/color.js"></script>
 		<script src="./js/canvas.js"></script>
 		<script src="./js/base64.js"></script>
 	</head>
@@ -57,6 +58,8 @@
 							canvas.height = 200;
 							left = (400 - index.width * scale) / 2;
 							top = (200 - index.height * scale) / 2;
+							const palette = image.paletteData.data;
+							ctx.fillStyle = Color.rgb(palette[0], palette[1], palette[2]);
 							ctx.fillRect(0, 0, 400, 200);
 						} else {
 							canvas.width = index.width * scale;
@@ -74,17 +77,17 @@
 						// window.location.href = '/';
 					}
 					
-					document.getElementById('image-scale').addEventListener('change', function(e) {
+					document.getElementById('image-scale').addEventListener('change', e => {
 						if(image && /scale-[1-4]/.test(e.target.getAttribute('id'))) {
 							scale = parseInt(e.target.value, 10);
 							render(image.indexData, image.paletteData);
 						}
-					});
+					}, false);
 					
-					document.getElementById('transparent').addEventListener('change', function(e) {
+					document.getElementById('transparent').addEventListener('change', e => {
 						transparent = e.target.checked ? 0 : 256;
 						render(image.indexData, image.paletteData);
-					});
+					}, false);
 					
 					document.getElementById('canvas').addEventListener('click', e => {
 						if(document.getElementById('transparent').checked) {
