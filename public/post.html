@@ -114,12 +114,12 @@
 						return str.length - (str.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g)||[]).length;
 					}
 					
-					text.addEventListener('keyup', function(e) {
+					text.addEventListener('keyup', e => {
 						textCount.textContent = '' + (140 - strlen(text.value));
 					});
 					
-					document.getElementById('post-form').addEventListener('submit', function(e) {
-						var palette = Array.prototype.filter.call(image.paletteData.data, function(e, i) {
+					document.getElementById('post-form').addEventListener('submit', e => {
+						const palette = image.paletteData.data.filter((e, i) => {
 							return i % 4 !== 3;
 						});
 						var json = {
@@ -127,7 +127,8 @@
 							palette: Base64.encode(palette),
 							width: image.indexData.width,
 							height: image.indexData.height,
-							transparent: transparent
+							transparent: transparent,
+							space: space
 						};
 						
 						document.getElementById('post').setAttribute('disabled', '');
