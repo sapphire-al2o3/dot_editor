@@ -563,7 +563,7 @@ editor: Editor
 		$.bind($('rotater'), 'click', rotateRight);
 		
 		// スポイトツール
-		$.bind($('dropper'), 'click', function() {
+		$.bind($('dropper'), 'click', () => {
 			prevTool = activeTool;
 			activeTool && activeTool.classList.remove('selected');
 			activeTool = $('dropper');
@@ -571,14 +571,14 @@ editor: Editor
 			dropper = true;
 		});
 		
-		$.bind($('twitter'), 'click', function(e) {
+		$.bind($('twitter'), 'click', () => {
 			window.open('/auth/twitter');
 		});
 		
 		$.bind($('save'), 'click', save);
 		$.bind($('load'), 'click', load);
 		
-		$.bind($('tools'), 'click', function(e) {
+		$.bind($('tools'), 'click', () => {
 			$.toggle($('tools-2'));
 			$('tools').classList.toggle('selected');
 		});
@@ -588,11 +588,11 @@ editor: Editor
 		$.bind($('shiftr'), 'click', shift.bind(null, 1, 0));
 		$.bind($('shiftu'), 'click', shift.bind(null, 0, -1));
 		$.bind($('shiftd'), 'click', shift.bind(null, 0, 1));
-		$.bind($('open-image'), 'click', function() {
+		$.bind($('open-image'), 'click', () => {
 			$('open-button').click();
 		});
 		
-		$.bind($('open-button'), 'change', function(e) {
+		$.bind($('open-button'), 'change', e => {
 			FileLoader.load(e.target.files[0]);
 			e.target.value = null;
 		});
@@ -747,7 +747,7 @@ editor: Editor
 				}
 			},
 			up: function(x, y) {
-				var s = option.scale,
+				let s = option.scale,
 					r = selection.region;
 				x = x * s;
 				y = y * s;
@@ -755,11 +755,11 @@ editor: Editor
 				x = x < 0 ? 0 : x >= this.w ? this.w : x;
 				y = y < 0 ? 0 : y >= this.h ? this.h : y;
 				
-				var w = Math.abs(x - this.x),
+				let w = Math.abs(x - this.x),
 					h = Math.abs(y - this.y);
 				
-				w = w === 0 ? s : w;
-				h = h === 0 ? s : h;
+				// w = w === 0 ? s : w;
+				// h = h === 0 ? s : h;
 				
 				x = this.x > x ? x : this.x;
 				y = this.y > y ? y : this.y;
@@ -769,10 +769,10 @@ editor: Editor
 				r.w = w / s ^ 0;
 				r.h = h / s ^ 0;
 
-				selectionCtx.canvas.width = w;
-				selectionCtx.canvas.height = h;
-				$.size($selection, w, h);
 				if(w > 0 && h > 0) {
+					selectionCtx.canvas.width = w;
+					selectionCtx.canvas.height = h;
+					$.size($selection, w, h);
 					cut(this.transparent);
 					this.enable = true;
 					selection.transparent = this.transparent;
@@ -1223,6 +1223,7 @@ editor: Editor
 				Palette.setPaletteData(paletteData);
 				Palette.setFrontColor(0);
 				Palette.setTransparentIndex(data.transparent);
+				backgroundCtx.canvas.style.backgroundColor = palette[Palette.getTransparentIndex()];
 				palette = Palette.getPaletteData();
 				zoom();
 				grid();
@@ -1276,7 +1277,7 @@ editor: Editor
 
 	// 切り取り
 	function cut(transparent) {
-		var s = option.scale,
+		let s = option.scale,
 			r = selection.region,
 			x = r.x * s,
 			y = r.y * s,
@@ -1287,7 +1288,7 @@ editor: Editor
 		y = y < 0 ? 0 : y;
 		
 		selectionCtx.drawImage(ctx.canvas, x, y, w, h, 0, 0, w, h);
-		
+
 		ctx.fillStyle = palette[Palette.getBackIndex()];
 		ctx.fillRect(r.x * s, r.y * s, r.w * s, r.h * s);
 		selection.indexData.width = r.w;
@@ -1311,11 +1312,12 @@ editor: Editor
 	function deselect() {
 		if(!selection.enable) return;
 		selection.enable = false;
-		var s = option.scale,
+		let s = option.scale,
 			r = selection.region,
 			x = r.x * s,
 			y = r.y * s,
-			transparentIndex = selection.transparent && Palette.getBackIndex();
+			transparentIndex = selection.transparent ? Palette.getBackIndex() : 256;
+		ctx.globalCompositeOperation = 'source-over';
 		ctx.drawImage(selectionCtx.canvas, x, y);
 		copyIndexData(selection.indexData, indexData, 0, 0, r.w, r.h, r.x, r.y, transparentIndex);
 		$.hide($selection);
