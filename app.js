@@ -11,7 +11,8 @@ var path = require('path');
 var fs = require('fs');
 var PNG = require('pngjs').PNG;
 var request = require('request');
-var scaling = require('./imagescaling.js').scaling;
+const scaling = require('./imagescaling.js').scaling;
+const frame = require('./imagescaling.js').frame;
 var config = require('./config');
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
@@ -96,18 +97,22 @@ app.get('/auth', function(req, res) {
 });
 
 app.post('/auth/twitter/post', function(req, res) {
-	var text = req.body.text,
+	let text = req.body.text,
 		image = JSON.parse(req.body.image);
 	if(req.user && image) {
-		var scale = req.body.scale ? parseInt(req.body.scale, 10) : 1,
+		let scale = req.body.scale ? parseInt(req.body.scale, 10) : 1,
 			paletteData = new Buffer(image.palette, 'base64');
 		
 		// 拡大する
-		var indexData = scaling(new Buffer(image.index, 'base64'), image.width, image.height, scale);
+		let indexData = scaling(new Buffer(image.index, 'base64'), image.width, image.height, scale);
 		image.width *= scale;
 		image.height *= scale;
 		
-		
+		// 余白をつける
+		if(image.space) {
+			indexData = frame(indexData, image.width, image.height, 400, 200);
+		}
+
 		var img = new PNG({
 			width: image.width,
 			height: image.height,
