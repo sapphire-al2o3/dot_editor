@@ -28,7 +28,7 @@ module.exports.frame = (data, width, height, frameWidth, frameHeight, result) =>
 		return data;
 	}
 
-	result = result || new Buffer(w * h);
+	result = result || new Buffer(frameWidth * frameHeight);
 	
 	for(let i = 0; i < frameWidth * frameHeight; i++) {
 		result[i] = 0;
