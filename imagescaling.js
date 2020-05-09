@@ -9,7 +9,7 @@ module.exports.scaling = (data, width, height, scale, result) => {
 	let w = width * scale,
 		h = height * scale;
 
-	result = result || new Buffer(w * h);
+	result = result || Buffer.alloc(w * h);
 	
 	for(let i = 0; i < h; i++) {
 		let y = i / scale ^ 0;
@@ -28,7 +28,7 @@ module.exports.frame = (data, width, height, frameWidth, frameHeight, result) =>
 		return data;
 	}
 
-	result = result || new Buffer(frameWidth * frameHeight);
+	result = result || Buffer.alloc(frameWidth * frameHeight);
 	
 	for(let i = 0; i < frameWidth * frameHeight; i++) {
 		result[i] = 0;
