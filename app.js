@@ -101,19 +101,21 @@ app.post('/auth/twitter/post', function(req, res) {
 		image = JSON.parse(req.body.image);
 	if(req.user && image) {
 		let scale = req.body.scale ? parseInt(req.body.scale, 10) : 1,
-			paletteData = new Buffer(image.palette, 'base64');
+			paletteData = Buffer.from(image.palette, 'base64');
 		
 		// 拡大する
-		let indexData = scaling(new Buffer(image.index, 'base64'), image.width, image.height, scale);
+		let indexData = scaling(Buffer.from(image.index, 'base64'), image.width, image.height, scale);
 		image.width *= scale;
 		image.height *= scale;
 		
 		// 余白をつける
 		if(image.space) {
 			indexData = frame(indexData, image.width, image.height, 400, 200);
+			image.width = 400;
+			image.height = 200;
 		}
 
-		var img = new PNG({
+		let img = new PNG({
 			width: image.width,
 			height: image.height,
 			colorType: 3,
@@ -122,48 +124,48 @@ app.post('/auth/twitter/post', function(req, res) {
 		
 		img.data = indexData;
 		img.palette = paletteData;
-		if(image.transparent !== undefined) {
-			var trns = [];
+		if(image.transparent !== undefined && image.transparent < 256) {
+			let trns = [];
 			for(var i = 0; i < paletteData.length / 3; i++) {
 				trns.push(255);
 			}
-			if(image.transparent < 256) {
-				trns[image.transparent] = 0;
-			}
-			img.transparency = new Buffer(trns);
+			trns[image.transparent] = 0;
+			img.transparency = Buffer.from(trns);
 		}
-//		img.pack().pipe(fs.createWriteStream('./uploads/out.png'));
+
+		// img.pack2().pipe(fs.createWriteStream('./uploads/out.png'));
+		// res.redirect('/success.html');
+		// return;
 		
-//		res.redirect('/success.html');
+		const url = 'https://api.twitter.com/1.1/statuses/update_with_media.json';
+		// const url = 'https://api.twitter.com/1.1/statuses/update.json';
 		
-		var url = 'https://api.twitter.com/1.1/statuses/update_with_media.json';
-		
-		var orderedParameters = passport._strategies.twitter._oauth._prepareParameters(
+		const orderedParameters = passport._strategies.twitter._oauth._prepareParameters(
 			req.user.twitter_token,
 			req.user.twitter_token_secret,
 			'POST',
 			url
 		);
 		
-		var headers = { authorization: passport._strategies.twitter._oauth._buildAuthorizationHeaders(orderedParameters) };
-		var r = request.post({url: url, headers: headers }, function(err, data, response) {
+		const headers = { authorization: passport._strategies.twitter._oauth._buildAuthorizationHeaders(orderedParameters) };
+		const r = request.post({url: url, headers: headers }, (err, data, response) => {
 			if(err) {
-//				console.log(err);
+				console.log(err);
 				res.redirect('/failure.html');
 				return;
 			}
+			console.log(err, response);
 			res.redirect('/success.html');
 		});
-		
 		
 		var form = r.form();
 		
 		form.append('status', text);
 		form.append('media[]', img.pack2());
-//		console.log('ok');
+		console.log('ok');
 		
 	} else {
-//		console.log('ng');
+		console.log('ng');
 		res.redirect('/auth/twitter');
 	}
 });
@@ -174,10 +176,10 @@ app.get('/auth/twitter/callback', passport.authenticate('twitter', {
 	failureRedirect: '/'
 }));
 
-app.get('/post', function(req, res) {
+app.get('/post', (req, res) => {
 	res.sendfile(path.join(__dirname, 'public/post.html'));
 });
 
-http.createServer(app).listen(app.get('port'), function(){
+http.createServer(app).listen(app.get('port'), () => {
 	console.log('Express server listening on port ' + app.get('port'));
 });
