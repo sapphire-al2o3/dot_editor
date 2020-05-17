@@ -537,6 +537,7 @@ editor: Editor
 			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 			grid();
 			drawPreview();
+			backgroundCtx.canvas.style.backgroundColor = palette[Palette.getTransparentIndex()];
 			Layer.clear();
 			Layer.set(ctx, ctx.canvas, indexData);
 		};
