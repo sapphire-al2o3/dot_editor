@@ -39,7 +39,7 @@
 			</form>
 			<script>
 				(function() {
-					var canvas = document.getElementById('canvas'),
+					let canvas = document.getElementById('canvas'),
 						ctx = canvas.getContext('2d'),
 						text = document.getElementById('text'),
 						textCount = document.getElementById('text-count'),
@@ -48,19 +48,22 @@
 						space = false,
 						image;
 					
+					const spaceW = 600;
+					const spaceH = 600;
+
 					textCount.textContent = '' + (140 - text.value.length);
 					
 					function render(index, paltte) {
 						let left = 0,
 							top = 0;
 						if(space) {
-							canvas.width = 400;
-							canvas.height = 200;
-							left = (400 - index.width * scale) / 2;
-							top = (200 - index.height * scale) / 2;
+							canvas.width = spaceW;
+							canvas.height = spaceH;
+							left = (spaceW - index.width * scale) / 2;
+							top = (spaceH - index.height * scale) / 2;
 							const palette = image.paletteData.data;
 							ctx.fillStyle = Color.rgb(palette[0], palette[1], palette[2]);
-							ctx.fillRect(0, 0, 400, 200);
+							ctx.fillRect(0, 0, spaceW, spaceH);
 						} else {
 							canvas.width = index.width * scale;
 							canvas.height = index.height * scale;

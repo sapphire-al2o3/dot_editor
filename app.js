@@ -110,9 +110,11 @@ app.post('/auth/twitter/post', function(req, res) {
 		
 		// 余白をつける
 		if(image.space) {
-			indexData = frame(indexData, image.width, image.height, 400, 200);
-			image.width = 400;
-			image.height = 200;
+			const frameWidth = 600;
+			const frameeHeight = 600;
+			indexData = frame(indexData, image.width, image.height, frameWidth, frameeHeight);
+			image.width = frameWidth;
+			image.height = frameeHeight;
 		}
 
 		let img = new PNG({
@@ -154,14 +156,15 @@ app.post('/auth/twitter/post', function(req, res) {
 				res.redirect('/failure.html');
 				return;
 			}
-			console.log(err, response);
+			console.log(response);
 			res.redirect('/success.html');
 		});
 		
 		var form = r.form();
 		
 		form.append('status', text);
-		form.append('media[]', img.pack2());
+		// form.append('media[]', img.pack2());
+		form.append('media[]', img.packSync());
 		console.log('ok');
 		
 	} else {
