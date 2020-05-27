@@ -663,6 +663,9 @@ editor: Editor
 			Palette.convert(paletteData);
 			for(let i = 0;i < Layer.count(); i++) {
 				let layer = Layer.get(i);
+				if(e !== undefined) {
+					swapColor(layer.indexData, e[0], e[1]);
+				}
 				drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, Palette.getTransparentIndex());
 			}
 			drawPreview();

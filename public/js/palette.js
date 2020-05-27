@@ -162,6 +162,28 @@ require('color.js')
 							startIndex = frontIndex;
 						}
 					}
+
+					if(move) {
+						if(active) {
+							if(selected !== active) {
+								record(frontIndex, palettes[startIndex], history.length);
+								record(startIndex, palettes[frontIndex], history.length);
+								let t = palettes[startIndex];
+								palettes[startIndex] = palettes[frontIndex];
+								palettes[frontIndex] = t;
+								e.target.style.backgroundColor = palettes[frontIndex];
+								active.style.backgroundColor = palettes[startIndex];
+								active.className = '';
+								if(onchange) onchange([startIndex, frontIndex]);
+							}
+							active = null;
+							move = false;
+						} else {
+							active = e.target;
+							active.className = 'start';
+							startIndex = frontIndex;
+						}
+					}
 					
 					if(transparent) {
 						backIndex = frontIndex;
@@ -195,6 +217,7 @@ require('color.js')
 				tool,
 				copy = false,
 				swap = false,
+				move = false,
 				transparent = false,
 				hex = false;
 			
@@ -341,12 +364,14 @@ require('color.js')
 				active = null;
 				$('palette-copy').className = copy ? 'selected' : '';
 				$('palette-swap').className = swap ? 'selected' : '';
+				$('palette-move').className = move ? 'selected' : '';
 //				$('palette-transparent').className = transparent ? 'selected' : '';
 			}
 			
 			$.bind($('palette-copy'), 'click', function(e) {
 				copy = !copy;
 				swap = false;
+				move = false;
 				transparent = false;
 				setPaletteTool();
 			});
@@ -354,6 +379,14 @@ require('color.js')
 			$.bind($('palette-swap'), 'click', function(e) {
 				swap = !swap;
 				copy = false;
+				move = false;
+				transparent = false;
+				setPaletteTool();
+			});
+			$.bind($('palette-move'), 'click', function(e) {
+				move = !move;
+				copy = false;
+				swap = false;
 				transparent = false;
 				setPaletteTool();
 			});
