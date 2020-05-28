@@ -177,7 +177,6 @@ require('color.js')
 								if(onchange) onchange([startIndex, frontIndex]);
 							}
 							active = null;
-							move = false;
 						} else {
 							active = e.target;
 							active.className = 'start';
