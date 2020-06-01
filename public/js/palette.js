@@ -123,6 +123,7 @@ require('color.js')
 					selected.className = ' selected';
 					frontIndex = row * 16 + col;
 					
+					// 色のコピー
 					if(copy) {
 						if(active) {
 							if(selected !== active) {
@@ -142,7 +143,8 @@ require('color.js')
 						}
 					}
 					
-					if(swap) {
+					// 色の入れ替え、移動
+					if(swap || move) {
 						if(active) {
 							if(selected !== active) {
 								record(frontIndex, palettes[startIndex], history.length);
@@ -153,28 +155,7 @@ require('color.js')
 								e.target.style.backgroundColor = palettes[frontIndex];
 								active.style.backgroundColor = palettes[startIndex];
 								active.className = '';
-								if(onchange) onchange();
-							}
-							active = null;
-						} else {
-							active = e.target;
-							active.className = 'start';
-							startIndex = frontIndex;
-						}
-					}
-
-					if(move) {
-						if(active) {
-							if(selected !== active) {
-								record(frontIndex, palettes[startIndex], history.length);
-								record(startIndex, palettes[frontIndex], history.length);
-								let t = palettes[startIndex];
-								palettes[startIndex] = palettes[frontIndex];
-								palettes[frontIndex] = t;
-								e.target.style.backgroundColor = palettes[frontIndex];
-								active.style.backgroundColor = palettes[startIndex];
-								active.className = '';
-								if(onchange) onchange([startIndex, frontIndex]);
+								if(onchange) onchange(move ? [startIndex, frontIndex] : undefined);
 							}
 							active = null;
 						} else {
