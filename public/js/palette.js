@@ -164,7 +164,7 @@ require('color.js')
 							startIndex = frontIndex;
 						}
 					}
-					
+
 					if(transparent) {
 						backIndex = frontIndex;
 					}
@@ -383,13 +383,20 @@ require('color.js')
 //			});
 			$.bind($('palette-undo'), 'click', (e) => {
 				if(history.length > 0) {
-					let r = history.pop();
-					selected.className = '';
-					selected = cells[r.index];
-					selected.className = 'selected';
-					frontIndex = r.index;
-					selectColor(r.color);
-					setColor(r.color, r.index);
+					let group = -1;
+					while(true) {
+						let r = history.pop();
+						group = r.group;
+						selected.className = '';
+						selected = cells[r.index];
+						selected.className = 'selected';
+						frontIndex = r.index;
+						selectColor(r.color);
+						setColor(r.color, r.index);
+						if(history[history.length - 1].group != group) {
+							break;
+						}
+					}
 				}
 			});
 			
