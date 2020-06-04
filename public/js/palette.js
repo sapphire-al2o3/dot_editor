@@ -147,8 +147,9 @@ require('color.js')
 					if(swap || move) {
 						if(active) {
 							if(selected !== active) {
-								record(frontIndex, palettes[startIndex], history.length);
-								record(startIndex, palettes[frontIndex], history.length);
+								const group = history.length;
+								record(frontIndex, palettes[startIndex], group);
+								record(startIndex, palettes[frontIndex], group);
 								let t = palettes[startIndex];
 								palettes[startIndex] = palettes[frontIndex];
 								palettes[frontIndex] = t;
