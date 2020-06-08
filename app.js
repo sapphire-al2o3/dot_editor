@@ -110,8 +110,8 @@ app.post('/auth/twitter/post', function(req, res) {
 		
 		// 余白をつける
 		if(image.space) {
-			const frameWidth = 600;
-			const frameeHeight = 600;
+			const frameWidth = 320;
+			const frameeHeight = 320;
 			indexData = frame(indexData, image.width, image.height, frameWidth, frameeHeight);
 			image.width = frameWidth;
 			image.height = frameeHeight;
