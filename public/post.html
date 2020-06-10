@@ -48,8 +48,8 @@
 						space = false,
 						image;
 					
-					const spaceW = 320;
-					const spaceH = 320;
+					const spaceW = 512;
+					const spaceH = 288;
 
 					textCount.textContent = '' + (140 - text.value.length);
 					
@@ -135,7 +135,9 @@
 							width: image.indexData.width,
 							height: image.indexData.height,
 							transparent: transparent,
-							space: space
+							space: space,
+							frameWidth: spaceW,
+							frameHeight: spaceH
 						};
 						
 						document.getElementById('post').setAttribute('disabled', '');
