@@ -763,8 +763,10 @@ function tilingIndexedImageData(ctx, image, palette, scale, transparent, width, 
 			p += 4;
 		}
 	}
-	for(let y = 0; y < height; y += h) {
-		for(let x = 0; x < width; x += w) {
+	let offsetX = ((width - w) / 2 ^ 0) % w - w,
+		offsetY = ((height - h) / 2 ^ 0) % h - h;
+	for(let y = offsetY; y < height; y += h) {
+		for(let x = offsetX; x < width; x += w) {
 			ctx.putImageData(dest, x, y);
 		}
 	}
