@@ -29,6 +29,7 @@
 				</div>
 				<div>
 					<input type="checkbox" id="space" /><label for="space">余白をつける</label>
+					<input type="checkbox" id="tiling" /><label for="tiling">タイリング</label>
 				</div>
 				<div id="dot-preview"><canvas id="canvas"></canvas></div>
 				<p><textarea id="text" name="text">#pixelart https://dot-a.herokuapp.com/</textarea></p>
@@ -46,6 +47,7 @@
 						scale = 1,
 						transparent = 256,
 						space = false,
+						tiling = false,
 						image;
 					
 					const spaceW = 512;
@@ -72,7 +74,11 @@
 							canvas.width = index.width * scale;
 							canvas.height = index.height * scale;
 						}
-						drawIndexedImageData(ctx, image.indexData, image.paletteData, scale, transparent, left, top);
+						if(tiling) {
+							tilingIndexedImageData(ctx, image.indexData, image.paletteData, scale, transparent, canvas.width, canvas.height);
+						} else {
+							drawIndexedImageData(ctx, image.indexData, image.paletteData, scale, transparent, left, top);
+						}
 					}
 					
 					if(window.opener && window.opener.getImage) {
@@ -115,7 +121,12 @@
 					document.getElementById('space').addEventListener('click', e => {
 						space = e.target.checked;
 						render(image.indexData, image.paletteData);
-					}, false)
+					}, false);
+
+					document.getElementById('tiling').addEventListener('click', e => {
+						tiling = e.target.checked;
+						render(image.indexData, image.paletteData);
+					}, false);
 					
 					function strlen(str) {
 						return str.length - (str.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g)||[]).length;

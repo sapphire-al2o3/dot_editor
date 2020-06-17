@@ -740,6 +740,36 @@ function drawIndexedImageData(ctx, image, palette, scale, transparent, left, top
 	ctx.putImageData(dest, left, top);
 }
 
+function tilingIndexedImageData(ctx, image, palette, scale, transparent, width, height) {
+	let index = 0,
+		data = image.data,
+		paletteData = palette.data,
+		dest = ctx.createImageData(image.width * scale, image.height * scale),
+		w = dest.width,
+		h = dest.height,
+		stride = image.width,
+		destData = dest.data,
+		t = transparent === undefined ? 256 : transparent;
+	for(let i = 0, p = 0; i < h; i++) {
+		let y = i / scale ^ 0;
+		for(let j = 0; j < w; j++) {
+			let x = j / scale ^ 0;
+			index = y * stride + x;
+			let pindex = data[index] * 4;
+			destData[p] = paletteData[pindex];
+			destData[p + 1] = paletteData[pindex + 1];
+			destData[p + 2] = paletteData[pindex + 2];
+			destData[p + 3] = t === data[index] ? 0 : 255;
+			p += 4;
+		}
+	}
+	for(let y = 0; y < height; y += h) {
+		for(let x = 0; x < width; x += w) {
+			ctx.putImageData(dest, x, y);
+		}
+	}
+}
+
 // 拡大して表示する
 function drawImage(ctx, image, dx, dy, dw, dh) {
 	
