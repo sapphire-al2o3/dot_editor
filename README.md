@@ -3,7 +3,7 @@ dot_editor
 
 これはブラウザで動くドット絵エディタなのだ
 
-http://dot-a.herokuapp.com/
+https://dot-a.herokuapp.com/
 
 ![スクリーンショット](dot_editor_ss.png)
 
