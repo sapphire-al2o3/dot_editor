@@ -13,6 +13,7 @@ var PNG = require('pngjs').PNG;
 var request = require('request');
 const scaling = require('./imagescaling.js').scaling;
 const frame = require('./imagescaling.js').frame;
+const tiling = require('./imagescaling.js').tiling;
 var config = require('./config');
 var favicon = require('serve-favicon');
 var bodyParser = require('body-parser');
@@ -112,7 +113,11 @@ app.post('/auth/twitter/post', function(req, res) {
 		if(image.space) {
 			const frameWidth = image.frameWidth;
 			const frameeHeight = image.frameHeight;
-			indexData = frame(indexData, image.width, image.height, frameWidth, frameeHeight);
+			if(image.tiling) {
+				indexData = tiling(indexData, image.width, image.height, frameWidth, frameeHeight);
+			} else {
+				indexData = frame(indexData, image.width, image.height, frameWidth, frameeHeight);
+			}
 			image.width = frameWidth;
 			image.height = frameeHeight;
 		}
