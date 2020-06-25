@@ -450,7 +450,6 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		top = Math.min(y0, y1),
 		bottom = Math.max(y0, y1),
 		data = indexData.data;
-	
 	x0 = left;
 	x1 = right;
 	y0 = top;
@@ -474,7 +473,7 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		let ix = (x0 + x1) >> 1;
 		if(0 <= ix && ix < iw) {
 			if(0 <= y0 && y0 < ih) data[y0 * iw + ix] = paletteIndex;
-			if(0 <= y0 && y0 < ih) data[y1 * iw + ix] = paletteIndex;
+			if(0 <= y1 && y1 < ih) data[y1 * iw + ix] = paletteIndex;
 		}
 	}
 	if((dx & 1)) {
