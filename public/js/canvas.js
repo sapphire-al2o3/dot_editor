@@ -467,30 +467,35 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		
 	ctx.beginPath();
 	let x = ((x0 + x1) >> 1) * s;
-	ctx.rect(x, y0 * s, s, s);
-	ctx.rect(x, y1 * s, s, s);
+	ctx.rect(x, y0 * s, s, (dy + 1) * s);
+	
 	if(data) {
 		let ix = (x0 + x1) >> 1;
 		if(0 <= ix && ix < iw) {
-			if(0 <= y0 && y0 < ih) data[y0 * iw + ix] = paletteIndex;
-			if(0 <= y1 && y1 < ih) data[y1 * iw + ix] = paletteIndex;
+			for(let j = y0; j <= y1; j++) {
+				if(0 <= j && j < ih) {
+					data[j * iw + ix] = paletteIndex;
+				}
+			}
 		}
 	}
 	if((dx & 1)) {
-		ctx.rect(x + s, y0 * s, s, s);
-		ctx.rect(x + s, y1 * s, s, s);
+		ctx.rect(x + s, y0 * s, s, (dy + 1) * s);
 		if(data) {
 			let ix = ((x0 + x1) >> 1) + 1;
 			if(0 <= ix && ix < iw) {
-				if(0 <= y0 && y0 < ih) data[y0 * iw + ix] = paletteIndex;
-				if(0 <= y1 && y1 < ih) data[y1 * iw + ix] = paletteIndex;
+				for(let j = y0; j <= y1; j++) {
+					if(0 <= j && j < ih) {
+						data[j * iw + ix] = paletteIndex;
+					}
+				}
 			}
 		}
 	}
 	
 	let y = ((y0 + y1) >> 1) * s;
 	
-	ctx.rect(x0 * s, y, (x1 - x0 + 1) * s, s);
+	ctx.rect(x0 * s, y, (dx + 1) * s, s);
 	
 	if(data) {
 		let iy = ((y0 + y1) >> 1) * iw;
@@ -503,7 +508,7 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		}
 	}
 	if((dy & 1)) {
-		ctx.rect(x0 * s, y + s, (x1 - x0 + 1) * s, s);
+		ctx.rect(x0 * s, y + s, (dx + 1) * s, s);
 		
 		if(data) {
 			let iy = (((y0 + y1) >> 1) + 1) * iw;
