@@ -4,7 +4,7 @@
 (function(global, $) {
 	'use strict';
 	
-	var document = $.d;
+	const document = $.d;
 	
 	var ToolMapper = function() {
 		var toolmap = {},

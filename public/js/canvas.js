@@ -17,7 +17,6 @@ function clear(ctx, indexData) {
 
 // 破線の描画
 function strokeDashLine(ctx, x0, y0, x1, y1, s) {
-	'use strict';
 	let dx = x1 - x0,
 		dy = y1 - y0,
 		l = Math.sqrt(dx * dx + dy * dy),
@@ -79,7 +78,7 @@ function clearDot(ctx, x, y, indexData, paletteIndex, scale) {
 	if(indexData) indexData.data[y * indexData.width + x] = paletteIndex;
 }
 
-// 直線の表示
+// 直線の描画
 function drawLine(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 	let dx = Math.abs(x1 - x0),
 		dy = Math.abs(y1 - y0),
@@ -744,6 +743,7 @@ function drawIndexedImageData(ctx, image, palette, scale, transparent, left, top
 	ctx.putImageData(dest, left, top);
 }
 
+// タイリングして描画する
 function tilingIndexedImageData(ctx, image, palette, scale, transparent, width, height) {
 	let index = 0,
 		data = image.data,
