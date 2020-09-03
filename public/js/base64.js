@@ -3,19 +3,18 @@
  */
 (function(global) {
 	'use strict';
-	var Base64 = function () {
-		var e = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
+	const Base64 = function() {
+		const e = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
 			d = {},
-			i = 0,
 			l = e.length;
 		
-		for (i = 0; i < l; i += 1) {
+		for (let i = 0; i < l; i += 1) {
 			d[e[i]] = i;
 		}
 	
 		return {
-			encode: function (a, s) {
-				var l = s === undefined ? a.length : s,
+			encode(a, s) {
+				let l = s === undefined ? a.length : s,
 					m = l % 3,
 					r = [],
 					i = 0,
@@ -36,21 +35,24 @@
 				
 				return r.join('');
 			},
-			decode: function (b, a) {
+			decode(b, a) {
 				if (a === undefined) {
 					a = [];
 				}
 				
-				var l = b.length;
+				let l = b.length;
 				
 				b[l - 1] === '=' && l--;
 				b[l - 1] === '=' && l--;
 				b[l - 1] === '=' && l--;
 				
-				var m = b.length - l;
+				let m = b.length - l,
+					i = 0,
+					j = 0,
+					k;
 				
-				for (var i = 0, j = 0; i <= l - 4; i += 4) {
-					var k = (d[b[i]] << 18) | (d[b[i + 1]] << 12) | (d[b[i + 2]] << 6) | d[b[i + 3]];
+				for (; i <= l - 4; i += 4) {
+					k = (d[b[i]] << 18) | (d[b[i + 1]] << 12) | (d[b[i + 2]] << 6) | d[b[i + 3]];
 					a[j++] = k >> 16 & 255;
 					a[j++] = k >> 8 & 255;
 					a[j++] = k & 255;
@@ -67,10 +69,10 @@
 				
 				return a;
 			},
-			decodeSize: function (b) {
-				var l = b.length;
+			decodeSize(b) {
+				const l = b.length;
 				if (l >= 4) {
-					var s = l / 4 * 3;
+					let s = l / 4 * 3;
 					b[l - 1] === '=' && s--;
 					b[l - 2] === '=' && s--;
 					b[l - 3] === '=' && s--;
@@ -78,9 +80,9 @@
 				}
 				return 0;
 			},
-			check: function (b) {
-				var l = b.length;
-				for (var i = 0; i < l; i++) {
+			check(b) {
+				const l = b.length;
+				for (let i = 0; i < l; i++) {
 					if (!(b[i] in d)) {
 						return false;
 					}
@@ -91,16 +93,16 @@
 	
 	}();
 	
-	var RLE = {
-		encode: function(b, a) {
+	const RLE = {
+		encode(b, a) {
 			if(a === undefined) {
 				a = [];
 			}
-			var l = b.length,
+			let l = b.length,
 				i = 0,
 				j = 0;
 			do {
-				var length = 0,
+				let length = 0,
 					t = j,
 					p = b[j],
 					r = j + 1 < l && p === b[j + 1];
@@ -126,22 +128,22 @@
 					}
 					
 					a[i++] = length - 1;
-					for(var k = 0; k < length; k++, t++) {
+					for(let k = 0; k < length; k++, t++) {
 						a[i++] = b[t];
 					}
 				}
 			} while(j < l);
 			return a;
 		},
-		decode: function(b, a) {
+		decode(b, a) {
 			if(a === undefined) {
 				a = [];
 			}
-			var i = 0,
+			let i = 0,
 				j = 0,
 				l = b.length;
 			while(j < l) {
-				var p = b[j++],
+				let p = b[j++],
 					n = (p & 127) + 1,
 					k;
 				if(p & 128) {
@@ -160,16 +162,16 @@
 	};
 
 	// block sorting
-	var BWT = {
+	const BWT = {
 		encode: function(b, a) {
 			if(a === undefined) {
 				a = [];
 			}
-			var block = [],
+			let block = [],
 				l = b.length,
 				d = b.concat(b);
 			
-			for(var i = 0; i < l; i++) {
+			for(let i = 0; i < l; i++) {
 				block[i] = d.slice(i, l + i);
 			}
 			
@@ -185,7 +187,7 @@
 			block.sort();
 			
 			
-			for(var j = 0; j < l; j++) {
+			for(let j = 0; j < l; j++) {
 				a.push(block[j][l - 1]);
 			}
 			
