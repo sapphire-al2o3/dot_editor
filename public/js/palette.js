@@ -296,10 +296,22 @@ require('color.js')
 					var x = e.clientX - left - border,
 						v = range(x / width, 0.0, 1.0);
 					input = $(target.getAttribute('for'));
-					input.value = (v * 255 ^ 0).toString(input.getAttribute('radix') ^ 0);
-					var r = getNumValue(0),
-						g = getNumValue(1),
+					const radix = input.getAttribute('radix') ^ 0;
+					let r, g, b;
+					if(e.shiftKey) {
+						const d = parseInt(input.value, radix) - (v * 255 ^ 0);
+						r = range(setNumValue(0, getNumValue(0) - d), 0, 255);
+						g = range(setNumValue(1, getNumValue(1) - d), 0, 255);
+						b = range(setNumValue(2, getNumValue(2) - d), 0, 255);
+						nums[0].value = r.toString(radix);
+						nums[1].value = g.toString(radix);
+						nums[2].value = b.toString(radix);
+					} else {
+						input.value = (v * 255 ^ 0).toString(radix);
+						r = getNumValue(0);
+						g = getNumValue(1);
 						b = getNumValue(2);
+					}
 					color = Color.rgb(r, g, b);
 					record(frontIndex, color, history.length);
 					selectColor([r, g, b]);
@@ -307,8 +319,6 @@ require('color.js')
 					down = true;
 					$.bind('mousemove', mousemoveHandler);
 					$.bind('mouseup', mouseupHandler);
-					//cursor.style['left'] = range(x, -border, width - border) + 'px';
-					//console.log(r, x, border, width);
 					e.preventDefault();
 					return false;
 				}
@@ -317,10 +327,22 @@ require('color.js')
 					if(down) {
 						var x = e.clientX - left - border,
 							v = range(x / width, 0.0, 1.0);
-						input.value = (v * 255 ^ 0).toString(input.getAttribute('radix') ^ 0);
-						var r = getNumValue(0),
-							g = getNumValue(1),
+						const radix = input.getAttribute('radix') ^ 0;
+						let r, g, b;
+						if(e.shiftKey) {
+							const d = parseInt(input.value, radix) - (v * 255 ^ 0);
+							r = range(setNumValue(0, getNumValue(0) - d), 0, 255);
+							g = range(setNumValue(1, getNumValue(1) - d), 0, 255);
+							b = range(setNumValue(2, getNumValue(2) - d), 0, 255);
+							nums[0].value = r.toString(radix);
+							nums[1].value = g.toString(radix);
+							nums[2].value = b.toString(radix);
+						} else {
+							input.value = (v * 255 ^ 0).toString(radix);
+							r = getNumValue(0);
+							g = getNumValue(1);
 							b = getNumValue(2);
+						}
 						selectColor([r, g, b]);
 						color = Color.rgb(r, g, b, 1.0);
 						//x = range(x, -border, width - border + 1);
@@ -357,14 +379,14 @@ require('color.js')
 				setPaletteTool();
 			});
 			
-			$.bind($('palette-swap'), 'click', function(e) {
+			$.bind($('palette-swap'), 'click', e => {
 				swap = !swap;
 				copy = false;
 				move = false;
 				transparent = false;
 				setPaletteTool();
 			});
-			$.bind($('palette-move'), 'click', function(e) {
+			$.bind($('palette-move'), 'click', e => {
 				move = !move;
 				copy = false;
 				swap = false;
@@ -382,7 +404,7 @@ require('color.js')
 //				this.className = hex ? 'selected' : '';
 //				setRadix(hex ? 16 : 10);
 //			});
-			$.bind($('palette-undo'), 'click', (e) => {
+			$.bind($('palette-undo'), 'click', e => {
 				if(history.length > 0) {
 					let group = -1;
 					while(true) {
