@@ -46,7 +46,7 @@ Altキーと左クリックでもスポイト機能が使えます。
 
 ### グリッド
 
-![grid]](./images/grid.png)
+![grid](./images/grid.png)
 
 グリッドを表示します。
 
