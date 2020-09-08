@@ -31,7 +31,7 @@ require('color.js')
 (function(global, $, Color) {
 	'use strict';
 	
-	var document = $.d;
+	const document = $.d;
 
 	function range(v, min, max) {
 		return v > max ? max : v < min ? min : v;
@@ -39,28 +39,28 @@ require('color.js')
 
 	// グラデーションを設定する
 	function setGradient(elm, start, end) {
-		var bender = ['-webkit-', '-moz-', '-ms-', '-o-', ''];
-		for(var i = 0, l = bender.length; i < l; i++) {
+		let bender = ['-webkit-', '-moz-', '-ms-', '-o-', ''];
+		for(let i = 0, l = bender.length; i < l; i++) {
 			elm.style['background'] = bender[i] + 'linear-gradient(left,' + start + ',' + end + ')';
 		}
 	}
 	
 	// トランジションを設定する
 	function setTransition(elm, enable) {
-		var bender = ['webkit', 'moz', 'ms', 'o', ''],
+		let bender = ['webkit', 'moz', 'ms', 'o', ''],
 			events = ['webkitTransitionEnd', 'transitionend', 'transitionend', 'oTransitionEnd', 'transitionend'];
-		for(var i = 0, l = bender.length; i < l; i++) {
+		for(let i = 0, l = bender.length; i < l; i++) {
 			elm.style[bender[i] + 'Transition'] = enable ? 'all 0.2s ease' : 'none';
-			$.bind(elm, events[i], function() {
+			$.bind(elm, events[i], () => {
 				elm.style[bender[i] + 'Transition'] = 'none';
 			});
 		}
 	}
 	
 	// パレット
-	var Palette = function (d) {
+	const Palette = function (d) {
 		
-		var paletteElement = null,
+		let paletteElement = null,
 			table = null,
 			selected = null,
 			frontColor = '',
@@ -87,18 +87,17 @@ require('color.js')
 		
 		// パレットを生成する
 		function createPalette(elm) {
-			var i, j, tr, td, span;
 			paletteElement = $(elm);
 			table = $.q('#palette table tbody');
 			bars = [$('r-bar'), $('g-bar'), $('b-bar')];
 			nums = [$('color-num-r'), $('color-num-g'), $('color-num-b')];
 			
 			// create palette table
-			for (i = 0; i < 16; i += 1) {
-				tr = d.createElement('tr');
-				for (j = 0; j < 16; j += 1) {
-					td = d.createElement('td');
-//					span = d.createElement('span');
+			for (let i = 0; i < 16; i += 1) {
+				let tr = d.createElement('tr');
+				for (let j = 0; j < 16; j += 1) {
+					let td = d.createElement('td');
+//					let span = d.createElement('span');
 //					span.textContent = '#FFF';
 //					td.appendChild(span);
 					cells.push(td);
@@ -109,7 +108,7 @@ require('color.js')
 				}
 				table.appendChild(tr);
 			}
-			table.addEventListener('click', function (e) {
+			table.addEventListener('click', e => {
 				if (e.target.localName === 'td') {
 					var row = e.target.parentNode.rowIndex,
 						col = e.target.cellIndex;
@@ -188,14 +187,13 @@ require('color.js')
 				}
 			}, false);
 			
-			var down = false,
+			let down = false,
 				activeIndex,
 				startColor,
 				startIndex,
 				color,
 				start,
 				active,
-				tool,
 				copy = false,
 				swap = false,
 				move = false,
@@ -205,7 +203,7 @@ require('color.js')
 			// ドラッグでセルのコピー
 			function downCell(e) {
 				if (e.target.localName === 'td') {
-					var row = e.target.parentNode.rowIndex,
+					let row = e.target.parentNode.rowIndex,
 						col = e.target.cellIndex;
 					activeIndex = row * 16 + col;
 					active = e.target;
@@ -232,7 +230,7 @@ require('color.js')
 			
 			function moveCell(e) {
 				if (down && e.target.localName === 'td') {
-					var row = e.target.parentNode.rowIndex,
+					let row = e.target.parentNode.rowIndex,
 						col = e.target.cellIndex;
 					if(activeIndex !== row * 16 + col) {
 						active.style.backgroundColor = color;
@@ -254,13 +252,13 @@ require('color.js')
 			selectColor(selected.style.backgroundColor);
 			
 			function getNumValue(i) {
-				var radix = nums[i].getAttribute('radix') ^ 0;
+				let radix = nums[i].getAttribute('radix') ^ 0;
 				return parseInt(nums[i].value, radix);
 			}
 			
 			// spin event
 			function changeSpin() {
-				var r = getNumValue(0),
+				let r = getNumValue(0),
 					g = getNumValue(1),
 					b = getNumValue(2),
 					color = Color.rgb(r, g, b);
@@ -270,17 +268,17 @@ require('color.js')
 			}
 			
 			// 数値入力ボックス
-			nums.forEach(function(e) {
+			nums.forEach(e => {
 				e.addEventListener('change', changeSpin, false);
 			});
 			
 			// スピンボタン
-			Array.prototype.forEach.call($.qa('.left, .right'), function(e) {
+			Array.prototype.forEach.call($.qa('.left, .right'), e => {
 				Spin(e, changeSpin);
 			});
 			
 			// color slider event
-			bars.forEach(function(e) {
+			bars.forEach(e => {
 				var down = false,
 					target = e,
 					left = 0,
@@ -325,7 +323,7 @@ require('color.js')
 				
 				function mousemoveHandler(e) {
 					if(down) {
-						var x = e.clientX - left - border,
+						let x = e.clientX - left - border,
 							v = range(x / width, 0.0, 1.0);
 						const radix = input.getAttribute('radix') ^ 0;
 						let r, g, b;
@@ -371,7 +369,7 @@ require('color.js')
 //				$('palette-transparent').className = transparent ? 'selected' : '';
 			}
 			
-			$.bind($('palette-copy'), 'click', function(e) {
+			$.bind($('palette-copy'), 'click', e => {
 				copy = !copy;
 				swap = false;
 				move = false;
@@ -427,7 +425,7 @@ require('color.js')
 		}
 		
 		function setNumValue(i, v) {
-			var radix = nums[i].getAttribute('radix');
+			const radix = nums[i].getAttribute('radix');
 			return v.toString(radix);
 		}
 		
@@ -469,7 +467,7 @@ require('color.js')
 		// 基数を設定する
 		function setRadix(r) {
 			nums.forEach(function(e) {
-				var elm = e,
+				let elm = e,
 					radix = elm.getAttribute('radix') ^ 0,
 					val = parseInt(elm.value, radix);
 				elm.setAttribute('radix', r);
@@ -501,26 +499,26 @@ require('color.js')
 		}
 		
 		return {
-			create: function(elm) {
+			create: elm => {
 				createPalette(elm);
 			},
-			clear: function() {
+			clear: () => {
 				
 			},
-			setPaletteData: function(p) {
+			setPaletteData: p => {
 				if(Array.isArray(p)) {
-					p.forEach(function(e, i) {
+					p.forEach((e, i) => {
 						cells[i].style.backgroundColor = e;
 						cells[i].setAttribute('title', e);
 					});
-					for(var i = 0, n = p.length; i < n; i++) {
+					for(let i = 0, n = p.length; i < n; i++) {
 						palettes[i] = p[i];
 					}
 					frontColor = p[frontIndex];
 				} else {
-					var data = p.data;
-					for(var i = 0, j = 0; i < p.count; i++, j += 4) {
-						var color = Color.rgb(data[j], data[j + 1], data[j + 2]);
+					let data = p.data;
+					for(let i = 0, j = 0; i < p.count; i++, j += 4) {
+						let color = Color.rgb(data[j], data[j + 1], data[j + 2]);
 						cells[i].style.backgroundColor = color;
 						cells[i].setAttribute('title', color);
 						palettes[i] = color;
@@ -528,10 +526,10 @@ require('color.js')
 					frontColor = p[frontIndex];
 				}
 			},
-			getPaletteData: function() {
+			getPaletteData: () => {
 				return palettes;
 			},
-			convert: function(p) {
+			convert: p => {
 				let data = p.data;
 				for(let i = 0, n = data.length; i < n; i += 4) {
 					let c = Color.strToRGB(palettes[i >> 2]);
@@ -541,19 +539,19 @@ require('color.js')
 					data[i + 3] = 255;
 				}
 			},
-			getFrontColor: function() {
+			getFrontColor: () => {
 				return frontColor;
 			},
-			getFrontIndex: function() {
+			getFrontIndex: () => {
 				return frontIndex;
 			},
 			getTransparentIndex: () => {
 				return transparentIndex;
 			},
-			setTransparentIndex: (index) => {
+			setTransparentIndex: index => {
 				transparentIndex = index;
 			},
-			setFrontColor: function(index) {
+			setFrontColor: index => {
 				selected.className = '';
 				selected = cells[index];
 				console.assert(selected !== undefined, index);
@@ -561,29 +559,29 @@ require('color.js')
 				frontIndex = index;
 				selectColor(palettes[index]);
 			},
-			getBackColor: function() {
+			getBackColor: () => {
 				return backColor;
 			},
-			getBackIndex: function() {
+			getBackIndex: () => {
 				return backIndex;
 			},
-			setColor: function(color) {
+			setColor: color => {
 				setColor(color, frontIndex);
 				selectColor(color);
 			},
 			change: function(f) {
 				onchange = f;
 			},
-			hex: function(h) {
+			hex: h => {
 				// 16進数表記にする
 				setRadix(h ? 16 : 10);
 			},
-			setColorPicker: function(f) {
+			setColorPicker: f => {
 				$('front-color').addEventListener('click', f, false);
 			},
-			orderColor: function(data) {
+			orderColor: data => {
 				// 未使用色の削除
-				cells.forEach(function(e, i) {
+				cells.forEach((e, i) => {
 					e.style.backgroundColor = palette[i];
 				});
 			}
@@ -591,8 +589,8 @@ require('color.js')
 	}(document);
 
 	// スピンボタン
-	var Spin = function() {
-		var down = false,
+	const Spin = function() {
+		let down = false,
 			target,
 			timerId = 0,
 			radix = 10,
@@ -657,7 +655,7 @@ require('color.js')
 			}
 		}
 		
-		return function(elm, f) {
+		return (elm, f) => {
 			onchange = f;
 			$.bind(elm, 'mousedown', mousedownHandler);
 			$.bind(elm, 'mouseup', mouseupHandler);
@@ -666,7 +664,7 @@ require('color.js')
 	}();
 	
 	// スライダー
-	var Slider = function() {
+	const Slider = function() {
 		var down = false,
 			value = 0,
 			length = 1,
@@ -691,7 +689,7 @@ require('color.js')
 			$.unbind('mousemove', mousemoveHandler);
 		}
 		
-		return function(e, f) {
+		return (e, f) => {
 			change = f;
 			target = e;
 			length = e.offsetWidth,
@@ -700,7 +698,7 @@ require('color.js')
 			
 			return {
 				value: value,
-				position: function(x) {
+				position: x => {
 					this.value = x / length;
 				}
 			};
