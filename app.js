@@ -55,6 +55,7 @@ passport.use(new TwitterStrategy({
 
 // all environments
 app.set('port', process.env.PORT || 3000);
+app.set('trust proxy', 'loopback');
 app.use(favicon(__dirname + '/public/images/favicon.png'));
 app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -179,13 +180,16 @@ app.post('/auth/twitter/post', function(req, res) {
 });
 
 // コールバック
-app.get('/auth/twitter/callback', passport.authenticate('twitter', {
+const callback = passport.authenticate('twitter', {
 	successRedirect: '/post.html',
 	failureRedirect: '/'
-}));
+});
+app.get('/auth/twitter/callback', (req, res) => {
+	callback(req, res);
+});
 
 app.get('/post', (req, res) => {
-	res.sendfile(path.join(__dirname, 'public/post.html'));
+	res.sendFile(path.join(__dirname, 'public/post.html'));
 });
 
 http.createServer(app).listen(app.get('port'), () => {
