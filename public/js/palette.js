@@ -414,7 +414,7 @@ require('color.js')
 						frontIndex = r.index;
 						selectColor(r.color);
 						setColor(r.color, r.index);
-						if(history[history.length - 1].group != group) {
+						if(history.length === 0 || history[history.length - 1].group != group) {
 							break;
 						}
 					}
