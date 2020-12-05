@@ -543,7 +543,7 @@ require('color.js')
 			const b = e[2] - s[2];
 			for(let i = start + 1; i < end; i++) {
 				const k = i - start;
-				palettes[i] = Color.rgb(r * k / d ^ 0 + s[0], g * k / d ^ 0 + s[1], b * k / d ^ 0 + s[2]);
+				palettes[i] = Color.rgb((r * k / d ^ 0) + s[0], (g * k / d ^ 0) + s[1], (b * k / d ^ 0) + s[2]);
 				cells[i].style.backgroundColor = palettes[i];
 				cells[i].setAttribute('title', palettes[i]);
 			}
