@@ -168,6 +168,26 @@ require('color.js')
 					if(transparent) {
 						backIndex = frontIndex;
 					}
+
+					if(grad) {
+						if(active) {
+							if(selected !== active) {
+								if(frontIndex > startIndex) {
+									createGradient(startIndex, frontIndex);
+								} else {
+									createGradient(frontIndex, startIndex);
+								}
+								if(onchange) onchange();
+							}
+							active = null;
+							grad = false;
+							setPaletteTool();
+						} else {
+							active = e.target;
+							active.className = 'start';
+							startIndex = frontIndex;
+						}
+					}
 					
 					selectColor(selected.style.backgroundColor);
 				}
@@ -197,6 +217,7 @@ require('color.js')
 				copy = false,
 				swap = false,
 				move = false,
+				grad = false,
 				transparent = false,
 				hex = false;
 			
@@ -366,6 +387,7 @@ require('color.js')
 				$('palette-copy').className = copy ? 'selected' : '';
 				$('palette-swap').className = swap ? 'selected' : '';
 				$('palette-move').className = move ? 'selected' : '';
+				$('palette-grad').className = grad ? 'selected' : '';
 //				$('palette-transparent').className = transparent ? 'selected' : '';
 			}
 			
@@ -373,6 +395,7 @@ require('color.js')
 				copy = !copy;
 				swap = false;
 				move = false;
+				grad = false;
 				transparent = false;
 				setPaletteTool();
 			});
@@ -381,6 +404,7 @@ require('color.js')
 				swap = !swap;
 				copy = false;
 				move = false;
+				grad = false;
 				transparent = false;
 				setPaletteTool();
 			});
@@ -388,6 +412,7 @@ require('color.js')
 				move = !move;
 				copy = false;
 				swap = false;
+				grad = false;
 				transparent = false;
 				setPaletteTool();
 			});
@@ -419,6 +444,14 @@ require('color.js')
 						}
 					}
 				}
+			});
+			$.bind($('palette-grad'), 'click', e => {
+				move = false;
+				copy = false;
+				swap = false;
+				grad = !grad;
+				transparent = false;
+				setPaletteTool();
 			});
 			
 			paletteElement.style.display = 'block';
@@ -495,6 +528,24 @@ require('color.js')
 		function record(index, color, group) {
 			if(color !== palettes[index]) {
 				history.push({index: index, color: palettes[index], group: group});
+			}
+		}
+
+		function createGradient(start, end) {
+			if(end - start <= 1) {
+				return;
+			}
+			const s = Color.strToRGB(palettes[start]);
+			const e = Color.strToRGB(palettes[end]);
+			const d = end - start;
+			const r = e[0] - s[0];
+			const g = e[1] - s[1];
+			const b = e[2] - s[2];
+			for(let i = start + 1; i < end; i++) {
+				const k = i - start;
+				palettes[i] = Color.rgb(r * k / d ^ 0 + s[0], g * k / d ^ 0 + s[1], b * k / d ^ 0 + s[2]);
+				cells[i].style.backgroundColor = palettes[i];
+				cells[i].setAttribute('title', palettes[i]);
 			}
 		}
 		
