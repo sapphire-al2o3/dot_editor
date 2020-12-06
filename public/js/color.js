@@ -19,7 +19,7 @@
 	}
 	
 	function hsv2rgb(h, s, v) {
-		var f = h / 60,
+		let f = h / 60,
 			i = f ^ 0,
 			m = v - v * s,
 			k = v * s * (f - i),
@@ -49,12 +49,12 @@
 				return [parseInt(str[1] + str[1], 16), parseInt(str[2] + str[2], 16), parseInt(str[3] + str[3], 16)];
 			}
 		} else {
-			var c = str.match(/(\d+)/g);
+			const c = str.match(/(\d+)/g);
 			return [parseInt(c[0], 10), parseInt(c[1], 10), parseInt(c[2], 10)];
 		}
 	}
 	
-	var Color = {
+	const Color = {
 		rgb: rgb2str,
 		rgba: rgba2str,
 		hsv: hsv2rgb,
