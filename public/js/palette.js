@@ -7,7 +7,6 @@ to do
 ・16進切り替え
 ・色の並べ替え
 ・色のコピー
-・未使用色の削除
 
 bug
 ・拡大した状態でカラーバーのドラッグが効かなくなる？
@@ -22,6 +21,7 @@ done
 ・ドラッグでカラーバーの色を変更
 ・カラーバーにカーソルをつける
 ・(fix)カーソルバーを動かした時に位置がずれる
+・未使用色の削除
 
 require('selector.js')
 require('color.js')
@@ -129,6 +129,7 @@ require('color.js')
 								record(frontIndex, palettes[startIndex], history.length);
 								palettes[frontIndex] = palettes[startIndex];
 								e.target.style.backgroundColor = active.style.backgroundColor;
+								e.target.setAttribute('title', palettes[frontIndex]);
 								active.className = '';
 								if(onchange) onchange();
 							}
@@ -154,6 +155,8 @@ require('color.js')
 								palettes[frontIndex] = t;
 								e.target.style.backgroundColor = palettes[frontIndex];
 								active.style.backgroundColor = palettes[startIndex];
+								e.target.setAttribute('title', palettes[frontIndex]);
+								active.setAttribute('title', palettes[startIndex]);
 								active.className = '';
 								if(onchange) onchange(move ? [startIndex, frontIndex] : undefined);
 							}
@@ -543,7 +546,9 @@ require('color.js')
 			const b = e[2] - s[2];
 			for(let i = start + 1; i < end; i++) {
 				const k = i - start;
-				palettes[i] = Color.rgb((r * k / d ^ 0) + s[0], (g * k / d ^ 0) + s[1], (b * k / d ^ 0) + s[2]);
+				const color = Color.rgb((r * k / d ^ 0) + s[0], (g * k / d ^ 0) + s[1], (b * k / d ^ 0) + s[2]);
+				record(i, color, history.length);
+				palettes[i] = color;
 				cells[i].style.backgroundColor = palettes[i];
 				cells[i].setAttribute('title', palettes[i]);
 			}
