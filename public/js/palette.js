@@ -622,6 +622,7 @@ require('color.js')
 				return backIndex;
 			},
 			setColor: color => {
+				record(frontIndex, color, history.length);
 				setColor(color, frontIndex);
 				selectColor(color);
 			},
