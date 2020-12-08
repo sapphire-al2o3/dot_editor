@@ -493,11 +493,11 @@ editor: Editor
 	(function() {
 		if(typeof Palette !== 'undefined') {
 			Palette.create('palette');
-			Palette.setColorPicker(function (e) {
+			Palette.setColorPicker(e => {
 //				$('#color-picker').fadeToggle();
 				$.toggle($('color-picker'));
 			});
-			ColorPicker('color-picker', function (c) {
+			ColorPicker('color-picker', c => {
 				Palette.setColor(Color.rgb(c[0], c[1], c[2]));
 			});
 		}
@@ -525,7 +525,7 @@ editor: Editor
 		$.show($('overlay'));
 		
 		// ローカルファイルの読み込み
-		FileLoader.onload = function(i, p) {
+		FileLoader.onload = (i, p) => {
 			deselect();
 			clearLayer();
 			indexData = i;
@@ -600,13 +600,13 @@ editor: Editor
 		});
 		
 		// サイズの指定
-		$.bind($('new-image-submit'), 'click', function(e) {
+		$.bind($('new-image-submit'), 'click', e => {
 			$.hide($('new-image'));
 //			$('#overlay').fadeOut();
 			$.fadeOut($('overlay'));
 			KeyMapper.bind(document);
-			var index = parseInt($.q('#new-image input[name="size"]:checked').value, 10),
-				size = [16, 32, 48, 64][index];
+			const index = parseInt($.q('#new-image input[name="size"]:checked').value, 10);
+			const size = [16, 32, 48, 64][index];
 			createImage(size, size);
 			selection.indexData = createIndexData(size, size);
 			resize();
@@ -619,14 +619,14 @@ editor: Editor
 		if(mode === 'fork' || mode === 'edit') {
 			$.hide($('new-image'));
 
-			load(docId, function(data) {
+			load(docId, data => {
 				$.hide($('loading'));
 				Base64.decode(data.palette, paletteData.data);
 				indexData = createIndexData(data.width, data.height);
 				Base64.decode(data.index, indexData.data);
 
 				palette = [];
-				for(var i = 0, j = 0; i < paletteData.data.length; i++, j += 4) {
+				for(let i = 0, j = 0; i < paletteData.data.length; i++, j += 4) {
 					palette.push(Color.rgb(paletteData.data[j], paletteData.data[j + 1], paletteData.data[j + 2]));
 				}
 
