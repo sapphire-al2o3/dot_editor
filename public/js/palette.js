@@ -277,7 +277,7 @@ require('color.js')
 			
 			function getNumValue(i) {
 				let radix = nums[i].getAttribute('radix') ^ 0;
-				return parseInt(nums[i].value, radix);
+				return range(parseInt(nums[i].value, radix), 0, 255);
 			}
 			
 			// spin event
