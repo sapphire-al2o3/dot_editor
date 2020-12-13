@@ -8,7 +8,7 @@
 (function(global, $, Color) {
 	'use strict';
 	
-	var document = $.d,
+	let document = $.d,
 		h = 0,
 		s = 0,
 		v = 0,
@@ -26,7 +26,7 @@
 	}
 	
 	function setText() {
-		var text = $.qa('form label', elm);
+		const text = $.qa('form label', elm);
 		text[0].textContent = 'H:' + h;
 		text[1].textContent = 'S:' + ((1 - s) * 100 ^ 0) + '%';
 		text[2].textContent = 'V:' + (v * 100 ^ 0) + '%';
@@ -38,7 +38,7 @@
 	
 	function downHue(e) {
 		rect = e.target.getBoundingClientRect();
-		var y = (e.offsetY || e.layerY);
+		const y = (e.offsetY || e.layerY);
 		$('hue-cursor').style.top = y + 'px';
 		h = (y - 1) / 128 * 360 ^ 0;
 		if(h < 0) h = 0;
@@ -71,7 +71,7 @@
 	
 	function moveColor(e) {
 		if(down) {
-			var x = e.clientX - rect.left,
+			let x = e.clientX - rect.left,
 				y = e.clientY - rect.top;
 			x = range(x, 0, 128);
 			y = range(y, 0, 128);
@@ -101,7 +101,7 @@
 			return;
 		}
 		
-		var hsv = Color.rgb2hsv(color[0], color[1], color[2]);
+		const hsv = Color.rgb2hsv(color[0], color[1], color[2]);
 		h = hsv[0];
 		s = hsv[1];
 		v = hsv[2];

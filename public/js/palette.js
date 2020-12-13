@@ -110,7 +110,7 @@ require('color.js')
 			}
 			table.addEventListener('click', e => {
 				if (e.target.localName === 'td') {
-					var row = e.target.parentNode.rowIndex,
+					let row = e.target.parentNode.rowIndex,
 						col = e.target.cellIndex;
 					
 					//setTransition(bars[0].firstChild, true);
@@ -245,7 +245,7 @@ require('color.js')
 				down = false;
 //				table.removeEventListener('mouseup', upCell, false);
 //				table.removeEventListener('mousemove', moveCell, false);
-				var t = palettes[startIndex];
+				const t = palettes[startIndex];
 				palettes[startIndex] = palettes[activeIndex];
 				palettes[activeIndex] = t;
 				e.preventDefault();
@@ -303,7 +303,7 @@ require('color.js')
 			
 			// color slider event
 			bars.forEach(e => {
-				var down = false,
+				let down = false,
 					target = e,
 					left = 0,
 					border = 1,
@@ -315,7 +315,7 @@ require('color.js')
 				function mousedownHandler(e) {
 					width = target.clientWidth - 1;
 					left = target.getBoundingClientRect().left;
-					var x = e.clientX - left - border,
+					let x = e.clientX - left - border,
 						v = range(x / width, 0.0, 1.0);
 					input = $(target.getAttribute('for'));
 					const radix = input.getAttribute('radix') ^ 0;
@@ -626,7 +626,7 @@ require('color.js')
 				setColor(color, frontIndex);
 				selectColor(color);
 			},
-			change: function(f) {
+			change: f => {
 				onchange = f;
 			},
 			hex: h => {
@@ -684,7 +684,7 @@ require('color.js')
 			if(!repeat) {
 				clearInterval(timerId);
 				repeat = true;
-				setTimeout(function() {
+				setTimeout(() => {
 					timerId = setInterval(repeatHandler, interval);
 				}, delay);
 			}
@@ -722,7 +722,7 @@ require('color.js')
 	
 	// スライダー
 	const Slider = function() {
-		var down = false,
+		let down = false,
 			value = 0,
 			length = 1,
 			target,
