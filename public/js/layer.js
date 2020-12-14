@@ -16,7 +16,7 @@ Model
 	
 	const document = $.d;
 	
-	var Layer = function(w, h) {
+	const Layer = function(w, h) {
 		this.width = w;
 		this.height = h;
 		this.canvas = document.createElement('canvas');
