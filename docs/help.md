@@ -105,6 +105,8 @@ Altキーと左クリックでもスポイト機能が使えます。
 
 ### Twitterへの投稿
 
+![tweet](./images/tweet.png)
+
 Twitterアイコンをクリックすると描いた絵をTwitterへ投稿することができます。
 
 ## パレット
