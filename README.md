@@ -88,21 +88,21 @@ function clear(ctx, indexData)
 ### 白黒画像を表示するサンプルコード
 
 ```javascript
-var ctx = document.getElementById('canvas').getContext('2d'),
-    image = createIndexData(24, 24);
+const ctx = document.getElementById('canvas').getContext('2d');
+const image = createIndexData(24, 24);
 
 render(ctx, image, 16);
 
 function render(ctx, image, scale) {
-    var data = image.data,
-        w = image.width,
-        h = image.height;
+    const data = image.data;
+    const w = image.width;
+    const h = image.height;
     scale = scale || ctx.canvas.width / image.width;
     ctx.fillStyle = '#FFF';
     ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
     ctx.fillStyle = '#000';
-    for(var i = 0; i < h; i++) {
-        for(var j = 0; j < w; j++) {
+    for(let i = 0; i < h; i++) {
+        for(let j = 0; j < w; j++) {
             // 画像データが0でない部分を塗りつぶす
             if(data[i * w + j]) {
                 ctx.fillRect(j * scale, i * scale, scale, scale);
@@ -119,18 +119,18 @@ base64.jsの関数
 ### 1ビット画像をパックしてURLにする
 
 ```javascript
-var data = pack(image.data),
-    hash = Base64.encode(data);
+const data = pack(image.data);
+const hash = Base64.encode(data);
 location.hash = hash;
 ```
 
 ### URLを1ビット画像にする
 
 ```javascript
-var hash = location.hash.slice(1);
+const hash = location.hash.slice(1);
 
 if(hash) {
-    var data = Base64.decode(hash);
+    const data = Base64.decode(hash);
     unpack(data, image.data);
 }
 ```
