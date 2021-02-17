@@ -173,6 +173,14 @@
 	margin-top: 3px;
 }
 
+#palette ul li span {
+	margin-top: 3px;
+	background-image: url("../images/palette_icon.png");
+	width: 16px;
+	height: 16px;
+	display: inline-block;
+}
+
 #palette ul li.selected, #palette ul li:active {
 	border: 1px solid #AAA;
 	background-image: -webkit-linear-gradient(top, #E7E7E7, #DDD 25%, #F7F7F7);
