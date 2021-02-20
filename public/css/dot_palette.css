@@ -225,7 +225,7 @@
 	display: inline-block;
 	background-repeat: no-repeat;
 	background-image: url("../images/input_horz.png");
-	-webkit-user-select: none;
+	user-select: none;
 }
 .right:hover {
 	background-position: 0 -8px;
@@ -319,7 +319,7 @@
 	border-radius: 2px;
 	position: relative;
 	vertical-align: middle;
-	-webkit-user-select: none;
+	user-select: none;
 }
 
 .color-bar span {
@@ -369,7 +369,7 @@
 	border: 1px solid #FFF;
 	top: 64px;
 	left: 64px;
-	-webkit-transition: all 0.2s ease;
+	transition: all 0.2s ease;
 }
 
 #color-picker #hue-cursor {
