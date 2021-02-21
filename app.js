@@ -162,11 +162,11 @@ app.post('/auth/twitter/post', function(req, res) {
 				res.redirect('/failure.html');
 				return;
 			}
-			console.log(response);
+			// console.log(response);
 			res.redirect('/success.html');
 		});
 		
-		var form = r.form();
+		const form = r.form();
 		
 		form.append('status', text);
 		// form.append('media[]', img.pack2());
