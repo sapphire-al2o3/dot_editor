@@ -334,8 +334,8 @@
 	box-shadow: rgba(0, 0, 0, 0.4) 0 1px 3px 0;
 }
 
-.color-bar span:hover {
-}
+/* .color-bar span:hover {
+} */
 
 /*
 #r-bar:after {
@@ -384,8 +384,8 @@
 	box-shadow: rgba(0, 0, 0, 0.4) 0 1px 3px 0;
 }
 
-#color-picker form {
-}
+/* #color-picker form {
+} */
 
 #color-picker form label {
 	font-size: 12px;
