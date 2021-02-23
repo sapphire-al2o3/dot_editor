@@ -70,7 +70,8 @@
 }
 
 #palette table tr td.selected {
-	background-image: url("../images/selected.png");
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAsAAAAJAgMAAACZCj6+AAAACVBMVEUA/wBOTk6+vr6VLYO7AAAAA3RSTlMA//9EUNYhAAAAIklEQVQI12MIDQ1hcGDggGBGDwZXVg4GxxAgOwAilrVqBQBX6QWjH+XSBgAAAABJRU5ErkJggg==");
+	/* background-image: url("../images/selected.png"); */
 }
 
 #palette table tr td.bgcolor {
@@ -126,28 +127,6 @@
 #palette #color-controller {
 	margin-top: -38px;
 	margin-left: 32px;
-}
-
-#palette .up {
-	display: block;
-	background-image: url("../images/input.png");
-	background-repeat: no-repeat;
-	background-position: 0 0;
-	height: 8px;
-	width: 8px;
-	margin-top: 4px;
-	margin-left: 4px;
-}
-
-#palette .down {
-	display: block;
-	background-image: url("../images/input.png");
-	background-repeat: no-repeat;
-	background-position: -8px 0;
-	height: 8px;
-	width: 8px;
-	margin-top: 4px;
-	margin-left: 4px;
 }
 
 #palette ul {
@@ -224,7 +203,8 @@
 	margin: 0 2px;
 	display: inline-block;
 	background-repeat: no-repeat;
-	background-image: url("../images/input_horz.png");
+	/* background-image: url("../images/input_horz.png"); */
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAMFBMVEWMjIzg4OD/AP9aXmDx8/UAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACEVXmfAAAAA3RSTlP//wDXyg1BAAAASElEQVR4nE2LgQnAQAgD0w2k/gINXaA4QX//oRqhBIXgmRjwoCYI4iQvLYYsCX21O8CRn11/GlJQHZUgZUngW/uuNcGRn//6B9YCD0dUC208AAAAAElFTkSuQmCC");
 	user-select: none;
 }
 .right:hover {
