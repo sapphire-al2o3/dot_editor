@@ -16,7 +16,7 @@ textarea {
 }
 
 canvas {
-	background-image: url("../images/background.png");
+	background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAABlBMVEXk6Oz///+sAbTXAAAAEElEQVQI12Ng+M+AFeEQBgB+vw/xWs16mgAAAABJRU5ErkJggg==");
 }
 
 #dot-preview {
