@@ -83,7 +83,7 @@
 						render();
 					}, 1000 / 30);
 					*/
-					canvas.addEventListener('click', function(e) {
+					canvas.addEventListener('click', e => {
 						var r = e.target.getBoundingClientRect(),
 							x = (e.clientX - r.left) / 16 ^ 0,
 							y = (e.clientY - r.top) / 16 ^ 0;

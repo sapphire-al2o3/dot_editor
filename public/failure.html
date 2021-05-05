@@ -28,6 +28,10 @@
 				background-color: #34c0f4;
 				color: #FFF;
 			}
+
+			canvas {
+				margin-bottom: 32px;
+			}
 		</style>
 	</head>
 	<body>
@@ -35,14 +39,51 @@
 			<div id="header">
 				<h1><a href="/"><img src="./images/dota_32x32.png" /></a></h1>
 			</div>
-			
-<!--			<div contenteditable="true">hogehoge</div>-->
-			<p><img src="./images/warning.png" /></p>
-			<p style="padding: 48px 0;">Twitterへドット絵を投稿できませんでした。</p>
+			<p><canvas id="canvas" width="304" height="128"></canvas></p>
+			<p>Twitterへドット絵を投稿できませんでした。</p>
 			<p><input type="button" id="close" value="とじる" /></p>
 			<script>
 				(function() {
-					document.getElementById('close').addEventListener('click', function() {
+					let canvas = document.getElementById('canvas'),
+						ctx = canvas.getContext('2d'),
+						w = canvas.width,
+						h = canvas.height;
+					
+					let perr = [
+						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0],
+						[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+					];
+					
+					function render() {
+						ctx.clearRect(0, 0, w, h);
+						ctx.fillStyle = '#F00';
+						for(let i = 0; i < 8; i++) {
+							for(let j = 0; j < 19; j++) {
+								if(perr[i][j]) {
+									ctx.fillRect(j * 16, i * 16, 16, 16);
+								}
+							}
+						}
+						ctx.fill();
+					}
+					
+					canvas.addEventListener('click', e => {
+						let r = e.target.getBoundingClientRect(),
+							x = (e.clientX - r.left) / 16 ^ 0,
+							y = (e.clientY - r.top) / 16 ^ 0;
+						perr[y][x] = 1 - perr[y][x];
+						render();
+					});
+					
+					render();
+
+					document.getElementById('close').addEventListener('click', () => {
 						window.close();
 					});
 				})();
