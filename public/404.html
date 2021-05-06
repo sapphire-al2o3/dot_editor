@@ -45,7 +45,7 @@
 			<p><a href="/">トップページへ戻る</a></p>
 			<script>
 				(function() {
-					var canvas = document.getElementById('canvas'),
+					let canvas = document.getElementById('canvas'),
 						ctx = canvas.getContext('2d'),
 						w = canvas.width,
 						h = canvas.height;
@@ -64,8 +64,8 @@
 					function render() {
 						ctx.clearRect(0, 0, w, h);
 						ctx.fillStyle = '#09F';
-						for(var i = 0; i < 8; i++) {
-							for(var j = 0; j < 19; j++) {
+						for(let i = 0; i < 8; i++) {
+							for(let j = 0; j < 19; j++) {
 								if(p404[i][j]) {
 									ctx.fillRect(j * 16, i * 16, 16, 16);
 								}
@@ -74,8 +74,8 @@
 						ctx.fill();
 					}
 					
-					var k = 0;
 					/*
+					var k = 0;
 					setInterval(function() {
 						p404[k / 19 ^ 0][k % 19 ^ 0] = 1 - p404[k / 19 ^ 0][k % 19 ^ 0];
 						k++;
@@ -84,7 +84,7 @@
 					}, 1000 / 30);
 					*/
 					canvas.addEventListener('click', e => {
-						var r = e.target.getBoundingClientRect(),
+						let r = e.target.getBoundingClientRect(),
 							x = (e.clientX - r.left) / 16 ^ 0,
 							y = (e.clientY - r.top) / 16 ^ 0;
 						p404[y][x] = 1 - p404[y][x];
