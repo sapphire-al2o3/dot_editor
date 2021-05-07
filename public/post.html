@@ -102,7 +102,7 @@
 						render(image.indexData, image.paletteData);
 					}, false);
 					
-					document.getElementById('canvas').addEventListener('click', e => {
+					canvas.addEventListener('click', e => {
 						if(document.getElementById('transparent').checked) {
 							let rect = e.target.getBoundingClientRect(),
 								offsetX = space ? (spaceW - image.indexData.width * scale) / 2 : 0,
@@ -140,7 +140,7 @@
 						const palette = image.paletteData.data.filter((e, i) => {
 							return i % 4 !== 3;
 						});
-						var json = {
+						const json = {
 							index: Base64.encode(image.indexData.data),
 							palette: Base64.encode(palette),
 							width: image.indexData.width,
