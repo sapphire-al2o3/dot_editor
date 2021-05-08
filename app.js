@@ -134,7 +134,7 @@ app.post('/auth/twitter/post', function(req, res) {
 		img.palette = paletteData;
 		if(image.transparent !== undefined && image.transparent < 256) {
 			let trns = [];
-			for(var i = 0; i < paletteData.length / 3; i++) {
+			for(let i = 0; i < paletteData.length / 3; i++) {
 				trns.push(255);
 			}
 			trns[image.transparent] = 0;

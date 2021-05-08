@@ -16,29 +16,29 @@
 		return p ? p.querySelectorAll(e) : document.querySelectorAll(e);
 	}
 	
-	$.show = function(e) {
+	$.show = e => {
 		e.style.display = 'block';
 	};
 	
-	$.hide = function(e) {
+	$.hide = e => {
 		e.style.display = 'none';
 	};
 	
-	$.toggle = function(e) {
+	$.toggle = e => {
 		e.style.display !== 'none' ? $.hide(e) : $.show(e);
 	};
 	
-	$.position = function(e, x, y) {
+	$.position = (e, x, y) => {
 		e.style.left = x + 'px';
 		e.style.top = y + 'px';
 	};
 	
-	$.size = function(e, w, h) {
+	$.size = (e, w, h) => {
 		e.style.width = w + 'px';
 		e.style.height = h + 'px';
 	};
 	
-	$.bind = function(e, event, func) {
+	$.bind = (e, event, func) => {
 		if(typeof e === 'string') {
 			func = event;
 			event = e;
@@ -47,7 +47,7 @@
 		e.addEventListener(event, func, false);
 	};
 	
-	$.unbind = function(e, event, func) {
+	$.unbind = (e, event, func) => {
 		if(typeof e === 'string') {
 			func = event;
 			event = e;
@@ -61,13 +61,13 @@
 		$.unbind(e.target, 'transitionend', fadeOutEnd);
 	}
 	
-	$.fadeOut = function(e) {
+	$.fadeOut = e => {
 		e.style['transition'] = 'opacity 0.6s ease';
 		e.style['opacity'] = '0.0';
 		$.bind(e, 'transitionend', fadeOutEnd);
 	};
 	
-	$.fadeIn = function(e) {
+	$.fadeIn = e => {
 		e.style['transition'] = 'opacity 0.6s ease';
 		e.style['opacity'] = '1.0';
 		e.style.display = 'block';
