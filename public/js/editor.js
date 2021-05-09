@@ -152,7 +152,7 @@ editor: Editor
 	'use strict';
 	
 	// サーバのURL
-	var docId = 0,
+	let docId = 0,
 		canvas,
 		ctx,
 		work,
@@ -169,21 +169,16 @@ editor: Editor
 		dropper = false,
 		mode;
 	
-	var $grid = $('grid'),
-		$selection = $('selection');
+	const $grid = $('grid');
+	const $selection = $('selection');
 	
-	var editor = {
-		width: 64,
-		height: 64
-	};
-	
-	var points = [];
-	var background = {
+	let points = [];
+	const background = {
 		position: 'middle',
 		color: 'rgba(0, 0, 0, 1)',
 		fit: true
 	};
-	var option = {};
+	const option = {};
 	option.scales = [1, 2, 4, 6, 8, 12];
 	option.zoom = 2;
 	option.scale = option.scales[option.zoom];
@@ -195,10 +190,10 @@ editor: Editor
 		enable: false
 	};
 	
-	var tempData = [];
+	let tempData = [];
 	
 	// 描画状態
-	var context = {
+	const context = {
 		paletteIndex: 1,
 		layers: [],
 		tool: 'pen',
@@ -207,15 +202,12 @@ editor: Editor
 		down: false
 	};
 	// 選択範囲
-	var selection = {
+	const selection = {
 		region: { x: 0, y: 0, w: 0, h: 0 },
 		enable: false,
 		indexData: null,
 		transparent: false
 	};
-
-	editor.context = context;
-	editor.option = option;
 
 	// プレビュー画像を描画する
 	function drawPreview() {
@@ -342,8 +334,6 @@ editor: Editor
 	// 回転
 	function rotateRight() {
 		if(selection.enable) {
-			var w = selectionCtx.canvas.width,
-				h = selectionCtx.canvas.height;
 			// 長方形の選択範囲を回転させるには一旦別の領域にコピーしておかないと消えてしまう
 			$.size($selection, selectionCtx.canvas.height, selectionCtx.canvas.width);
 			rotate90R(selectionCtx, selection.indexData);
@@ -357,7 +347,7 @@ editor: Editor
 	}
 	
 	function selectAll() {
-		var r = selection.region;
+		let r = selection.region;
 		toggleTool('select')();
 		$.position($selection, 0, 0);
 		$.size($selection, ctx.canvas.width, ctx.canvas.height);
@@ -388,7 +378,7 @@ editor: Editor
 		}
 		
 		// keymap登録
-		var keymap = [
+		const keymap = [
 			{ key: 'Z', f: zoomIn, name: '拡大' },
 			{ key: 'X', f: zoomOut, name: '縮小' },
 			{ key: 'C', f: zoomDefault, name: '等倍' },
@@ -471,7 +461,7 @@ editor: Editor
 		initEditor();
 	})();
 
-	var activeTool,
+	let activeTool,
 		selectHandler;
 
 	function toggleTool(t) {
