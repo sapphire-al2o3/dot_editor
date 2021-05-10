@@ -374,7 +374,7 @@ editor: Editor
 	(function initialize() {
 		
 		function selectTool(t) {
-			return function() { tool = t; };
+			return () => { tool = t; };
 		}
 		
 		// keymap登録
@@ -446,26 +446,24 @@ editor: Editor
 		paletteData = createPaletteData(256);
 	}
 
-	(function() {
-		var hash = location.hash.slice(1),
-			param = hash.split('=');
 	
-		if(param.length === 1) {
+	let hash = location.hash.slice(1),
+		param = hash.split('=');
 	
-		} else {
-			mode = param[0];
-			docId = param[1];
-			console.log(mode, docId);
-		}
+	if(param.length === 1) {
+	} else {
+		mode = param[0];
+		docId = param[1];
+		console.log(mode, docId);
+	}
 		
-		initEditor();
-	})();
+	initEditor();
 
 	let activeTool,
 		selectHandler;
 
 	function toggleTool(t) {
-		return function (e) {
+		return () => {
 			tool = t;
 			activeTool && activeTool.classList.remove('selected');
 			activeTool = $(t);
@@ -501,12 +499,12 @@ editor: Editor
 			preview = $('view').lastChild.getContext('2d');
 		}
 	
-		var usedPalette = {};
+		let usedPalette = {};
 		function usePalette(index, color) {
 			usedPalette[index] = color;
 		}
 		
-		var left = canvas.getBoundingClientRect().left,
+		let left = canvas.getBoundingClientRect().left,
 			top = canvas.getBoundingClientRect().top;
 		
 		$.position($('palette'), left + 420, top + 4);
@@ -672,14 +670,14 @@ editor: Editor
 			Palette.convert(paletteData);
 		});
 		
-		$.bind($('work'), 'contextmenu', function(e) {
+		$.bind($('work'), 'contextmenu', e => {
 			if(down) {
 				// 左クリック中
 				down = false;
 				work.clearRect(0, 0, work.canvas.width, work.canvas.height);
 				grid();
 			} else {
-				var x = Math.floor((e.pageX - left) / option.scale),
+				let x = Math.floor((e.pageX - left) / option.scale),
 					y = Math.floor((e.pageY - top) / option.scale);
 				paletteIndex = indexData.data[(y * indexData.width + x)];
 				Palette.setFrontColor(paletteIndex);
@@ -699,7 +697,7 @@ editor: Editor
 			w: 0,
 			h: 0,
 			down: function(x, y) {
-				var s = option.scale;
+				let s = option.scale;
 				this.x = x * s;
 				this.y = y * s;
 				this.w = ctx.canvas.width;
@@ -718,7 +716,7 @@ editor: Editor
 				
 			},
 			move: function(x, y) {
-				var s = option.scale,
+				let s = option.scale,
 					sx = this.x,
 					sy = this.y;
 				
@@ -729,7 +727,7 @@ editor: Editor
 				y = y < 0 ? 0 : y >= this.h ? this.h : y;
 				
 				
-				var w = Math.abs(x - sx),
+				let w = Math.abs(x - sx),
 					h = Math.abs(y - sy);
 				
 				x = sx > x ? x : sx;
@@ -777,11 +775,11 @@ editor: Editor
 			}
 		};
 		
-		$.bind($('work'), 'mousedown', function(e) {
-			var r = work.canvas.getBoundingClientRect();
+		$.bind($('work'), 'mousedown', e => {
+			let r = work.canvas.getBoundingClientRect();
 			left = window.scrollX + r.left;
 			top = window.scrollY + r.top;
-			var x = e.pageX - left,
+			let x = e.pageX - left,
 				y = e.pageY - top,
 				size = option.scale;
 
@@ -867,7 +865,7 @@ editor: Editor
 		
 		function mousemoveHandler(e) {
 			if(down) {
-				var size = option.scale,
+				let size = option.scale,
 					x = (e.pageX - left) / size ^ 0,
 					y = (e.pageY - top) / size ^ 0,
 					w = work.canvas.width,
@@ -880,7 +878,7 @@ editor: Editor
 				work.clearRect(0, 0, w, h);
 				switch(tool) {
 				case 'pen':
-					var px = points.pop(),
+					let px = points.pop(),
 						py = points.pop();
 					context.data = indexData.data;
 					drawLine(ctx, px, py, x, y, indexData, paletteIndex, option.scale);
@@ -917,7 +915,7 @@ editor: Editor
 			e.stopPropagation();
 			if(e.button === 0 && down) {
 				down = false;
-				var size = option.scale,
+				let size = option.scale,
 					x = (e.pageX - left) / size ^ 0,
 					y = (e.pageY - top) / size ^ 0;
 				work.clearRect(0, 0, work.canvas.width, work.canvas.height);
@@ -946,13 +944,8 @@ editor: Editor
 			return false;
 		}
 	
-		function mouseoutHandler(e) {
-			down = false;
-		}
-	
-		var offsetX, offsetY;
-		$.bind($selection, 'mousedown', function(e) {
-			var rect = e.target.getBoundingClientRect();
+		let offsetX, offsetY;
+		$.bind($selection, 'mousedown', e => {
 			left = e.target.offsetLeft;
 			top = e.target.offsetTop;
 			down = true;
@@ -966,7 +959,7 @@ editor: Editor
 			e.preventDefault();
 		});
 		
-		var moveHandler = {
+		let moveHandler = {
 			offsetX: 0,
 			offsetY: 0,
 			left: 0,
@@ -979,7 +972,7 @@ editor: Editor
 				if(down) {
 					e.preventDefault();
 					e.stopPropagation();
-					var s = option.scale,
+					let s = option.scale,
 						x = ((e.pageX - offsetX + left) / s ^ 0) * s,
 						y = ((e.pageY - offsetY + top) / s ^ 0) * s;
 					$.position($selection, x, y);
@@ -990,7 +983,7 @@ editor: Editor
 				if(down) {
 					e.preventDefault();
 					e.stopPropagation();
-					var s = option.scale,
+					let s = option.scale,
 						x = ((e.pageX - offsetX + left) / s ^ 0),
 						y = ((e.pageY - offsetY + top) / s ^ 0);
 					
@@ -1146,7 +1139,7 @@ editor: Editor
 			}
 		});
 	
-		window.onbeforeunload = function(e) {
+		window.onbeforeunload = () => {
 			return 'ページを移動すると編集した情報が失われます';
 		};
 	
@@ -1171,7 +1164,7 @@ editor: Editor
 		}
 	
 		function saveFile() {
-			var png = document.getElementById('canvas').toDataURL();
+			let png = document.getElementById('canvas').toDataURL();
 			//png = png.replace("image/png", "image/octet-stream");
 			window.open(png, 'save');
 		}
@@ -1233,13 +1226,13 @@ editor: Editor
 	// 編集履歴を記録する
 	// コマンドが確定した時点で呼び出す(コマンドがキャンセルされることがあるため)
 	function record() {
-		var back = tempData[tempData.length - 1];
+		// let back = tempData[tempData.length - 1];
 		
-		if(back) {
-			var diff = diffIndexData(back.data, indexData.data);
-		}
+		// if(back) {
+		// 	let diff = diffIndexData(back.data, indexData.data);
+		// }
 		
-		var temp = createIndexData(indexData.width, indexData.height);
+		let temp = createIndexData(indexData.width, indexData.height);
 		
 		copyRangeIndexData(indexData, temp);
 		tempData.push(temp);
@@ -1248,7 +1241,7 @@ editor: Editor
 	
 	// 取り消し
 	function undo() {
-		var temp = tempData.pop();
+		let temp = tempData.pop();
 		
 		if(temp) {
 			copyRangeIndexData(temp, indexData);
@@ -1260,7 +1253,7 @@ editor: Editor
 
 	// やり直し
 	function redo() {
-		var temp = redo.pop();
+		let temp = redo.pop();
 		
 		if(temp) {
 			copyRangeIndexData(temp.data, indexData.data);
@@ -1338,7 +1331,7 @@ editor: Editor
 //	}
 
 	// サブウィンドウから呼び出すための関数
-	global.getImage = function() {
+	global.getImage = () => {
 		Palette.convert(paletteData);
 		return {
 			indexData: indexData,
