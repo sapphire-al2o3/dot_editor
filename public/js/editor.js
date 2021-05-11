@@ -191,6 +191,9 @@ editor: Editor
 	};
 	
 	let tempData = [];
+
+	let activeTool,
+		selectHandler;
 	
 	// 描画状態
 	const context = {
@@ -371,8 +374,7 @@ editor: Editor
 		}
 	}
 	
-	(function initialize() {
-		
+	{
 		function selectTool(t) {
 			return () => { tool = t; };
 		}
@@ -420,7 +422,7 @@ editor: Editor
 		KeyMapper.assign('O', toggleTool('outline'));
 		
 		KeyMapper.bind(document, 'down');
-	})();
+	}
 
 	function createImage(w, h) {
 		option.imageWidth = w;
@@ -459,9 +461,6 @@ editor: Editor
 		
 	initEditor();
 
-	let activeTool,
-		selectHandler;
-
 	function toggleTool(t) {
 		return () => {
 			tool = t;
@@ -478,7 +477,7 @@ editor: Editor
 	}
 
 
-	(function() {
+	{
 		if(typeof Palette !== 'undefined') {
 			Palette.create('palette');
 			Palette.setColorPicker(e => {
@@ -945,19 +944,6 @@ editor: Editor
 		}
 	
 		let offsetX, offsetY;
-		$.bind($selection, 'mousedown', e => {
-			left = e.target.offsetLeft;
-			top = e.target.offsetTop;
-			down = true;
-			offsetX = e.pageX;
-			offsetY = e.pageY;
-			moveHandler.offsetX = e.pageX;
-			moveHandler.offsetY = e.pageY;
-			console.log(offsetX, offsetY, left, top);
-			$.bind('mouseup', moveHandler.up);
-			$.bind('mousemove', moveHandler.move);
-			e.preventDefault();
-		});
 		
 		let moveHandler = {
 			offsetX: 0,
@@ -997,6 +983,19 @@ editor: Editor
 				}
 			}
 		};
+
+		$.bind($selection, 'mousedown', e => {
+			left = e.target.offsetLeft;
+			top = e.target.offsetTop;
+			down = true;
+			offsetX = e.pageX;
+			offsetY = e.pageY;
+			moveHandler.offsetX = e.pageX;
+			moveHandler.offsetY = e.pageY;
+			$.bind('mouseup', moveHandler.up);
+			$.bind('mousemove', moveHandler.move);
+			e.preventDefault();
+		});
 		
 		
 		let $layerList = $('layer-list'),
@@ -1219,7 +1218,7 @@ editor: Editor
 			}
 		}
 		
-	})();
+	}
 
 
 	
