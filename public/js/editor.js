@@ -782,7 +782,8 @@ editor: Editor
 				y = e.pageY - top,
 				size = option.scale;
 
-			points = [y / size ^ 0, x / size ^ 0];
+			points[0] = y / size ^ 0;
+			points[1] = x / size ^ 0;
 
 			if(e.altKey) {
 				// スポイト
@@ -877,12 +878,12 @@ editor: Editor
 				work.clearRect(0, 0, w, h);
 				switch(tool) {
 				case 'pen':
-					let px = points.pop(),
-						py = points.pop();
+					let px = points[1],
+						py = points[0];
 					context.data = indexData.data;
 					drawLine(ctx, px, py, x, y, indexData, paletteIndex, option.scale);
-					points.push(y);
-					points.push(x);
+					points[0] = y;
+					points[1] = x;
 					break;
 				case 'line':
 					drawLine(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
