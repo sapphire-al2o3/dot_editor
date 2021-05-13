@@ -585,6 +585,11 @@ editor: Editor
 			FileLoader.load(e.target.files[0]);
 			e.target.value = null;
 		});
+
+		$.bind($('layer'), 'click', () => {
+			$.toggle($('layers'));
+			$('layer').classList.toggle('selected');
+		});
 		
 		// サイズの指定
 		$.bind($('new-image-submit'), 'click', e => {
