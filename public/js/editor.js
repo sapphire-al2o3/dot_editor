@@ -1231,16 +1231,22 @@ editor: Editor
 	// 編集履歴を記録する
 	// コマンドが確定した時点で呼び出す(コマンドがキャンセルされることがあるため)
 	function record() {
-		// let back = tempData[tempData.length - 1];
-		
+		let diff = true;
+		if (tempData.length > 0) {
+			let back = tempData[tempData.length - 1];
+			diff = hasDiffIndexData(back.data, indexData.data)
+		}
 		// if(back) {
 		// 	let diff = diffIndexData(back.data, indexData.data);
 		// }
+
+		// 画像に差があるときだけ保存する
+		if(diff) {
+			let temp = createIndexData(indexData.width, indexData.height);
 		
-		let temp = createIndexData(indexData.width, indexData.height);
-		
-		copyRangeIndexData(indexData, temp);
-		tempData.push(temp);
+			copyRangeIndexData(indexData, temp);
+			tempData.push(temp);
+		}
 //		redo.length = 0;
 	}
 	

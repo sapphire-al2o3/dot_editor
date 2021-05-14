@@ -1101,6 +1101,16 @@ function diffIndexData(src, dst) {
 	return { head: head, tail: tail };
 }
 
+// 画像に差分があるか判定する
+function hasDiffIndexData(src, dst) {
+	for(let i = 0, n = src.length; i < n; i++) {
+		if(dst[i] !== src[i]) {
+			return true;
+		}
+	}
+	return false;
+}
+
 // インデックスデータの作成
 function createIndexData(w, h) {
 	return {
