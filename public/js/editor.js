@@ -1255,6 +1255,12 @@ editor: Editor
 		let temp = tempData.pop();
 		
 		if(temp) {
+			if (!hasDiffIndexData(temp.data, indexData.data)) {
+				temp = tempData.pop();
+			}
+		}
+
+		if(temp) {
 			copyRangeIndexData(temp, indexData);
 			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 			drawPreview();
