@@ -6,16 +6,15 @@
 (function(global) {
 	'use strict';
 	
-	var History = function() {
+	const History = function() {
 		var stack = [],
 			capacity = 20;
 		return {
-			undo: function() {
-				var command = stack.pop();
-				return command;
+			undo: () => {
+				return stack.pop();
 			},
-			record: function(command) {
-				stack.push(command);
+			record: (command, value) => {
+				stack.push({command, value});
 			}
 		};
 	}();
