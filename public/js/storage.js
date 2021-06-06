@@ -4,7 +4,7 @@
 (function(global) {
 	'use strict';
 	
-	var Storage = {};
+	const Storage = {};
 	
 	// 削除する
 	function clearSettings(option) {

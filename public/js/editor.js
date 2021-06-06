@@ -564,8 +564,12 @@ editor: Editor
 			window.open('/auth/twitter');
 		});
 		
-		$.bind($('save'), 'click', save);
-		$.bind($('load'), 'click', load);
+		$.bind($('save'), 'click', () => {
+			save("0");
+		});
+		$.bind($('load'), 'click', () => {
+			load("0");
+		});
 		
 		$.bind($('tools'), 'click', () => {
 			$.toggle($('tools-2'));
