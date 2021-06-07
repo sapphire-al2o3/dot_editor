@@ -417,10 +417,10 @@ editor: Editor
 		KeyMapper.assign('Shift+3', toggleGrid);
 		
 		KeyMapper.assign('Ctrl+S', () => {
-			save("0");
+			saveStorage("0");
 		});
 		KeyMapper.assign('Ctrl+L', () => {
-			load("0");
+			loadStorage("0");
 		});
 		
 		KeyMapper.assign('O', toggleTool('outline'));
@@ -569,10 +569,10 @@ editor: Editor
 		});
 		
 		$.bind($('save'), 'click', () => {
-			save("0");
+			saveStorage("0");
 		});
 		$.bind($('load'), 'click', () => {
-			load("0");
+			loadStorage("0");
 		});
 		
 		$.bind($('tools'), 'click', () => {
@@ -1183,7 +1183,7 @@ editor: Editor
 		}
 
 		// ローカルストレージに保存
-		function save(name) {
+		function saveStorage(name) {
 			let layers = [];
 			for(let i = 0; i < Layer.count(); i++) {
 				let layer = Layer.get(i);
@@ -1203,7 +1203,7 @@ editor: Editor
 		}
 
 		// ローカルストレージから読み込み
-		function load(name) {
+		function loadStorage(name) {
 			let json = Storage.load(name);
 			if(json) {
 				let data = JSON.parse(json);
