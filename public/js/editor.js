@@ -403,10 +403,10 @@ editor: Editor
 		KeyMapper.assign('Ctrl+Z', undo);
 		KeyMapper.assign('Ctrl+Y', redo);
 		KeyMapper.assign('M', toggleTool('select'));
-		KeyMapper.assign('H', function() {
+		KeyMapper.assign('H', () => {
 			shiftH(ctx, indexData, 1, option.scale);
 		});
-		KeyMapper.assign('V', function() {
+		KeyMapper.assign('V', () => {
 			shiftV(ctx, indexData, 1, option.scale);
 		});
 		
@@ -416,8 +416,12 @@ editor: Editor
 		KeyMapper.assign('Ctrl+D', deselect);
 		KeyMapper.assign('Shift+3', toggleGrid);
 		
-		KeyMapper.assign('Ctrl+S', save);
-		KeyMapper.assign('Ctrl+L', load);
+		KeyMapper.assign('Ctrl+S', () => {
+			save("0");
+		});
+		KeyMapper.assign('Ctrl+L', () => {
+			load("0");
+		});
 		
 		KeyMapper.assign('O', toggleTool('outline'));
 		
