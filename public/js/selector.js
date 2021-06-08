@@ -72,6 +72,10 @@
 		e.style['opacity'] = '1.0';
 		e.style.display = 'block';
 	};
+
+	$.alpha = (e, a) => {
+		e.style['opacity'] = a;
+	};
 	
 	$.d = document;
 	$.q = $q;
