@@ -421,6 +421,18 @@ editor: Editor
 		});
 		KeyMapper.assign('Ctrl+L', () => {
 			loadStorage("0");
+			// const $storage = $('storage');
+			// if ($storage.style.display === 'none') {
+				
+			// 	for (let i = 0; i < 9; i++) {
+			// 		let data = Storage.load(i.toString());
+			// 		console.log(data);
+			// 	}
+			// 	$.show($storage);
+			// 	const $overlay = $('overlay');
+			// 	$.alpha($overlay, 0.4);
+			// 	$.show($overlay);
+			// }
 		});
 		
 		KeyMapper.assign('O', toggleTool('outline'));
@@ -1200,6 +1212,10 @@ editor: Editor
 			Storage.save(name, json);
 
 			console.log('save');
+		}
+
+		function loadThumbnail(name) {
+			let json = Storage.load(name);
 		}
 
 		// ローカルストレージから読み込み

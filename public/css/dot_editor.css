@@ -612,3 +612,18 @@
 /*	transition-duration: 1s;*/
 }
 
+#storage {
+	width: 240px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	z-index: 255;
+	margin-top: -200px;
+	margin-left: -120px;
+	text-align: center;
+}
+
+#storage canvas {
+	background-color: #12F;
+	margin: 8px 8px;
+}
