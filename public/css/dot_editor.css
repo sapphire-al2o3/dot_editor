@@ -624,6 +624,9 @@
 }
 
 #storage canvas {
-	background-color: #12F;
+	background-color: #FFF;
+	border: 1px solid #AAA;
 	margin: 8px 8px;
+	width: 32px;
+	height: 32px;
 }
