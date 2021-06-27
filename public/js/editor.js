@@ -581,6 +581,7 @@ editor: Editor
 		});
 		
 		$.bind($('save'), 'click', () => {
+			$.show($('storage'));
 			saveStorage("0");
 		});
 		$.bind($('load'), 'click', () => {
@@ -1163,6 +1164,12 @@ editor: Editor
 				}
 			}
 		});
+
+		for (let i = 0; i < 9; i++) {
+			$.bind($('storage-' + i), 'click', () => {
+				$.hide($('storage'));
+			});
+		}
 	
 		window.onbeforeunload = () => {
 			return 'ページを移動すると編集した情報が失われます';
