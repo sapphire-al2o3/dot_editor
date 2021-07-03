@@ -209,7 +209,8 @@
 /*	background-color: #CEF;*/
 }
 
-#new-image input[type="button"] {
+#new-image input[type="button"],
+#storage-cancel {
 	border: 1px solid #AAA;
 	font-weight: bold;
 	padding: 0px 8px;
@@ -225,7 +226,8 @@
 	display: inline-block;
 }
 
-#new-image input[type="button"]:hover {
+#new-image input[type="button"]:hover,
+#storage-cancel:hover {
 	border: 1px solid #07D;
 	color: #FFF;
 	background-color: #0AF;
