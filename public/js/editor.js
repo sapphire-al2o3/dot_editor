@@ -1170,6 +1170,10 @@ editor: Editor
 				$.hide($('storage'));
 			});
 		}
+
+		$.bind($('storage-cancel'), 'click', () => {
+			$.hide($('storage'));
+		});
 	
 		window.onbeforeunload = () => {
 			return 'ページを移動すると編集した情報が失われます';
