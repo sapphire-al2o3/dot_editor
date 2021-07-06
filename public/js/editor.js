@@ -1237,6 +1237,7 @@ editor: Editor
 				deselect();
 				clearLayer();
 				indexData = createIndexData(data.width, data.height);
+				option.imageWidth = indexData.width;
 				Layer.clear();
 				Layer.set(ctx, ctx.canvas, indexData);
 				Base64.decode(data.indexData[0], indexData.data);
