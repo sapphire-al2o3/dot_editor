@@ -1168,11 +1168,15 @@ editor: Editor
 		for (let i = 0; i < 9; i++) {
 			$.bind($('storage-' + i), 'click', () => {
 				$.hide($('storage'));
+				const $overlay = $('overlay');
+				$.hide($overlay);
 			});
 		}
 
 		$.bind($('storage-cancel'), 'click', () => {
 			$.hide($('storage'));
+			const $overlay = $('overlay');
+			$.hide($overlay);
 		});
 	
 		window.onbeforeunload = () => {
