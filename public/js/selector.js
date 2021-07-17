@@ -67,10 +67,11 @@
 		$.bind(e, 'transitionend', fadeOutEnd);
 	};
 	
-	$.fadeIn = e => {
-		e.style['transition'] = 'opacity 0.6s ease';
-		e.style['opacity'] = '1.0';
+	$.fadeIn = (e, a = 1.0) => {
 		e.style.display = 'block';
+		e.style['transition'] = 'opacity 2.6s ease';
+		e.style['opacity'] = a;
+		
 	};
 
 	$.alpha = (e, a) => {

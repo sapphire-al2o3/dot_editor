@@ -581,10 +581,11 @@ editor: Editor
 		});
 		
 		$.bind($('save'), 'click', () => {
-			$.show($('storage'));
+			openStorageDialog(true);
 			saveStorage("0");
 		});
 		$.bind($('load'), 'click', () => {
+			openStorageDialog(false);
 			loadStorage("0");
 		});
 		
@@ -1176,7 +1177,7 @@ editor: Editor
 		$.bind($('storage-cancel'), 'click', () => {
 			$.hide($('storage'));
 			const $overlay = $('overlay');
-			$.hide($overlay);
+			$.fadeOut($overlay);
 		});
 	
 		window.onbeforeunload = () => {
@@ -1201,6 +1202,19 @@ editor: Editor
 			$currentLayer.setAttribute('data-canvas-id', baseLayer.canvas.id);
 			Layer.clear();
 			return Layer.set(ctx, ctx.canvas, indexData);
+		}
+
+		function openStorageDialog(isSave) {
+			const $overlay = $('overlay');
+			const $storage = $('storage');
+			const $caption = $('storage-caption');
+			$.fadeIn($overlay, 0.5);
+			$.show($storage);
+			if (isSave) {
+				$caption.textContent = 'Save';
+			} else {
+				$caption.textContent = 'Load';
+			}
 		}
 	
 		function saveFile() {
