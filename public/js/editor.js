@@ -1208,6 +1208,7 @@ editor: Editor
 			const $overlay = $('overlay');
 			const $storage = $('storage');
 			const $caption = $('storage-caption');
+			
 			$.fadeIn($overlay, 0.5);
 			$.show($storage);
 			if (isSave) {

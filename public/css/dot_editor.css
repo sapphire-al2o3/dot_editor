@@ -633,6 +633,10 @@
 	height: 32px;
 }
 
+#storage canvas:hover {
+	border-color: #07D;
+}
+
 #storage p {
 	cursor: default;
 }
