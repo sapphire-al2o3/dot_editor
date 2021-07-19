@@ -627,14 +627,16 @@
 
 #storage canvas {
 	background-color: #FFF;
-	border: 1px solid #AAA;
-	margin: 8px 8px;
+	border: 2px solid #EEE;
+	margin: 4px 4px;
+	margin-top: 8px;
 	width: 32px;
 	height: 32px;
+	cursor: pointer;
 }
 
 #storage canvas:hover {
-	border-color: #07D;
+	border-color: #00B7FF;
 }
 
 #storage p {
