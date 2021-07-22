@@ -167,7 +167,8 @@ editor: Editor
 		prevTool = 'pen',
 		tool = 'pen',
 		dropper = false,
-		mode;
+		mode,
+		storageMode = false;
 	
 	const $grid = $('grid');
 	const $selection = $('selection');
@@ -1167,10 +1168,15 @@ editor: Editor
 		});
 
 		for (let i = 0; i < 9; i++) {
-			$.bind($('storage-' + i), 'click', () => {
+			$.bind($('storage-' + i), 'click', e => {
 				$.hide($('storage'));
 				const $overlay = $('overlay');
-				$.hide($overlay);
+				if (storageMode) {
+					loadStorage(e.target.id);
+				} else {
+					saveStorage(e.target.id);
+				}
+				$.fadeOut($overlay);
 			});
 		}
 
@@ -1216,6 +1222,7 @@ editor: Editor
 			} else {
 				$caption.textContent = 'Load';
 			}
+			storageMode = isSave;
 		}
 	
 		function saveFile() {
