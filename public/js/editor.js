@@ -583,11 +583,11 @@ editor: Editor
 		
 		$.bind($('save'), 'click', () => {
 			openStorageDialog(true);
-			saveStorage("0");
+			// saveStorage("0");
 		});
 		$.bind($('load'), 'click', () => {
 			openStorageDialog(false);
-			loadStorage("0");
+			// loadStorage("0");
 		});
 		
 		$.bind($('tools'), 'click', () => {
@@ -1170,12 +1170,13 @@ editor: Editor
 		for (let i = 0; i < 9; i++) {
 			$.bind($('storage-' + i), 'click', e => {
 				$.hide($('storage'));
-				const $overlay = $('overlay');
+				const name = e.target.id.slice(-1);
 				if (storageMode) {
-					loadStorage(e.target.id);
+					saveStorage(name);
 				} else {
-					saveStorage(e.target.id);
+					loadStorage(name);
 				}
+				const $overlay = $('overlay');
 				$.fadeOut($overlay);
 			});
 		}
