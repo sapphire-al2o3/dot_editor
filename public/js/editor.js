@@ -1224,6 +1224,21 @@ editor: Editor
 				$caption.textContent = 'Load';
 			}
 			storageMode = isSave;
+
+
+			const p = createPaletteData(256);
+			const idx = createIndexData(32, 32);
+			for (let i = 0; i < 9; i++) {
+				const canvas = $('storage-' + i);
+				const ctx = canvas.getContext('2d');
+				const json = Storage.load(i.toString());
+				if (json) {
+					const data = JSON.parse(json);
+					Base64.decode(data.indexData[0], idx.data);
+					Base64.decode(data.paletteData, p.data);
+					drawIndexedImageData(ctx, idx, p, 1);
+				}
+			}
 		}
 	
 		function saveFile() {
