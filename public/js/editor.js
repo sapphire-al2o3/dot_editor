@@ -1227,7 +1227,7 @@ editor: Editor
 
 
 			const p = createPaletteData(256);
-			const idx = createIndexData(32, 32);
+			const idx = createIndexData(64, 64);
 			for (let i = 0; i < 9; i++) {
 				const canvas = $('storage-' + i);
 				const ctx = canvas.getContext('2d');
@@ -1236,6 +1236,8 @@ editor: Editor
 					const data = JSON.parse(json);
 					Base64.decode(data.indexData[0], idx.data);
 					Base64.decode(data.paletteData, p.data);
+					idx.width = data.width;
+					idx.height = data.height;
 					drawIndexedImageData(ctx, idx, p, 1);
 				}
 			}
