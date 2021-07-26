@@ -1238,7 +1238,9 @@ editor: Editor
 					Base64.decode(data.paletteData, p.data);
 					idx.width = data.width;
 					idx.height = data.height;
-					drawIndexedImageData(ctx, idx, p, 1);
+					const x = (32 - idx.width) / 2 ^ 0;
+					const y = (32 - idx.height) / 2 ^ 0;
+					drawIndexedImageData(ctx, idx, p, 1, 256, x, y);
 				}
 			}
 		}
