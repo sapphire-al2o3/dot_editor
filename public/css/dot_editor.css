@@ -629,10 +629,13 @@
 	background-color: #FFF;
 	border: 2px solid #EEE;
 	margin: 4px 4px;
-	margin-top: 8px;
 	width: 32px;
 	height: 32px;
 	cursor: pointer;
+}
+
+#storage div {
+	height: 48px;
 }
 
 #storage canvas:hover {
@@ -641,4 +644,5 @@
 
 #storage p {
 	cursor: default;
+	margin-bottom: 8px;
 }
