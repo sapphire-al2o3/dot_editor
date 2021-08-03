@@ -31,6 +31,9 @@
 					<input type="checkbox" id="space" /><label for="space">余白をつける</label>
 					<input type="checkbox" id="tiling" /><label for="tiling">タイリング</label>
 				</div>
+				<!-- <div>
+					<input type="checkbox" id="twitter-id" /><label for="twitter-id">TwitterのIDを入れる</label>
+				</div> -->
 				<div id="dot-preview"><canvas id="canvas"></canvas></div>
 				<p><textarea id="text" name="text">#pixelart https://dot-a.herokuapp.com/</textarea></p>
 				<p><span id="text-count">134</span></p>
@@ -87,7 +90,7 @@
 							render(image.indexData, image.paletteData);
 						}
 					} else {
-						window.location.href = '/';
+						// window.location.href = '/';
 					}
 					
 					document.getElementById('image-scale').addEventListener('change', e => {
