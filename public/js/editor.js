@@ -375,71 +375,54 @@ editor: Editor
 		}
 	}
 	
-	{
-		function selectTool(t) {
-			return () => { tool = t; };
-		}
-		
-		// keymap登録
-		const keymap = [
-			{ key: 'Z', f: zoomIn, name: '拡大' },
-			{ key: 'X', f: zoomOut, name: '縮小' },
-			{ key: 'C', f: zoomDefault, name: '等倍' },
-			{ key: 'P', f: selectTool('pen'), name: 'ペン' },
-			{ key: 'L', f: selectTool('line'), name: '直線' },
-			{ key: 'R', f: selectTool('rect'), name: '矩形' },
-			{ key: 'F', f: selectTool('paint'), name: '塗りつぶし' },
-			{ key: 'M', f: selectTool('select'), name: '範囲選択' },
-			{ key: 'Shift+3', f: toggleGrid, name: 'グリッド' },
-			{ key: 'Ctrl+Z', f: undo, name: '元に戻す' },
-		];
-		
-		KeyMapper.assign('Z', zoomIn);
-		KeyMapper.assign('X', zoomOut);
-		KeyMapper.assign('C', zoomDefault);
-		KeyMapper.assign('P', toggleTool('pen'));
-		KeyMapper.assign('L', toggleTool('line'));
-		KeyMapper.assign('F', toggleTool('paint'));
-		KeyMapper.assign('R', toggleTool('rect'));
-		KeyMapper.assign('Ctrl+Z', undo);
-		KeyMapper.assign('Ctrl+Y', redo);
-		KeyMapper.assign('M', toggleTool('select'));
-		KeyMapper.assign('H', () => {
-			shiftH(ctx, indexData, 1, option.scale);
-		});
-		KeyMapper.assign('V', () => {
-			shiftV(ctx, indexData, 1, option.scale);
-		});
-		
-		KeyMapper.assign('Ctrl+A', selectAll);
-			
-		// 選択範囲の解除
-		KeyMapper.assign('Ctrl+D', deselect);
-		KeyMapper.assign('Shift+3', toggleGrid);
-		
-		KeyMapper.assign('Ctrl+S', () => {
-			saveStorage("0");
-		});
-		KeyMapper.assign('Ctrl+L', () => {
-			loadStorage("0");
-			// const $storage = $('storage');
-			// if ($storage.style.display === 'none') {
-				
-			// 	for (let i = 0; i < 9; i++) {
-			// 		let data = Storage.load(i.toString());
-			// 		console.log(data);
-			// 	}
-			// 	$.show($storage);
-			// 	const $overlay = $('overlay');
-			// 	$.alpha($overlay, 0.4);
-			// 	$.show($overlay);
-			// }
-		});
-		
-		KeyMapper.assign('O', toggleTool('outline'));
-		
-		KeyMapper.bind(document, 'down');
+	
+	function selectTool(t) {
+		return () => { tool = t; };
 	}
+	
+	// keymap登録
+	const keymap = [
+		{ key: 'Z', f: zoomIn, name: '拡大' },
+		{ key: 'X', f: zoomOut, name: '縮小' },
+		{ key: 'C', f: zoomDefault, name: '等倍' },
+		{ key: 'P', f: selectTool('pen'), name: 'ペン' },
+		{ key: 'L', f: selectTool('line'), name: '直線' },
+		{ key: 'R', f: selectTool('rect'), name: '矩形' },
+		{ key: 'F', f: selectTool('paint'), name: '塗りつぶし' },
+		{ key: 'M', f: selectTool('select'), name: '範囲選択' },
+		{ key: 'Shift+3', f: toggleGrid, name: 'グリッド' },
+		{ key: 'Ctrl+Z', f: undo, name: '元に戻す' },
+	];
+	
+	KeyMapper.assign('Z', zoomIn);
+	KeyMapper.assign('X', zoomOut);
+	KeyMapper.assign('C', zoomDefault);
+	KeyMapper.assign('P', toggleTool('pen'));
+	KeyMapper.assign('L', toggleTool('line'));
+	KeyMapper.assign('F', toggleTool('paint'));
+	KeyMapper.assign('R', toggleTool('rect'));
+	KeyMapper.assign('Ctrl+Z', undo);
+	KeyMapper.assign('Ctrl+Y', redo);
+	KeyMapper.assign('M', toggleTool('select'));
+	KeyMapper.assign('H', () => {
+		shiftH(ctx, indexData, 1, option.scale);
+	});
+	KeyMapper.assign('V', () => {
+		shiftV(ctx, indexData, 1, option.scale);
+	});
+	KeyMapper.assign('Ctrl+A', selectAll);
+	// 選択範囲の解除
+	KeyMapper.assign('Ctrl+D', deselect);
+	KeyMapper.assign('Shift+3', toggleGrid);
+	KeyMapper.assign('Ctrl+S', () => {
+		saveStorage('0');
+	});
+	KeyMapper.assign('Ctrl+L', () => {
+		loadStorage('0');
+	});
+	KeyMapper.assign('O', toggleTool('outline'));
+	KeyMapper.bind(document, 'down');
+	
 
 	function createImage(w, h) {
 		option.imageWidth = w;
@@ -493,8 +476,6 @@ editor: Editor
 		};
 	}
 
-
-	{
 		if(typeof Palette !== 'undefined') {
 			Palette.create('palette');
 			Palette.setColorPicker(e => {
@@ -583,11 +564,9 @@ editor: Editor
 		
 		$.bind($('save'), 'click', () => {
 			openStorageDialog(true);
-			// saveStorage("0");
 		});
 		$.bind($('load'), 'click', () => {
 			openStorageDialog(false);
-			// loadStorage("0");
 		});
 		
 		$.bind($('tools'), 'click', () => {
@@ -1305,8 +1284,6 @@ editor: Editor
 				drawPreview();
 			}
 		}
-		
-	}
 
 
 	
