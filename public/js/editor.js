@@ -476,551 +476,609 @@ editor: Editor
 		};
 	}
 
-		if(typeof Palette !== 'undefined') {
-			Palette.create('palette');
-			Palette.setColorPicker(e => {
-//				$('#color-picker').fadeToggle();
-				$.toggle($('color-picker'));
-			});
-			ColorPicker('color-picker', c => {
-				Palette.setColor(Color.rgb(c[0], c[1], c[2]));
-			});
-		}
-		
-		if(typeof Widget !== 'undefined') {
-			new Widget('palette');
-			new Widget('color-picker');
-			new Widget('view');
-			new Widget('layers');
-			
-			preview = $('view').lastChild.getContext('2d');
-		}
+	if(typeof Palette !== 'undefined') {
+		Palette.create('palette');
+		Palette.setColorPicker(e => {
+			$.toggle($('color-picker'));
+		});
+		ColorPicker('color-picker', c => {
+			Palette.setColor(Color.rgb(c[0], c[1], c[2]));
+		});
+	}
 	
-		let usedPalette = {};
-		function usePalette(index, color) {
-			usedPalette[index] = color;
-		}
+	if(typeof Widget !== 'undefined') {
+		new Widget('palette');
+		new Widget('color-picker');
+		new Widget('view');
+		new Widget('layers');
 		
-		let left = canvas.getBoundingClientRect().left,
-			top = canvas.getBoundingClientRect().top;
-		
-		$.position($('palette'), left + 420, top + 4);
-		$.position($('view'), left + 420, top + 300);
-		$.position($('layers'), left + 420, top + 380);
-		$.show($('overlay'));
-		
-		// ローカルファイルの読み込み
-		FileLoader.onload = (i, p) => {
-			deselect();
-			clearLayer();
-			indexData = i;
-			paletteData = p;
-			selection.indexData = createIndexData(indexData.width, indexData.height);
-			Palette.setPaletteData(paletteData);
-			Palette.setFrontColor(0);
-			palette = Palette.getPaletteData();
-			resize();
-			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
-			grid();
-			drawPreview();
-			backgroundCtx.canvas.style.backgroundColor = palette[Palette.getTransparentIndex()];
-			Layer.clear();
-			Layer.set(ctx, ctx.canvas, indexData);
-		};
-		FileLoader.bind($('container'));
-		
-		activeTool = $('pen');
-		
-		// Tool
-		$.bind($('zoomin'), 'click', zoomIn);
-		$.bind($('zoomout'), 'click', zoomOut);
-		$.bind($('grid'), 'click', toggleGrid);
-		$.bind($('undo'), 'click', undo);
-		$.bind($('paint'), 'click', toggleTool('paint'));
-		$.bind($('pen'), 'click', toggleTool('pen'));
-		$.bind($('line'), 'click', toggleTool('line'));
-		$.bind($('rect'), 'click', toggleTool('rect'));
-		$.bind($('frect'), 'click', toggleTool('frect'));
-		$.bind($('ellipse'), 'click', toggleTool('ellipse'));
-		$.bind($('fellipse'), 'click', toggleTool('fellipse'));
-		$.bind($('select'), 'click', toggleTool('select'));
-		$.bind($('copy'), 'click', paste);
-		$.bind($('flipv'), 'click', flipVert);
-		$.bind($('fliph'), 'click', flipHorz);
-		$.bind($('rotater'), 'click', rotateRight);
-		
-		// スポイトツール
-		$.bind($('dropper'), 'click', () => {
-			prevTool = activeTool;
-			activeTool && activeTool.classList.remove('selected');
-			activeTool = $('dropper');
-			activeTool.classList.add('selected');
-			dropper = true;
-		});
-		
-		$.bind($('twitter'), 'click', () => {
-			window.open('/auth/twitter');
-		});
-		
-		$.bind($('save'), 'click', () => {
-			openStorageDialog(true);
-		});
-		$.bind($('load'), 'click', () => {
-			openStorageDialog(false);
-		});
-		
-		$.bind($('tools'), 'click', () => {
-			$.toggle($('tools-2'));
-			$('tools').classList.toggle('selected');
-		});
-		
-		$.bind($('outline'), 'click', toggleTool('outline'));
-		$.bind($('shiftl'), 'click', shift.bind(null, -1, 0));
-		$.bind($('shiftr'), 'click', shift.bind(null, 1, 0));
-		$.bind($('shiftu'), 'click', shift.bind(null, 0, -1));
-		$.bind($('shiftd'), 'click', shift.bind(null, 0, 1));
-		$.bind($('open-image'), 'click', () => {
-			$('open-button').click();
-		});
-		
-		$.bind($('open-button'), 'change', e => {
-			FileLoader.load(e.target.files[0]);
-			e.target.value = null;
-		});
+		preview = $('view').lastChild.getContext('2d');
+	}
 
-		$.bind($('layer'), 'click', () => {
-			$.toggle($('layers'));
-			$('layer').classList.toggle('selected');
-		});
-		
-		// サイズの指定
-		$.bind($('new-image-submit'), 'click', e => {
-			$.hide($('new-image'));
-//			$('#overlay').fadeOut();
-			$.fadeOut($('overlay'));
-			KeyMapper.bind(document);
-			const index = parseInt($.q('#new-image input[name="size"]:checked').value, 10);
-			const size = [16, 32, 48, 64][index];
-			createImage(size, size);
-			selection.indexData = createIndexData(size, size);
-			resize();
-			ctx.fillStyle = palette[0];
-			ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-			drawPreview();
-			Layer.set(ctx, ctx.canvas, indexData);
-		});
+	let usedPalette = {};
+	function usePalette(index, color) {
+		usedPalette[index] = color;
+	}
 	
-		if(mode === 'fork' || mode === 'edit') {
-			$.hide($('new-image'));
-
-			load(docId, data => {
-				$.hide($('loading'));
-				Base64.decode(data.palette, paletteData.data);
-				indexData = createIndexData(data.width, data.height);
-				Base64.decode(data.index, indexData.data);
-
-				palette = [];
-				for(let i = 0, j = 0; i < paletteData.data.length; i++, j += 4) {
-					palette.push(Color.rgb(paletteData.data[j], paletteData.data[j + 1], paletteData.data[j + 2]));
-				}
-
-				selection.indexData = createIndexData(data.width, data.height);
-				Palette.setPaletteData(palette);
-				resize();
-				ctx.fillStyle = palette[0];
-				ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-				drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
-				drawPreview();
-			});
-		} else {
-			palette = [
-				'#FFFFFF', '#000000', '#FF0000', '#00FF00',
-				'#0000FF', '#FFFF00', '#FF00FF', '#00FFFF',
-				'#808080', '#FF8080', '#88FF88', '#8888FF',
-				'#FFFF80', '#80FFFF', '#FF80FF'
-			];
-
-			Palette.setPaletteData(palette);
-			Palette.convert(paletteData);
-			
-			createImage(48, 48);
-			selection.indexData = createIndexData(48, 48);
-			resize();
-			ctx.fillStyle = palette[0];
-			ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-			drawPreview();
-//			$('#overlay').fadeIn();
-			$.show($('overlay'));
-		}
+	let left = canvas.getBoundingClientRect().left,
+		top = canvas.getBoundingClientRect().top;
 	
-		Palette.change(e => {
-			// パレットが変更された際のイベント
-			Palette.convert(paletteData);
-			for(let i = 0;i < Layer.count(); i++) {
-				let layer = Layer.get(i);
-				if(e !== undefined) {
-					swapColor(layer.indexData, e[0], e[1]);
-				}
-				drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, Palette.getTransparentIndex());
-			}
-			drawPreview();
-			backgroundCtx.canvas.style.backgroundColor = palette[Palette.getTransparentIndex()];
-		});
-		
-		Palette.setFrontColor(1);
+	$.position($('palette'), left + 420, top + 4);
+	$.position($('view'), left + 420, top + 300);
+	$.position($('layers'), left + 420, top + 380);
+	$.show($('overlay'));
+	
+	// ローカルファイルの読み込み
+	FileLoader.onload = (i, p) => {
+		deselect();
+		clearLayer();
+		indexData = i;
+		paletteData = p;
+		selection.indexData = createIndexData(indexData.width, indexData.height);
+		Palette.setPaletteData(paletteData);
+		Palette.setFrontColor(0);
 		palette = Palette.getPaletteData();
-		
-		$.bind($('palette-opt'), 'click', () => {
-			removeUnusedColor(indexData, palette);
+		resize();
+		drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
+		grid();
+		drawPreview();
+		backgroundCtx.canvas.style.backgroundColor = palette[Palette.getTransparentIndex()];
+		Layer.clear();
+		Layer.set(ctx, ctx.canvas, indexData);
+	};
+	FileLoader.bind($('container'));
+	
+	activeTool = $('pen');
+	
+	// Tool
+	$.bind($('zoomin'), 'click', zoomIn);
+	$.bind($('zoomout'), 'click', zoomOut);
+	$.bind($('grid'), 'click', toggleGrid);
+	$.bind($('undo'), 'click', undo);
+	$.bind($('paint'), 'click', toggleTool('paint'));
+	$.bind($('pen'), 'click', toggleTool('pen'));
+	$.bind($('line'), 'click', toggleTool('line'));
+	$.bind($('rect'), 'click', toggleTool('rect'));
+	$.bind($('frect'), 'click', toggleTool('frect'));
+	$.bind($('ellipse'), 'click', toggleTool('ellipse'));
+	$.bind($('fellipse'), 'click', toggleTool('fellipse'));
+	$.bind($('select'), 'click', toggleTool('select'));
+	$.bind($('copy'), 'click', paste);
+	$.bind($('flipv'), 'click', flipVert);
+	$.bind($('fliph'), 'click', flipHorz);
+	$.bind($('rotater'), 'click', rotateRight);
+	
+	// スポイトツール
+	$.bind($('dropper'), 'click', () => {
+		prevTool = activeTool;
+		activeTool && activeTool.classList.remove('selected');
+		activeTool = $('dropper');
+		activeTool.classList.add('selected');
+		dropper = true;
+	});
+	
+	$.bind($('twitter'), 'click', () => {
+		window.open('/auth/twitter');
+	});
+	
+	$.bind($('save'), 'click', () => {
+		openStorageDialog(true);
+	});
+	$.bind($('load'), 'click', () => {
+		openStorageDialog(false);
+	});
+	
+	$.bind($('tools'), 'click', () => {
+		$.toggle($('tools-2'));
+		$('tools').classList.toggle('selected');
+	});
+	
+	$.bind($('outline'), 'click', toggleTool('outline'));
+	$.bind($('shiftl'), 'click', shift.bind(null, -1, 0));
+	$.bind($('shiftr'), 'click', shift.bind(null, 1, 0));
+	$.bind($('shiftu'), 'click', shift.bind(null, 0, -1));
+	$.bind($('shiftd'), 'click', shift.bind(null, 0, 1));
+	$.bind($('open-image'), 'click', () => {
+		$('open-button').click();
+	});
+	
+	$.bind($('open-button'), 'change', e => {
+		FileLoader.load(e.target.files[0]);
+		e.target.value = null;
+	});
+
+	$.bind($('layer'), 'click', () => {
+		$.toggle($('layers'));
+		$('layer').classList.toggle('selected');
+	});
+	
+	// サイズの指定
+	$.bind($('new-image-submit'), 'click', e => {
+		$.hide($('new-image'));
+//			$('#overlay').fadeOut();
+		$.fadeOut($('overlay'));
+		KeyMapper.bind(document);
+		const index = parseInt($.q('#new-image input[name="size"]:checked').value, 10);
+		const size = [16, 32, 48, 64][index];
+		createImage(size, size);
+		selection.indexData = createIndexData(size, size);
+		resize();
+		ctx.fillStyle = palette[0];
+		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+		drawPreview();
+		Layer.set(ctx, ctx.canvas, indexData);
+	});
+
+	if(mode === 'fork' || mode === 'edit') {
+		$.hide($('new-image'));
+
+		load(docId, data => {
+			$.hide($('loading'));
+			Base64.decode(data.palette, paletteData.data);
+			indexData = createIndexData(data.width, data.height);
+			Base64.decode(data.index, indexData.data);
+
+			palette = [];
+			for(let i = 0, j = 0; i < paletteData.data.length; i++, j += 4) {
+				palette.push(Color.rgb(paletteData.data[j], paletteData.data[j + 1], paletteData.data[j + 2]));
+			}
+
+			selection.indexData = createIndexData(data.width, data.height);
 			Palette.setPaletteData(palette);
-			Palette.convert(paletteData);
+			resize();
+			ctx.fillStyle = palette[0];
+			ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
+			drawPreview();
 		});
+	} else {
+		palette = [
+			'#FFFFFF', '#000000', '#FF0000', '#00FF00',
+			'#0000FF', '#FFFF00', '#FF00FF', '#00FFFF',
+			'#808080', '#FF8080', '#88FF88', '#8888FF',
+			'#FFFF80', '#80FFFF', '#FF80FF'
+		];
+
+		Palette.setPaletteData(palette);
+		Palette.convert(paletteData);
 		
-		$.bind($('work'), 'contextmenu', e => {
-			if(down) {
-				// 左クリック中
-				down = false;
-				work.clearRect(0, 0, work.canvas.width, work.canvas.height);
-				grid();
-			} else {
-				let x = Math.floor((e.pageX - left) / option.scale),
-					y = Math.floor((e.pageY - top) / option.scale);
-				paletteIndex = indexData.data[(y * indexData.width + x)];
-				Palette.setFrontColor(paletteIndex);
-				ColorPicker.setColor(Color.strToRGB(Palette.getFrontColor()));
+		createImage(48, 48);
+		selection.indexData = createIndexData(48, 48);
+		resize();
+		ctx.fillStyle = palette[0];
+		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+		drawPreview();
+//			$('#overlay').fadeIn();
+		$.show($('overlay'));
+	}
+
+	Palette.change(e => {
+		// パレットが変更された際のイベント
+		Palette.convert(paletteData);
+		for(let i = 0;i < Layer.count(); i++) {
+			let layer = Layer.get(i);
+			if(e !== undefined) {
+				swapColor(layer.indexData, e[0], e[1]);
 			}
-			e.preventDefault();
-			e.stopPropagation();
-			return false;
-		});
-		
-		// 範囲選択
-		selectHandler = {
-			enable: false,
-			transparent: false,
-			x: 0,
-			y: 0,
-			w: 0,
-			h: 0,
-			down: function(x, y) {
-				let s = option.scale;
-				this.x = x * s;
-				this.y = y * s;
-				this.w = ctx.canvas.width;
-				this.h = ctx.canvas.height;
-				
-				if(this.enable) {
+			drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, Palette.getTransparentIndex());
+		}
+		drawPreview();
+		backgroundCtx.canvas.style.backgroundColor = palette[Palette.getTransparentIndex()];
+	});
+	
+	Palette.setFrontColor(1);
+	palette = Palette.getPaletteData();
+	
+	$.bind($('palette-opt'), 'click', () => {
+		removeUnusedColor(indexData, palette);
+		Palette.setPaletteData(palette);
+		Palette.convert(paletteData);
+	});
+	
+	$.bind($('work'), 'contextmenu', e => {
+		if(down) {
+			// 左クリック中
+			down = false;
+			work.clearRect(0, 0, work.canvas.width, work.canvas.height);
+			grid();
+		} else {
+			let x = Math.floor((e.pageX - left) / option.scale),
+				y = Math.floor((e.pageY - top) / option.scale);
+			paletteIndex = indexData.data[(y * indexData.width + x)];
+			Palette.setFrontColor(paletteIndex);
+			ColorPicker.setColor(Color.strToRGB(Palette.getFrontColor()));
+		}
+		e.preventDefault();
+		e.stopPropagation();
+		return false;
+	});
+	
+	// 範囲選択
+	selectHandler = {
+		enable: false,
+		transparent: false,
+		x: 0,
+		y: 0,
+		w: 0,
+		h: 0,
+		down: function(x, y) {
+			let s = option.scale;
+			this.x = x * s;
+			this.y = y * s;
+			this.w = ctx.canvas.width;
+			this.h = ctx.canvas.height;
+			
+			if(this.enable) {
+				deselect();
+				this.enable = false;
+			}
+			
+			selectionCtx.clearRect(0, 0, selectionCtx.canvas.width, selectionCtx.canvas.height);
+			
+			$.position($selection, this.x, this.y);
+			$.hide($selection);
+			selectionCtx.canvas.classList.remove('active');
+			
+		},
+		move: function(x, y) {
+			let s = option.scale,
+				sx = this.x,
+				sy = this.y;
+			
+			x = x * s;
+			y = y * s;
+			
+			x = x < 0 ? 0 : x >= this.w ? this.w : x;
+			y = y < 0 ? 0 : y >= this.h ? this.h : y;
+			
+			
+			let w = Math.abs(x - sx),
+				h = Math.abs(y - sy);
+			
+			x = sx > x ? x : sx;
+			y = sy > y ? y : sy;
+
+			if(w > 0 && h > 0) {
+				$.position($selection, x, y);
+				$.size($selection, w, h);
+				$.show($selection);
+			}
+		},
+		up: function(x, y) {
+			let s = option.scale,
+				r = selection.region;
+			x = x * s;
+			y = y * s;
+			
+			x = x < 0 ? 0 : x >= this.w ? this.w : x;
+			y = y < 0 ? 0 : y >= this.h ? this.h : y;
+			
+			let w = Math.abs(x - this.x),
+				h = Math.abs(y - this.y);
+			
+			// w = w === 0 ? s : w;
+			// h = h === 0 ? s : h;
+			
+			x = this.x > x ? x : this.x;
+			y = this.y > y ? y : this.y;
+			
+			r.x = x / s ^ 0;
+			r.y = y / s ^ 0;
+			r.w = w / s ^ 0;
+			r.h = h / s ^ 0;
+
+			if(w > 0 && h > 0) {
+				selectionCtx.canvas.width = w;
+				selectionCtx.canvas.height = h;
+				$.size($selection, w, h);
+				cut(this.transparent);
+				this.enable = true;
+				selection.transparent = this.transparent;
+				selection.enable = true;
+				selectionCtx.canvas.classList.add('active');
+			}
+		}
+	};
+	
+	$.bind($('work'), 'mousedown', e => {
+		let r = work.canvas.getBoundingClientRect();
+		left = window.scrollX + r.left;
+		top = window.scrollY + r.top;
+		let x = e.pageX - left,
+			y = e.pageY - top,
+			size = option.scale;
+
+		points[0] = y / size ^ 0;
+		points[1] = x / size ^ 0;
+
+		if(e.altKey) {
+			// スポイト
+			paletteIndex = indexData.data[(points[0] * indexData.width + points[1])];
+			Palette.setFrontColor(paletteIndex);
+		} else if(dropper) {
+			paletteIndex = indexData.data[(points[0] * indexData.width + points[1])];
+			Palette.setFrontColor(paletteIndex);
+
+			// ツールアイコンをもとに戻す
+			if(dropper) {
+				activeTool && activeTool.classList.remove('selected');
+				activeTool = prevTool;
+				activeTool.classList.add('selected');
+				// 選択範囲解除
+				if(tool !== 'select' && selectHandler.enable) {
 					deselect();
-					this.enable = false;
+					$.hide($selection);
 				}
-				
-				selectionCtx.clearRect(0, 0, selectionCtx.canvas.width, selectionCtx.canvas.height);
-				
-				$.position($selection, this.x, this.y);
-				$.hide($selection);
-				selectionCtx.canvas.classList.remove('active');
-				
-			},
-			move: function(x, y) {
-				let s = option.scale,
-					sx = this.x,
-					sy = this.y;
-				
-				x = x * s;
-				y = y * s;
-				
-				x = x < 0 ? 0 : x >= this.w ? this.w : x;
-				y = y < 0 ? 0 : y >= this.h ? this.h : y;
-				
-				
-				let w = Math.abs(x - sx),
-					h = Math.abs(y - sy);
-				
-				x = sx > x ? x : sx;
-				y = sy > y ? y : sy;
-
-				if(w > 0 && h > 0) {
-					$.position($selection, x, y);
-					$.size($selection, w, h);
-					$.show($selection);
-				}
-			},
-			up: function(x, y) {
-				let s = option.scale,
-					r = selection.region;
-				x = x * s;
-				y = y * s;
-				
-				x = x < 0 ? 0 : x >= this.w ? this.w : x;
-				y = y < 0 ? 0 : y >= this.h ? this.h : y;
-				
-				let w = Math.abs(x - this.x),
-					h = Math.abs(y - this.y);
-				
-				// w = w === 0 ? s : w;
-				// h = h === 0 ? s : h;
-				
-				x = this.x > x ? x : this.x;
-				y = this.y > y ? y : this.y;
-				
-				r.x = x / s ^ 0;
-				r.y = y / s ^ 0;
-				r.w = w / s ^ 0;
-				r.h = h / s ^ 0;
-
-				if(w > 0 && h > 0) {
-					selectionCtx.canvas.width = w;
-					selectionCtx.canvas.height = h;
-					$.size($selection, w, h);
-					cut(this.transparent);
-					this.enable = true;
-					selection.transparent = this.transparent;
-					selection.enable = true;
-					selectionCtx.canvas.classList.add('active');
-				}
+				dropper = false;
 			}
-		};
-		
-		$.bind($('work'), 'mousedown', e => {
-			let r = work.canvas.getBoundingClientRect();
-			left = window.scrollX + r.left;
-			top = window.scrollY + r.top;
-			let x = e.pageX - left,
-				y = e.pageY - top,
-				size = option.scale;
-
-			points[0] = y / size ^ 0;
-			points[1] = x / size ^ 0;
-
-			if(e.altKey) {
-				// スポイト
-				paletteIndex = indexData.data[(points[0] * indexData.width + points[1])];
-				Palette.setFrontColor(paletteIndex);
-			} else if(dropper) {
-				paletteIndex = indexData.data[(points[0] * indexData.width + points[1])];
-				Palette.setFrontColor(paletteIndex);
-
-				// ツールアイコンをもとに戻す
-				if(dropper) {
-					activeTool && activeTool.classList.remove('selected');
-					activeTool = prevTool;
-					activeTool.classList.add('selected');
-					// 選択範囲解除
-					if(tool !== 'select' && selectHandler.enable) {
-						deselect();
-						$.hide($selection);
-					}
-					dropper = false;
-				}
-			} else if(e.shiftKey) {
-				// スクロール
-			} else if(e.button === 0) {
-				record();
-				paletteIndex = Palette.getFrontIndex();
-				ctx.fillStyle = Palette.getFrontColor();
-				
-				if(paletteIndex === Palette.getTransparentIndex()) {
-					ctx.globalCompositeOperation = 'destination-out';
-				} else {
-					ctx.globalCompositeOperation = 'source-over';
-				}
-				
-				work.fillStyle = ctx.fillStyle;
-				switch(tool) {
-				case 'pen':
-					down = true;
+		} else if(e.shiftKey) {
+			// スクロール
+		} else if(e.button === 0) {
+			record();
+			paletteIndex = Palette.getFrontIndex();
+			ctx.fillStyle = Palette.getFrontColor();
+			
+			if(paletteIndex === Palette.getTransparentIndex()) {
+				ctx.globalCompositeOperation = 'destination-out';
+			} else {
+				ctx.globalCompositeOperation = 'source-over';
+			}
+			
+			work.fillStyle = ctx.fillStyle;
+			switch(tool) {
+			case 'pen':
+				down = true;
 //					if(paletteIndex === 0) {
 //						clearDot(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
 //					} else {
-						drawDot(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
+					drawDot(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
 //					}
-					break;
-				case 'paint':
-					paint(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
-					break;
-				case 'outline':
-					drawOutline(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
-					break;
-				case 'line':
-				case 'rect':
-				case 'frect':
-					drawDot(work, points[1], points[0], null, paletteIndex, option.scale);
-				case 'ellipse':
-				case 'fellipse':
-					down = true;
-					break;
-				case 'select':
-				case 'move':
-	//				if(option.selection.enable && rectIn(option.selection.region, x, y)) {
-	//					tool = 'move';
-	//				}
-	//				down = true;
-					selectHandler.transparent = e.ctrlKey;
-					selectHandler.down(points[1], points[0]);
-					down = true;
-					break;
-				default:
-				}
+				break;
+			case 'paint':
+				paint(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
+				break;
+			case 'outline':
+				drawOutline(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
+				break;
+			case 'line':
+			case 'rect':
+			case 'frect':
+				drawDot(work, points[1], points[0], null, paletteIndex, option.scale);
+			case 'ellipse':
+			case 'fellipse':
+				down = true;
+				break;
+			case 'select':
+			case 'move':
+//				if(option.selection.enable && rectIn(option.selection.region, x, y)) {
+//					tool = 'move';
+//				}
+//				down = true;
+				selectHandler.transparent = e.ctrlKey;
+				selectHandler.down(points[1], points[0]);
+				down = true;
+				break;
+			default:
+			}
 
-				$.bind('mouseup', mouseupHandler);
-				$.bind('mousemove', mousemoveHandler);
-			} else if(e.button === 1) {
-			}
-			// Google Chromeで選択カーソルになるのを防ぐ
-			e.preventDefault();
-		});
-		
-		function mousemoveHandler(e) {
-			if(down) {
-				let size = option.scale,
-					x = (e.pageX - left) / size ^ 0,
-					y = (e.pageY - top) / size ^ 0,
-					w = work.canvas.width,
-					h = work.canvas.height,
-					context = { palette: paletteIndex, option: option },
-					dummy = { width: indexData.width, height: indexData.height };
-				if(points[1] === x && points[0] === y) {
-					return false;
-				}
-				work.clearRect(0, 0, w, h);
-				switch(tool) {
-				case 'pen':
-					let px = points[1],
-						py = points[0];
-					context.data = indexData.data;
-					drawLine(ctx, px, py, x, y, indexData, paletteIndex, option.scale);
-					points[0] = y;
-					points[1] = x;
-					break;
-				case 'line':
-					drawLine(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
-					break;
-				case 'rect':
-					drawRect(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
-					break;
-				case 'frect':
-					fillRect(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
-					break;
-				case 'ellipse':
-					drawEllipse(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
-					break;
-				case 'fellipse':
-					fillEllipse(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
-					break;
-				case 'select':
-					selectHandler.move(x, y, points[1], points[0]);
-					break;
-				}
-				grid();
-			}
-			e.preventDefault();
-			return false;
-		};
-		
-		function mouseupHandler(e) {
-			e.preventDefault();
-			e.stopPropagation();
-			if(e.button === 0 && down) {
-				down = false;
-				let size = option.scale,
-					x = (e.pageX - left) / size ^ 0,
-					y = (e.pageY - top) / size ^ 0;
-				work.clearRect(0, 0, work.canvas.width, work.canvas.height);
-				// 実際のレイヤーに描画する
-				if(tool === 'line') {
-					drawLine(ctx, points[1], points[0], x, y, indexData, paletteIndex, option.scale);
-				} else if(tool === 'rect') {
-					drawRect(ctx, points[1], points[0], x, y, indexData, paletteIndex, option.scale);
-				} else if(tool === 'frect') {
-					fillRect(ctx, points[1], points[0], x, y, indexData, paletteIndex, option.scale);
-				} else if(tool === 'ellipse') {
-					drawEllipse(ctx, points[1], points[0], x, y, indexData, paletteIndex, option.scale);
-				} else if(tool === 'fellipse') {
-					fillEllipse(ctx, points[1], points[0], x, y, indexData, paletteIndex, option.scale);
-				} else if(tool === 'select') {
-					selectHandler.up(x, y, points[1], points[0]);
-				}
-				grid();
-			}
-			
-			$.unbind('mouseup', mouseupHandler);
-			$.unbind('mousemove', mousemoveHandler);
-			
-			// 等倍ウィンドウの更新
-			drawPreview();
-			return false;
+			$.bind('mouseup', mouseupHandler);
+			$.bind('mousemove', mousemoveHandler);
+		} else if(e.button === 1) {
 		}
+		// Google Chromeで選択カーソルになるのを防ぐ
+		e.preventDefault();
+	});
 	
-		let offsetX, offsetY;
-		
-		let moveHandler = {
-			offsetX: 0,
-			offsetY: 0,
-			left: 0,
-			top: 0,
-			down: function(e) {
-				this.offsetX = e.pageX;
-				this.offsetY = e.pageY;
-			},
-			move: function(e) {
-				if(down) {
-					e.preventDefault();
-					e.stopPropagation();
-					let s = option.scale,
-						x = ((e.pageX - offsetX + left) / s ^ 0) * s,
-						y = ((e.pageY - offsetY + top) / s ^ 0) * s;
-					$.position($selection, x, y);
-				}
+	function mousemoveHandler(e) {
+		if(down) {
+			let size = option.scale,
+				x = (e.pageX - left) / size ^ 0,
+				y = (e.pageY - top) / size ^ 0,
+				w = work.canvas.width,
+				h = work.canvas.height,
+				context = { palette: paletteIndex, option: option },
+				dummy = { width: indexData.width, height: indexData.height };
+			if(points[1] === x && points[0] === y) {
 				return false;
-			},
-			up: function(e) {
-				if(down) {
-					e.preventDefault();
-					e.stopPropagation();
-					let s = option.scale,
-						x = ((e.pageX - offsetX + left) / s ^ 0),
-						y = ((e.pageY - offsetY + top) / s ^ 0);
-					
-					selection.region.x = x;
-					selection.region.y = y;
-					
-					$.unbind('mouseup', moveHandler.up);
-					$.unbind('mousemove', moveHandler.move);
-					
-					down = false;
-				}
 			}
-		};
+			work.clearRect(0, 0, w, h);
+			switch(tool) {
+			case 'pen':
+				let px = points[1],
+					py = points[0];
+				context.data = indexData.data;
+				drawLine(ctx, px, py, x, y, indexData, paletteIndex, option.scale);
+				points[0] = y;
+				points[1] = x;
+				break;
+			case 'line':
+				drawLine(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
+				break;
+			case 'rect':
+				drawRect(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
+				break;
+			case 'frect':
+				fillRect(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
+				break;
+			case 'ellipse':
+				drawEllipse(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
+				break;
+			case 'fellipse':
+				fillEllipse(work, points[1], points[0], x, y, dummy, paletteIndex, option.scale);
+				break;
+			case 'select':
+				selectHandler.move(x, y, points[1], points[0]);
+				break;
+			}
+			grid();
+		}
+		e.preventDefault();
+		return false;
+	};
+	
+	function mouseupHandler(e) {
+		e.preventDefault();
+		e.stopPropagation();
+		if(e.button === 0 && down) {
+			down = false;
+			let size = option.scale,
+				x = (e.pageX - left) / size ^ 0,
+				y = (e.pageY - top) / size ^ 0;
+			work.clearRect(0, 0, work.canvas.width, work.canvas.height);
+			// 実際のレイヤーに描画する
+			if(tool === 'line') {
+				drawLine(ctx, points[1], points[0], x, y, indexData, paletteIndex, option.scale);
+			} else if(tool === 'rect') {
+				drawRect(ctx, points[1], points[0], x, y, indexData, paletteIndex, option.scale);
+			} else if(tool === 'frect') {
+				fillRect(ctx, points[1], points[0], x, y, indexData, paletteIndex, option.scale);
+			} else if(tool === 'ellipse') {
+				drawEllipse(ctx, points[1], points[0], x, y, indexData, paletteIndex, option.scale);
+			} else if(tool === 'fellipse') {
+				fillEllipse(ctx, points[1], points[0], x, y, indexData, paletteIndex, option.scale);
+			} else if(tool === 'select') {
+				selectHandler.up(x, y, points[1], points[0]);
+			}
+			grid();
+		}
+		
+		$.unbind('mouseup', mouseupHandler);
+		$.unbind('mousemove', mousemoveHandler);
+		
+		// 等倍ウィンドウの更新
+		drawPreview();
+		return false;
+	}
 
-		$.bind($selection, 'mousedown', e => {
-			left = e.target.offsetLeft;
-			top = e.target.offsetTop;
-			down = true;
-			offsetX = e.pageX;
-			offsetY = e.pageY;
-			moveHandler.offsetX = e.pageX;
-			moveHandler.offsetY = e.pageY;
-			$.bind('mouseup', moveHandler.up);
-			$.bind('mousemove', moveHandler.move);
-			e.preventDefault();
-		});
-		
-		
-		let $layerList = $('layer-list'),
-			$templateLayer = $('layer-list-template'),
-			$currentLayer = $layerList.lastElementChild;
-		
-		$.bind($('layer-list'), 'click', (e) => {
-			if($currentLayer === e.target) {
-				return;
+	let offsetX, offsetY;
+	
+	const moveHandler = {
+		offsetX: 0,
+		offsetY: 0,
+		left: 0,
+		top: 0,
+		down: function(e) {
+			this.offsetX = e.pageX;
+			this.offsetY = e.pageY;
+		},
+		move: function(e) {
+			if(down) {
+				e.preventDefault();
+				e.stopPropagation();
+				let s = option.scale,
+					x = ((e.pageX - offsetX + left) / s ^ 0) * s,
+					y = ((e.pageY - offsetY + top) / s ^ 0) * s;
+				$.position($selection, x, y);
 			}
-			if(e.target.localName === "li") {
-				if($currentLayer) {
-					$currentLayer.classList.remove('selected');
+			return false;
+		},
+		up: function(e) {
+			if(down) {
+				e.preventDefault();
+				e.stopPropagation();
+				let s = option.scale,
+					x = ((e.pageX - offsetX + left) / s ^ 0),
+					y = ((e.pageY - offsetY + top) / s ^ 0);
+				
+				selection.region.x = x;
+				selection.region.y = y;
+				
+				$.unbind('mouseup', moveHandler.up);
+				$.unbind('mousemove', moveHandler.move);
+				
+				down = false;
+			}
+		}
+	};
+
+	$.bind($selection, 'mousedown', e => {
+		left = e.target.offsetLeft;
+		top = e.target.offsetTop;
+		down = true;
+		offsetX = e.pageX;
+		offsetY = e.pageY;
+		moveHandler.offsetX = e.pageX;
+		moveHandler.offsetY = e.pageY;
+		$.bind('mouseup', moveHandler.up);
+		$.bind('mousemove', moveHandler.move);
+		e.preventDefault();
+	});
+		
+		
+	let $layerList = $('layer-list'),
+		$templateLayer = $('layer-list-template'),
+		$currentLayer = $layerList.lastElementChild;
+	
+	$.bind($('layer-list'), 'click', (e) => {
+		if($currentLayer === e.target) {
+			return;
+		}
+		if(e.target.localName === "li") {
+			if($currentLayer) {
+				$currentLayer.classList.remove('selected');
+			}
+			$currentLayer = e.target;
+			$currentLayer.classList.add('selected');
+			let id = $currentLayer.getAttribute('data-canvas-id');
+			if(id) {
+				const layer = Layer.find(id);
+				indexData = layer.indexData;
+				ctx = layer.ctx;
+				drawPreview();
+			}
+		}
+	});
+		
+	$.bind($layerList, 'change', (e) => {
+		let id = e.target.parentNode.parentNode.getAttribute('data-canvas-id');
+		if(id) {
+			$(id).style.display = e.target.checked ? 'block' : 'none';
+			let layer = Layer.find(id);
+			layer.visibility = !layer.visibility;
+		}
+	});
+	
+	function addLayer(width, height) {
+		let item = $templateLayer.cloneNode(true);
+			
+		$layerList.insertBefore(item, $layerList.firstElementChild);
+		let layer = Layer.add(width, height);
+		layer.canvas.width = canvas.width;
+		layer.canvas.height = canvas.height;
+		item.removeAttribute('id');
+		item.setAttribute('data-canvas-id', layer.canvas.id);
+		item.lastChild.textContent = 'レイヤー' + (layer.index + 1);
+		$('editor-canvas').appendChild(layer.canvas);
+		
+		return layer;
+	}
+		
+	$.bind($('layer-add'), 'click', () => {
+		if($layerList.childElementCount <= 8) {
+			addLayer(indexData.width, indexData.height);
+		}
+	});
+	
+	$.bind($('layer-remove'), 'click', () => {
+		if($layerList.childElementCount > 1) {
+			if($currentLayer) {
+				let removeLayer = $currentLayer,
+					id = removeLayer.getAttribute('data-canvas-id');
+				
+				if(id) {
+					Layer.remove(id);
+					$('editor-canvas').removeChild($(id));
 				}
-				$currentLayer = e.target;
+				
+				if($currentLayer.nextElementSibling) {
+					$currentLayer = $currentLayer.nextElementSibling;
+				} else {
+					$currentLayer = $currentLayer.previousElementSibling;
+				}
 				$currentLayer.classList.add('selected');
-				let id = $currentLayer.getAttribute('data-canvas-id');
+				$layerList.removeChild(removeLayer);
+				
+				id = $currentLayer.getAttribute('data-canvas-id');
 				if(id) {
 					const layer = Layer.find(id);
 					indexData = layer.indexData;
@@ -1028,264 +1086,199 @@ editor: Editor
 					drawPreview();
 				}
 			}
-		});
-		
-		$.bind($layerList, 'change', (e) => {
-			let id = e.target.parentNode.parentNode.getAttribute('data-canvas-id');
+		}
+	});
+	
+	$.bind($('layer-up'), 'click', () => {
+		if($currentLayer && $currentLayer.previousElementSibling) {
+			let id = $currentLayer.getAttribute('data-canvas-id');
 			if(id) {
-				$(id).style.display = e.target.checked ? 'block' : 'none';
-				let layer = Layer.find(id);
-				layer.visibility = !layer.visibility;
+				Layer.up(id);
 			}
-		});
-		
-		function addLayer(width, height) {
-			let item = $templateLayer.cloneNode(true);
-				
-			$layerList.insertBefore(item, $layerList.firstElementChild);
-			let layer = Layer.add(width, height);
-			layer.canvas.width = canvas.width;
-			layer.canvas.height = canvas.height;
-			item.removeAttribute('id');
-			item.setAttribute('data-canvas-id', layer.canvas.id);
-			item.lastChild.textContent = 'レイヤー' + (layer.index + 1);
-			$('editor-canvas').appendChild(layer.canvas);
-			
-			return layer;
+			$layerList.insertBefore($currentLayer, $currentLayer.previousElementSibling);
 		}
-		
-		$.bind($('layer-add'), 'click', () => {
-			if($layerList.childElementCount <= 8) {
-				addLayer(indexData.width, indexData.height);
+	});
+	
+	$.bind($('layer-down'), 'click', () => {
+		if($currentLayer && $currentLayer.nextElementSibling) {
+			let id = $currentLayer.getAttribute('data-canvas-id');
+			if(id) {
+				Layer.down(id);
 			}
-		});
-		
-		$.bind($('layer-remove'), 'click', () => {
-			if($layerList.childElementCount > 1) {
-				if($currentLayer) {
-					let removeLayer = $currentLayer,
-						id = removeLayer.getAttribute('data-canvas-id');
-					
-					if(id) {
-						Layer.remove(id);
-						$('editor-canvas').removeChild($(id));
-					}
-					
-					if($currentLayer.nextElementSibling) {
-						$currentLayer = $currentLayer.nextElementSibling;
-					} else {
-						$currentLayer = $currentLayer.previousElementSibling;
-					}
-					$currentLayer.classList.add('selected');
-					$layerList.removeChild(removeLayer);
-					
-					id = $currentLayer.getAttribute('data-canvas-id');
-					if(id) {
-						const layer = Layer.find(id);
-						indexData = layer.indexData;
-						ctx = layer.ctx;
-						drawPreview();
-					}
-				}
-			}
-		});
-		
-		$.bind($('layer-up'), 'click', () => {
-			if($currentLayer && $currentLayer.previousElementSibling) {
-				let id = $currentLayer.getAttribute('data-canvas-id');
-				if(id) {
-					Layer.up(id);
-				}
-				$layerList.insertBefore($currentLayer, $currentLayer.previousElementSibling);
-			}
-		});
-		
-		$.bind($('layer-down'), 'click', () => {
-			if($currentLayer && $currentLayer.nextElementSibling) {
-				let id = $currentLayer.getAttribute('data-canvas-id');
-				if(id) {
-					Layer.down(id);
-				}
-				$layerList.insertBefore($currentLayer, $currentLayer.nextElementSibling.nextElementSibling);
-			}
-		});
-		
-		$.bind($('layer-merge'), 'click', () => {
-			if($currentLayer && $currentLayer.nextElementSibling) {
-				let removeLayer = $currentLayer,
-					removeId = removeLayer.getAttribute('data-canvas-id');
+			$layerList.insertBefore($currentLayer, $currentLayer.nextElementSibling.nextElementSibling);
+		}
+	});
+	
+	$.bind($('layer-merge'), 'click', () => {
+		if($currentLayer && $currentLayer.nextElementSibling) {
+			let removeLayer = $currentLayer,
+				removeId = removeLayer.getAttribute('data-canvas-id');
 
-				if(removeId) {
-					
-					const layer = Layer.find(removeId);
-					
-					$('editor-canvas').removeChild($(removeId));
+			if(removeId) {
 				
-					if($currentLayer.nextElementSibling) {
-						$currentLayer = $currentLayer.nextElementSibling;
-					} else {
-						$currentLayer = $currentLayer.previousElementSibling;
-					}
-					$currentLayer.classList.add('selected');
-					
-					let id = $currentLayer.getAttribute('data-canvas-id');
-					const baseLayer = Layer.find(id);
-					
-					baseLayer.ctx.drawImage(layer.canvas, 0, 0);
-					mergeIndexData(layer.indexData, baseLayer.indexData, Palette.getTransparentIndex());
-					
-					$layerList.removeChild(removeLayer);
-					
-					indexData = baseLayer.indexData;
-					ctx = baseLayer.ctx;
-					
-					Layer.merge(removeId);
-					
-					drawPreview();
-				}
-			}
-		});
-
-		for (let i = 0; i < 9; i++) {
-			$.bind($('storage-' + i), 'click', e => {
-				$.hide($('storage'));
-				const name = e.target.id.slice(-1);
-				if (storageMode) {
-					saveStorage(name);
+				const layer = Layer.find(removeId);
+				
+				$('editor-canvas').removeChild($(removeId));
+			
+				if($currentLayer.nextElementSibling) {
+					$currentLayer = $currentLayer.nextElementSibling;
 				} else {
-					loadStorage(name);
+					$currentLayer = $currentLayer.previousElementSibling;
 				}
-				const $overlay = $('overlay');
-				$.fadeOut($overlay);
-			});
-		}
-
-		$.bind($('storage-cancel'), 'click', () => {
-			$.hide($('storage'));
-			const $overlay = $('overlay');
-			$.fadeOut($overlay);
-		});
-	
-		window.onbeforeunload = () => {
-			return 'ページを移動すると編集した情報が失われます';
-		};
-	
-		// レイヤーを1つ残して削除する
-		function clearLayer() {
-			let baseLayer = Layer.get(0);
-			ctx = baseLayer.ctx;
-			indexData = baseLayer.indexData;
-			for(let i = 1; i < Layer.count(); i++) {
-				let layer = Layer.get(i);
-				$('editor-canvas').removeChild(layer.canvas);
-			}
-			
-			for(let i = $layerList.childElementCount - 2; i >= 0; i--) {
-				$layerList.removeChild($layerList.children[i]);
-			}
-			$currentLayer = $layerList.children[0];
-			$currentLayer.classList.add('selected');
-			$currentLayer.setAttribute('data-canvas-id', baseLayer.canvas.id);
-			Layer.clear();
-			return Layer.set(ctx, ctx.canvas, indexData);
-		}
-
-		function openStorageDialog(isSave) {
-			const $overlay = $('overlay');
-			const $storage = $('storage');
-			const $caption = $('storage-caption');
-			
-			$.fadeIn($overlay, 0.5);
-			$.show($storage);
-			if (isSave) {
-				$caption.textContent = 'Save';
-			} else {
-				$caption.textContent = 'Load';
-			}
-			storageMode = isSave;
-
-
-			const p = createPaletteData(256);
-			const idx = createIndexData(64, 64);
-			for (let i = 0; i < 9; i++) {
-				const canvas = $('storage-' + i);
-				const ctx = canvas.getContext('2d');
-				const json = Storage.load(i.toString());
-				if (json) {
-					const data = JSON.parse(json);
-					Base64.decode(data.indexData[0], idx.data);
-					Base64.decode(data.paletteData, p.data);
-					idx.width = data.width;
-					idx.height = data.height;
-					const x = (32 - idx.width) / 2 ^ 0;
-					const y = (32 - idx.height) / 2 ^ 0;
-					drawIndexedImageData(ctx, idx, p, 1, 256, x, y);
-				}
-			}
-		}
-	
-		function saveFile() {
-			let png = document.getElementById('canvas').toDataURL();
-			//png = png.replace("image/png", "image/octet-stream");
-			window.open(png, 'save');
-		}
-
-		// ローカルストレージに保存
-		function saveStorage(name) {
-			let layers = [];
-			for(let i = 0; i < Layer.count(); i++) {
-				let layer = Layer.get(i);
-				layers.push(Base64.encode(layer.indexData.data));
-			}
-
-			let json = JSON.stringify({
-				indexData: layers,
-				width: indexData.width,
-				height: indexData.height,
-				paletteData: Base64.encode(paletteData.data),
-				transparent: Palette.getTransparentIndex()
-			});
-			Storage.save(name, json);
-
-			console.log('save');
-		}
-
-		function loadThumbnail(name) {
-			let json = Storage.load(name);
-		}
-
-		// ローカルストレージから読み込み
-		function loadStorage(name) {
-			let json = Storage.load(name);
-			if(json) {
-				let data = JSON.parse(json);
-				deselect();
-				clearLayer();
-				indexData = createIndexData(data.width, data.height);
-				option.imageWidth = indexData.width;
-				Layer.clear();
-				Layer.set(ctx, ctx.canvas, indexData);
-				Base64.decode(data.indexData[0], indexData.data);
-				for(let i = 1; i < data.indexData.length; i++) {
-					let layer = addLayer(data.width, data.height);
-					layer.canvas.width = ctx.canvas.width;
-					layer.canvas.height = ctx.canvas.height;
-					Base64.decode(data.indexData[i], layer.indexData.data);
-				}
-				Base64.decode(data.paletteData, paletteData.data);
-				selection.indexData = createIndexData(indexData.width, indexData.height);
-				Palette.setPaletteData(paletteData);
-				Palette.setFrontColor(0);
-				Palette.setTransparentIndex(data.transparent);
-				backgroundCtx.canvas.style.backgroundColor = palette[Palette.getTransparentIndex()];
-				palette = Palette.getPaletteData();
-				zoom();
-				grid();
+				$currentLayer.classList.add('selected');
+				
+				let id = $currentLayer.getAttribute('data-canvas-id');
+				const baseLayer = Layer.find(id);
+				
+				baseLayer.ctx.drawImage(layer.canvas, 0, 0);
+				mergeIndexData(layer.indexData, baseLayer.indexData, Palette.getTransparentIndex());
+				
+				$layerList.removeChild(removeLayer);
+				
+				indexData = baseLayer.indexData;
+				ctx = baseLayer.ctx;
+				
+				Layer.merge(removeId);
+				
 				drawPreview();
 			}
 		}
+	});
 
+	for (let i = 0; i < 9; i++) {
+		$.bind($('storage-' + i), 'click', e => {
+			$.hide($('storage'));
+			const name = e.target.id.slice(-1);
+			if (storageMode) {
+				saveStorage(name);
+			} else {
+				loadStorage(name);
+			}
+			const $overlay = $('overlay');
+			$.fadeOut($overlay);
+		});
+	}
 
+	$.bind($('storage-cancel'), 'click', () => {
+		$.hide($('storage'));
+		const $overlay = $('overlay');
+		$.fadeOut($overlay);
+	});
+	
+	window.onbeforeunload = () => {
+		return 'ページを移動すると編集した情報が失われます';
+	};
+
+	// レイヤーを1つ残して削除する
+	function clearLayer() {
+		let baseLayer = Layer.get(0);
+		ctx = baseLayer.ctx;
+		indexData = baseLayer.indexData;
+		for(let i = 1; i < Layer.count(); i++) {
+			let layer = Layer.get(i);
+			$('editor-canvas').removeChild(layer.canvas);
+		}
+		
+		for(let i = $layerList.childElementCount - 2; i >= 0; i--) {
+			$layerList.removeChild($layerList.children[i]);
+		}
+		$currentLayer = $layerList.children[0];
+		$currentLayer.classList.add('selected');
+		$currentLayer.setAttribute('data-canvas-id', baseLayer.canvas.id);
+		Layer.clear();
+		return Layer.set(ctx, ctx.canvas, indexData);
+	}
+
+	// 保存ダイアログ表示
+	function openStorageDialog(isSave) {
+		const $overlay = $('overlay');
+		const $storage = $('storage');
+		const $caption = $('storage-caption');
+		
+		$.fadeIn($overlay, 0.5);
+		$.show($storage);
+		if (isSave) {
+			$caption.textContent = 'Save';
+		} else {
+			$caption.textContent = 'Load';
+		}
+		storageMode = isSave;
+
+		const p = createPaletteData(256);
+		const idx = createIndexData(64, 64);
+		for (let i = 0; i < 9; i++) {
+			const canvas = $('storage-' + i);
+			const ctx = canvas.getContext('2d');
+			const json = Storage.load(i.toString());
+			if (json) {
+				const data = JSON.parse(json);
+				Base64.decode(data.indexData[0], idx.data);
+				Base64.decode(data.paletteData, p.data);
+				idx.width = data.width;
+				idx.height = data.height;
+				const x = (32 - idx.width) / 2 ^ 0;
+				const y = (32 - idx.height) / 2 ^ 0;
+				drawIndexedImageData(ctx, idx, p, 1, 256, x, y);
+			}
+		}
+	}
+	
+	function saveFile() {
+		let png = document.getElementById('canvas').toDataURL();
+		//png = png.replace("image/png", "image/octet-stream");
+		window.open(png, 'save');
+	}
+
+	// ローカルストレージに保存
+	function saveStorage(name) {
+		let layers = [];
+		for(let i = 0; i < Layer.count(); i++) {
+			let layer = Layer.get(i);
+			layers.push(Base64.encode(layer.indexData.data));
+		}
+
+		let json = JSON.stringify({
+			indexData: layers,
+			width: indexData.width,
+			height: indexData.height,
+			paletteData: Base64.encode(paletteData.data),
+			transparent: Palette.getTransparentIndex()
+		});
+		Storage.save(name, json);
+
+		console.log('save');
+	}
+
+	// ローカルストレージから読み込み
+	function loadStorage(name) {
+		let json = Storage.load(name);
+		if(json) {
+			let data = JSON.parse(json);
+			deselect();
+			clearLayer();
+			indexData = createIndexData(data.width, data.height);
+			option.imageWidth = indexData.width;
+			Layer.clear();
+			Layer.set(ctx, ctx.canvas, indexData);
+			Base64.decode(data.indexData[0], indexData.data);
+			for(let i = 1; i < data.indexData.length; i++) {
+				let layer = addLayer(data.width, data.height);
+				layer.canvas.width = ctx.canvas.width;
+				layer.canvas.height = ctx.canvas.height;
+				Base64.decode(data.indexData[i], layer.indexData.data);
+			}
+			Base64.decode(data.paletteData, paletteData.data);
+			selection.indexData = createIndexData(indexData.width, indexData.height);
+			Palette.setPaletteData(paletteData);
+			Palette.setFrontColor(0);
+			Palette.setTransparentIndex(data.transparent);
+			backgroundCtx.canvas.style.backgroundColor = palette[Palette.getTransparentIndex()];
+			palette = Palette.getPaletteData();
+			zoom();
+			grid();
+			drawPreview();
+		}
+	}
 	
 	// 編集履歴を記録する
 	// コマンドが確定した時点で呼び出す(コマンドがキャンセルされることがあるため)
