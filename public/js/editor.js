@@ -1245,8 +1245,6 @@ editor: Editor
 			transparent: Palette.getTransparentIndex()
 		});
 		Storage.save(name, json);
-
-		console.log('save');
 	}
 
 	// ローカルストレージから読み込み
