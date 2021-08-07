@@ -1145,30 +1145,6 @@ editor: Editor
 		}
 	});
 
-	for (let i = 0; i < 9; i++) {
-		$.bind($('storage-' + i), 'click', e => {
-			$.hide($('storage'));
-			const name = e.target.id.slice(-1);
-			if (storageMode) {
-				saveStorage(name);
-			} else {
-				loadStorage(name);
-			}
-			const $overlay = $('overlay');
-			$.fadeOut($overlay);
-		});
-	}
-
-	$.bind($('storage-cancel'), 'click', () => {
-		$.hide($('storage'));
-		const $overlay = $('overlay');
-		$.fadeOut($overlay);
-	});
-	
-	window.onbeforeunload = () => {
-		return 'ページを移動すると編集した情報が失われます';
-	};
-
 	// レイヤーを1つ残して削除する
 	function clearLayer() {
 		let baseLayer = Layer.get(0);
@@ -1188,6 +1164,31 @@ editor: Editor
 		Layer.clear();
 		return Layer.set(ctx, ctx.canvas, indexData);
 	}
+
+	window.onbeforeunload = () => {
+		return 'ページを移動すると編集した情報が失われます';
+	};
+
+	// 保存ダイアログのイベント設定
+	for (let i = 0; i < 9; i++) {
+		$.bind($('storage-' + i), 'click', e => {
+			$.hide($('storage'));
+			const name = e.target.id.slice(-1);
+			if (storageMode) {
+				saveStorage(name);
+			} else {
+				loadStorage(name);
+			}
+			const $overlay = $('overlay');
+			$.fadeOut($overlay);
+		});
+	}
+
+	$.bind($('storage-cancel'), 'click', () => {
+		$.hide($('storage'));
+		const $overlay = $('overlay');
+		$.fadeOut($overlay);
+	});
 
 	// 保存ダイアログ表示
 	function openStorageDialog(isSave) {
