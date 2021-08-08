@@ -504,6 +504,10 @@
 	content: url("../images/undo_icon.png");
 }
 
+.editor-tools #redo:before {
+	content: url("../images/redo_icon.png");
+}
+
 .editor-tools #copy:before {
 	content: url("../images/copy_icon.png");
 }
@@ -514,10 +518,6 @@
 
 .editor-tools #layer:before {
 	content: url("../images/layer_icon.png");
-}
-
-.editor-tools #undo:before {
-	content: url("../images/undo_icon.png");
 }
 
 .editor-tools #twitter:before {
