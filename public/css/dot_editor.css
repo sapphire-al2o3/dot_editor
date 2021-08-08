@@ -562,7 +562,7 @@
 	content: url("../images/shift_d_icon.png");
 }
 
-.editor-tools #tools {
+.editor-tools #tools:before {
 	content: url("../images/show_tools_icon.png");
 }
 
