@@ -191,7 +191,8 @@ editor: Editor
 		enable: false
 	};
 	
-	let tempData = [];
+	let tempData = [],
+		redoData = [];
 
 	let activeTool,
 		selectHandler;
@@ -535,6 +536,7 @@ editor: Editor
 	$.bind($('zoomout'), 'click', zoomOut);
 	$.bind($('grid'), 'click', toggleGrid);
 	$.bind($('undo'), 'click', undo);
+	$.bind($('redo'), 'click', redo);
 	$.bind($('paint'), 'click', toggleTool('paint'));
 	$.bind($('pen'), 'click', toggleTool('pen'));
 	$.bind($('line'), 'click', toggleTool('line'));
@@ -1297,8 +1299,25 @@ editor: Editor
 		
 			copyRangeIndexData(indexData, temp);
 			tempData.push(temp);
+		
+			redoData.length = 0;
 		}
-//		redo.length = 0;
+	}
+
+	function recordRedo(tempData) {
+		let diff = true;
+		if (tempData.length > 0) {
+			let back = tempData[tempData.length - 1];
+			diff = hasDiffIndexData(back.data, indexData.data)
+		}
+
+		// 画像に差があるときだけ保存する
+		if(diff) {
+			let temp = createIndexData(indexData.width, indexData.height);
+		
+			copyRangeIndexData(indexData, temp);
+			tempData.push(temp);
+		}
 	}
 	
 	// 取り消し
@@ -1312,19 +1331,20 @@ editor: Editor
 		}
 
 		if(temp) {
+			recordRedo(redoData);
+
 			copyRangeIndexData(temp, indexData);
 			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 			drawPreview();
-//			redo.push();
 		}
 	}
 
 	// やり直し
 	function redo() {
-		let temp = redo.pop();
+		let temp = redoData.pop();
 		
 		if(temp) {
-			copyRangeIndexData(temp.data, indexData.data);
+			copyRangeIndexData(temp, indexData);
 			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 			
 			tempData.push(temp);
