@@ -1101,6 +1101,14 @@ function diffIndexData(src, dst) {
 	return { head: head, tail: tail };
 }
 
+// 差分を適用する
+function applyDiffIndexData(head, tail, diff, dst) {
+	for (let i = head; i <= tail; i++) {
+		let k = i - head;
+		dst[i] = diff[k];
+	}
+}
+
 // 画像に差分があるか判定する
 function hasDiffIndexData(src, dst) {
 	for(let i = 0, n = src.length; i < n; i++) {
