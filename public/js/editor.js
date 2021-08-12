@@ -191,7 +191,7 @@ editor: Editor
 		enable: false
 	};
 	
-	let tempData = [],
+	let undoData = [],
 		redoData = [];
 
 	let activeTool,
@@ -1285,8 +1285,8 @@ editor: Editor
 	// コマンドが確定した時点で呼び出す(コマンドがキャンセルされることがあるため)
 	function record() {
 		let diff = true;
-		if (tempData.length > 0) {
-			let back = tempData[tempData.length - 1];
+		if (undoData.length > 0) {
+			let back = undoData[undoData.length - 1];
 			diff = hasDiffIndexData(back.data, indexData.data)
 		}
 		// if(back) {
@@ -1298,7 +1298,7 @@ editor: Editor
 			let temp = createIndexData(indexData.width, indexData.height);
 		
 			copyRangeIndexData(indexData, temp);
-			tempData.push(temp);
+			undoData.push(temp);
 		
 			redoData.length = 0;
 		}
@@ -1322,11 +1322,11 @@ editor: Editor
 	
 	// 取り消し
 	function undo() {
-		let temp = tempData.pop();
+		let temp = undoData.pop();
 		
 		if(temp) {
 			if (!hasDiffIndexData(temp.data, indexData.data)) {
-				temp = tempData.pop();
+				temp = undoData.pop();
 			}
 		}
 
@@ -1347,7 +1347,7 @@ editor: Editor
 			copyRangeIndexData(temp, indexData);
 			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
 			
-			tempData.push(temp);
+			undoData.push(temp);
 		}
 	}
 
