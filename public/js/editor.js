@@ -1284,27 +1284,12 @@ editor: Editor
 	// 編集履歴を記録する
 	// コマンドが確定した時点で呼び出す(コマンドがキャンセルされることがあるため)
 	function record() {
-		let diff = true;
-		if (undoData.length > 0) {
-			let back = undoData[undoData.length - 1];
-			diff = hasDiffIndexData(back.data, indexData.data)
-		}
-		// if(back) {
-		// 	let diff = diffIndexData(back.data, indexData.data);
-		// }
-
-		// 画像に差があるときだけ保存する
-		if(diff) {
-			let temp = createIndexData(indexData.width, indexData.height);
-		
-			copyRangeIndexData(indexData, temp);
-			undoData.push(temp);
-		
+		if (pushRecord(undoData)) {
 			redoData.length = 0;
 		}
 	}
 
-	function recordRedo(tempData) {
+	function pushRecord(tempData) {
 		let diff = true;
 		if (tempData.length > 0) {
 			let back = tempData[tempData.length - 1];
@@ -1312,12 +1297,14 @@ editor: Editor
 		}
 
 		// 画像に差があるときだけ保存する
-		if(diff) {
+		if (diff) {
 			let temp = createIndexData(indexData.width, indexData.height);
 		
 			copyRangeIndexData(indexData, temp);
 			tempData.push(temp);
 		}
+
+		return diff;
 	}
 	
 	// 取り消し
@@ -1331,7 +1318,7 @@ editor: Editor
 		}
 
 		if(temp) {
-			recordRedo(redoData);
+			pushRecord(redoData);
 
 			copyRangeIndexData(temp, indexData);
 			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
@@ -1344,10 +1331,10 @@ editor: Editor
 		let temp = redoData.pop();
 		
 		if(temp) {
+			pushRecord(undoData);
+
 			copyRangeIndexData(temp, indexData);
 			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
-			
-			undoData.push(temp);
 		}
 	}
 
