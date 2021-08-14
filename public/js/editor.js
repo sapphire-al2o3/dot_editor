@@ -511,6 +511,7 @@ editor: Editor
 	
 	// ローカルファイルの読み込み
 	FileLoader.onload = (i, p) => {
+		record();
 		deselect();
 		clearLayer();
 		indexData = i;
@@ -1255,6 +1256,7 @@ editor: Editor
 		let json = Storage.load(name);
 		if(json) {
 			let data = JSON.parse(json);
+			record();
 			deselect();
 			clearLayer();
 			indexData = createIndexData(data.width, data.height);
