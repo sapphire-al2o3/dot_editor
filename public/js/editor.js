@@ -517,7 +517,7 @@ editor: Editor
 		indexData = i;
 		paletteData = p;
 		selection.indexData = createIndexData(indexData.width, indexData.height);
-		Palette.setPaletteData(paletteData);
+		Palette.setPaletteData(paletteData, true);
 		Palette.setFrontColor(0);
 		palette = Palette.getPaletteData();
 		resize();
@@ -627,7 +627,7 @@ editor: Editor
 			}
 
 			selection.indexData = createIndexData(data.width, data.height);
-			Palette.setPaletteData(palette);
+			Palette.setPaletteData(palette, true);
 			resize();
 			ctx.fillStyle = palette[0];
 			ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
@@ -642,7 +642,7 @@ editor: Editor
 			'#FFFF80', '#80FFFF', '#FF80FF'
 		];
 
-		Palette.setPaletteData(palette);
+		Palette.setPaletteData(palette, false);
 		Palette.convert(paletteData);
 		
 		createImage(48, 48);
@@ -674,7 +674,7 @@ editor: Editor
 	
 	$.bind($('palette-opt'), 'click', () => {
 		removeUnusedColor(indexData, palette);
-		Palette.setPaletteData(palette);
+		Palette.setPaletteData(palette, true);
 		Palette.convert(paletteData);
 	});
 	
@@ -1272,7 +1272,7 @@ editor: Editor
 			}
 			Base64.decode(data.paletteData, paletteData.data);
 			selection.indexData = createIndexData(indexData.width, indexData.height);
-			Palette.setPaletteData(paletteData);
+			Palette.setPaletteData(paletteData, true);
 			Palette.setFrontColor(0);
 			Palette.setTransparentIndex(data.transparent);
 			backgroundCtx.canvas.style.backgroundColor = palette[Palette.getTransparentIndex()];

@@ -561,22 +561,32 @@ require('color.js')
 			clear: () => {
 				
 			},
-			setPaletteData: p => {
+			setPaletteData: (p, rec) => {
 				if(Array.isArray(p)) {
 					p.forEach((e, i) => {
 						cells[i].style.backgroundColor = e;
 						cells[i].setAttribute('title', e);
 					});
+					const gorup = history.length;
 					for(let i = 0, n = p.length; i < n; i++) {
-						palettes[i] = p[i];
+						if (rec) {
+							record(i, p[i], gorup);
+						}
+						if (palettes[i] != p[i]) {
+							palettes[i] = p[i];
+						}
 					}
 					frontColor = p[frontIndex];
 				} else {
-					let data = p.data;
+					const data = p.data;
+					const gorup = history.length;
 					for(let i = 0, j = 0; i < p.count; i++, j += 4) {
 						let color = Color.rgb(data[j], data[j + 1], data[j + 2]);
 						cells[i].style.backgroundColor = color;
 						cells[i].setAttribute('title', color);
+						if (rec) {
+							record(i, color, gorup);
+						}
 						palettes[i] = color;
 					}
 					frontColor = p[frontIndex];
