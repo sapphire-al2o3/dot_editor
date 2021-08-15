@@ -582,12 +582,15 @@ require('color.js')
 					const gorup = history.length;
 					for(let i = 0, j = 0; i < p.count; i++, j += 4) {
 						let color = Color.rgb(data[j], data[j + 1], data[j + 2]);
-						cells[i].style.backgroundColor = color;
-						cells[i].setAttribute('title', color);
-						if (rec) {
-							record(i, color, gorup);
+						
+						if (palettes[i] != color) {
+							if (rec) {
+								record(i, color, gorup);
+							}
+							cells[i].style.backgroundColor = color;
+							cells[i].setAttribute('title', color);
+							palettes[i] = color;
 						}
-						palettes[i] = color;
 					}
 					frontColor = p[frontIndex];
 				}

@@ -673,9 +673,9 @@ editor: Editor
 	palette = Palette.getPaletteData();
 	
 	$.bind($('palette-opt'), 'click', () => {
-		removeUnusedColor(indexData, palette);
-		Palette.setPaletteData(palette, true);
-		Palette.convert(paletteData);
+		record();
+		removeUnusedColor(indexData, paletteData);
+		Palette.setPaletteData(paletteData, true);
 	});
 	
 	$.bind($('work'), 'contextmenu', e => {

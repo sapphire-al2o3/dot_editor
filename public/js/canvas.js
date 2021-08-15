@@ -1219,11 +1219,12 @@ function fillIndexData(src, index, x, y, w, h) {
 }
 
 // 未使用色の削除
-function removeUnusedColor(indexData, palette) {
+function removeUnusedColor(indexData, paletteData) {
 	let data = indexData.data,
+		u32palette = new Uint32Array(paletteData.data.buffer),
 		used = [];
 	
-	for(let i = 0; i < palette.length; i++) {
+	for(let i = 0; i < u32palette.length; i++) {
 		used.push(0);
 	}
 	
@@ -1238,13 +1239,13 @@ function removeUnusedColor(indexData, palette) {
 	let k = 0;
 	for(let i = 0; i <= max; i++) {
 		if(used[i] > 0) {
-			palette[k] = palette[i];
+			u32palette[k] = u32palette[i];
 			used[i] = k++;
 		}
 	}
 	
-	for(let i = k; i < palette.length; i++) {
-		palette[i] = '#000000';
+	for(let i = k; i < u32palette.length; i++) {
+		u32palette[i] = 0xFF000000;
 	}
 	
 	for(let i = 0, l = data.length; i < l; i++) {
