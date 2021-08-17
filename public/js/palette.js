@@ -592,6 +592,17 @@ require('color.js')
 							palettes[i] = color;
 						}
 					}
+					for(let i = p.count; i < 256; i++) {
+						const color = '#000000';
+						if (palettes[i] != color) {
+							if (rec) {
+								record(i, color, gorup);
+							}
+							cells[i].style.backgroundColor = color;
+							cells[i].setAttribute('title', color);
+							palettes[i] = color;
+						}
+					}
 					frontColor = p[frontIndex];
 				}
 			},
