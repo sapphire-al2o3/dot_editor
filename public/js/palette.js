@@ -456,6 +456,11 @@ require('color.js')
 				transparent = false;
 				setPaletteTool();
 			});
+
+			$.bind($('palette-drawer'), 'click', e => {
+				$.toggle($('palette-tools-2'));
+				$('palette-drawer').classList.toggle('selected');
+			});
 			
 			paletteElement.style.display = 'block';
 		}
