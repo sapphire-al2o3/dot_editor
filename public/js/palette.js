@@ -425,11 +425,6 @@ require('color.js')
 //				transparent = !transparent;
 //				setPaletteTool();
 //			});
-//			$.bind($('palette-hex'), 'click', function(e) {
-//				hex = !hex;
-//				this.className = hex ? 'selected' : '';
-//				setRadix(hex ? 16 : 10);
-//			});
 			$.bind($('palette-undo'), 'click', e => {
 				if(history.length > 0) {
 					let group = -1;
@@ -460,6 +455,12 @@ require('color.js')
 			$.bind($('palette-drawer'), 'click', e => {
 				$.toggle($('palette-tools-2'));
 				$('palette-drawer').classList.toggle('selected');
+			});
+
+			$.bind($('palette-hex'), 'click', e => {
+				hex = !hex;
+				$('palette-hex').className = hex ? 'selected' : '';
+				setRadix(hex ? 16 : 10);
 			});
 			
 			paletteElement.style.display = 'block';
