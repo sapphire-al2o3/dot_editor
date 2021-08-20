@@ -322,12 +322,12 @@ require('color.js')
 					let r, g, b;
 					if(e.shiftKey) {
 						const d = parseInt(input.value, radix) - (v * 255 ^ 0);
-						r = range(setNumValue(0, getNumValue(0) - d), 0, 255);
-						g = range(setNumValue(1, getNumValue(1) - d), 0, 255);
-						b = range(setNumValue(2, getNumValue(2) - d), 0, 255);
-						nums[0].value = r.toString(radix);
-						nums[1].value = g.toString(radix);
-						nums[2].value = b.toString(radix);
+						r = range(getNumValue(0) - d, 0, 255);
+						g = range(getNumValue(1) - d, 0, 255);
+						b = range(getNumValue(2) - d, 0, 255);
+						nums[0].value = setNumValue(0, r);
+						nums[1].value = setNumValue(1, g);
+						nums[2].value = setNumValue(2, b);
 					} else {
 						input.value = (v * 255 ^ 0).toString(radix);
 						r = getNumValue(0);
@@ -353,12 +353,12 @@ require('color.js')
 						let r, g, b;
 						if(e.shiftKey) {
 							const d = parseInt(input.value, radix) - (v * 255 ^ 0);
-							r = range(setNumValue(0, getNumValue(0) - d), 0, 255);
-							g = range(setNumValue(1, getNumValue(1) - d), 0, 255);
-							b = range(setNumValue(2, getNumValue(2) - d), 0, 255);
-							nums[0].value = r.toString(radix);
-							nums[1].value = g.toString(radix);
-							nums[2].value = b.toString(radix);
+							r = range(getNumValue(0) - d, 0, 255);
+							g = range(getNumValue(1) - d, 0, 255);
+							b = range(getNumValue(2) - d, 0, 255);
+							nums[0].value = setNumValue(0, r);
+							nums[1].value = setNumValue(1, g);
+							nums[2].value = setNumValue(2, b);
 						} else {
 							input.value = (v * 255 ^ 0).toString(radix);
 							r = getNumValue(0);
