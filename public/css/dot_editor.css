@@ -257,12 +257,14 @@
 #layers input[type="checkbox"] + span:before {
 	content: "";
 	display: inline-block;
-	margin-right: 4px;
+	margin-right: 6px;
 	width: 12px;
 	height: 12px;
 	background-color: #DDD;
 	border-radius: 2px;
 	margin-left: 4px;
+	margin-bottom: 1px;
+	vertical-align: middle;
 }
 
 #layers input[type="checkbox"]:checked + span:before {
