@@ -1050,6 +1050,7 @@ editor: Editor
 		layer.canvas.height = canvas.height;
 		item.removeAttribute('id');
 		item.setAttribute('data-canvas-id', layer.canvas.id);
+		item.setAttribute('contenteditable', true);
 		item.lastChild.textContent = 'レイヤー' + (layer.index + 1);
 		$('editor-canvas').appendChild(layer.canvas);
 		
