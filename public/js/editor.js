@@ -1013,14 +1013,15 @@ editor: Editor
 		$currentLayer = $layerList.lastElementChild;
 	
 	$.bind($('layer-list'), 'click', (e) => {
-		if($currentLayer === e.target) {
+		const target = e.target.parentNode;
+		if($currentLayer === target) {
 			return;
 		}
-		if(e.target.localName === "li") {
+		if(target.localName === "li") {
 			if($currentLayer) {
 				$currentLayer.classList.remove('selected');
 			}
-			$currentLayer = e.target;
+			$currentLayer = target;
 			$currentLayer.classList.add('selected');
 			let id = $currentLayer.getAttribute('data-canvas-id');
 			if(id) {
