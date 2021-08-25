@@ -1032,6 +1032,20 @@ editor: Editor
 			}
 		}
 	});
+
+	$.bind($('layer-list'), 'focusout', (e) => {
+		const target = e.target;
+		if (target.localName === 'div') {
+			target.setAttribute('contenteditable', false);
+		}
+	});
+
+	$.bind($('layer-list'), 'dblclick', (e) => {
+		const target = e.target;
+		if(target.localName === 'div') {
+			target.setAttribute('contenteditable', true);
+		}
+	});
 		
 	$.bind($layerList, 'change', (e) => {
 		let id = e.target.parentNode.parentNode.getAttribute('data-canvas-id');
@@ -1051,7 +1065,6 @@ editor: Editor
 		layer.canvas.height = canvas.height;
 		item.removeAttribute('id');
 		item.setAttribute('data-canvas-id', layer.canvas.id);
-		item.setAttribute('contenteditable', true);
 		item.lastChild.textContent = 'レイヤー' + (layer.index + 1);
 		$('editor-canvas').appendChild(layer.canvas);
 		
