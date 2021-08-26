@@ -314,6 +314,18 @@
 	box-shadow: inset 0 1px 3px 0 rgba(0, 0, 0, 0.2);
 }
 
+.layer-name-edit {
+	float: right;
+	width: 16px;
+	height: 16px;
+	margin-top: -20px;
+	margin-right: 4px;
+}
+
+.layer-name-edit:hover {
+	background-image: url("../images/edit.png");
+}
+
 .layer-canvas {
 	position: absolute;
 	top: 0;
