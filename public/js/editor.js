@@ -481,6 +481,8 @@ editor: Editor
 		Palette.create('palette');
 		Palette.setColorPicker(e => {
 			$.toggle($('color-picker'));
+			const color = Color.strToRGB(Palette.getFrontColor());
+			ColorPicker.setColor(color);
 		});
 		ColorPicker('color-picker', c => {
 			Palette.setColor(Color.rgb(c[0], c[1], c[2]));

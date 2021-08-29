@@ -357,7 +357,7 @@
 	border: 1px solid #FFF;
 	top: 64px;
 	left: 64px;
-	transition: all 0.2s ease;
+	/* transition: all 0.2s ease; */
 }
 
 #color-picker #hue-cursor {

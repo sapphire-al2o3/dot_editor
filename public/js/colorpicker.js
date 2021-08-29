@@ -28,7 +28,7 @@
 	function setText() {
 		const text = $.qa('form label', elm);
 		text[0].textContent = 'H:' + h;
-		text[1].textContent = 'S:' + ((1 - s) * 100 ^ 0) + '%';
+		text[1].textContent = 'S:' + (s * 100 ^ 0) + '%';
 		text[2].textContent = 'V:' + (v * 100 ^ 0) + '%';
 	}
 	
@@ -55,11 +55,11 @@
 		let y = (e.offsetY || e.layerY) - 1,
 			x = (e.offsetX || e.layerX) - 1;
 		v = x / 127;
-		s = y / 127;
+		s = 1 - y / 127;
 		rect = e.target.getBoundingClientRect();
 		colorCursor.style['left'] = x + 'px';
 		colorCursor.style['top'] = y + 'px';
-		color = Color.hsv(h, 1 - s, v);
+		color = Color.hsv(h, s, v);
 		change && change(color);
 		$.bind('mousemove', moveColor);
 		$.bind('mouseup', upColorHandler);
@@ -77,12 +77,17 @@
 			y = range(y, 0, 128);
 			colorCursor.style.left = x + 'px';
 			colorCursor.style.top = y + 'px';
+			v = x / 127;
+			s = 1 - y / 127;
+			color = Color.hsv(h, s, v);
 		}
 		e.preventDefault();
 		return false;
 	}
 	
 	function upColorHandler(e) {
+		
+		change && change(color);
 		down = false;
 		$.unbind('mousemove', moveColor);
 		$.unbind('mouseup', upColorHandler);
@@ -96,7 +101,7 @@
 		$('color').addEventListener('mousedown', downColor, false);
 	}
 	
-	ColorPicker.setColor = function(color) {
+	ColorPicker.setColor = (color) => {
 		if(elm.style.display === 'none') {
 			return;
 		}
@@ -107,8 +112,8 @@
 		v = hsv[2];
 		$('color').style.backgroundColor = 'hsl(' + h + ',100%,50%)';
 		$('hue-cursor').style.top = h * 128 / 360 + 1 + 'px';
-		colorCursor.style['left'] = s * 127 + 'px';
-		colorCursor.style['top'] = v * 127 + 'px';
+		colorCursor.style['top'] = ((1 - s) * 127) + 'px';
+		colorCursor.style['left'] = (v * 127) + 'px';
 		setText();
 	};
 	
