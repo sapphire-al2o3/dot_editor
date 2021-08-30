@@ -8,11 +8,9 @@
 (function(global, $, Color) {
 	'use strict';
 	
-	let document = $.d,
-		h = 0,
+	let h = 0,
 		s = 0,
 		v = 0,
-		evt,
 		color = [],
 		hueCursor,
 		colorCursor,
@@ -39,7 +37,7 @@
 	function downHue(e) {
 		rect = e.target.getBoundingClientRect();
 		const y = (e.offsetY || e.layerY);
-		$('hue-cursor').style.top = y + 'px';
+		hueCursor.style.top = y + 'px';
 		h = (y - 1) / 128 * 360 ^ 0;
 		if(h < 0) h = 0;
 		if(h > 360) h = 360;
@@ -97,6 +95,7 @@
 		elm = $(e);
 		change = event;
 		colorCursor = $('color-picker-cursor');
+		hueCursor = $('hue-cursor');
 		$('hue').addEventListener('mousedown', downHue, false);
 		$('color').addEventListener('mousedown', downColor, false);
 	}
@@ -111,7 +110,7 @@
 		s = hsv[1];
 		v = hsv[2];
 		$('color').style.backgroundColor = 'hsl(' + h + ',100%,50%)';
-		$('hue-cursor').style.top = h * 128 / 360 + 1 + 'px';
+		hueCursor.style.top = h * 128 / 360 + 1 + 'px';
 		colorCursor.style['top'] = ((1 - s) * 127) + 'px';
 		colorCursor.style['left'] = (v * 127) + 'px';
 		setText();
