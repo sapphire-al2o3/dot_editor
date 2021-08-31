@@ -34,7 +34,7 @@
 		if (down) {
 			let y = e.clientY - rect.top;
 			y = range(y, 0, 128);
-			hueCursor.style.top = y + 'px';
+			hueCursor.style.top = (y - 1) + 'px';
 
 			h = (y - 1) / 128 * 360 ^ 0;
 			h = range(h, 0, 360);
@@ -50,9 +50,11 @@
 	}
 	
 	function downHue(e) {
-		rect = e.target.getBoundingClientRect();
-		const y = (e.offsetY || e.layerY);
-		hueCursor.style.top = y + 'px';
+		const target = e.currentTarget;
+		rect = target.getBoundingClientRect();
+		let y = e.clientY - rect.top;
+		y = range(y, 0, 128);
+		hueCursor.style.top = (y - 1) + 'px';
 		h = (y - 1) / 128 * 360 ^ 0;
 		if(h < 0) h = 0;
 		if(h > 360) h = 360;
@@ -64,15 +66,15 @@
 		$.bind('mousemove', moveHue);
 		$.bind('mouseup', upHue);
 		e.preventDefault();
-		return false;
 	}
 	
 	function downColor(e) {
-		let y = (e.offsetY || e.layerY) - 1,
-			x = (e.offsetX || e.layerX) - 1;
+		const target = e.currentTarget;
+		rect = target.getBoundingClientRect();
+		let x = e.clientX - rect.left,
+			y = e.clientY - rect.top;
 		v = x / 127;
 		s = 1 - y / 127;
-		rect = e.target.getBoundingClientRect();
 		colorCursor.style['left'] = x + 'px';
 		colorCursor.style['top'] = y + 'px';
 		color = Color.hsv(h, s, v);
@@ -96,13 +98,13 @@
 			v = x / 127;
 			s = 1 - y / 127;
 			color = Color.hsv(h, s, v);
+			setText();
 		}
 		e.preventDefault();
 		return false;
 	}
 	
 	function upColor(e) {
-		
 		change && change(color);
 		down = false;
 		$.unbind('mousemove', moveColor);
@@ -114,12 +116,8 @@
 		change = event;
 		colorCursor = $('color-picker-cursor');
 		hueCursor = $('hue-cursor');
-		$('hue').addEventListener('mousedown', downHue, false);
-		$('color').addEventListener('mousedown', downColor, false);
-		hueCursor.addEventListener('mousedown', e => {
-			e.preventDefault();
-			return false;
-		});
+		$('hue').addEventListener('mousedown', downHue);
+		$('color-picker-map').addEventListener('mousedown', downColor, false);
 	}
 	
 	ColorPicker.setColor = (color) => {
