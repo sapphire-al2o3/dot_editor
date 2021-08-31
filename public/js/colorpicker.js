@@ -33,6 +33,9 @@
 	function moveHue(e) {
 //		var y = e.clientX - hueRect.left;
 	}
+	function upHue(e) {
+
+	}
 	
 	function downHue(e) {
 		rect = e.target.getBoundingClientRect();
@@ -47,6 +50,7 @@
 		if(change) {
 			change(color);
 		}
+		return false;
 	}
 	
 	function downColor(e) {
