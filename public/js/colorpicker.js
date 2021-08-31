@@ -31,10 +31,22 @@
 	}
 	
 	function moveHue(e) {
-//		var y = e.clientX - hueRect.left;
+		if (down) {
+			let y = e.clientY - rect.top;
+			y = range(y, 0, 128);
+			hueCursor.style.top = y + 'px';
+
+			h = (y - 1) / 128 * 360 ^ 0;
+			h = range(h, 0, 360);
+			$('color').style.backgroundColor = 'hsl(' + h + ',100%,50%)';
+			setText();
+		}
+		e.preventDefault();
 	}
 	function upHue(e) {
-
+		down = false;
+		$.unbind('mousemove', moveHue);
+		$.unbind('mouseup', upHue);
 	}
 	
 	function downHue(e) {
@@ -45,11 +57,13 @@
 		if(h < 0) h = 0;
 		if(h > 360) h = 360;
 		$('color').style.backgroundColor = 'hsl(' + h + ',100%,50%)';
+		down = true;
 		setText();
 		color = Color.hsv(h, 1 - s, v);
-		if(change) {
-			change(color);
-		}
+		change && change(color);
+		$.bind('mousemove', moveHue);
+		$.bind('mouseup', upHue);
+		e.preventDefault();
 		return false;
 	}
 	
@@ -64,7 +78,7 @@
 		color = Color.hsv(h, s, v);
 		change && change(color);
 		$.bind('mousemove', moveColor);
-		$.bind('mouseup', upColorHandler);
+		$.bind('mouseup', upColor);
 		down = true;
 		setText();
 		e.preventDefault();
@@ -87,12 +101,12 @@
 		return false;
 	}
 	
-	function upColorHandler(e) {
+	function upColor(e) {
 		
 		change && change(color);
 		down = false;
 		$.unbind('mousemove', moveColor);
-		$.unbind('mouseup', upColorHandler);
+		$.unbind('mouseup', upColor);
 	}
 	
 	function ColorPicker(e, event) {
@@ -102,6 +116,10 @@
 		hueCursor = $('hue-cursor');
 		$('hue').addEventListener('mousedown', downHue, false);
 		$('color').addEventListener('mousedown', downColor, false);
+		hueCursor.addEventListener('mousedown', e => {
+			e.preventDefault();
+			return false;
+		});
 	}
 	
 	ColorPicker.setColor = (color) => {
@@ -114,7 +132,7 @@
 		s = hsv[1];
 		v = hsv[2];
 		$('color').style.backgroundColor = 'hsl(' + h + ',100%,50%)';
-		hueCursor.style.top = h * 128 / 360 + 1 + 'px';
+		hueCursor.style.top = h * 128 / 360 - 1 + 'px';
 		colorCursor.style['top'] = ((1 - s) * 127) + 'px';
 		colorCursor.style['left'] = (v * 127) + 'px';
 		setText();
