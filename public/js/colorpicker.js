@@ -73,6 +73,8 @@
 		rect = target.getBoundingClientRect();
 		let x = e.clientX - rect.left,
 			y = e.clientY - rect.top;
+		x = range(x, 0, 127);
+		y = range(y, 0, 127);
 		v = x / 127;
 		s = 1 - y / 127;
 		colorCursor.style['left'] = x + 'px';
