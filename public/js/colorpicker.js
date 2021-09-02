@@ -17,17 +17,17 @@
 		down = false,
 		rect,
 		elm,
-		change;
+		change,
+		label;
 	
 	function range(v, min, max) {
 		return v < min ? min : v > max ? max : v;
 	}
 	
 	function setText() {
-		const text = $.qa('form label', elm);
-		text[0].textContent = 'H:' + h;
-		text[1].textContent = 'S:' + (s * 100 ^ 0) + '%';
-		text[2].textContent = 'V:' + (v * 100 ^ 0) + '%';
+		label[0].textContent = 'H:' + h;
+		label[1].textContent = 'S:' + (s * 100 ^ 0) + '%';
+		label[2].textContent = 'V:' + (v * 100 ^ 0) + '%';
 	}
 	
 	function moveHue(e) {
@@ -45,6 +45,8 @@
 	}
 	function upHue(e) {
 		down = false;
+		color = Color.hsv(h, 1 - s, v);
+		change && change(color);
 		$.unbind('mousemove', moveHue);
 		$.unbind('mouseup', upHue);
 	}
@@ -118,6 +120,7 @@
 		change = event;
 		colorCursor = $('color-picker-cursor');
 		hueCursor = $('hue-cursor');
+		label = $.qa('form label', elm);
 		$('hue').addEventListener('mousedown', downHue);
 		$('color-picker-map').addEventListener('mousedown', downColor, false);
 	}
