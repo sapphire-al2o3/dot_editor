@@ -97,8 +97,8 @@
 				y = e.clientY - rect.top;
 			x = range(x, 0, 128);
 			y = range(y, 0, 128);
-			colorCursor.style.left = x + 'px';
-			colorCursor.style.top = y + 'px';
+			colorCursor.style['left'] = x + 'px';
+			colorCursor.style['top'] = y + 'px';
 			v = x / 127;
 			s = 1 - y / 127;
 			color = Color.hsv(h, s, v);
