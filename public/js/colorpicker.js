@@ -45,7 +45,7 @@
 	}
 	function upHue(e) {
 		down = false;
-		color = Color.hsv(h, 1 - s, v);
+		color = Color.hsv(h, s, v);
 		change && change(color);
 		$.unbind('mousemove', moveHue);
 		$.unbind('mouseup', upHue);
@@ -63,7 +63,7 @@
 		$('color').style.backgroundColor = 'hsl(' + h + ',100%,50%)';
 		down = true;
 		setText();
-		color = Color.hsv(h, 1 - s, v);
+		color = Color.hsv(h, s, v);
 		change && change(color);
 		$.bind('mousemove', moveHue);
 		$.bind('mouseup', upHue);
