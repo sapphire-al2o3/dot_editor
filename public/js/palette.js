@@ -73,7 +73,9 @@ require('color.js')
 			bars = [],
 			nums = [],
 			onchange,
-			history = [];
+			history = [],
+			undoIndex = 0,
+			redoIndex = 0;
 		
 		// 指定のパレットの色を変更する
 		function setColor(color, index, event) {
@@ -426,10 +428,12 @@ require('color.js')
 //				setPaletteTool();
 //			});
 			$.bind($('palette-undo'), 'click', e => {
-				if(history.length > 0) {
+				// if(history.length > 0) {
+				if (undoIndex > 0) {
 					let group = -1;
 					while(true) {
-						let r = history.pop();
+						// let r = history.pop();
+						const r = popUndo();
 						group = r.group;
 						selected.className = '';
 						selected = cells[r.index];
@@ -437,11 +441,17 @@ require('color.js')
 						frontIndex = r.index;
 						selectColor(r.color);
 						setColor(r.color, r.index);
-						if(history.length === 0 || history[history.length - 1].group != group) {
+						if (undoIndex === 0 || history[undoIndex - 1].group !== group) {
 							break;
 						}
+						// if(history.length === 0 || history[history.length - 1].group != group) {
+						// 	break;
+						// }
 					}
 				}
+			});
+			$.bind($('palette-redo'), 'click', e => {
+				console.log(history.length);
 			});
 			$.bind($('palette-grad'), 'click', e => {
 				move = false;
@@ -533,10 +543,19 @@ require('color.js')
 				history.pop();
 			}
 		}
+
+		function popUndo() {
+			if (undoIndex > 0) {
+				undoIndex--;
+				return history[undoIndex];
+			}
+			return null;
+		}
 		
 		function record(index, color, group) {
 			if(color !== palettes[index]) {
 				history.push({index: index, color: palettes[index], group: group});
+				undoIndex++;
 			}
 		}
 
