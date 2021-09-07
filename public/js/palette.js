@@ -439,6 +439,9 @@ require('color.js')
 						selected = cells[r.index];
 						selected.className = 'selected';
 						frontIndex = r.index;
+
+						pushRedo(r.index, group);
+
 						selectColor(r.color);
 						setColor(r.color, r.index);
 						if (undoIndex === 0 || history[undoIndex - 1].group !== group) {
@@ -451,7 +454,14 @@ require('color.js')
 				}
 			});
 			$.bind($('palette-redo'), 'click', e => {
-				console.log(history.length);
+				if (redoIndex > 0) {
+					const r = popRedo();
+					console.log(r);
+					selectColor(r.color);
+					setColor(r.color, r.index);
+					undoIndex++;
+				}
+				console.log(undoIndex, redoIndex);
 			});
 			$.bind($('palette-grad'), 'click', e => {
 				move = false;
@@ -552,6 +562,18 @@ require('color.js')
 			return null;
 		}
 		
+		function pushRedo(index, group) {
+			history.push({index: index, color: palettes[index], group: group});
+			redoIndex++;
+		}
+
+		function popRedo() {
+			if (redoIndex > 0) {
+				return history[redoIndex--];
+			}
+			return null;
+		}
+
 		function record(index, color, group) {
 			if(color !== palettes[index]) {
 				history.push({index: index, color: palettes[index], group: group});
