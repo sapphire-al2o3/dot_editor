@@ -565,8 +565,8 @@ require('color.js')
 		function pushRedo(index, group) {
 			if (undoIndex == history.length - 1) {
 				history.push({index: index, color: palettes[index], group: group});
-				redoIndex++;
 			}
+			redoIndex = undoIndex + 1;
 		}
 
 		function popRedo() {
