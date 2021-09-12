@@ -454,9 +454,13 @@ require('color.js')
 				}
 			});
 			$.bind($('palette-redo'), 'click', e => {
-				if (redoIndex < history.length) {
+				if (redoIndex > 0 && redoIndex < history.length) {
 					const r = popRedo();
 					console.log(r);
+					selected.className = '';
+					selected = cells[r.index];
+					selected.className = 'selected';
+					frontIndex = r.index;
 					selectColor(r.color);
 					setColor(r.color, r.index);
 					undoIndex++;
@@ -580,6 +584,7 @@ require('color.js')
 			if(color !== palettes[index]) {
 				history.push({index: index, color: palettes[index], group: group});
 				undoIndex++;
+				redoIndex = 0;
 			}
 		}
 
