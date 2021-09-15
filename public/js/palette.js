@@ -586,7 +586,13 @@ require('color.js')
 
 		function record(index, color, group) {
 			if(color !== palettes[index]) {
-				history.push({index: index, color: palettes[index], group: group});
+				if (history.length === undoIndex) {
+					history.push({index: index, color: palettes[index], group: group});
+				} else {
+					history[undoIndex].index = index;
+					history[undoIndex].color = palettes[index];
+					history[undoIndex].group = group;
+				}
 				undoIndex++;
 				redoIndex = 0;
 			}
