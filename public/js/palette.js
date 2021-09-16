@@ -567,7 +567,7 @@ require('color.js')
 		}
 		
 		function pushRedo(index, group) {
-			if (undoIndex == history.length - 1) {
+			if (undoIndex === history.length - 1) {
 				history.push({index: index, color: palettes[index], group: group});
 			} else {
 				history[undoIndex + 1].index = index;
@@ -585,7 +585,7 @@ require('color.js')
 		}
 
 		function record(index, color, group) {
-			if(color !== palettes[index]) {
+			if (color !== palettes[index]) {
 				if (history.length === undoIndex) {
 					history.push({index: index, color: palettes[index], group: group});
 				} else {
