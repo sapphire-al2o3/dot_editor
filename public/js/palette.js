@@ -440,7 +440,7 @@ require('color.js')
 						selected.className = 'selected';
 						frontIndex = r.index;
 
-						pushRedo(r.index, group);
+						pushRedo(r.index, group + 1);
 
 						selectColor(r.color);
 						setColor(r.color, r.index);
