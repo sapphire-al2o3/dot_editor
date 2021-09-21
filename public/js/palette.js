@@ -337,7 +337,7 @@ require('color.js')
 						b = getNumValue(2);
 					}
 					color = Color.rgb(r, g, b);
-					record(frontIndex, color, history.length);
+					record(frontIndex, color, undoIndex + 1);
 					selectColor([r, g, b]);
 					setColor(color, frontIndex);
 					down = true;
@@ -611,7 +611,7 @@ require('color.js')
 			for(let i = start + 1; i < end; i++) {
 				const k = i - start;
 				const color = Color.rgb((r * k / d ^ 0) + s[0], (g * k / d ^ 0) + s[1], (b * k / d ^ 0) + s[2]);
-				record(i, color, history.length);
+				record(i, color, undoIndex + 1);
 				palettes[i] = color;
 				cells[i].style.backgroundColor = palettes[i];
 				cells[i].setAttribute('title', palettes[i]);
@@ -631,7 +631,7 @@ require('color.js')
 						cells[i].style.backgroundColor = e;
 						cells[i].setAttribute('title', e);
 					});
-					const gorup = history.length;
+					const gorup = undoIndex + 1;
 					for(let i = 0, n = p.length; i < n; i++) {
 						if (rec) {
 							record(i, p[i], gorup);
@@ -643,7 +643,7 @@ require('color.js')
 					frontColor = p[frontIndex];
 				} else {
 					const data = p.data;
-					const gorup = history.length;
+					const gorup = undoIndex + 1;
 					for(let i = 0, j = 0; i < p.count; i++, j += 4) {
 						let color = Color.rgb(data[j], data[j + 1], data[j + 2]);
 						
@@ -710,7 +710,7 @@ require('color.js')
 				return backIndex;
 			},
 			setColor: color => {
-				record(frontIndex, color, history.length);
+				record(frontIndex, color, undoIndex + 1);
 				setColor(color, frontIndex);
 				selectColor(color);
 			},
