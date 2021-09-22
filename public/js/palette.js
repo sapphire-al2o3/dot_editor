@@ -594,6 +594,9 @@ require('color.js')
 					history[undoIndex].group = group;
 				}
 				undoIndex++;
+				if (history.length > undoIndex) {
+					history.length = undoIndex;
+				}
 				redoIndex = 0;
 			}
 		}
