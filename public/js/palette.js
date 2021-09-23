@@ -456,7 +456,6 @@ require('color.js')
 			$.bind($('palette-redo'), 'click', e => {
 				if (redoIndex > 0 && redoIndex < history.length) {
 					const r = popRedo();
-					console.log(r);
 					selected.className = '';
 					selected = cells[r.index];
 					selected.className = 'selected';
@@ -465,7 +464,6 @@ require('color.js')
 					setColor(r.color, r.index);
 					undoIndex++;
 				}
-				console.log(undoIndex, redoIndex);
 			});
 			$.bind($('palette-grad'), 'click', e => {
 				move = false;
