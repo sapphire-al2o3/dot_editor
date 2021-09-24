@@ -428,11 +428,9 @@ require('color.js')
 //				setPaletteTool();
 //			});
 			$.bind($('palette-undo'), 'click', e => {
-				// if(history.length > 0) {
 				if (undoIndex > 0) {
 					let group = -1;
 					while(true) {
-						// let r = history.pop();
 						const r = popUndo();
 						group = r.group;
 						selected.className = '';
@@ -447,15 +445,13 @@ require('color.js')
 						if (undoIndex === 0 || history[undoIndex - 1].group !== group) {
 							break;
 						}
-						// if(history.length === 0 || history[history.length - 1].group != group) {
-						// 	break;
-						// }
 					}
 				}
 			});
 			$.bind($('palette-redo'), 'click', e => {
 				if (redoIndex > 0 && redoIndex < history.length) {
 					const r = popRedo();
+
 					selected.className = '';
 					selected = cells[r.index];
 					selected.className = 'selected';
@@ -530,7 +526,7 @@ require('color.js')
 		
 		// 基数を設定する
 		function setRadix(r) {
-			nums.forEach(function(e) {
+			nums.forEach(e => {
 				let elm = e,
 					radix = elm.getAttribute('radix') ^ 0,
 					val = parseInt(elm.value, radix);
@@ -724,12 +720,6 @@ require('color.js')
 			},
 			setColorPicker: f => {
 				$('front-color').addEventListener('click', f, false);
-			},
-			orderColor: data => {
-				// 未使用色の削除
-				cells.forEach((e, i) => {
-					e.style.backgroundColor = palette[i];
-				});
 			}
 		};
 	}(document);
