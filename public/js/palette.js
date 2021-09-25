@@ -633,7 +633,7 @@ require('color.js')
 						if (rec) {
 							record(i, p[i], gorup);
 						}
-						if (palettes[i] != p[i]) {
+						if (palettes[i] !== p[i]) {
 							palettes[i] = p[i];
 						}
 					}
@@ -644,7 +644,7 @@ require('color.js')
 					for(let i = 0, j = 0; i < p.count; i++, j += 4) {
 						let color = Color.rgb(data[j], data[j + 1], data[j + 2]);
 						
-						if (palettes[i] != color) {
+						if (palettes[i] !== color) {
 							if (rec) {
 								record(i, color, gorup);
 							}
@@ -655,7 +655,7 @@ require('color.js')
 					}
 					for(let i = p.count; i < 256; i++) {
 						const color = '#000000';
-						if (palettes[i] != color) {
+						if (palettes[i] !== color) {
 							if (rec) {
 								record(i, color, gorup);
 							}
