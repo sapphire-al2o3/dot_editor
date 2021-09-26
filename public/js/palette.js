@@ -429,7 +429,7 @@ require('color.js')
 //			});
 			$.bind($('palette-undo'), 'click', e => {
 				if (undoIndex > 0) {
-					let group = -1;
+					let group;
 					while(true) {
 						const r = popUndo();
 						group = r.group;
@@ -450,15 +450,21 @@ require('color.js')
 			});
 			$.bind($('palette-redo'), 'click', e => {
 				if (redoIndex > 0 && redoIndex < history.length) {
-					const r = popRedo();
-
-					selected.className = '';
-					selected = cells[r.index];
-					selected.className = 'selected';
-					frontIndex = r.index;
-					selectColor(r.color);
-					setColor(r.color, r.index);
-					undoIndex++;
+					let group;
+					// while (true) {
+						const r = popRedo();
+						group = r.group;
+						selected.className = '';
+						selected = cells[r.index];
+						selected.className = 'selected';
+						frontIndex = r.index;
+						selectColor(r.color);
+						setColor(r.color, r.index);
+						undoIndex++;
+					// 	if (redoIndex >= history.length || history[redoIndex].group !== group) {
+					// 		break;
+					// 	}
+					// }
 				}
 			});
 			$.bind($('palette-grad'), 'click', e => {
