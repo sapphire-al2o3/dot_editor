@@ -458,6 +458,9 @@ require('color.js')
 						selected = cells[r.index];
 						selected.className = 'selected';
 						frontIndex = r.index;
+
+						record(r.index, r.color, group);
+
 						selectColor(r.color);
 						setColor(r.color, r.index);
 						undoIndex++;
