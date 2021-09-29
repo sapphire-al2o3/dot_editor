@@ -74,6 +74,7 @@ require('color.js')
 			nums = [],
 			onchange,
 			history = [],
+			redoHistory = [],
 			undoIndex = 0,
 			redoIndex = 0;
 		
@@ -128,7 +129,7 @@ require('color.js')
 					if(copy) {
 						if(active) {
 							if(selected !== active) {
-								record(frontIndex, palettes[startIndex], history.length);
+								record(frontIndex, palettes[startIndex], undoIndex);
 								palettes[frontIndex] = palettes[startIndex];
 								e.target.style.backgroundColor = active.style.backgroundColor;
 								e.target.setAttribute('title', palettes[frontIndex]);
@@ -149,7 +150,7 @@ require('color.js')
 					if(swap || move) {
 						if(active) {
 							if(selected !== active) {
-								const group = history.length;
+								const group = undoIndex;
 								record(frontIndex, palettes[startIndex], group);
 								record(startIndex, palettes[frontIndex], group);
 								let t = palettes[startIndex];
@@ -288,7 +289,7 @@ require('color.js')
 					g = getNumValue(1),
 					b = getNumValue(2),
 					color = Color.rgb(r, g, b);
-				record(frontIndex, color, history.length);
+				record(frontIndex, color, undoIndex);
 				selectColor(color);
 				setColor(color, frontIndex);
 			}
