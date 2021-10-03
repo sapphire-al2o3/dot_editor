@@ -579,12 +579,14 @@ require('color.js')
 				history[undoIndex + 1].group = group;
 			}
 			redoIndex = undoIndex + 1;
+			// redoHistory.push({index: index, color: palettes[index], group: group});
 		}
 
 		function popRedo() {
 			if (redoIndex > 0) {
 				return history[redoIndex++];
 			}
+			// return redoHistory.pop();
 			return null;
 		}
 
@@ -602,6 +604,7 @@ require('color.js')
 					history.length = undoIndex;
 				}
 				redoIndex = 0;
+				// redoHistory.length = 0;
 			}
 		}
 
