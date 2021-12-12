@@ -74,6 +74,7 @@ require('color.js')
 			nums = [],
 			onchange,
 			history = [],
+			undoHistory = [],
 			redoHistory = [],
 			undoIndex = 0,
 			redoIndex = 0;
@@ -450,10 +451,12 @@ require('color.js')
 				}
 			});
 			$.bind($('palette-redo'), 'click', e => {
-				if (redoIndex > 0 && redoIndex < history.length) {
+				const r = popRedo();
+				if (r) {
+				// if (redoIndex > 0 && redoIndex < history.length) {
 					let group;
 					// while (true) {
-						const r = popRedo();
+						// const r = popRedo();
 						group = r.group;
 						selected.className = '';
 						selected = cells[r.index];
@@ -568,6 +571,7 @@ require('color.js')
 				return history[undoIndex];
 			}
 			return null;
+			// return history.pop();
 		}
 		
 		function pushRedo(index, group) {
@@ -579,15 +583,15 @@ require('color.js')
 				history[undoIndex + 1].group = group;
 			}
 			redoIndex = undoIndex + 1;
-			// redoHistory.push({index: index, color: palettes[index], group: group});
+			redoHistory.push({index: index, color: palettes[index], group: group});
 		}
 
 		function popRedo() {
-			if (redoIndex > 0) {
-				return history[redoIndex++];
-			}
-			// return redoHistory.pop();
-			return null;
+			// if (redoIndex > 0) {
+			// 	return history[redoIndex++];
+			// }
+			// return null;
+			return redoHistory.pop();
 		}
 
 		function record(index, color, group) {
@@ -604,7 +608,7 @@ require('color.js')
 					history.length = undoIndex;
 				}
 				redoIndex = 0;
-				// redoHistory.length = 0;
+				redoHistory.length = 0;
 			}
 		}
 
