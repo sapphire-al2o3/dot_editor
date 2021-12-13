@@ -463,7 +463,7 @@ require('color.js')
 						selected.className = 'selected';
 						frontIndex = r.index;
 
-						record(r.index, r.color, group);
+						pushUndo(r.index, r.color, group);
 
 						selectColor(r.color);
 						setColor(r.color, r.index);
@@ -594,7 +594,7 @@ require('color.js')
 			return redoHistory.pop();
 		}
 
-		function record(index, color, group) {
+		function pushUndo(index, color, group) {
 			if (color !== palettes[index]) {
 				if (history.length === undoIndex) {
 					history.push({index: index, color: palettes[index], group: group});
@@ -608,8 +608,12 @@ require('color.js')
 					history.length = undoIndex;
 				}
 				redoIndex = 0;
-				redoHistory.length = 0;
 			}
+		}
+
+		function record(index, color, group) {
+			pushUndo(index, color, group);
+			redoHistory.length = 0;
 		}
 
 		function createGradient(start, end) {
