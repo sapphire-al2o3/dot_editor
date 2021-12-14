@@ -467,7 +467,7 @@ require('color.js')
 
 						selectColor(r.color);
 						setColor(r.color, r.index);
-						undoIndex++;
+						// undoIndex++;
 					// 	if (redoIndex >= history.length || history[redoIndex].group !== group) {
 					// 		break;
 					// 	}
