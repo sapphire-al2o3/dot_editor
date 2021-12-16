@@ -624,10 +624,11 @@ require('color.js')
 			const r = e[0] - s[0];
 			const g = e[1] - s[1];
 			const b = e[2] - s[2];
+			const group = undoIndex + 1;
 			for(let i = start + 1; i < end; i++) {
 				const k = i - start;
 				const color = Color.rgb((r * k / d ^ 0) + s[0], (g * k / d ^ 0) + s[1], (b * k / d ^ 0) + s[2]);
-				record(i, color, undoIndex + 1);
+				record(i, color, group);
 				palettes[i] = color;
 				cells[i].style.backgroundColor = palettes[i];
 				cells[i].setAttribute('title', palettes[i]);
