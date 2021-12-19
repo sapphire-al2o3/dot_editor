@@ -4,7 +4,6 @@
 
 to do
 ・背景色選択
-・16進切り替え
 ・色の並べ替え
 ・色のコピー
 
@@ -22,7 +21,7 @@ done
 ・カラーバーにカーソルをつける
 ・(fix)カーソルバーを動かした時に位置がずれる
 ・未使用色の削除
-
+・16進表示切り替え
 require('selector.js')
 require('color.js')
 
@@ -546,8 +545,9 @@ require('color.js')
 			});
 		}
 		
+		// もとに戻す、やり直し処理
 		function checkHistory(index, color) {
-			if(history.length > 0) {
+			if (history.length > 0) {
 				let latest = history.length - 1,
 					r = history[latest];
 				if(r.index === index && r.color === color) {
@@ -586,7 +586,7 @@ require('color.js')
 
 		function popRedo() {
 			// if (redoIndex > 0) {
-			// 	return history[redoIndex++];
+			// 	return redoHistory[redoIndex++];
 			// }
 			// return null;
 			return redoHistory.pop();
@@ -614,6 +614,7 @@ require('color.js')
 			redoHistory.length = 0;
 		}
 
+		// グラデーション作成
 		function createGradient(start, end) {
 			if(end - start <= 1) {
 				return;
