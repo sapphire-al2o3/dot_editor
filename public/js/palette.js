@@ -514,7 +514,7 @@ require('color.js')
 				color = Color.rgb(r, g, b);
 			}
 			
-			$q('#front-color').style.backgroundColor = color;
+			$('front-color').style.backgroundColor = color;
 			nums[0].value = setNumValue(0, r);
 			nums[1].value = setNumValue(1, g);
 			nums[2].value = setNumValue(2, b);
