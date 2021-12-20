@@ -712,7 +712,34 @@ function drawIndexedImage(ctx, image, palette, scale, paletteData, transparent) 
 		}
 	}
 	ctx.putImageData(dst, 0, 0);
+}
+
+function drawRangeIndexedImage(ctx, image, scale, paletteData, transparent, range) {
+	let data = image.data,
+		size = scale,
+		w = image.width,
+		h = image.height,
+		offsetX = range.x,
+		offsetY = range.y;
 	
+	let dw = w * size,
+		dh = h * size,
+		dst = ctx.createImageData(dw, dh),
+		u32image = new Uint32Array(dst.data.buffer),
+		u32palette = new Uint32Array(paletteData.data.buffer),
+		k = 0;
+	for(let i = 0; i < dh; i++) {
+		let y = (i / size ^ 0) * w;
+		for(let j = 0; j < dw; j++) {
+			let x = j / size ^ 0,
+				index = data[y + x];
+			if(index !== transparent) {
+				u32image[k] = u32palette[index];
+			}
+			k++;
+		}
+	}
+	ctx.putImageData(dst, 0, 0);
 }
 
 function drawIndexedImageData(ctx, image, palette, scale, transparent, left, top) {
