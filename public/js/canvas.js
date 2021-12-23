@@ -718,7 +718,6 @@ function drawRangeIndexedImage(ctx, image, scale, paletteData, transparent, rang
 	let data = image.data,
 		size = scale,
 		w = image.width,
-		h = image.height,
 		offsetX = range ? range.x : 0,
 		offsetY = range ? range.y : 0,
 		screenW = range ? range.w : 0,
@@ -730,12 +729,12 @@ function drawRangeIndexedImage(ctx, image, scale, paletteData, transparent, rang
 		u32image = new Uint32Array(dst.data.buffer),
 		u32palette = new Uint32Array(paletteData.data.buffer),
 		k = 0;
-	for(let i = 0; i < dh; i++) {
-		let y = (i / size ^ 0 + offsetY) * w;
-		for(let j = 0; j < dw; j++) {
-			let x = j / size ^ 0 + offsetX,
+	for (let i = 0; i < dh; i++) {
+		let y = ((i / size ^ 0) + offsetY) * w;
+		for (let j = 0; j < dw; j++) {
+			let x = (j / size ^ 0) + offsetX,
 				index = data[y + x];
-			if(index !== transparent) {
+			if (index !== transparent) {
 				u32image[k] = u32palette[index];
 			}
 			k++;
