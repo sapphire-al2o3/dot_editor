@@ -594,6 +594,10 @@
 	content: url("../images/transparent_icon.png");
 }
 
+.editor-tools #scroll:before {
+	content: url("../images/scroll_icon.png");
+}
+
 .editor-tools #open-image label {
 	width: 100%;
 	height: 100%;

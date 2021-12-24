@@ -168,7 +168,8 @@ editor: Editor
 		tool = 'pen',
 		dropper = false,
 		mode,
-		storageMode = false;
+		storageMode = false,
+		scroll = false;
 	
 	const $grid = $('grid');
 	const $selection = $('selection');
@@ -596,7 +597,13 @@ editor: Editor
 		$.toggle($('layers'));
 		$('layer').classList.toggle('selected');
 	});
-	
+	$.bind($('scroll'), 'click', e => {
+		$('scroll').classList.toggle('selected');
+		scroll = !scroll;
+		if (scroll) {
+			
+		}
+	});
 	// サイズの指定
 	$.bind($('new-image-submit'), 'click', e => {
 		$.hide($('new-image'));
