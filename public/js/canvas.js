@@ -714,6 +714,7 @@ function drawIndexedImage(ctx, image, palette, scale, paletteData, transparent) 
 	ctx.putImageData(dst, 0, 0);
 }
 
+// 範囲指定してインデックスカラーイメージを描画する
 function drawRangeIndexedImage(ctx, image, scale, paletteData, transparent, range) {
 	let data = image.data,
 		size = scale,
