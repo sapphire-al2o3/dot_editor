@@ -601,7 +601,6 @@ editor: Editor
 		$('scroll').classList.toggle('selected');
 		scroll = !scroll;
 		if (scroll) {
-			
 		}
 	});
 	// サイズの指定
@@ -670,6 +669,7 @@ editor: Editor
 		for(let i = 0;i < Layer.count(); i++) {
 			let layer = Layer.get(i);
 			if(e !== undefined) {
+				// 色の入れ替え
 				swapColor(layer.indexData, e[0], e[1]);
 			}
 			drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, Palette.getTransparentIndex());
