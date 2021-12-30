@@ -593,10 +593,10 @@ editor: Editor
 		e.target.value = null;
 	});
 
-	// $.bind($('layer'), 'click', () => {
-	// 	$.toggle($('layers'));
-	// 	$('layer').classList.toggle('selected');
-	// });
+	$.bind($('layer'), 'click', () => {
+		$.toggle($('layers'));
+		$('layer').classList.toggle('selected');
+	});
 	// $.bind($('scroll'), 'click', e => {
 	// 	$('scroll').classList.toggle('selected');
 	// 	scroll = !scroll;
