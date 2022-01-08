@@ -17,7 +17,6 @@
 - Google Chrome
 - Firefox
 - Opera
-- Internet Explorer 11
 
 ## ツールのヘルプ
 
@@ -109,7 +108,7 @@
 
 ![shift](./images/shift.png)
 
-矢印の方向に1ドットずつ画像を移動させます。
+矢印の方向に1ドットずつ画像を移動させます。画像の端は反対側に移動します。
 
 ### Twitterへの投稿
 
