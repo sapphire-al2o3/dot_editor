@@ -102,7 +102,7 @@
 ![flipv](./images/flipv.png)
 ![rotate](./images/rotate.png)
 
-クリックすると画像を左右反転させます。
+クリックすると画像を左右反転、回転させます。
 
 ### 画像の移動
 
