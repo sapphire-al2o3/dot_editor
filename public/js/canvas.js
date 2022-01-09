@@ -226,6 +226,49 @@ function paint(ctx, x, y, indexData, paletteIndex, scale) {
 	ctx.fill();
 }
 
+function paintTone(ctx, x, y, indexData, paletteIndex, scale) {
+	let data = indexData.data,
+		w = indexData.width,
+		h = indexData.height,
+		c = data[y * w + x],
+		s = scale,
+		tmpIndexData = createIndexData(w, h),
+		tmp = tmpIndexData.data;
+	
+	if (c == paletteIndex) {
+		return;
+	}
+	
+	
+	(function f(x, y) {
+		if (x >= w || x < 0) return;
+		if (y >= h || y < 0) return;
+		if (data[y * w + x] === c && tmp[y * w + x] === 0) {
+			
+			tmp[y * w + x] = 1;
+
+			f(x - 1, y);
+			f(x + 1, y);
+			f(x, y - 1);
+			f(x, y + 1);
+		}
+	})(x, y);
+
+	ctx.beginPath();
+	for (let i = 0; i < h; i++) {
+		for (let j = 0; j < w; j++) {
+			let k = i * w + j;
+			if (tmp[k] === 1) {
+				if ((j & 1) ^ (i & 1)) {
+					data[k] = paletteIndex;
+					ctx.rect(j * s ^ 0, i * s ^ 0, s, s);
+				}
+			}
+		}
+	}
+	ctx.fill();
+}
+
 // アウトライン描画
 function drawOutline(ctx, x, y, indexData, paletteIndex, scale) {
 	let data = indexData.data,
