@@ -233,19 +233,20 @@ function paintTone(ctx, x, y, indexData, paletteIndex, scale) {
 		c = data[y * w + x],
 		s = scale,
 		tmpIndexData = createIndexData(w, h),
-		tmp = tmpIndexData.data;
+		tmp = tmpIndexData.data,
+		tone = (x & 1) ^ (y & 1);
 	
 	if (c == paletteIndex) {
 		return;
 	}
 	
-	
 	(function f(x, y) {
 		if (x >= w || x < 0) return;
 		if (y >= h || y < 0) return;
-		if (data[y * w + x] === c && tmp[y * w + x] === 0) {
+		const k = y * w + x;
+		if (data[k] === c && tmp[k] === 0) {
 			
-			tmp[y * w + x] = 1;
+			tmp[k] = 1;
 
 			f(x - 1, y);
 			f(x + 1, y);
@@ -259,7 +260,7 @@ function paintTone(ctx, x, y, indexData, paletteIndex, scale) {
 		for (let j = 0; j < w; j++) {
 			let k = i * w + j;
 			if (tmp[k] === 1) {
-				if ((j & 1) ^ (i & 1)) {
+				if (((j & 1) ^ (i & 1)) === tone) {
 					data[k] = paletteIndex;
 					ctx.rect(j * s ^ 0, i * s ^ 0, s, s);
 				}
