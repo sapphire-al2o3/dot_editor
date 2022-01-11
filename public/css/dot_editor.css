@@ -598,6 +598,10 @@
 	content: url("../images/scroll_icon.png");
 }
 
+.editor-tools #tone:before {
+	content: url("../images/tone_icon.png");
+}
+
 .editor-tools #open-image label {
 	width: 100%;
 	height: 100%;
