@@ -226,6 +226,7 @@ function paint(ctx, x, y, indexData, paletteIndex, scale) {
 	ctx.fill();
 }
 
+// トーンで塗りつぶし
 function paintTone(ctx, x, y, indexData, paletteIndex, scale) {
 	let data = indexData.data,
 		w = indexData.width,
