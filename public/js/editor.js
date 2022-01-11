@@ -603,6 +603,8 @@ editor: Editor
 	// 	if (scroll) {
 	// 	}
 	// });
+	$.bind($('tone'), 'click', toggleTool('tone'));
+
 	// サイズの指定
 	$.bind($('new-image-submit'), 'click', e => {
 		$.hide($('new-image'));
@@ -869,6 +871,9 @@ editor: Editor
 				selectHandler.transparent = e.ctrlKey;
 				selectHandler.down(points[1], points[0]);
 				down = true;
+				break;
+			case 'tone':
+				paintTone(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
 				break;
 			default:
 			}
