@@ -173,7 +173,7 @@ function drawRect(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 }
 
 // 塗りつぶし矩形
-function fillRect(ctx, x0, y0, x1, y1, indexData, index, scale) {
+function fillRect(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 	let left = Math.min(x0, x1),
 		right = Math.max(x0, x1),
 		top = Math.min(y0, y1),
@@ -191,7 +191,7 @@ function fillRect(ctx, x0, y0, x1, y1, indexData, index, scale) {
 		for(let i = top; i<= bottom; i++) {
 			let y = i * w;
 			for(let j = left; j <= right; j++) {
-				data[y + j] = index;
+				data[y + j] = paletteIndex;
 			}
 		}
 	}
@@ -306,7 +306,6 @@ function drawOutline(ctx, x, y, indexData, paletteIndex, scale) {
 			let k = i * w + j,
 				p = tmp[k] === 1;
 			
-			
 			if(p) {
 				let b = false;
 				if(i > 0) b |= tmp[k - w] === 0;
@@ -314,7 +313,7 @@ function drawOutline(ctx, x, y, indexData, paletteIndex, scale) {
 				if(j > 0) b |= tmp[k - 1] === 0;
 				if(j < w - 1) b |= tmp[k + 1] === 0;
 				if(b) {
-					data[i * w + j] = paletteIndex;
+					data[k] = paletteIndex;
 					ctx.rect(j * s ^ 0, i * s ^ 0, s, s);
 				}
 			}
