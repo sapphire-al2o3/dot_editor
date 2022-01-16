@@ -182,7 +182,7 @@ editor: Editor
 	};
 	const option = {};
 	option.scales = [1, 2, 4, 6, 8, 12];
-	option.zoom = 2;
+	option.zoom = 3;
 	option.scale = option.scales[option.zoom];
 	option.gridOn = false;
 	option.grid = {
@@ -655,8 +655,8 @@ editor: Editor
 		Palette.setPaletteData(palette, false);
 		Palette.convert(paletteData);
 		
-		createImage(48, 48);
-		selection.indexData = createIndexData(48, 48);
+		createImage(32, 32);
+		selection.indexData = createIndexData(32, 32);
 		resize();
 		ctx.fillStyle = palette[0];
 		ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
