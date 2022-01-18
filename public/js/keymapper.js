@@ -3,11 +3,14 @@
  *
  */
 
-var KeyMapper = (function () {
+const KeyMapper = (function () {
 	'use strict';
-	var keymap = {},
+	let keymap = {},
 		active = false,
-		keyEvent = null;
+		keyEvent = null,
+		keyUpEvent = null,
+		down = false,
+		trigger = false;
 	
 	function getKeyCode(key, option) {
 		var op = option ? [
@@ -24,7 +27,7 @@ var KeyMapper = (function () {
 			return this;
 		},
 		assigns: function (keys) {
-			var i = 0,
+			let i = 0,
 				l = keys.length;
 			for (i = 0; i < l; i += 1) {
 				this.assign(keys[i].key, keys[i].func);
@@ -41,23 +44,37 @@ var KeyMapper = (function () {
 			return false;
 		},
 		bind: function (target, event) {
-			var that = this;
+			let that = this;
+			
+			trigger = false;
+			if (event === 'trigger') {
+				keyUpEvent = keyUpEvent || (e => {
+					down = false;
+				});
+				event = 'down';
+				trigger = true;
+			}
 			event = event || 'up';
 			keyEvent = keyEvent || function (e) {
 				if (e.target.tagName !== 'INPUT') {
-					var key = getKeyCode(e.key, [e.ctrlKey, e.altKey, e.shiftKey]);
-					if (that.invoke(key)) {
-						e.preventDefault();
-						e.stopPropagation();
+					if (trigger && !down || !trigger) {
+						const key = getKeyCode(e.key, [e.ctrlKey, e.altKey, e.shiftKey]);
+						if (that.invoke(key)) {
+							e.preventDefault();
+							e.stopPropagation();
+						}
 					}
+					down = true;
 				}
 			};
 			target.addEventListener('key' + event, keyEvent, false);
+			target.addEventListener('keyup', keyUpEvent, false);
 			return this;
 		},
 		unbind: function (target, event) {
 			event = event || 'up';
 			target.removeEventListener('key' + event, keyEvent, false);
+			target.removeEventListener('keyup', keyUpEvent, false);
 		},
 		getKeyCode: function (key, option) {
 			return getKeyCode(key, option);

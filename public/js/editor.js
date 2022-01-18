@@ -423,7 +423,7 @@ editor: Editor
 		loadStorage('0');
 	});
 	KeyMapper.assign('O', toggleTool('outline'));
-	KeyMapper.bind(document, 'down');
+	KeyMapper.bind(document, 'trigger');
 	
 
 	function createImage(w, h) {
@@ -610,7 +610,7 @@ editor: Editor
 		$.hide($('new-image'));
 //			$('#overlay').fadeOut();
 		$.fadeOut($('overlay'));
-		KeyMapper.bind(document);
+		KeyMapper.bind(document, 'trigger');
 		const index = parseInt($.q('#new-image input[name="size"]:checked').value, 10);
 		const size = [16, 32, 48, 64][index];
 		createImage(size, size);
