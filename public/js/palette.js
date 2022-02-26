@@ -596,25 +596,21 @@ require('color.js')
 		}
 
 		function pushUndo(index, color, group) {
-			if (color !== palettes[index]) {
-				if (history.length === undoIndex) {
-					history.push({index: index, color: palettes[index], group: group});
-				} else {
-					history[undoIndex].index = index;
-					history[undoIndex].color = palettes[index];
-					history[undoIndex].group = group;
-				}
-				console.log(undoIndex);
-				undoIndex++;
-				if (history.length > undoIndex) {
-					history.length = undoIndex;
-				}
-				redoIndex = 0;
+			if (history.length === undoIndex) {
+				history.push({index: index, color: palettes[index], group: group});
+			} else {
+				history[undoIndex].index = index;
+				history[undoIndex].color = palettes[index];
+				history[undoIndex].group = group;
 			}
+			undoIndex++;
+			if (history.length > undoIndex) {
+				history.length = undoIndex;
+			}
+			redoIndex = 0;
 		}
 
 		function record(index, color, group) {
-			console.log(index, color);
 			pushUndo(index, color, group);
 			redoHistory.length = 0;
 		}
