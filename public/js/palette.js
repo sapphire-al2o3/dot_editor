@@ -547,8 +547,10 @@ require('color.js')
 		
 		// もとに戻す、やり直し処理
 		function checkHistory(index, color) {
-			if (history.length > 0) {
-				let latest = history.length - 1,
+			// if (history.length > 0) {
+			if (undoIndex > 0) {
+				// let latest = history.length - 1,
+				let latest = undoIndex - 1,
 					r = history[latest];
 				if(r.index === index && r.color === color) {
 					return true;
@@ -559,7 +561,8 @@ require('color.js')
 		
 		function popHistory(index, color) {
 			if(checkHistory(index, color)) {
-				history.pop();
+				// history.pop();
+				undoIndex--;
 			}
 		}
 
@@ -601,6 +604,7 @@ require('color.js')
 					history[undoIndex].color = palettes[index];
 					history[undoIndex].group = group;
 				}
+				console.log(undoIndex);
 				undoIndex++;
 				if (history.length > undoIndex) {
 					history.length = undoIndex;
@@ -610,6 +614,7 @@ require('color.js')
 		}
 
 		function record(index, color, group) {
+			console.log(index, color);
 			pushUndo(index, color, group);
 			redoHistory.length = 0;
 		}
