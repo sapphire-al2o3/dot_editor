@@ -547,9 +547,7 @@ require('color.js')
 		
 		// もとに戻す、やり直し処理
 		function checkHistory(index, color) {
-			// if (history.length > 0) {
 			if (undoIndex > 0) {
-				// let latest = history.length - 1,
 				let latest = undoIndex - 1,
 					r = history[latest];
 				if(r.index === index && r.color === color) {
@@ -560,8 +558,7 @@ require('color.js')
 		}
 		
 		function popHistory(index, color) {
-			if(checkHistory(index, color)) {
-				// history.pop();
+			if (checkHistory(index, color)) {
 				undoIndex--;
 			}
 		}
@@ -572,7 +569,6 @@ require('color.js')
 				return history[undoIndex];
 			}
 			return null;
-			// return history.pop();
 		}
 		
 		function pushRedo(index, group) {
