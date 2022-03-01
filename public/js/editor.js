@@ -1232,8 +1232,12 @@ editor: Editor
 		$.show($storage);
 		if (isSave) {
 			$caption.textContent = 'Save';
+			$storage.classList.add('save-dialog');
+			$storage.classList.remove('load-dialog');
 		} else {
 			$caption.textContent = 'Load';
+			$storage.classList.add('load-dialog');
+			$storage.classList.remove('save-dialog');
 		}
 		storageMode = isSave;
 
