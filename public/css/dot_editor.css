@@ -674,3 +674,11 @@
 	cursor: default;
 	margin-bottom: 8px;
 }
+
+.save-dialog #storage-caption {
+	background-color: #0D8;
+}
+
+.load-dialog #storage-caption {
+	background-color: #08D;
+}
