@@ -1370,6 +1370,7 @@ editor: Editor
 
 			copyRangeIndexData(temp, indexData);
 			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
+			drawPreview();
 		}
 	}
 
