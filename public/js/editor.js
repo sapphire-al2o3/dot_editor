@@ -1386,6 +1386,10 @@ editor: Editor
 		x = x < 0 ? 0 : x;
 		y = y < 0 ? 0 : y;
 		
+		if (!transparent) {
+			selectionCtx.fillStyle = palette[Palette.getBackIndex()];
+			selectionCtx.fillRect(0, 0, w, h);
+		}
 		selectionCtx.drawImage(ctx.canvas, x, y, w, h, 0, 0, w, h);
 
 		ctx.fillStyle = palette[Palette.getBackIndex()];
@@ -1400,7 +1404,6 @@ editor: Editor
 //		if(option.gridOn && option.zoom > 2) {
 //			drawGrid(selectionCtx, option, option.scale);
 //		}
-		
 		if(transparent) {
 			// 背景色を抜く
 			drawClearColor(selectionCtx, selection.indexData, Palette.getBackIndex(), option.scale);
