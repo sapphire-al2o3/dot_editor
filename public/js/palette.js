@@ -63,7 +63,6 @@ require('color.js')
 			table = null,
 			selected = null,
 			frontColor = '',
-			backColor = '',
 			frontIndex = 0,
 			backIndex = 0,
 			transparentIndex = 0,
@@ -717,9 +716,6 @@ require('color.js')
 				selected.className = 'selected';
 				frontIndex = index;
 				selectColor(palettes[index]);
-			},
-			getBackColor: () => {
-				return backColor;
 			},
 			getBackIndex: () => {
 				return backIndex;
