@@ -64,7 +64,6 @@ require('color.js')
 			selected = null,
 			frontColor = '',
 			frontIndex = 0,
-			backIndex = 0,
 			transparentIndex = 0,
 			cells = [],
 			palettes = [],
@@ -171,7 +170,7 @@ require('color.js')
 					}
 
 					if(transparent) {
-						backIndex = frontIndex;
+						transparentIndex = frontIndex;
 					}
 
 					if(grad) {
@@ -716,9 +715,6 @@ require('color.js')
 				selected.className = 'selected';
 				frontIndex = index;
 				selectColor(palettes[index]);
-			},
-			getBackIndex: () => {
-				return backIndex;
 			},
 			setColor: color => {
 				record(frontIndex, color, undoIndex + 1);

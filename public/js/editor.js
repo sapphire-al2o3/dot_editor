@@ -1387,17 +1387,17 @@ editor: Editor
 		y = y < 0 ? 0 : y;
 		
 		if (!transparent) {
-			selectionCtx.fillStyle = palette[Palette.getBackIndex()];
+			selectionCtx.fillStyle = palette[Palette.getTransparentIndex()];
 			selectionCtx.fillRect(0, 0, w, h);
 		}
 		selectionCtx.drawImage(ctx.canvas, x, y, w, h, 0, 0, w, h);
 
-		ctx.fillStyle = palette[Palette.getBackIndex()];
+		ctx.fillStyle = palette[Palette.getTransparentIndex()];
 		ctx.fillRect(r.x * s, r.y * s, r.w * s, r.h * s);
 		selection.indexData.width = r.w;
 		selection.indexData.height = r.h;
 		copyIndexData(indexData, selection.indexData, r.x, r.y, r.w, r.h);
-		fillIndexData(indexData, Palette.getBackIndex(), r.x, r.y, r.w, r.h);
+		fillIndexData(indexData, Palette.getTransparentIndex(), r.x, r.y, r.w, r.h);
 		
 //		drawIndexedImage(selectionCtx, selection.indexData, palette, option.scale);
 		
@@ -1406,7 +1406,7 @@ editor: Editor
 //		}
 		if(transparent) {
 			// 背景色を抜く
-			drawClearColor(selectionCtx, selection.indexData, Palette.getBackIndex(), option.scale);
+			drawClearColor(selectionCtx, selection.indexData, Palette.getTransparentIndex(), option.scale);
 		}
 	}
 	
@@ -1418,7 +1418,7 @@ editor: Editor
 			r = selection.region,
 			x = r.x * s,
 			y = r.y * s,
-			transparentIndex = selection.transparent ? Palette.getBackIndex() : 256;
+			transparentIndex = selection.transparent ? Palette.getTransparentIndex() : 256;
 		ctx.globalCompositeOperation = 'source-over';
 		ctx.drawImage(selectionCtx.canvas, x, y);
 		copyIndexData(selection.indexData, indexData, 0, 0, r.w, r.h, r.x, r.y, transparentIndex);
