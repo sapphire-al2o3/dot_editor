@@ -438,10 +438,12 @@ require('color.js')
 						frontIndex = r.index;
 
 						pushRedo(r.index, group + 1);
+						
+						let checkGroup = undoIndex === 0 || history[undoIndex - 1].group !== group;
 
 						selectColor(r.color);
-						setColor(r.color, r.index);
-						if (undoIndex === 0 || history[undoIndex - 1].group !== group) {
+						setColor(r.color, r.index, !checkGroup);
+						if (checkGroup) {
 							break;
 						}
 					}
@@ -460,10 +462,12 @@ require('color.js')
 
 						pushUndo(r.index, r.color, group);
 
-						selectColor(r.color);
-						setColor(r.color, r.index);
+						let checkGroup = redoHistory.length == 0 || redoHistory[redoHistory.length - 1].group !== group;
 
-						if (redoHistory.length == 0 || redoHistory[redoHistory.length - 1].group !== group) {
+						selectColor(r.color);
+						setColor(r.color, r.index, !checkGroup);
+
+						if (checkGroup) {
 							break;
 						}
 					}
