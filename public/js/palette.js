@@ -392,7 +392,7 @@ require('color.js')
 				$('palette-swap').className = swap ? 'selected' : '';
 				$('palette-move').className = move ? 'selected' : '';
 				$('palette-grad').className = grad ? 'selected' : '';
-//				$('palette-transparent').className = transparent ? 'selected' : '';
+				// $('palette-transparent').className = transparent ? 'selected' : '';
 			}
 			
 			$.bind($('palette-copy'), 'click', e => {
@@ -420,12 +420,14 @@ require('color.js')
 				transparent = false;
 				setPaletteTool();
 			});
-//			$.bind($('palette-transparent'), 'click', function(e) {
-//				copy = false;
-//				swap = false;
-//				transparent = !transparent;
-//				setPaletteTool();
-//			});
+			// $.bind($('palette-transparent'), 'click', e => {
+			// 	move = false;
+			// 	copy = false;
+			// 	swap = false;
+			// 	grad = false;
+			// 	transparent = !transparent;
+			// 	setPaletteTool();
+			// });
 			$.bind($('palette-undo'), 'click', e => {
 				if (undoIndex > 0) {
 					let group;
