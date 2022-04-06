@@ -44,7 +44,7 @@
 			event = e;
 			e = document;
 		}
-		e.addEventListener(event, func, false);
+		e?.addEventListener(event, func, false);
 	};
 	
 	$.unbind = (e, event, func) => {
