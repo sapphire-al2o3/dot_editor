@@ -53,7 +53,7 @@
 			event = e;
 			e = document;
 		}
-		e.removeEventListener(event, func, false);
+		e?.removeEventListener(event, func, false);
 	};
 	
 	function fadeOutEnd(e) {

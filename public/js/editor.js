@@ -604,6 +604,9 @@ editor: Editor
 	// 	}
 	// });
 	$.bind($('tone'), 'click', toggleTool('tone'));
+	$.bind($('transparent'), 'click', () => {
+		$('transparent').classList.toggle('selected');
+	});
 
 	// サイズの指定
 	$.bind($('new-image-submit'), 'click', e => {
