@@ -763,15 +763,17 @@ editor: Editor
 		},
 		up: function(x, y) {
 			let s = option.scale,
-				r = selection.region;
+				r = selection.region,
+				sx = this.x,
+				sy = this.y;
 			x = x * s;
 			y = y * s;
 			
 			x = x < 0 ? 0 : x >= this.w ? this.w : x;
 			y = y < 0 ? 0 : y >= this.h ? this.h : y;
 			
-			let w = Math.abs(x - this.x),
-				h = Math.abs(y - this.y);
+			let w = Math.abs(x - sx),
+				h = Math.abs(y - sy);
 			
 			// w = w === 0 ? s : w;
 			// h = h === 0 ? s : h;
@@ -793,6 +795,7 @@ editor: Editor
 				selection.transparent = this.transparent;
 				selection.enable = true;
 				selectionCtx.canvas.classList.add('active');
+				console.log(w, h);
 			}
 		}
 	};
