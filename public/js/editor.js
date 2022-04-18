@@ -755,17 +755,21 @@ editor: Editor
 			x = sx > x ? x : sx;
 			y = sy > y ? y : sy;
 
+			if(w === 0) w = s;
+			if(h === 0) h = s;
+
 			if(w > 0 && h > 0) {
 				$.position($selection, x, y);
 				$.size($selection, w, h);
 				$.show($selection);
 			}
 		},
-		up: function(x, y) {
+		up: function(x, y, px, py) {
 			let s = option.scale,
 				r = selection.region,
 				sx = this.x,
 				sy = this.y;
+
 			x = x * s;
 			y = y * s;
 			
@@ -775,8 +779,8 @@ editor: Editor
 			let w = Math.abs(x - sx),
 				h = Math.abs(y - sy);
 			
-			// w = w === 0 ? s : w;
-			// h = h === 0 ? s : h;
+			if(w === 0) w = s;
+			if(h === 0) h = s;
 			
 			x = this.x > x ? x : this.x;
 			y = this.y > y ? y : this.y;
@@ -794,9 +798,8 @@ editor: Editor
 				this.enable = true;
 				selection.transparent = this.transparent;
 				selection.enable = true;
-				selectionCtx.canvas.classList.add('active');
-				console.log(w, h);
-			}
+				selectionCtx.canvas.classList.add('active');			}
+			
 		}
 	};
 	
