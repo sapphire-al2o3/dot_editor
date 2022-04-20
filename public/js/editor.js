@@ -84,9 +84,9 @@ bug
 ・スクロールしてペンで描画すると位置がずれている(fix)
 ・細長い楕円の描画が途中で切れている(fix)
 ・パレットに数値入力した時にキャンバスのサイズがおかしくなる(fix)
+・選択範囲を回転するときに選択範囲の大きさが変わっていない(fix)
 
 ・拡大縮小、選択範囲などを使用した時にグリッドが等倍でも出てしまう
-・選択範囲を回転するときに選択範囲の大きさが変わっていない
 ・プレビューウィンドウで右クリックすると下のキャンバスの色をスポイトしてしまう
 ・描画時にキャンバス外で右クリックしてもキャンセルされない
 ・HSVのカラー選択で表示される数値が変わっていない
@@ -794,6 +794,7 @@ editor: Editor
 				selectionCtx.canvas.width = w;
 				selectionCtx.canvas.height = h;
 				$.size($selection, w, h);
+				$.show($selection);
 				cut(this.transparent);
 				this.enable = true;
 				selection.transparent = this.transparent;
