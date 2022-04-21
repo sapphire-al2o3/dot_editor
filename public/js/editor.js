@@ -799,8 +799,8 @@ editor: Editor
 				this.enable = true;
 				selection.transparent = this.transparent;
 				selection.enable = true;
-				selectionCtx.canvas.classList.add('active');			}
-			
+				selectionCtx.canvas.classList.add('active');
+			}
 		}
 	};
 	
@@ -852,11 +852,11 @@ editor: Editor
 			switch(tool) {
 			case 'pen':
 				down = true;
-//					if(paletteIndex === 0) {
-//						clearDot(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
-//					} else {
+//				if(paletteIndex === 0) {
+//					clearDot(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
+//				} else {
 					drawDot(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
-//					}
+//				}
 				break;
 			case 'paint':
 				paint(ctx, points[1], points[0], indexData, paletteIndex, option.scale);
