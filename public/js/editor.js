@@ -1408,7 +1408,6 @@ editor: Editor
 		selection.indexData.height = r.h;
 		copyIndexData(indexData, selection.indexData, r.x, r.y, r.w, r.h);
 		fillIndexData(indexData, Palette.getTransparentIndex(), r.x, r.y, r.w, r.h);
-		
 //		drawIndexedImage(selectionCtx, selection.indexData, palette, option.scale);
 		
 //		if(option.gridOn && option.zoom > 2) {

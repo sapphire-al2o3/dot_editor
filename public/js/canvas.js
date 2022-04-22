@@ -1027,7 +1027,7 @@ function shiftH(ctx, indexData, shift, scale) {
 		h = indexData.height,
 		tmp = createIndexData(w, h);
 	shiftImageH(data, tmp.data, w, h, shift);
-	indexData.data = tmp.data;
+	copyBuffer(tmp.data, indexData.data, tmp.data.length);
 	
 	let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height),
 		tmpData = ctx.createImageData(imageData.width, imageData.height),
@@ -1053,7 +1053,7 @@ function shiftV(ctx, indexData, shift, scale) {
 		h = indexData.height,
 		tmp = createIndexData(w, h);
 	shiftImageV(data, tmp.data, w, h, shift);
-	indexData.data = tmp.data;
+	copyBuffer(tmp.data, indexData.data, tmp.data.length);
 	
 	let imageData = ctx.getImageData(0, 0, ctx.canvas.width, ctx.canvas.height),
 		tmpData = ctx.createImageData(imageData.width, imageData.height),
