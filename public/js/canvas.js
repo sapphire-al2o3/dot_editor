@@ -1049,11 +1049,22 @@ function shiftImageH(data, tmp, w, h, shift) {
 function shiftImageLeft1(data, w, h) {
 	for(let i = 0; i < h; i++) {
 		let y = i * w,
-			t = data[y + j];
+			t = data[y];
 		for(let j = 0; j < w - 1; j++) {
 			data[y + j] = data[y + j + 1];
 		}
-		data[y + (w + j + 1)] = t;
+		data[y + w - 1] = t;
+	}
+}
+
+function shiftImageRight1(data, w, h) {
+	for(let i = 0; i < h; i++) {
+		let y = i * w,
+			t = data[y + w - 1];
+		for(let j = w - 1; j >= 1; j--) {
+			data[y + j] = data[y + j - 1];
+		}
+		data[y] = t;
 	}
 }
 
