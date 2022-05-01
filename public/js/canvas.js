@@ -1046,6 +1046,14 @@ function shiftImageH(data, tmp, w, h, shift) {
 	}
 }
 
+function shiftImageH1(data, w, h, shift) {
+	if(shift > 0) {
+		shiftImageRight1(data, w, h);
+	} else {
+		shiftImageLeft1(data, w, h);
+	}
+}
+
 function shiftImageLeft1(data, w, h) {
 	for(let i = 0; i < h; i++) {
 		let y = i * w,
