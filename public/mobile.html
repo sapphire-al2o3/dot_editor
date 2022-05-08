@@ -1,0 +1,603 @@
+<!doctype html>
+<html lang="ja">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=400" />
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<title>Dot Editor</title>
+		<link href="./css/dot_common.css" media="screen" rel="stylesheet" type="text/css" />
+		<link rel="shortcut icon" href="./images/favicon.png" />
+		<script src="./js/base64.js"></script>
+		<script src="./js/canvas.js"></script>
+		<script src="./js/selector.js"></script>
+		<style>
+			#header {
+				margin-bottom: 8px;
+			}
+			
+			body {
+/*				background-color: #F7F7F7;*/
+/*				background-image: url(./images/back.png)*/
+			}
+			
+			#container {
+				width: 400px;
+				background-color: #FFF;
+			}
+			p {
+				font-size: 12px;
+				text-align: center;
+				color: #555;
+			}
+			.tweet {
+/*				float: right;*/
+				margin-left: 8px;
+				margin-top: -20px;
+				text-align: left;
+			}
+			#close {
+				color: #555;
+				font-weight: bold;
+				margin-bottom: 16px;
+				background: none;
+				border: 0;
+				transition: background-color 0.4s;
+				padding: 4px 24px;
+				cursor: pointer;
+			}
+			
+			#close:hover {
+				background-color: #34c0f4;
+				color: #FFF;
+			}
+			p {
+				line-height: 1.5;
+				
+			}
+			.scroll div {
+				width: 384px;
+				height: 384px;
+				overflow: hidden;
+				border: 8px solid #DDD;
+				transition: border 0.5s, width 0.5s, height 0.5s;
+				background-color: #EEE;
+			}
+			
+			.scroll {
+				position: relative;
+				text-align: center;
+				margin-bottom: 16px;
+			}
+			
+			.scale div {
+				border: 32px solid #DDD;
+				width: 336px;
+				height: 336px;
+			}
+			
+			.scroll span {
+				display: block;
+				width: 0;
+				height: 0;
+				background-color: #34c0f4;
+				position: absolute;
+
+				cursor: pointer;
+/*				z-index: 1;*/
+			}
+			
+			span.thumb-left {
+				top: 32px;
+				left: 0px;
+				transition: width 0.5s;
+			}
+			
+			span.thumb-top {
+				top: 0;
+				left: 32px;
+				transition: height 0.5s;
+			}
+			
+			span.thumb-bottom {
+				bottom: 0;
+				left: 32px;
+				transition: height 0.5s;
+			}
+			
+			span.thumb-right {
+				top: 32px;
+				right: 0;
+				transition: width 0.5s;
+			}
+			
+			.scale span {
+				width: 32px;
+				height: 32px;
+				display: block;
+/*				opacity: 1;*/
+			}
+			
+			h2 {
+				font-size: 18px;
+				color: #08D;
+				margin-bottom: 8px;
+				text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+			}
+			
+			@font-face {
+				font-family: "toolicon";
+				src: url("./fonts/icon.svg");
+			}
+			
+			ul.tools {
+				list-style: none;
+				padding: 0 8px;
+				margin-bottom: 8px;
+			}
+			
+			ul.tools li {
+				display: inline-block;
+				font-family: toolicon;
+				font-size: 20px;
+				color: #666;
+				background-image: linear-gradient(rgba(0,0,0,0.01), rgba(0,0,0,0.03));
+				box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+				border-radius: 4px;
+/*				border: 1px solid #EEE;*/
+				cursor: pointer;
+				padding: 4px;
+				margin-left: 4px;
+				width: 24px;
+				height: 24px;
+				text-align: center;
+			}
+			
+			#canvas {
+				background-color: #FFF;
+			}
+			
+			canvas#buffer {
+				display: none;
+			}
+			
+			.article {
+				margin-bottom: 16px;
+				padding: 8px;
+			}
+			
+			.article p {
+				text-align: left;
+			}
+			
+			.help {
+				font-size: 12px;
+				color: #555;
+				padding: 8px;
+			}
+			
+			.help ul {
+				list-style: none;
+			}
+			
+			.tweet {
+				width: 80px;
+				background-image: linear-gradient(#fff, #dedede);
+			}
+			
+			.tweet a {
+				text-decoration: none;
+				display: block;
+				padding: 2px 5px 2px 28px;
+				background: url("https://twitter.com/favicons/favicon.ico") 4px center no-repeat;
+				border: 1px solid #ccc;
+				border-radius: 3px;
+				font-size: 11px;
+				font-weight: bold;
+				color: #555;
+				text-shadow: 1px 1px 1px #FFF;
+			}
+			
+			.icon-undo:before {
+				content: "\e600";
+			}
+			.icon-zoom-in:before {
+				content: "\e601";
+			}
+			.icon-zoom-out:before {
+				content: "\e602";
+			}
+			.icon-search:before {
+				content: "\e603";
+			}
+			.icon-remove:before {
+				content: "\e604";
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div id="container">
+			<div id="header">
+				<h1><a href="/"><img src="./images/dota_32x32.png" /></a></h1>
+			</div>
+			<ul class="tools">
+				<li id="zoom"><img src="./images/zoomin_icon.png"></li>
+				<li id="zoomout"><img src="./images/zoomout_icon.png"></li>
+				<li id="undo"><img src="./images/undo_icon.png"></li>
+				<li id="trash"><img src="images/trash_icon.png"></li>
+				<li id="grid"><img src="./images/grid_icon.png"></li>
+<!--				<li><img id="preview" /><canvas id="buffer"></canvas></li>-->
+			</ul>
+			<div id="scroll" class="scroll">
+				<span id="thumb-left" class="thumb-left"></span>
+				<span id="thumb-top" class="thumb-top"></span>
+<!--				<span class="thumb-bottom"></span>-->
+<!--				<span class="thumb-right"></span>-->
+				<div><canvas id="canvas" width="256" height="256"></canvas></div>
+			</div>
+<!--			<p><img id="preview" /><canvas id="buffer"></canvas></p>-->
+			
+			<p><a href="#" id="encode">URLに変換</a></p>
+			<p class="tweet"><a href="https://twitter.com/share" id="tweet-button" target="_blank">Tweet</a></p>
+			<div class="article">
+				<p>2色のドット絵を描くツールです。</p>
+				<p>クリックすると黒が白、白が黒に反転します。</p>
+				<p>描き終えて「URLに変換」をクリックするとアドレスバーのURLが変わります。URLをそのまま貼り付ければドット絵へのリンクになります。</p>
+			</div>
+			<div class="help">
+				<h2>Help</h2>
+				<ul>
+					<li><img src="./images/zoomin_icon.png" />拡大する</li>
+					<li><img src="./images/zoomout_icon.png" />縮小する</li>
+					<li><img src="./images/undo_icon.png" />元に戻す</li>
+					<li><img src="./images/trash_icon.png" />すべて消す</li>
+				</ul>
+				<p><a id="to-top" href="#">上へ戻る</a></p>
+			</div>
+			<div id="footer">
+				<p class="copyright">Copyright 2014 <a href="https://twitter.com/sapphire_al2o3">@sapphire_al2o3</a></p>
+			</div>
+		</div>
+		<script>
+			(function(global) {
+				'use strict';
+				
+				let canvas = document.getElementById('canvas'),
+					ctx = canvas.getContext('2d'),
+					w = canvas.width,
+					h = canvas.height,
+					scale = 12;
+				const defaultScale = 12;
+				const size = 32;
+				const $ = Selector;
+				
+				let image = createIndexData(size, size);
+				
+				let hash = location.hash.slice(1);
+				
+				if(hash) {
+					let data = Base64.decode(hash);
+					unpack(data, image.data);
+				}
+				resize(image, scale);
+				
+				let r, px, py, left, top, index = 1,
+					offsetX = 0, offsetY = 0;
+				
+				$('zoom').addEventListener('click', () => {
+					scale = scale === 32 ? defaultScale : 32;
+					
+					canvas.style.marginLeft = (scale === defaultScale ? 0 : offsetX) + 'px';
+					canvas.style.marginTop = (scale === defaultScale ? 0 : offsetY) + 'px';
+					document.querySelector('.scroll').classList.toggle('scale');
+					resize(image, scale);
+					if(scale === 32) {
+						drawGrid(ctx, {scale: scale, grid: {color1: '#EEE', color0: '#AAA', size: 16}, imageWidth: image.width});
+					}
+				});
+				
+				$('zoomout').addEventListener('click', () => {
+					scale = scale === 1 ? defaultScale : 1;
+					canvas.style.marginLeft = '0px';
+					canvas.style.marginTop = (scale === 1 ? 200 - 24 / 2 : 0) + 'px';
+					document.querySelector('.scroll').classList.remove('scale');
+					resize(image, scale);
+				});
+				
+				$('undo').addEventListener('click', function() {
+					undo();
+				});
+				
+				$('trash').addEventListener('click', function() {
+					record();
+					clear(ctx, image);
+				});
+				
+				function mousemove(e) {
+					var x = (e.pageX - left) / scale ^ 0,
+						y = (e.pageY - top) / scale ^ 0;
+					drawLine(ctx, px, py, x, y, image, index, scale);
+					px = x;
+					py = y;
+					e.preventDefault();
+				}
+				
+				function mouseup(e) {
+					document.removeEventListener('mouseup', mouseup);
+					document.removeEventListener('mousemove', mousemove);
+				}
+				
+				function mousedown(e) {
+					record();
+					let r = e.target.getBoundingClientRect();
+					left = window.scrollX + r.left;
+					top = window.scrollY + r.top;
+					px = (e.pageX - left) / scale ^ 0;
+					py = (e.pageY - top) / scale ^ 0;
+					index = 1 - image.data[py * image.width + px];
+					ctx.fillStyle = palette[index];
+					drawDot(ctx, px, py, image, index, scale);
+					document.addEventListener('mousemove', mousemove);
+					document.addEventListener('mouseup', mouseup);
+					e.preventDefault();
+					e.stopPropagation();
+				}
+				
+				function touchend(e) {
+					document.removeEventListener('touchmove', touchmove);
+					document.removeEventListener('touchend', touchend);
+				}
+				
+				function touchmove(e) {
+//					e.preventDefault();
+					let touches = e.changedTouches;
+					if(touches.length > 0) {
+						let x = (touches[0].pageX - left) / scale ^ 0,
+							y = (touches[0].pageY - top) / scale ^ 0;
+						drawLine(ctx, px, py, x, y, image, index, scale);
+						px = x;
+						py = y;
+					}
+				}
+				
+				function touchstart(e) {
+					e.preventDefault();
+					e.stopPropagation();
+					var touches = e.changedTouches;
+					if(touches.length > 0) {
+						record();
+						var r = canvas.getBoundingClientRect();
+						left = window.scrollX + r.left;
+						top = window.scrollY + r.top;
+						px = (touches[0].pageX - left) / scale ^ 0;
+						py = (touches[0].pageY - top) / scale ^ 0;
+						index = 1 - image.data[py * image.width + px];
+						ctx.fillStyle = palette[index];
+						drawDot(ctx, px, py, image, index, scale);
+						
+						document.addEventListener('touchmove', touchmove);
+						document.addEventListener('touchend', touchend);
+					}
+				}
+				
+				var palette = ['#FFF', '#000'];
+				
+				canvas.addEventListener('mousedown', mousedown);
+				canvas.addEventListener('touchstart', touchstart);
+				
+				var scroll = $('scroll'),
+					thumbTop = $('thumb-top'),
+					thumbBottom = $('thumb-bottom'),
+					thumbLeft = $('thumb-left'),
+					thumbRight = $('thumb-right');
+				
+				function move(e) {
+					e.stopPropagation();
+					e.preventDefault();
+					
+					var pageX, pageY;
+					if(e.changedTouches && e.changedTouches.length > 0) {
+						pageX = e.changedTouches[0].pageX;
+						pageY = e.changedTouches[0].pageY;
+					} else {
+						pageX = e.pageX;
+						pageY = e.pageY;
+					}
+					
+					var x = (pageX - r.left - 32) / (400 - 64),
+						y = (pageY - r.top - 32) / (400 - 64);
+					
+					if(x >= 0 && x <= 1) {
+						offsetX = -x * 432 ^ 0;
+						canvas.style.marginLeft = offsetX + 'px';
+						thumbTop.style.left = (x * 304 ^ 0) + 32 + 'px';
+					}
+					if(y >= 0 && y <= 1) {
+						offsetY = -y * 432 ^ 0;
+						canvas.style.marginTop = offsetY + 'px';
+						thumbLeft.style.top = (y * 304 ^ 0) + 32 + 'px';
+//						thumbRight.style.top = (y * 304 ^ 0) + 32 + 'px';
+					}
+				}
+				
+				function up() {
+					document.removeEventListener('mousemove', move);
+					document.removeEventListener('mouseup', up);
+				}
+				
+				function scrollTouchUp() {
+					document.removeEventListener('touchmove', move);
+					document.removeEventListener('touchup', scrollTouchUp);
+				}
+				
+				scroll.addEventListener('mousedown', function(e) {
+					var t = document;
+					r = scroll.getBoundingClientRect();
+					
+					if(scale < 32) {
+						return;
+					}
+					
+					move(e);
+					t.addEventListener('mousemove', move);
+					t.addEventListener('mouseup', up);
+				});
+				
+				scroll.addEventListener('touchstart', function(e) {
+					var t = document;
+					r = scroll.getBoundingClientRect();
+					
+					if(scale < 32) {
+						return;
+					}
+					
+					move(e);
+					t.addEventListener('touchmove', move, {passive: false});
+					t.addEventListener('touchend', scrollTouchUp);
+				});
+				
+				function sub(data, p) {
+					p = p || [];
+					p[0] = data[0];
+					for(var i = 1, n = data.length; i < n; i++) {
+						p[i] = data[i] - data[i - 1];
+					}
+					return p;
+				}
+				
+				function pack(data, p) {
+					var k = 0;
+					p = p || [];
+					for(var i = 0, n = data.length / 8 ^ 0; i < n; i++) {
+						p[i] = 0;
+						for(var j = 0; j < 8; j++) {
+							p[i] |= (data[k++] !== 0) << j;
+						}
+					}
+					return p;
+				}
+				
+				function unpack(data, p) {
+					var k = 0;
+					p = p || [];
+					for(var i = 0, n = data.length; i < n; i++) {
+						for(var j = 0; j < 8; j++) {
+							p[k++] = (data[i] >> j) & 1;
+						}
+					}
+					return p;
+				}
+				
+				var filter = {};
+				filter.sub = function(data, p) {
+					p = p || [];
+					p[0] = data[0];
+					for(var i = 1, n = data.length; i < n; i++) {
+						p[i] = data[i] - data[i - 1];
+					}
+					return p;
+				};
+				
+				filter.transpose = function(data, p) {
+					p = p || [];
+				};
+				
+				
+				function encode(image) {
+					var w = image.width,
+						h = image.height,
+						data = image.data;
+					return Base64.encode(data);
+				}
+				
+				function resize(image, scale) {
+					canvas.width = scale * image.width;
+					canvas.height = scale * image.height;
+					render(ctx, image, scale);
+				}
+				
+				function render(ctx, image, scale) {
+					let data = image.data,
+						w = image.width,
+						h = image.height;
+					scale = scale || ctx.canvas.width / w;
+//					ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+					ctx.fillStyle = '#FFF';
+					ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+					ctx.fillStyle = '#000';
+					for(let i = 0; i < h; i++) {
+						for(let j = 0; j < w; j++) {
+							if(data[i * w + j]) {
+								ctx.fillRect(j * scale, i * scale, scale, scale);
+							}
+						}
+					}
+				}
+				
+				var buffer = $('buffer');
+				function preview(ctx, image) {
+					
+				}
+				
+//				var buf = document.getElementById('hidden').getContext('2d');
+//				render(buf, image, 1);
+//				document.getElementById('preview').src = document.getElementById('hidden').toDataURL();
+				
+				document.getElementById('encode').addEventListener('click', function(e) {
+					var data = pack(image.data),
+						hash = Base64.encode(data);
+					var rle = RLE.encode(data),
+						d = RLE.decode(rle);
+					console.log(data.length, rle.length, d.length);
+					location.hash = hash;
+					e.preventDefault();
+				});
+				
+				$('tweet-button').addEventListener('click', function(e) {
+					var data = pack(image.data),
+						hash = Base64.encode(data),
+						url = location.origin + location.pathname + '#' + hash;
+					e.target.href = 'https://twitter.com/share?url=' +  encodeURIComponent(url);
+				});
+				
+				$('to-top').addEventListener('click', function(e) {
+					window.scrollTo(0, 0);
+					e.preventDefault();
+				});
+				
+				let undoBuffer = [];
+				
+				function record() {
+					var back = undoBuffer[undoBuffer.length - 1];
+					
+					var temp = new Uint8Array(image.width * image.height / 8);
+					pack(image.data, temp);
+					undoBuffer.push(temp);
+				}
+				
+				// undo
+				function undo() {
+					let temp = undoBuffer.pop();
+					
+					if(temp) {
+						unpack(temp, image.data);
+						render(ctx, image, scale);
+					}
+				}
+				
+				// debug
+				let dota = {
+					clear: clear.bind(null, ctx, image),
+					resize: resize.bind(null, image),
+					flipH: function() {
+						flipH(ctx, image);
+						render(ctx, image, scale);
+					},
+					undo: undo
+				};
+				
+				global.dota = dota;
+			})(this);
+		</script>
+	</body>
+</html>
