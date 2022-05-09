@@ -304,11 +304,11 @@
 					resize(image, scale);
 				});
 				
-				$('undo').addEventListener('click', function() {
+				$('undo').addEventListener('click', () => {
 					undo();
 				});
 				
-				$('trash').addEventListener('click', function() {
+				$('trash').addEventListener('click', () => {
 					record();
 					clear(ctx, image);
 				});
@@ -363,10 +363,10 @@
 				function touchstart(e) {
 					e.preventDefault();
 					e.stopPropagation();
-					var touches = e.changedTouches;
+					const touches = e.changedTouches;
 					if(touches.length > 0) {
 						record();
-						var r = canvas.getBoundingClientRect();
+						const r = canvas.getBoundingClientRect();
 						left = window.scrollX + r.left;
 						top = window.scrollY + r.top;
 						px = (touches[0].pageX - left) / scale ^ 0;
@@ -380,12 +380,12 @@
 					}
 				}
 				
-				var palette = ['#FFF', '#000'];
+				let palette = ['#FFF', '#000'];
 				
 				canvas.addEventListener('mousedown', mousedown);
 				canvas.addEventListener('touchstart', touchstart);
 				
-				var scroll = $('scroll'),
+				let scroll = $('scroll'),
 					thumbTop = $('thumb-top'),
 					thumbBottom = $('thumb-bottom'),
 					thumbLeft = $('thumb-left'),
@@ -395,7 +395,7 @@
 					e.stopPropagation();
 					e.preventDefault();
 					
-					var pageX, pageY;
+					let pageX, pageY;
 					if(e.changedTouches && e.changedTouches.length > 0) {
 						pageX = e.changedTouches[0].pageX;
 						pageY = e.changedTouches[0].pageY;
@@ -404,7 +404,7 @@
 						pageY = e.pageY;
 					}
 					
-					var x = (pageX - r.left - 32) / (400 - 64),
+					let x = (pageX - r.left - 32) / (400 - 64),
 						y = (pageY - r.top - 32) / (400 - 64);
 					
 					if(x >= 0 && x <= 1) {
@@ -430,8 +430,8 @@
 					document.removeEventListener('touchup', scrollTouchUp);
 				}
 				
-				scroll.addEventListener('mousedown', function(e) {
-					var t = document;
+				scroll.addEventListener('mousedown', (e) => {
+					let t = document;
 					r = scroll.getBoundingClientRect();
 					
 					if(scale < 32) {
@@ -444,7 +444,7 @@
 				});
 				
 				scroll.addEventListener('touchstart', function(e) {
-					var t = document;
+					let t = document;
 					r = scroll.getBoundingClientRect();
 					
 					if(scale < 32) {
@@ -459,18 +459,18 @@
 				function sub(data, p) {
 					p = p || [];
 					p[0] = data[0];
-					for(var i = 1, n = data.length; i < n; i++) {
+					for(let i = 1, n = data.length; i < n; i++) {
 						p[i] = data[i] - data[i - 1];
 					}
 					return p;
 				}
 				
 				function pack(data, p) {
-					var k = 0;
+					let k = 0;
 					p = p || [];
-					for(var i = 0, n = data.length / 8 ^ 0; i < n; i++) {
+					for(let i = 0, n = data.length / 8 ^ 0; i < n; i++) {
 						p[i] = 0;
-						for(var j = 0; j < 8; j++) {
+						for(let j = 0; j < 8; j++) {
 							p[i] |= (data[k++] !== 0) << j;
 						}
 					}
@@ -478,21 +478,21 @@
 				}
 				
 				function unpack(data, p) {
-					var k = 0;
+					let k = 0;
 					p = p || [];
-					for(var i = 0, n = data.length; i < n; i++) {
-						for(var j = 0; j < 8; j++) {
+					for(let i = 0, n = data.length; i < n; i++) {
+						for(let j = 0; j < 8; j++) {
 							p[k++] = (data[i] >> j) & 1;
 						}
 					}
 					return p;
 				}
 				
-				var filter = {};
+				let filter = {};
 				filter.sub = function(data, p) {
 					p = p || [];
 					p[0] = data[0];
-					for(var i = 1, n = data.length; i < n; i++) {
+					for(let i = 1, n = data.length; i < n; i++) {
 						p[i] = data[i] - data[i - 1];
 					}
 					return p;
@@ -504,7 +504,7 @@
 				
 				
 				function encode(image) {
-					var w = image.width,
+					let w = image.width,
 						h = image.height,
 						data = image.data;
 					return Base64.encode(data);
@@ -543,24 +543,24 @@
 //				render(buf, image, 1);
 //				document.getElementById('preview').src = document.getElementById('hidden').toDataURL();
 				
-				document.getElementById('encode').addEventListener('click', function(e) {
-					var data = pack(image.data),
+				document.getElementById('encode').addEventListener('click', (e) => {
+					let data = pack(image.data),
 						hash = Base64.encode(data);
-					var rle = RLE.encode(data),
+					let rle = RLE.encode(data),
 						d = RLE.decode(rle);
 					console.log(data.length, rle.length, d.length);
 					location.hash = hash;
 					e.preventDefault();
 				});
 				
-				$('tweet-button').addEventListener('click', function(e) {
-					var data = pack(image.data),
+				$('tweet-button').addEventListener('click', (e) => {
+					let data = pack(image.data),
 						hash = Base64.encode(data),
 						url = location.origin + location.pathname + '#' + hash;
 					e.target.href = 'https://twitter.com/share?url=' +  encodeURIComponent(url);
 				});
 				
-				$('to-top').addEventListener('click', function(e) {
+				$('to-top').addEventListener('click', (e) => {
 					window.scrollTo(0, 0);
 					e.preventDefault();
 				});
@@ -568,9 +568,9 @@
 				let undoBuffer = [];
 				
 				function record() {
-					var back = undoBuffer[undoBuffer.length - 1];
+					let back = undoBuffer[undoBuffer.length - 1];
 					
-					var temp = new Uint8Array(image.width * image.height / 8);
+					let temp = new Uint8Array(image.width * image.height / 8);
 					pack(image.data, temp);
 					undoBuffer.push(temp);
 				}
@@ -584,19 +584,6 @@
 						render(ctx, image, scale);
 					}
 				}
-				
-				// debug
-				let dota = {
-					clear: clear.bind(null, ctx, image),
-					resize: resize.bind(null, image),
-					flipH: function() {
-						flipH(ctx, image);
-						render(ctx, image, scale);
-					},
-					undo: undo
-				};
-				
-				global.dota = dota;
 			})(this);
 		</script>
 	</body>
