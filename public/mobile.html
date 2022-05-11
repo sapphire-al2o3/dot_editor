@@ -212,7 +212,16 @@
 			.icon-remove:before {
 				content: "\e604";
 			}
-			
+			table {
+				margin-bottom: 8px;
+			}
+			tr {
+				height: 32px;
+			}
+			td {
+				width: 32px;
+				border: 1px solid #EEE;
+			}
 		</style>
 	</head>
 	<body>
@@ -236,7 +245,18 @@
 				<div><canvas id="canvas" width="256" height="256"></canvas></div>
 			</div>
 <!--			<p><img id="preview" /><canvas id="buffer"></canvas></p>-->
-			
+			<div>
+				<table>
+					<tbody>
+						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 			<p><a href="#" id="encode">URLに変換</a></p>
 			<p class="tweet"><a href="https://twitter.com/share" id="tweet-button" target="_blank">Tweet</a></p>
 			<div class="article">
