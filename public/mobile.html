@@ -213,7 +213,7 @@
 				content: "\e604";
 			}
 			table {
-				margin-bottom: 8px;
+				margin-bottom: 12px;
 			}
 			tr {
 				height: 32px;
@@ -246,7 +246,7 @@
 			</div>
 <!--			<p><img id="preview" /><canvas id="buffer"></canvas></p>-->
 			<div>
-				<table>
+				<table id="palette">
 					<tbody>
 						<tr>
 							<td></td>
@@ -295,12 +295,14 @@
 				
 				let hash = location.hash.slice(1);
 				
-				if(hash) {
+				if (hash) {
 					let data = Base64.decode(hash);
 					unpack(data, image.data);
 				}
 				resize(image, scale);
 				
+				let palette = ['#FFF', '#000', '#F00', '#0F0'];
+
 				let r, px, py, left, top, index = 1,
 					offsetX = 0, offsetY = 0;
 				
@@ -332,7 +334,17 @@
 					record();
 					clear(ctx, image);
 				});
+
+				$('palette').addEventListener('click', (e) => {
+					if (e.target.localName === 'td') {
+						index = e.target.cellIndex;
+					}
+				});
 				
+				$('palette').querySelectorAll('td').forEach(v => {
+					v.style.backgroundColor = palette[v.cellIndex];
+				});
+
 				function mousemove(e) {
 					var x = (e.pageX - left) / scale ^ 0,
 						y = (e.pageY - top) / scale ^ 0;
@@ -354,7 +366,7 @@
 					top = window.scrollY + r.top;
 					px = (e.pageX - left) / scale ^ 0;
 					py = (e.pageY - top) / scale ^ 0;
-					index = 1 - image.data[py * image.width + px];
+					// index = 1 - image.data[py * image.width + px];
 					ctx.fillStyle = palette[index];
 					drawDot(ctx, px, py, image, index, scale);
 					document.addEventListener('mousemove', mousemove);
@@ -391,7 +403,7 @@
 						top = window.scrollY + r.top;
 						px = (touches[0].pageX - left) / scale ^ 0;
 						py = (touches[0].pageY - top) / scale ^ 0;
-						index = 1 - image.data[py * image.width + px];
+						// index = 1 - image.data[py * image.width + px];
 						ctx.fillStyle = palette[index];
 						drawDot(ctx, px, py, image, index, scale);
 						
@@ -399,8 +411,6 @@
 						document.addEventListener('touchend', touchend);
 					}
 				}
-				
-				let palette = ['#FFF', '#000'];
 				
 				canvas.addEventListener('mousedown', mousedown);
 				canvas.addEventListener('touchstart', touchstart);
