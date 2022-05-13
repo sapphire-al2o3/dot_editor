@@ -222,6 +222,9 @@
 				width: 32px;
 				border: 1px solid #EEE;
 			}
+			td.selected {
+				border: 4px solid #999;
+			}
 		</style>
 	</head>
 	<body>
@@ -302,6 +305,7 @@
 				resize(image, scale);
 				
 				let palette = ['#FFF', '#000', '#F00', '#0F0'];
+				let selected;
 
 				let r, px, py, left, top, index = 1,
 					offsetX = 0, offsetY = 0;
@@ -338,11 +342,18 @@
 				$('palette').addEventListener('click', (e) => {
 					if (e.target.localName === 'td') {
 						index = e.target.cellIndex;
+						selected.className = '';
+						selected = e.target;
+						e.target.className = 'selected';
 					}
 				});
 				
 				$('palette').querySelectorAll('td').forEach(v => {
 					v.style.backgroundColor = palette[v.cellIndex];
+					if (v.cellIndex === index) {
+						v.className = 'selected';
+						selected = v;
+					}
 				});
 
 				function mousemove(e) {
