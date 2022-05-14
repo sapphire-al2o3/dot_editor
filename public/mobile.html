@@ -306,7 +306,6 @@
 					let data = Base64.decode(hash);
 					unpack(data, image.data);
 				}
-				resize(image, scale);
 				
 				let palette = ['#FFF', '#000', '#F00', '#0F0', '#000', '#000', '#000', '#000'];
 				let selected;
@@ -314,6 +313,8 @@
 				let r, px, py, left, top, index = 1,
 					offsetX = 0, offsetY = 0;
 				
+				resize(image, scale);
+
 				$('zoom').addEventListener('click', () => {
 					scale = scale === 32 ? defaultScale : 32;
 					
@@ -567,12 +568,12 @@
 						h = image.height;
 					scale = scale || ctx.canvas.width / w;
 //					ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-					ctx.fillStyle = '#FFF';
+					ctx.fillStyle = palette[0];
 					ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-					ctx.fillStyle = '#000';
-					for(let i = 0; i < h; i++) {
-						for(let j = 0; j < w; j++) {
-							if(data[i * w + j]) {
+					for (let i = 0; i < h; i++) {
+						for (let j = 0; j < w; j++) {
+							if (data[i * w + j] > 0) {
+								ctx.fillStyle = palette[data[i * w + j]];
 								ctx.fillRect(j * scale, i * scale, scale, scale);
 							}
 						}
