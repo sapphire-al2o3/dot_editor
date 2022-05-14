@@ -216,14 +216,14 @@
 				margin-bottom: 12px;
 			}
 			tr {
-				height: 32px;
+				height: 48px;
 			}
 			td {
-				width: 32px;
+				width: 48px;
 				border: 1px solid #EEE;
 			}
 			td.selected {
-				border: 4px solid #999;
+				outline: 8px solid #DDD;
 			}
 		</style>
 	</head>
@@ -252,6 +252,10 @@
 				<table id="palette">
 					<tbody>
 						<tr>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
 							<td></td>
 							<td></td>
 							<td></td>
@@ -304,7 +308,7 @@
 				}
 				resize(image, scale);
 				
-				let palette = ['#FFF', '#000', '#F00', '#0F0'];
+				let palette = ['#FFF', '#000', '#F00', '#0F0', '#000', '#000', '#000', '#000'];
 				let selected;
 
 				let r, px, py, left, top, index = 1,
