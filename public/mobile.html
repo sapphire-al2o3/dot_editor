@@ -224,6 +224,8 @@
 			}
 			td.selected {
 				outline: 8px solid #DDD;
+				/* border: 1px solid #000; */
+
 			}
 		</style>
 	</head>
@@ -344,14 +346,19 @@
 					clear(ctx, image);
 				});
 
-				$('palette').addEventListener('click', (e) => {
+				const selectPalette = (e) => {
 					if (e.target.localName === 'td') {
 						index = e.target.cellIndex;
 						selected.className = '';
 						selected = e.target;
 						e.target.className = 'selected';
+						e.preventDefault();
+						e.stopPropagation();
 					}
-				});
+				};
+
+				$('palette').addEventListener('touchstart', selectPalette);
+				$('palette').addEventListener('mousedown', selectPalette);
 				
 				$('palette').querySelectorAll('td').forEach(v => {
 					v.style.backgroundColor = palette[v.cellIndex];
