@@ -315,6 +315,9 @@
 				let r, px, py, left, top, index = 1,
 					offsetX = 0, offsetY = 0;
 				
+				let toggleMode = true;
+				let startIndex = index;
+
 				resize(image, scale);
 
 				$('zoom').addEventListener('click', () => {
@@ -371,7 +374,7 @@
 				function mousemove(e) {
 					var x = (e.pageX - left) / scale ^ 0,
 						y = (e.pageY - top) / scale ^ 0;
-					drawLine(ctx, px, py, x, y, image, index, scale);
+					drawLine(ctx, px, py, x, y, image, startIndex, scale);
 					px = x;
 					py = y;
 					e.preventDefault();
@@ -389,9 +392,13 @@
 					top = window.scrollY + r.top;
 					px = (e.pageX - left) / scale ^ 0;
 					py = (e.pageY - top) / scale ^ 0;
-					// index = 1 - image.data[py * image.width + px];
-					ctx.fillStyle = palette[index];
-					drawDot(ctx, px, py, image, index, scale);
+					let p = image.data[py * image.width + px];
+					startIndex = index;
+					if (toggleMode) {
+						startIndex = p > 0 ? 0 : index;
+					}
+					ctx.fillStyle = palette[startIndex];
+					drawDot(ctx, px, py, image, startIndex, scale);
 					document.addEventListener('mousemove', mousemove);
 					document.addEventListener('mouseup', mouseup);
 					e.preventDefault();
@@ -409,7 +416,7 @@
 					if(touches.length > 0) {
 						let x = (touches[0].pageX - left) / scale ^ 0,
 							y = (touches[0].pageY - top) / scale ^ 0;
-						drawLine(ctx, px, py, x, y, image, index, scale);
+						drawLine(ctx, px, py, x, y, image, startIndex, scale);
 						px = x;
 						py = y;
 					}
@@ -426,8 +433,12 @@
 						top = window.scrollY + r.top;
 						px = (touches[0].pageX - left) / scale ^ 0;
 						py = (touches[0].pageY - top) / scale ^ 0;
-						// index = 1 - image.data[py * image.width + px];
-						ctx.fillStyle = palette[index];
+						startIndex = index;
+						let p = image.data[py * image.width + px];
+						if (toggleMode) {
+							startIndex = p > 0 ? 0 : index;
+						} 
+						ctx.fillStyle = palette[startIndex];
 						drawDot(ctx, px, py, image, index, scale);
 						
 						document.addEventListener('touchmove', touchmove);
