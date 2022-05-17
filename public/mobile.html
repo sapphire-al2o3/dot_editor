@@ -395,7 +395,7 @@
 					let p = image.data[py * image.width + px];
 					startIndex = index;
 					if (toggleMode) {
-						startIndex = p > 0 ? 0 : index;
+						startIndex = p === index ? 0 : index;
 					}
 					ctx.fillStyle = palette[startIndex];
 					drawDot(ctx, px, py, image, startIndex, scale);
@@ -436,7 +436,7 @@
 						startIndex = index;
 						let p = image.data[py * image.width + px];
 						if (toggleMode) {
-							startIndex = p > 0 ? 0 : index;
+							startIndex = p === index ? 0 : index;
 						} 
 						ctx.fillStyle = palette[startIndex];
 						drawDot(ctx, px, py, image, index, scale);
