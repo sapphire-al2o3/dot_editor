@@ -327,7 +327,7 @@
 					canvas.style.marginTop = (scale === defaultScale ? 0 : offsetY) + 'px';
 					document.querySelector('.scroll').classList.toggle('scale');
 					resize(image, scale);
-					if(scale === 32) {
+					if (scale === 32) {
 						drawGrid(ctx, {scale: scale, grid: {color1: '#EEE', color0: '#AAA', size: 16}, imageWidth: image.width});
 					}
 				});
@@ -413,7 +413,7 @@
 				function touchmove(e) {
 //					e.preventDefault();
 					let touches = e.changedTouches;
-					if(touches.length > 0) {
+					if (touches.length > 0) {
 						let x = (touches[0].pageX - left) / scale ^ 0,
 							y = (touches[0].pageY - top) / scale ^ 0;
 						drawLine(ctx, px, py, x, y, image, startIndex, scale);
@@ -426,7 +426,7 @@
 					e.preventDefault();
 					e.stopPropagation();
 					const touches = e.changedTouches;
-					if(touches.length > 0) {
+					if (touches.length > 0) {
 						record();
 						const r = canvas.getBoundingClientRect();
 						left = window.scrollX + r.left;
@@ -460,7 +460,7 @@
 					e.preventDefault();
 					
 					let pageX, pageY;
-					if(e.changedTouches && e.changedTouches.length > 0) {
+					if (e.changedTouches && e.changedTouches.length > 0) {
 						pageX = e.changedTouches[0].pageX;
 						pageY = e.changedTouches[0].pageY;
 					} else {
@@ -471,12 +471,12 @@
 					let x = (pageX - r.left - 32) / (400 - 64),
 						y = (pageY - r.top - 32) / (400 - 64);
 					
-					if(x >= 0 && x <= 1) {
+					if (x >= 0 && x <= 1) {
 						offsetX = -x * 432 ^ 0;
 						canvas.style.marginLeft = offsetX + 'px';
 						thumbTop.style.left = (x * 304 ^ 0) + 32 + 'px';
 					}
-					if(y >= 0 && y <= 1) {
+					if (y >= 0 && y <= 1) {
 						offsetY = -y * 432 ^ 0;
 						canvas.style.marginTop = offsetY + 'px';
 						thumbLeft.style.top = (y * 304 ^ 0) + 32 + 'px';
@@ -498,7 +498,7 @@
 					let t = document;
 					r = scroll.getBoundingClientRect();
 					
-					if(scale < 32) {
+					if (scale < 32) {
 						return;
 					}
 					
@@ -507,11 +507,11 @@
 					t.addEventListener('mouseup', up);
 				});
 				
-				scroll.addEventListener('touchstart', function(e) {
+				scroll.addEventListener('touchstart', (e) => {
 					let t = document;
 					r = scroll.getBoundingClientRect();
 					
-					if(scale < 32) {
+					if (scale < 32) {
 						return;
 					}
 					
@@ -523,7 +523,7 @@
 				function sub(data, p) {
 					p = p || [];
 					p[0] = data[0];
-					for(let i = 1, n = data.length; i < n; i++) {
+					for (let i = 1, n = data.length; i < n; i++) {
 						p[i] = data[i] - data[i - 1];
 					}
 					return p;
@@ -532,9 +532,9 @@
 				function pack(data, p) {
 					let k = 0;
 					p = p || [];
-					for(let i = 0, n = data.length / 8 ^ 0; i < n; i++) {
+					for (let i = 0, n = data.length / 8 ^ 0; i < n; i++) {
 						p[i] = 0;
-						for(let j = 0; j < 8; j++) {
+						for (let j = 0; j < 8; j++) {
 							p[i] |= (data[k++] !== 0) << j;
 						}
 					}
@@ -544,8 +544,8 @@
 				function unpack(data, p) {
 					let k = 0;
 					p = p || [];
-					for(let i = 0, n = data.length; i < n; i++) {
-						for(let j = 0; j < 8; j++) {
+					for (let i = 0, n = data.length; i < n; i++) {
+						for (let j = 0; j < 8; j++) {
 							p[k++] = (data[i] >> j) & 1;
 						}
 					}
@@ -556,7 +556,7 @@
 				filter.sub = function(data, p) {
 					p = p || [];
 					p[0] = data[0];
-					for(let i = 1, n = data.length; i < n; i++) {
+					for (let i = 1, n = data.length; i < n; i++) {
 						p[i] = data[i] - data[i - 1];
 					}
 					return p;
@@ -598,10 +598,10 @@
 					}
 				}
 				
-				var buffer = $('buffer');
-				function preview(ctx, image) {
+				// var buffer = $('buffer');
+				// function preview(ctx, image) {
 					
-				}
+				// }
 				
 //				var buf = document.getElementById('hidden').getContext('2d');
 //				render(buf, image, 1);
@@ -643,7 +643,7 @@
 				function undo() {
 					let temp = undoBuffer.pop();
 					
-					if(temp) {
+					if (temp) {
 						unpack(temp, image.data);
 						render(ctx, image, scale);
 					}
