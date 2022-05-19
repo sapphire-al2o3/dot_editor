@@ -266,13 +266,6 @@
 					</tbody>
 				</table>
 			</div>
-			<p><a href="#" id="encode">URLに変換</a></p>
-			<p class="tweet"><a href="https://twitter.com/share" id="tweet-button" target="_blank">Tweet</a></p>
-			<div class="article">
-				<p>2色のドット絵を描くツールです。</p>
-				<p>クリックすると黒が白、白が黒に反転します。</p>
-				<p>描き終えて「URLに変換」をクリックするとアドレスバーのURLが変わります。URLをそのまま貼り付ければドット絵へのリンクになります。</p>
-			</div>
 			<div class="help">
 				<h2>Help</h2>
 				<ul>
@@ -607,22 +600,22 @@
 //				render(buf, image, 1);
 //				document.getElementById('preview').src = document.getElementById('hidden').toDataURL();
 				
-				document.getElementById('encode').addEventListener('click', (e) => {
-					let data = pack(image.data),
-						hash = Base64.encode(data);
-					let rle = RLE.encode(data),
-						d = RLE.decode(rle);
-					console.log(data.length, rle.length, d.length);
-					location.hash = hash;
-					e.preventDefault();
-				});
+				// document.getElementById('encode').addEventListener('click', (e) => {
+				// 	let data = pack(image.data),
+				// 		hash = Base64.encode(data);
+				// 	let rle = RLE.encode(data),
+				// 		d = RLE.decode(rle);
+				// 	console.log(data.length, rle.length, d.length);
+				// 	location.hash = hash;
+				// 	e.preventDefault();
+				// });
 				
-				$('tweet-button').addEventListener('click', (e) => {
-					let data = pack(image.data),
-						hash = Base64.encode(data),
-						url = location.origin + location.pathname + '#' + hash;
-					e.target.href = 'https://twitter.com/share?url=' +  encodeURIComponent(url);
-				});
+				// $('tweet-button').addEventListener('click', (e) => {
+				// 	let data = pack(image.data),
+				// 		hash = Base64.encode(data),
+				// 		url = location.origin + location.pathname + '#' + hash;
+				// 	e.target.href = 'https://twitter.com/share?url=' +  encodeURIComponent(url);
+				// });
 				
 				$('to-top').addEventListener('click', (e) => {
 					window.scrollTo(0, 0);
