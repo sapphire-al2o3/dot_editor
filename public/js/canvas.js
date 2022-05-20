@@ -66,9 +66,10 @@ function drawSelectionRegion(ctx, x0, y0, x1, y1, scale) {
 }
 
 // ドットの表示
-function drawDot(ctx, x, y, indexData, paletteIndex, scale) {
-	let s = scale;
-	ctx.fillRect(x * s, y * s, s, s);
+function drawDot(ctx, x, y, indexData, paletteIndex, scale, padding = 0) {
+	let s = scale,
+		b = s - padding;
+	ctx.fillRect(x * s, y * s, b, b);
 	if(indexData) indexData.data[y * indexData.width + x] = paletteIndex;
 }
 
@@ -79,7 +80,7 @@ function clearDot(ctx, x, y, indexData, paletteIndex, scale) {
 }
 
 // 直線の描画
-function drawLine(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
+function drawLine(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale, padding = 0) {
 	let dx = Math.abs(x1 - x0),
 		dy = Math.abs(y1 - y0),
 		dx2 = dx * 2,
@@ -91,7 +92,8 @@ function drawLine(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		data = indexData.data,
 		w = indexData.width,
 		h = indexData.height,
-		s = scale;
+		s = scale,
+		b = s - padding;
 	ctx.beginPath();
 	if(dx >= dy) {
 		let e = -dx;
@@ -99,7 +101,7 @@ function drawLine(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 			if(x < 0 || x >= w || y < 0 || y >= h) {
 				break;
 			}
-			ctx.rect(x * s ^ 0, y * s ^ 0, s, s);
+			ctx.rect(x * s ^ 0, y * s ^ 0, b, b);
 			if(data) {
 				data[y * w + x] = paletteIndex;
 			}
@@ -116,7 +118,7 @@ function drawLine(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 			if(x < 0 || x >= w || y < 0 || y >= h) {
 				break;
 			}
-			ctx.rect(x * s ^ 0, y * s ^ 0, s, s);
+			ctx.rect(x * s ^ 0, y * s ^ 0, b, b);
 			if(data) {
 				data[y * w + x] = paletteIndex;
 			}

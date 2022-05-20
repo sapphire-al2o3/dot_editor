@@ -321,7 +321,7 @@
 					document.querySelector('.scroll').classList.toggle('scale');
 					resize(image, scale);
 					if (scale === 32) {
-						drawGrid(ctx, {scale: scale, grid: {color1: '#EEE', color0: '#AAA', size: 16}, imageWidth: image.width});
+						drawGrid(ctx, {scale: scale, grid: {color1: '#EEE', color0: '#AAA', size: 16}, imageWidth: image.width}, scale);
 					}
 				});
 				
@@ -340,6 +340,10 @@
 				$('trash').addEventListener('click', () => {
 					record();
 					clear(ctx, image);
+				});
+
+				$('grid').addEventListener('click', () => {
+
 				});
 
 				const selectPalette = (e) => {
@@ -370,6 +374,9 @@
 					drawLine(ctx, px, py, x, y, image, startIndex, scale);
 					px = x;
 					py = y;
+					if (scale === 32) {
+						drawGrid(ctx, {scale: scale, grid: {color1: '#EEE', color0: '#AAA', size: 16}, imageWidth: image.width}, scale);
+					}
 					e.preventDefault();
 				}
 				
@@ -391,7 +398,7 @@
 						startIndex = p === index ? 0 : index;
 					}
 					ctx.fillStyle = palette[startIndex];
-					drawDot(ctx, px, py, image, startIndex, scale);
+					drawDot(ctx, px, py, image, startIndex, scale, scale === 32 ? 1 : 0);
 					document.addEventListener('mousemove', mousemove);
 					document.addEventListener('mouseup', mouseup);
 					e.preventDefault();
@@ -409,7 +416,7 @@
 					if (touches.length > 0) {
 						let x = (touches[0].pageX - left) / scale ^ 0,
 							y = (touches[0].pageY - top) / scale ^ 0;
-						drawLine(ctx, px, py, x, y, image, startIndex, scale);
+						drawLine(ctx, px, py, x, y, image, startIndex, scale, scale === 32 ? 1 : 0);
 						px = x;
 						py = y;
 					}
