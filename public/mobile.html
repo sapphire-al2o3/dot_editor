@@ -121,7 +121,7 @@
 				font-size: 18px;
 				color: #08D;
 				margin-bottom: 8px;
-				text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+				/* text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2); */
 			}
 			
 			@font-face {
@@ -178,6 +178,11 @@
 			.help ul {
 				list-style: none;
 			}
+
+			.help li img {
+				vertical-align: middle;
+				margin-right: 8px;
+			}
 			
 			.tweet {
 				width: 80px;
@@ -221,10 +226,13 @@
 			td {
 				width: 48px;
 				border: 1px solid #EEE;
+				outline: 0px solid #DDD;
+				transition: outline 0.5s;
 			}
 			td.selected {
 				outline: 8px solid #DDD;
 				/* border: 1px solid #000; */
+				
 
 			}
 		</style>
