@@ -9,6 +9,7 @@
 		<link rel="shortcut icon" href="./images/favicon.png" />
 		<script src="./js/base64.js"></script>
 		<script src="./js/canvas.js"></script>
+		<script src="./js/color.js"></script>
 		<script src="./js/selector.js"></script>
 		<style>
 			#header {
@@ -655,6 +656,18 @@
 						unpack(temp, image.data);
 						render(ctx, image, scale);
 					}
+				}
+
+				function convertPalette() {
+					let paletteData = createPaletteData(8);
+					for (let i = 0, n = data.length; i < n; i += 4) {
+						let c = Color.strToRGB(palette[i >> 2]);
+						data[i] = c[0];
+						data[i + 1] = c[1];
+						data[i + 2] = c[2];
+						data[i + 3] = 255;
+					}
+					return paletteData;
 				}
 			})(this);
 		</script>
