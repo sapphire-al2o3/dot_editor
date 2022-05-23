@@ -669,6 +669,14 @@
 					}
 					return paletteData;
 				}
+
+				global.getImage = () => {
+					const paletteData = convertPalette();
+					return {
+						indexData: image,
+						paletteData: paletteData,
+					};
+				}
 			})(this);
 		</script>
 	</body>
