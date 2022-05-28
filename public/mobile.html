@@ -219,22 +219,33 @@
 				content: "\e604";
 			}
 			table {
-				margin-bottom: 12px;
+				display: inline-block;
 			}
 			tr {
-				height: 48px;
+				height: 40px;
 			}
 			td {
-				width: 48px;
+				width: 40px;
 				border: 1px solid #EEE;
 				outline: 0px solid #DDD;
 				transition: outline 0.5s;
 			}
 			td.selected {
-				outline: 8px solid #DDD;
+				outline: 6px solid #DDD;
 				/* border: 1px solid #000; */
-				
+			}
 
+			#edit-palette {
+				width: 40px;
+				height: 40px;
+				display: inline-block;
+				background-color: #08D;
+				margin-top: 18px;
+			}
+			#edit-palette img {
+				vertical-align: baseline;
+				margin-left: 8px;
+				margin-top: 22px;
 			}
 		</style>
 	</head>
@@ -248,6 +259,10 @@
 				<li id="zoomout"><img src="./images/zoomout_icon.png"></li>
 				<li id="undo"><img src="./images/undo_icon.png"></li>
 				<li id="trash"><img src="images/trash_icon.png"></li>
+				<!-- <li id="shiftl"><img src="images/shift_l_icon.png"></li>
+				<li id="shiftr"><img src="images/shift_r_icon.png"></li>
+				<li id="shiftu"><img src="images/shift_u_icon.png"></li>
+				<li id="shiftd"><img src="images/shift_d_icon.png"></li> -->
 				<!-- <li id="grid"><img src="./images/grid_icon.png"></li> -->
 				<!-- <li><img id="preview" /><canvas id="buffer"></canvas></li> -->
 			</ul>
@@ -274,6 +289,7 @@
 						</tr>
 					</tbody>
 				</table>
+				<span id="edit-palette"><img src="images/image_palette_icon.png"></span>
 			</div>
 			<div class="help">
 				<h2>Help</h2>
@@ -302,7 +318,7 @@
 				const size = 32;
 				const $ = Selector;
 				
-				let image = createIndexData(size, size);
+				const image = createIndexData(size, size);
 				
 				let hash = location.hash.slice(1);
 				
@@ -311,7 +327,7 @@
 					unpack(data, image.data);
 				}
 				
-				let palette = ['#FFF', '#000', '#F00', '#0F0', '#000', '#000', '#000', '#000'];
+				const palette = ['#FFF', '#000', '#F00', '#0F0', '#000', '#000', '#000', '#000'];
 				let selected;
 
 				let r, px, py, left, top, index = 1,
@@ -349,6 +365,11 @@
 				$('trash').addEventListener('click', () => {
 					record();
 					clear(ctx, image);
+				});
+
+
+				$('edit-palette').addEventListener('click', () => {
+
 				});
 
 				const selectPalette = (e) => {
@@ -477,7 +498,7 @@
 						y = (pageY - r.top - 32) / (400 - 64);
 					
 					if (x >= 0 && x <= 1) {
-						offsetX = -x * 432 ^ 0;
+						offsetX = -x * (800 - 96) ^ 0;
 						canvas.style.marginLeft = offsetX + 'px';
 						thumbTop.style.left = (x * 304 ^ 0) + 32 + 'px';
 					}
