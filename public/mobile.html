@@ -475,6 +475,10 @@
 				canvas.addEventListener('mousedown', mousedown);
 				canvas.addEventListener('touchstart', touchstart);
 				
+				const clamp = (x, min, max) => {
+					return x > max ? max : x < min ? min : x;
+				};
+
 				let scroll = $('scroll'),
 					thumbTop = $('thumb-top'),
 					thumbBottom = $('thumb-bottom'),
@@ -494,16 +498,16 @@
 						pageY = e.pageY;
 					}
 					
-					let x = (pageX - r.left - 32) / (400 - 64),
-						y = (pageY - r.top - 32) / (400 - 64);
-					
+					let x = clamp((pageX - r.left - 32) / (400 - 64), 0, 1),
+						y = clamp((pageY - r.top - 32) / (400 - 64), 0, 1);
+
 					if (x >= 0 && x <= 1) {
-						offsetX = -x * (800 - 96) ^ 0;
+						offsetX = -x * 688 ^ 0;
 						canvas.style.marginLeft = offsetX + 'px';
 						thumbTop.style.left = (x * 304 ^ 0) + 32 + 'px';
 					}
 					if (y >= 0 && y <= 1) {
-						offsetY = -y * 432 ^ 0;
+						offsetY = -y * 688 ^ 0;
 						canvas.style.marginTop = offsetY + 'px';
 						thumbLeft.style.top = (y * 304 ^ 0) + 32 + 'px';
 //						thumbRight.style.top = (y * 304 ^ 0) + 32 + 'px';
