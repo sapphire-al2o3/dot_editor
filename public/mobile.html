@@ -566,10 +566,10 @@
 				function pack(data, p) {
 					let k = 0;
 					p = p || [];
-					for (let i = 0, n = data.length / 8 ^ 0; i < n; i++) {
+					for (let i = 0, n = data.length / 2 ^ 0; i < n; i++) {
 						p[i] = 0;
-						for (let j = 0; j < 8; j++) {
-							p[i] |= (data[k++] !== 0) << j;
+						for (let j = 0; j < 2; j++) {
+							p[i] |= (data[k++] & 0xF) << (j * 4);
 						}
 					}
 					return p;
@@ -579,8 +579,8 @@
 					let k = 0;
 					p = p || [];
 					for (let i = 0, n = data.length; i < n; i++) {
-						for (let j = 0; j < 8; j++) {
-							p[k++] = (data[i] >> j) & 1;
+						for (let j = 0; j < 2; j++) {
+							p[k++] = (data[i] >> (j * 4)) & 0xF;
 						}
 					}
 					return p;
@@ -668,7 +668,7 @@
 				function record() {
 					let back = undoBuffer[undoBuffer.length - 1];
 					
-					let temp = new Uint8Array(image.width * image.height / 8);
+					let temp = new Uint8Array(image.width * image.height / 2);
 					pack(image.data, temp);
 					undoBuffer.push(temp);
 				}
