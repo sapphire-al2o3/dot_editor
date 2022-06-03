@@ -488,7 +488,7 @@
 					thumbBottom = $('thumb-bottom'),
 					thumbLeft = $('thumb-left'),
 					thumbRight = $('thumb-right');
-				
+				let scrollX, scrollY;
 				function move(e) {
 					e.stopPropagation();
 					e.preventDefault();
@@ -502,13 +502,21 @@
 						pageY = e.pageY;
 					}
 					
-					let x = clamp((pageX - r.left - 32) / (400 - 64), 0, 1),
-						y = clamp((pageY - r.top - 32) / (400 - 64), 0, 1);
+					let x = ((pageX - r.left - 32) / (400 - 64)),
+						y = ((pageY - r.top - 32) / (400 - 64));
+
+					if (scrollX) {
+						x = clamp(x, 0, 1);
+					}
+					if (scrollY) {
+						y = clamp(y, 0, 1);
+					}
 
 					if (x >= 0 && x <= 1) {
 						offsetX = -x * 688 ^ 0;
 						canvas.style.marginLeft = offsetX + 'px';
 						thumbTop.style.left = (x * 304 ^ 0) + 32 + 'px';
+						scrollX = true;
 					}
 					if (y >= 0 && y <= 1) {
 						offsetY = -y * 688 ^ 0;
@@ -535,7 +543,7 @@
 					if (scale < 32) {
 						return;
 					}
-					
+					scrollX = scrollY = false;
 					move(e);
 					t.addEventListener('mousemove', move);
 					t.addEventListener('mouseup', up);
