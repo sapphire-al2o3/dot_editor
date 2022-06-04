@@ -67,7 +67,7 @@
 			.scroll {
 				position: relative;
 				text-align: center;
-				margin-bottom: 16px;
+				/* margin-bottom: 16px; */
 			}
 			
 			.scale div {
@@ -469,7 +469,7 @@
 							startIndex = p === index ? 0 : index;
 						} 
 						ctx.fillStyle = palette[startIndex];
-						drawDot(ctx, px, py, image, index, scale);
+						drawDot(ctx, px, py, image, startIndex, scale, scale === 32 ? 1 : 0);
 						
 						document.addEventListener('touchmove', touchmove);
 						document.addEventListener('touchend', touchend);
@@ -495,8 +495,8 @@
 					
 					let pageX, pageY;
 					if (e.changedTouches && e.changedTouches.length > 0) {
-						pageX = e.changedTouches[0].pageX;
-						pageY = e.changedTouches[0].pageY;
+						pageX = e.changedTouches[0].pageX - window.scrollX;
+						pageY = e.changedTouches[0].pageY - window.scrollY;
 					} else {
 						pageX = e.pageX;
 						pageY = e.pageY;
@@ -556,7 +556,7 @@
 					if (scale < 32) {
 						return;
 					}
-					
+					scrollX = scrollY = false;
 					move(e);
 					t.addEventListener('touchmove', move, {passive: false});
 					t.addEventListener('touchend', scrollTouchUp);
