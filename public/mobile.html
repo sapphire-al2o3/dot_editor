@@ -13,7 +13,8 @@
 		<script src="./js/selector.js"></script>
 		<style>
 			#header {
-				margin-bottom: 8px;
+				/* margin-bottom: 8px; */
+				float: right;
 			}
 			
 			body {
@@ -133,6 +134,7 @@
 			ul.tools {
 				list-style: none;
 				padding: 0 8px;
+				margin-top: 12px;
 				margin-bottom: 8px;
 			}
 			
@@ -247,6 +249,75 @@
 				margin-left: 8px;
 				margin-top: 22px;
 			}
+
+			.color-sliders label {
+				font-family: consolas, monospace;
+			}
+
+			input {
+				width: 24px;
+				font-size: 10pt;
+				text-align: right;
+				border-radius: 3px;
+				border: 1px solid #CCC;
+				box-shadow: inset #EEE 0 1px 2px 0;
+				line-height: 20px;
+				padding: 0 6px;
+				font-family: consolas, monospace;
+			}
+
+			.left, .right {
+				width: 8px;
+				height: 8px;
+				cursor: pointer;
+				display: inline-block;
+				background-repeat: no-repeat;
+				background-image: url("./images/input_horz.png");
+				user-select: none;
+			}
+			.left {
+				background-position: -8px 0;
+			}
+
+			#num-both {
+				display: inline-block;
+			}
+
+			.color-bar {
+				width: 240px;
+				height: 16px;
+				border: 2px solid #AAA;
+				box-shadow: #DDD 0 1px 3px 0;
+				margin: 0px 0;
+				display: inline-block;
+				border-radius: 2px;
+				position: relative;
+				user-select: none;
+			}
+
+			.color-bar span {
+				display: block;
+				width: 4px;
+				height: 4px;
+				border: 1px solid rgba(255, 255, 255, 0.8);
+				position: absolute;
+				top: 3px;
+				left: 60px;
+				border-radius: 3px;
+				vertical-align: middle;
+				box-shadow: #444 0 0 1px 1px;
+			}
+
+			#r-bar {
+				background: -webkit-linear-gradient(left, #000, #F00);
+			}
+			#b-bar {
+				background: -webkit-linear-gradient(left, #000, #0F0);
+			}
+			#g-bar {
+				background: -webkit-linear-gradient(left, #000, #00F);
+			}
+
 		</style>
 	</head>
 	<body>
@@ -291,6 +362,29 @@
 					</tbody>
 				</table>
 				<span id="edit-palette"><img src="images/image_palette_icon.png"></span>
+			</div>
+			<div class="color-sliders">
+				<div>
+					<label>B</label>
+					<span class="color-bar" id="r-bar" for="num1"></span>
+					<span class="left" step="-1" for="num1"></span>
+					<input type="text" value="0" id="num1" />
+					<span class="right" step="1" for="num1"></span>
+				</div>
+				<div>
+					<label>G</label>
+					<span class="color-bar" id="g-bar" for="num2"></span>
+					<span class="left" step="-1" for="num2"></span>
+					<input type="text" value="0" id="num2" />
+					<span class="right" step="1" for="num2"></span>
+				</div>
+				<div>
+					<label>B</label>
+					<span class="color-bar" id="b-bar" for="num3"></span>
+					<span class="left" step="-1" for="num3"></span>
+					<input type="text" value="0" id="num3" />
+					<span class="right" step="1" for="num3"></span>
+				</div>
 			</div>
 			<div class="help">
 				<h2>Help</h2>
