@@ -272,16 +272,19 @@
 			}
 
 			.left, .right {
-				width: 8px;
-				height: 8px;
+				width: 16px;
+				height: 16px;
 				cursor: pointer;
 				display: inline-block;
 				background-repeat: no-repeat;
-				background-image: url("./images/input_horz.png");
+				background-image: url("./images/input_horz_l.png");
 				user-select: none;
 			}
 			.left {
-				background-position: -8px 0;
+				background-position: -8px 4px;
+			}
+			.right {
+				background-position: 8px 4px;
 			}
 
 			#num-both {
@@ -314,13 +317,13 @@
 			}
 
 			#r-bar {
-				background: -webkit-linear-gradient(left, #000, #F00);
+				background: linear-gradient(to left, #000, #F00);
 			}
 			#b-bar {
-				background: -webkit-linear-gradient(left, #000, #0F0);
+				background: linear-gradient(to left, #000, #0F0);
 			}
 			#g-bar {
-				background: -webkit-linear-gradient(left, #000, #00F);
+				background: linear-gradient(to left, #000, #00F);
 			}
 
 		</style>
@@ -427,7 +430,7 @@
 					unpack(data, image.data);
 				}
 				
-				const palette = ['#FFF', '#000', '#F00', '#0F0', '#000', '#000', '#000', '#000'];
+				const palette = ['#FFF', '#000', '#F00', '#0F0', '#00F', '#FF0', '#0FF', '#F0F'];
 				let selected;
 
 				let r, px, py, left, top, index = 1,
@@ -481,6 +484,8 @@
 						selected.className = '';
 						selected = e.target;
 						e.target.className = 'selected';
+						const color = Color.strToRGB(palette[index]);
+						setGradBar(color[0], color[1], color[2]);
 						e.preventDefault();
 						e.stopPropagation();
 					}
@@ -662,31 +667,31 @@
 				});
 
 				function setGradient(elm, start, end) {
-					elm.style['background'] = 'linear-gradient(left,' + start + ',' + end + ')';
+					elm.style['background'] = 'linear-gradient(to left,' + start + ',' + end + ')';
 				}
 
 				function setGradBar(r, g, b) {
-					setGradient($('#r-bar'), rgb(0, g, b), rgb(255, g, b));
-					setGradient($('#g-bar'), rgb(r, 0, b), rgb(r, 255, b));
-					setGradient($('#b-bar'), rgb(r, g, 0), rgb(r, g, 255));
+					setGradient($('r-bar'), Color.rgb(0, g, b), Color.rgb(255, g, b));
+					setGradient($('g-bar'), Color.rgb(r, 0, b), Color.rgb(r, 255, b));
+					setGradient($('b-bar'), Color.rgb(r, g, 0), Color.rgb(r, g, 255));
 				}
 
 				const changeSpin = (e) => {
-					let target = e.target.attr('for'),
-						radix = $('#' + target).attr('radix') ? 16 : 10,
-						val = parseInt($('#' + target).val(), radix),
-						step = parseInt($(this).attr('step'), radix),
+					let input = $(e.target.getAttribute('for')),
+						radix = e.target.getAttribute('radix') ? 16 : 10,
+						val = parseInt(input.value, radix),
+						step = parseInt(e.target.getAttribute('step'), radix),
 						max = 255,
 						min = 0;
 						val = isNaN(val) ? 0 : val + step;
 					val = val < min ? 0 : val > max ? max : val;
-					$('#' + target).val(val.toString(radix).toUpperCase());
-					changeColor();
+					input.value = val.toString(radix).toUpperCase();
+					// changeColor();
 					e.preventDefault();
 				};
 
 				$qa('.left, .right').forEach((v) => {
-
+					v.addEventListener('click', changeSpin);
 				});
 				
 				function sub(data, p) {
