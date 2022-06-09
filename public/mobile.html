@@ -374,24 +374,24 @@
 			<div class="color-sliders">
 				<div>
 					<label>B</label>
-					<span class="color-bar" id="r-bar" for="num1"></span>
-					<span class="left" step="-1" for="num1"></span>
-					<input type="text" value="0" id="num1" />
-					<span class="right" step="1" for="num1"></span>
+					<span class="color-bar" id="r-bar" for="r-num"></span>
+					<span class="left" step="-1" for="r-num"></span>
+					<input type="text" value="0" id="r-num" />
+					<span class="right" step="1" for="r-num"></span>
 				</div>
 				<div>
 					<label>G</label>
-					<span class="color-bar" id="g-bar" for="num2"></span>
-					<span class="left" step="-1" for="num2"></span>
-					<input type="text" value="0" id="num2" />
-					<span class="right" step="1" for="num2"></span>
+					<span class="color-bar" id="g-bar" for="g-num"></span>
+					<span class="left" step="-1" for="g-num"></span>
+					<input type="text" value="0" id="g-num" />
+					<span class="right" step="1" for="g-num"></span>
 				</div>
 				<div>
 					<label>B</label>
-					<span class="color-bar" id="b-bar" for="num3"></span>
-					<span class="left" step="-1" for="num3"></span>
-					<input type="text" value="0" id="num3" />
-					<span class="right" step="1" for="num3"></span>
+					<span class="color-bar" id="b-bar" for="b-num"></span>
+					<span class="left" step="-1" for="b-num"></span>
+					<input type="text" value="0" id="b-num" />
+					<span class="right" step="1" for="b-num"></span>
 				</div>
 			</div>
 			<div class="help">
@@ -486,6 +486,7 @@
 						e.target.className = 'selected';
 						const color = Color.strToRGB(palette[index]);
 						setGradBar(color[0], color[1], color[2]);
+						setValue(color[0], color[1], color[2]);
 						e.preventDefault();
 						e.stopPropagation();
 					}
@@ -666,6 +667,10 @@
 					t.addEventListener('touchend', scrollTouchUp);
 				});
 
+				let rNum = $('r-num'),
+					gNum = $('g-num'),
+					bNum = $('b-num');
+
 				function setGradient(elm, start, end) {
 					elm.style['background'] = 'linear-gradient(to left,' + start + ',' + end + ')';
 				}
@@ -674,6 +679,12 @@
 					setGradient($('r-bar'), Color.rgb(0, g, b), Color.rgb(255, g, b));
 					setGradient($('g-bar'), Color.rgb(r, 0, b), Color.rgb(r, 255, b));
 					setGradient($('b-bar'), Color.rgb(r, g, 0), Color.rgb(r, g, 255));
+				}
+
+				function setValue(r, g, b) {
+					rNum.value = r.toString();
+					gNum.value = g.toString();
+					bNum.value = b.toString();
 				}
 
 				const changeSpin = (e) => {
