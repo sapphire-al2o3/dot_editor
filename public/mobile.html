@@ -230,10 +230,10 @@
 				width: 40px;
 				border: 1px solid #EEE;
 				outline: 0px solid #DDD;
-				transition: outline 0.5s;
+				transition: outline 0.3s;
 			}
 			td.selected {
-				outline: 6px solid #DDD;
+				outline: 6px solid #08D;
 				/* border: 1px solid #000; */
 			}
 
@@ -317,13 +317,13 @@
 			}
 
 			#r-bar {
-				background: linear-gradient(to left, #000, #F00);
+				background: linear-gradient(to right, #000, #F00);
 			}
 			#b-bar {
-				background: linear-gradient(to left, #000, #0F0);
+				background: linear-gradient(to right, #000, #0F0);
 			}
 			#g-bar {
-				background: linear-gradient(to left, #000, #00F);
+				background: linear-gradient(to right, #000, #00F);
 			}
 
 		</style>
@@ -669,22 +669,41 @@
 
 				let rNum = $('r-num'),
 					gNum = $('g-num'),
-					bNum = $('b-num');
+					bNum = $('b-num'),
+					rBar = $('r-bar'),
+					gBar = $('g-bar'),
+					bBar = $('b-bar');
 
-				function setGradient(elm, start, end) {
-					elm.style['background'] = 'linear-gradient(to left,' + start + ',' + end + ')';
+				function setGradient(e, start, end) {
+					e.style['background'] = 'linear-gradient(to right,' + start + ',' + end + ')';
 				}
 
 				function setGradBar(r, g, b) {
-					setGradient($('r-bar'), Color.rgb(0, g, b), Color.rgb(255, g, b));
-					setGradient($('g-bar'), Color.rgb(r, 0, b), Color.rgb(r, 255, b));
-					setGradient($('b-bar'), Color.rgb(r, g, 0), Color.rgb(r, g, 255));
+					setGradient(rBar, Color.rgb(0, g, b), Color.rgb(255, g, b));
+					setGradient(gBar, Color.rgb(r, 0, b), Color.rgb(r, 255, b));
+					setGradient(bBar, Color.rgb(r, g, 0), Color.rgb(r, g, 255));
 				}
 
 				function setValue(r, g, b) {
 					rNum.value = r.toString();
 					gNum.value = g.toString();
 					bNum.value = b.toString();
+				}
+
+				function getNumValue(e) {
+					// let radix = e.getAttribute('radix') ^ 0;
+					const radix = 10;
+					return clamp(parseInt(e.value, radix), 0, 255);
+				}
+
+				function changeColor() {
+					let r = getNumValue(rNum),
+						g = getNumValue(gNum),
+						b = getNumValue(bNum);
+					
+					setGradBar(r, g, b);
+					palette[index] = Color.rgb(r, g, b);
+					selected.style.backgroundColor = palette[index];
 				}
 
 				const changeSpin = (e) => {
@@ -697,7 +716,7 @@
 						val = isNaN(val) ? 0 : val + step;
 					val = val < min ? 0 : val > max ? max : val;
 					input.value = val.toString(radix).toUpperCase();
-					// changeColor();
+					changeColor();
 					e.preventDefault();
 				};
 
