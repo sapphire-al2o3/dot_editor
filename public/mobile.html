@@ -223,6 +223,8 @@
 			}
 			table {
 				display: inline-block;
+				margin-top: 16px;
+				margin-left: 8px;
 			}
 			tr {
 				height: 40px;
@@ -370,7 +372,7 @@
 						</tr>
 					</tbody>
 				</table>
-				<span id="edit-palette"><img src="images/image_palette_icon.png"></span>
+				<!-- <span id="edit-palette"><img src="images/image_palette_icon.png"></span> -->
 			</div>
 			<div class="color-sliders">
 				<div>
@@ -480,9 +482,9 @@
 					window.open('/auth/twitter');
 				});
 
-				$('edit-palette').addEventListener('click', () => {
+				// $('edit-palette').addEventListener('click', () => {
 
-				});
+				// });
 
 				const selectPalette = (e) => {
 					if (e.target.localName === 'td') {
@@ -878,6 +880,9 @@
 					if (temp) {
 						unpack(temp, image.data);
 						render(ctx, image, scale);
+						if (scale === 32) {
+							drawGrid(ctx, {scale: scale, grid: grid, imageWidth: image.width}, scale);
+						}
 					}
 				}
 
