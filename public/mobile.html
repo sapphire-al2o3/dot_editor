@@ -15,6 +15,7 @@
 			#header {
 				/* margin-bottom: 8px; */
 				float: right;
+				margin-right: 16px;
 			}
 			
 			body {
@@ -737,6 +738,10 @@
 						input = $(e.target.getAttribute('for')),
 						x = e.offsetX,
 						v = clamp(x / width * 255 ^ 0, 0, 255);
+					
+					if (e.changedTouches && e.changedTouches.length > 0) {
+					}
+
 					input.value = v.toString();
 					changeColor();
 					e.preventDefault();
