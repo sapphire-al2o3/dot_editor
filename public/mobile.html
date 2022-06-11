@@ -233,7 +233,7 @@
 				transition: outline 0.3s;
 			}
 			td.selected {
-				outline: 6px solid #08D;
+				outline: 6px solid #34c0f4;
 				/* border: 1px solid #000; */
 			}
 
@@ -292,7 +292,7 @@
 			}
 
 			.color-bar {
-				width: 240px;
+				width: 256px;
 				height: 16px;
 				border: 2px solid #AAA;
 				box-shadow: #DDD 0 1px 3px 0;
@@ -319,10 +319,10 @@
 			#r-bar {
 				background: linear-gradient(to right, #000, #F00);
 			}
-			#b-bar {
+			#g-bar {
 				background: linear-gradient(to right, #000, #0F0);
 			}
-			#g-bar {
+			#b-bar {
 				background: linear-gradient(to right, #000, #00F);
 			}
 
@@ -373,7 +373,7 @@
 			</div>
 			<div class="color-sliders">
 				<div>
-					<label>B</label>
+					<label>R</label>
 					<span class="color-bar" id="r-bar" for="r-num"></span>
 					<span class="left" step="-1" for="r-num"></span>
 					<input type="text" value="0" id="r-num" />
@@ -438,6 +438,11 @@
 				
 				let toggleMode = true;
 				let startIndex = index;
+				const grid = {
+					color1: '#EEE',
+					color0: '#AAA',
+					size: 16
+				};
 
 				resize(image, scale);
 
@@ -449,7 +454,7 @@
 					document.querySelector('.scroll').classList.toggle('scale');
 					resize(image, scale);
 					if (scale === 32) {
-						drawGrid(ctx, {scale: scale, grid: {color1: '#EEE', color0: '#AAA', size: 16}, imageWidth: image.width}, scale);
+						drawGrid(ctx, {scale: scale, grid: grid, imageWidth: image.width}, scale);
 					}
 				});
 				
@@ -670,18 +675,16 @@
 				let rNum = $('r-num'),
 					gNum = $('g-num'),
 					bNum = $('b-num'),
-					rBar = $('r-bar'),
-					gBar = $('g-bar'),
-					bBar = $('b-bar');
+					sliders = [$('r-bar'), $('g-bar'), $('b-bar')];
 
 				function setGradient(e, start, end) {
 					e.style['background'] = 'linear-gradient(to right,' + start + ',' + end + ')';
 				}
 
 				function setGradBar(r, g, b) {
-					setGradient(rBar, Color.rgb(0, g, b), Color.rgb(255, g, b));
-					setGradient(gBar, Color.rgb(r, 0, b), Color.rgb(r, 255, b));
-					setGradient(bBar, Color.rgb(r, g, 0), Color.rgb(r, g, 255));
+					setGradient(sliders[0], Color.rgb(0, g, b), Color.rgb(255, g, b));
+					setGradient(sliders[1], Color.rgb(r, 0, b), Color.rgb(r, 255, b));
+					setGradient(sliders[2], Color.rgb(r, g, 0), Color.rgb(r, g, 255));
 				}
 
 				function setValue(r, g, b) {
@@ -704,6 +707,10 @@
 					setGradBar(r, g, b);
 					palette[index] = Color.rgb(r, g, b);
 					selected.style.backgroundColor = palette[index];
+					render(ctx, image, scale);
+					if (scale === 32) {
+						drawGrid(ctx, {scale: scale, grid: grid, imageWidth: image.width}, scale);
+					}
 				}
 
 				const changeSpin = (e) => {
@@ -722,6 +729,22 @@
 
 				$qa('.left, .right').forEach((v) => {
 					v.addEventListener('click', changeSpin);
+				});
+
+				const changeSlider = (e) => {
+					let border = 2,
+						width = e.target.clientWidth,
+						input = $(e.target.getAttribute('for')),
+						x = e.offsetX,
+						v = clamp(x / width * 255 ^ 0, 0, 255);
+					input.value = v.toString();
+					changeColor();
+					e.preventDefault();
+				};
+
+				sliders.forEach((v) => {
+					v.addEventListener('mousedown', changeSlider);
+					v.addEventListener('touchstart', changeSlider);
 				});
 				
 				function sub(data, p) {
