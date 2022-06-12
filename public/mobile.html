@@ -227,10 +227,10 @@
 				margin-left: 8px;
 			}
 			tr {
-				height: 40px;
+				height: 32px;
 			}
 			td {
-				width: 40px;
+				width: 32px;
 				border: 1px solid #EEE;
 				outline: 0px solid #DDD;
 				transition: outline 0.3s;
@@ -304,6 +304,7 @@
 				border-radius: 2px;
 				position: relative;
 				user-select: none;
+				vertical-align: middle;
 			}
 
 			.color-bar span {
@@ -742,6 +743,8 @@
 						v = clamp(x / width * 255 ^ 0, 0, 255);
 					
 					if (e.changedTouches && e.changedTouches.length > 0) {
+						x = e.changedTouches[0].clientX - e.target.offsetLeft - border;
+						v = clamp(x / width * 255 ^ 0, 0, 255);
 					}
 
 					input.value = v.toString();
@@ -905,6 +908,8 @@
 						paletteData: paletteData,
 					};
 				}
+
+				setTimeout(() => window.scrollTo(0, 0), 500);
 			})(this);
 		</script>
 	</body>
