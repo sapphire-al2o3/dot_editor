@@ -719,6 +719,16 @@
 					}
 				}
 
+				const changeInput = (e) => {
+					let v = parseInt(e.target.value, 10);
+					e.target.value = clamp(v, 0, 255);
+					changeColor();
+				};
+
+				[rNum, gNum, bNum].forEach((v) => {
+					v.addEventListener('change', changeInput);
+				});
+
 				const changeSpin = (e) => {
 					let input = $(e.target.getAttribute('for')),
 						radix = e.target.getAttribute('radix') ? 16 : 10,
