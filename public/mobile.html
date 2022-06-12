@@ -136,7 +136,6 @@
 				list-style: none;
 				padding: 0 8px;
 				margin-top: 12px;
-				margin-bottom: 8px;
 			}
 			
 			ul.tools li {
@@ -177,6 +176,7 @@
 				font-size: 12px;
 				color: #555;
 				padding: 8px;
+				margin-top: 16px;
 			}
 			
 			.help ul {
@@ -227,10 +227,10 @@
 				margin-left: 8px;
 			}
 			tr {
-				height: 32px;
+				height: 36px;
 			}
 			td {
-				width: 32px;
+				width: 36px;
 				border: 1px solid #EEE;
 				outline: 0px solid #DDD;
 				transition: outline 0.3s;
@@ -260,6 +260,7 @@
 
 			.color-sliders label {
 				font-family: consolas, monospace;
+				margin-right: 4px;
 			}
 
 			input {
@@ -405,6 +406,7 @@
 					<li><img src="./images/zoomout_icon.png" />縮小する</li>
 					<li><img src="./images/undo_icon.png" />元に戻す</li>
 					<li><img src="./images/trash_icon.png" />すべて消す</li>
+					<li><img src="./images/twitter_icon.png" />Twitterに投稿する</li>
 				</ul>
 				<p><a id="to-top" href="#">上へ戻る</a></p>
 			</div>
@@ -728,7 +730,7 @@
 					val = val < min ? 0 : val > max ? max : val;
 					input.value = val.toString(radix).toUpperCase();
 					changeColor();
-					e.preventDefault();
+					// e.preventDefault();
 				};
 
 				$qa('.left, .right').forEach((v) => {
@@ -739,14 +741,15 @@
 					let border = 2,
 						width = e.target.clientWidth,
 						input = $(e.target.getAttribute('for')),
-						x = e.offsetX,
-						v = clamp(x / width * 255 ^ 0, 0, 255);
+						x = 0;
 					
 					if (e.changedTouches && e.changedTouches.length > 0) {
 						x = e.changedTouches[0].clientX - e.target.offsetLeft - border;
-						v = clamp(x / width * 255 ^ 0, 0, 255);
+					} else {
+						x = e.offsetX;
 					}
 
+					let v = clamp(x / width * 255 ^ 0, 0, 255);
 					input.value = v.toString();
 					changeColor();
 					e.preventDefault();
