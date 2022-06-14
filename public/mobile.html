@@ -446,11 +446,6 @@
 				
 				let toggleMode = true;
 				let startIndex = index;
-				const grid = {
-					color1: '#EEE',
-					color0: '#AAA',
-					size: 16
-				};
 
 				resize(image, scale);
 
@@ -461,9 +456,7 @@
 					canvas.style.marginTop = (scale === defaultScale ? 0 : offsetY) + 'px';
 					document.querySelector('.scroll').classList.toggle('scale');
 					resize(image, scale);
-					if (scale === 32) {
-						drawGrid(ctx, {scale: scale, grid: grid, imageWidth: image.width}, scale);
-					}
+					grid();
 				});
 				
 				$('zoomout').addEventListener('click', () => {
@@ -481,6 +474,7 @@
 				$('trash').addEventListener('click', () => {
 					record();
 					clear(ctx, image);
+					grid();
 				});
 
 				$('tweet').addEventListener('click', () => {
@@ -520,11 +514,9 @@
 					var x = (e.pageX - left) / scale ^ 0,
 						y = (e.pageY - top) / scale ^ 0;
 					drawLine(ctx, px, py, x, y, image, startIndex, scale);
+					grid();
 					px = x;
 					py = y;
-					if (scale === 32) {
-						drawGrid(ctx, {scale: scale, grid: {color1: '#EEE', color0: '#AAA', size: 16}, imageWidth: image.width}, scale);
-					}
 					e.preventDefault();
 				}
 				
@@ -716,9 +708,7 @@
 					palette[index] = Color.rgb(r, g, b);
 					selected.style.backgroundColor = palette[index];
 					render(ctx, image, scale);
-					if (scale === 32) {
-						drawGrid(ctx, {scale: scale, grid: grid, imageWidth: image.width}, scale);
-					}
+					grid();
 				}
 
 				const changeInput = (e) => {
@@ -849,6 +839,18 @@
 						}
 					}
 				}
+
+				const gridOption = {
+					color1: '#EEE',
+					color0: '#AAA',
+					size: 16
+				};
+
+				function grid() {
+					if (scale === 32) {
+						drawGrid(ctx, {scale: scale, grid: gridOption, imageWidth: image.width}, scale);
+					}
+				}
 				
 				// var buffer = $('buffer');
 				// function preview(ctx, image) {
@@ -898,9 +900,7 @@
 					if (temp) {
 						unpack(temp, image.data);
 						render(ctx, image, scale);
-						if (scale === 32) {
-							drawGrid(ctx, {scale: scale, grid: grid, imageWidth: image.width}, scale);
-						}
+						grid();
 					}
 				}
 
