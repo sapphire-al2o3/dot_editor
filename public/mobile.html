@@ -156,6 +156,11 @@
 				height: 24px;
 				text-align: center;
 			}
+
+			ul.tools li:active {
+				background-image: none;
+				box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+			}
 			
 			#canvas {
 				background-color: #FFF;
@@ -235,10 +240,11 @@
 				width: 36px;
 				border: 1px solid #EEE;
 				outline: 0px solid #DDD;
-				transition: outline 0.3s;
+				transition: outline 0.1s;
+				border-radius: 8px;
 			}
 			td.selected {
-				outline: 6px solid #34c0f4;
+				outline: 4px solid #34c0f4;
 				/* border: 1px solid #000; */
 			}
 
@@ -906,7 +912,8 @@
 				}
 
 				function convertPalette() {
-					let paletteData = createPaletteData(8);
+					let paletteData = createPaletteData(8),
+						data = paletteData.data;
 					for (let i = 0, n = data.length; i < n; i += 4) {
 						let c = Color.strToRGB(palette[i >> 2]);
 						data[i] = c[0];
