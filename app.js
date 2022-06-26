@@ -5,26 +5,26 @@
 
 'use strict';
 
-var express = require('express');
-var http = require('http');
-var path = require('path');
-var fs = require('fs');
-var PNG = require('pngjs').PNG;
-var request = require('request');
+const express = require('express');
+const http = require('http');
+const path = require('path');
+// const fs = require('fs');
+const PNG = require('pngjs').PNG;
+const request = require('request');
 const scaling = require('./imagescaling.js').scaling;
 const frame = require('./imagescaling.js').frame;
 const tiling = require('./imagescaling.js').tiling;
 const config = require('./config.json');
-var favicon = require('serve-favicon');
-var bodyParser = require('body-parser');
-var cookieParser = require('cookie-parser');
-var session = require('express-session');
-var errorHandler = require('errorhandler');
-var morgan = require('morgan');
+const favicon = require('serve-favicon');
+const bodyParser = require('body-parser');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
+const errorHandler = require('errorhandler');
+const morgan = require('morgan');
 
-var app = express();
+const app = express();
 
-var passport = require('passport'),
+const passport = require('passport'),
 	TwitterStrategy = require('passport-twitter').Strategy;
 
 var CONSUMER_KEY = config.consumerKey,
