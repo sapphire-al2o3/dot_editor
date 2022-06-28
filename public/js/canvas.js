@@ -201,12 +201,13 @@ function fillRect(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 }
 
 // 塗りつぶし
-function paint(ctx, x, y, indexData, paletteIndex, scale) {
+function paint(ctx, x, y, indexData, paletteIndex, scale, padding = 0) {
 	let data = indexData.data,
 		w = indexData.width,
 		h = indexData.height,
 		c = data[y * w + x],
-		s = scale;
+		s = scale,
+		b = s - padding;
 	
 	if(c == paletteIndex) {
 		return;
@@ -218,7 +219,7 @@ function paint(ctx, x, y, indexData, paletteIndex, scale) {
 		if(y >= h || y < 0) return;
 		if(data[y * w + x] === c) {
 			data[y * w + x] = paletteIndex;
-			ctx.rect(x * s ^ 0, y * s ^ 0, s, s);
+			ctx.rect(x * s ^ 0, y * s ^ 0, b, b);
 			f(x - 1, y);
 			f(x + 1, y);
 			f(x, y - 1);
