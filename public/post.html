@@ -84,9 +84,12 @@
 						}
 					}
 					
-					if(window.opener && window.opener.getImage) {
+					if (window.opener && window.opener.getImage) {
+						if (window.opener.location.href.indexOf('mobile') >= 0) {
+							text.value = '#pixelart https://dot-a.herokuapp.com/mobile.html';
+						}
 						image = window.opener.getImage();
-						if(image) {
+						if (image) {
 							render(image.indexData, image.paletteData);
 						}
 					} else {
