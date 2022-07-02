@@ -284,14 +284,17 @@
 			}
 
 			.left, .right {
-				width: 16px;
-				height: 16px;
+				width: 20px;
+				height: 20px;
 				cursor: pointer;
 				display: inline-block;
 				background-repeat: no-repeat;
 				background-image: url("./images/input_horz_l.png");
 				user-select: none;
 				vertical-align: middle;
+				/* border: 1px solid #EEE;
+				box-shadow: inset #EEE 0 1px 2px 0;
+				border-radius: 3px; */
 			}
 			.left {
 				background-position: -8px 0;
@@ -351,7 +354,9 @@
 				<li id="zoom"><img src="./images/zoomin_icon.png"></li>
 				<li id="zoomout"><img src="./images/zoomout_icon.png"></li>
 				<li id="undo"><img src="./images/undo_icon.png"></li>
-				<li id="trash"><img src="images/trash_icon.png"></li>
+				<li id="trash"><img src="./images/trash_icon.png"></li>
+				<li id="pen"><img src="./images/pen_icon.png"></li>
+				<li id="paint"><img src="./images/paint_icon.png"></li>
 				<!-- <li id="shiftl"><img src="images/shift_l_icon.png"></li>
 				<li id="shiftr"><img src="images/shift_r_icon.png"></li>
 				<li id="shiftu"><img src="images/shift_u_icon.png"></li>
@@ -453,6 +458,7 @@
 				
 				let toggleMode = true;
 				let startIndex = index;
+				let tool = 0;
 
 				resize(image, scale);
 
@@ -486,6 +492,14 @@
 
 				$('tweet').addEventListener('click', () => {
 					window.open('/auth/twitter');
+				});
+
+				$('pen').addEventListener('click', () => {
+					tool = 0;
+				});
+
+				$('paint').addEventListener('click', () => {
+					tool = 1;
 				});
 
 				// $('edit-palette').addEventListener('click', () => {
@@ -545,9 +559,14 @@
 						startIndex = p === index ? 0 : index;
 					}
 					ctx.fillStyle = palette[startIndex];
-					drawDot(ctx, px, py, image, startIndex, scale, scale === 32 ? 1 : 0);
-					document.addEventListener('mousemove', mousemove);
-					document.addEventListener('mouseup', mouseup);
+					const padding = scale === 32 ? 1 : 0;
+					if (tool === 0) {
+						drawDot(ctx, px, py, image, startIndex, scale, padding);
+						document.addEventListener('mousemove', mousemove);
+						document.addEventListener('mouseup', mouseup);
+					} else if (tool === 1) {
+						paint(ctx, px, py, image, startIndex, scale, padding);
+					}
 					e.preventDefault();
 					e.stopPropagation();
 				}
@@ -586,10 +605,14 @@
 							startIndex = p === index ? 0 : index;
 						} 
 						ctx.fillStyle = palette[startIndex];
-						drawDot(ctx, px, py, image, startIndex, scale, scale === 32 ? 1 : 0);
-						
-						document.addEventListener('touchmove', touchmove);
-						document.addEventListener('touchend', touchend);
+						const padding = scale === 32 ? 1 : 0;
+						if (tool === 0) {
+							drawDot(ctx, px, py, image, startIndex, scale, padding);
+							document.addEventListener('touchmove', touchmove);
+							document.addEventListener('touchend', touchend);
+						} else if (tool === 1) {
+							paint(ctx, px, py, image, startIndex, scale, padding);
+						}
 					}
 				}
 				
