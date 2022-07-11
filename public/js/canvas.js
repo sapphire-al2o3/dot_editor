@@ -578,7 +578,7 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 //	console.log(n);
 	
 	y = y1;
-	x = ((x0 + x1) >> 1);
+	x = (x0 + x1) >> 1;
 	for(let i = 0; i < n; i++) {
 		let e0 = eps(x0 + 0.5, y0 + 0.5, x1 + 0.5, y1 + 0.5, x - 1 + 0.5, y + 0.5),
 			e1 = eps(x0 + 0.5, y0 + 0.5, x1 + 0.5, y1 + 0.5, x - 1 + 0.5, y - 1 + 0.5);
