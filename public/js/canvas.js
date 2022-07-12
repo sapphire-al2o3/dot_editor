@@ -503,8 +503,6 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 	
 	let dx = x1 - x0,
 		dy = y1 - y0,
-		dx2 = dx * dx,
-		dy2 = dy * dy,
 		a = dx >> 1,
 		b = dy >> 1,
 		s = scale,
