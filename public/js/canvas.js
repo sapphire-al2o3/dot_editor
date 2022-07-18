@@ -507,7 +507,11 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		b = dy >> 1,
 		s = scale,
 		iw = data ? indexData.width : 0,
-		ih = data ? indexData.height : 0;
+		ih = data ? indexData.height : 0,
+		x0c = x0 > 0 ? x0 : 0,
+		x1c = x1 < iw ? x1 : iw - 1,
+		y0c = y0 > 0 ? y0 : 0,
+		y1c = y1 < ih ? y1 : ih - 1;
 		
 	ctx.beginPath();
 	let x = ((x0 + x1) >> 1) * s;
@@ -516,10 +520,8 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 	if(data) {
 		let ix = (x0 + x1) >> 1;
 		if(0 <= ix && ix < iw) {
-			for(let j = y0; j <= y1; j++) {
-				if(0 <= j && j < ih) {
-					data[j * iw + ix] = paletteIndex;
-				}
+			for(let j = y0c; j <= y1c; j++) {
+				data[j * iw + ix] = paletteIndex;
 			}
 		}
 	}
@@ -528,10 +530,8 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		if(data) {
 			let ix = ((x0 + x1) >> 1) + 1;
 			if(0 <= ix && ix < iw) {
-				for(let j = y0; j <= y1; j++) {
-					if(0 <= j && j < ih) {
-						data[j * iw + ix] = paletteIndex;
-					}
+				for(let j = y0c; j <= y1c; j++) {
+					data[j * iw + ix] = paletteIndex;
 				}
 			}
 		}
@@ -544,10 +544,8 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 	if(data) {
 		let iy = ((y0 + y1) >> 1) * iw;
 		if(0 <= iy && iy < ih * iw) {
-			for(let j = x0; j <= x1; j++) {
-				if(0 <= j && j < iw) {
-					data[iy + j] = paletteIndex;
-				}
+			for(let j = x0c; j <= x1c; j++) {
+				data[iy + j] = paletteIndex;
 			}
 		}
 	}
@@ -557,10 +555,8 @@ function fillEllipse(ctx, x0, y0, x1, y1, indexData, paletteIndex, scale) {
 		if(data) {
 			let iy = (((y0 + y1) >> 1) + 1) * iw;
 			if(0 <= iy && iy < ih * iw) {
-				for(let j = x0; j <= x1; j++) {
-					if(0 <= j && j < iw) {
-						data[iy + j] = paletteIndex;
-					}
+				for(let j = x0c; j <= x1c; j++) {
+					data[iy + j] = paletteIndex;
 				}
 			}
 		}
