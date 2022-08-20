@@ -35,6 +35,9 @@
 					<input type="checkbox" id="twitter-id" /><label for="twitter-id">TwitterのIDを入れる</label>
 				</div> -->
 				<div id="dot-preview"><canvas id="canvas"></canvas></div>
+				<div id="image-reload">
+					<input type="button" id="reload" value="更新" />
+				</div>
 				<p><textarea id="text" name="text">#pixelart https://dot-a.herokuapp.com/</textarea></p>
 				<p><span id="text-count">134</span></p>
 				<p><img id="loading" src="./images/loading_1.gif" /></p>
@@ -134,6 +137,15 @@
 						render(image.indexData, image.paletteData);
 					}, false);
 					
+					document.getElementById('reload').addEventListener('click', e => {
+						if (window.opener && window.opener.getImage) {
+							image = window.opener.getImage();
+							if (image) {
+								render(image.indexData, image.paletteData);
+							}
+						}
+					}, false);
+
 					function strlen(str) {
 						return str.length - (str.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g)||[]).length;
 					}
