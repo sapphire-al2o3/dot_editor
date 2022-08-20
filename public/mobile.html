@@ -456,7 +456,7 @@
 				let r, px, py, left, top, index = 1,
 					offsetX = 0, offsetY = 0;
 				
-				let toggleMode = true;
+				let toggleMode = false;
 				let startIndex = index;
 				let tool = 0;
 
@@ -762,7 +762,7 @@
 					val = val < min ? 0 : val > max ? max : val;
 					input.value = val.toString(radix).toUpperCase();
 					changeColor();
-					// e.preventDefault();
+					e.preventDefault();
 				};
 
 				$qa('.left, .right').forEach((v) => {
