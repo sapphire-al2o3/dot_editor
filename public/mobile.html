@@ -230,7 +230,7 @@
 			}
 			table {
 				display: inline-block;
-				margin-top: 16px;
+				margin-top: 8px;
 				margin-left: 8px;
 			}
 			tr {
@@ -262,7 +262,7 @@
 			}
 
 			.color-sliders {
-				margin-top: 8px;
+				margin-top: 4px;
 				padding-left: 16px;
 			}
 
@@ -357,10 +357,10 @@
 				<li id="trash"><img src="./images/trash_icon.png"></li>
 				<li id="pen"><img src="./images/pen_icon.png"></li>
 				<li id="paint"><img src="./images/paint_icon.png"></li>
-				<!-- <li id="shiftl"><img src="images/shift_l_icon.png"></li>
-				<li id="shiftr"><img src="images/shift_r_icon.png"></li>
-				<li id="shiftu"><img src="images/shift_u_icon.png"></li>
-				<li id="shiftd"><img src="images/shift_d_icon.png"></li> -->
+				<li id="shiftl"><img src="images/shift_l_icon.png"></li>
+				<!-- <li id="shiftr"><img src="images/shift_r_icon.png"></li> -->
+				<!-- <li id="shiftu"><img src="images/shift_u_icon.png"></li> -->
+				<!-- <li id="shiftd"><img src="images/shift_d_icon.png"></li> -->
 				<!-- <li id="grid"><img src="./images/grid_icon.png"></li> -->
 				<!-- <li><img id="preview" /><canvas id="buffer"></canvas></li> -->
 				<li id="tweet"><img src="images/twitter_icon.png"></li>
@@ -500,6 +500,12 @@
 
 				$('paint').addEventListener('click', () => {
 					tool = 1;
+				});
+
+				$('shiftl').addEventListener('click', () => {
+					record();
+					shiftH(ctx, image, -1, scale);
+					grid();
 				});
 
 				// $('edit-palette').addEventListener('click', () => {
