@@ -28,6 +28,10 @@ label {
 	font-size: 12px;
 }
 
+#option {
+	padding-left: 8px;
+}
+
 input[type="radio"] {
 	margin-right: 8px;
 }

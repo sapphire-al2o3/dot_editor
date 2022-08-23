@@ -18,23 +18,24 @@
 			</div>
 			<p>Twitterへドット絵を投稿します。</p>
 			<form action="/auth/twitter/post" method="post" id="post-form">
-				
-				<div id="image-scale">
-					<input type="radio" name="scale" id="scale-1" value="1" checked /><label for="scale-1">等倍</label>
-					<input type="radio" name="scale" id="scale-2" value="2" /><label for="scale-2">2倍</label>
-					<input type="radio" name="scale" id="scale-3" value="3" /><label for="scale-3">3倍</label>
-					<input type="radio" name="scale" id="scale-4" value="4" /><label for="scale-4">4倍</label>
+				<div id="option">
+					<div id="image-scale">
+						<input type="radio" name="scale" id="scale-1" value="1" checked /><label for="scale-1">等倍</label>
+						<input type="radio" name="scale" id="scale-2" value="2" /><label for="scale-2">2倍</label>
+						<input type="radio" name="scale" id="scale-3" value="3" /><label for="scale-3">3倍</label>
+						<input type="radio" name="scale" id="scale-4" value="4" /><label for="scale-4">4倍</label>
+					</div>
+					<div>
+						<input type="checkbox" id="transparent" /><label for="transparent">背景を透明にする(背景のピクセルをクリック)</label>
+					</div>
+					<div>
+						<input type="checkbox" id="space" /><label for="space">余白をつける</label>
+						<input type="checkbox" id="tiling" /><label for="tiling">タイリング</label>
+					</div>
+					<!-- <div>
+						<input type="checkbox" id="twitter-id" /><label for="twitter-id">TwitterのIDを入れる</label>
+					</div> -->
 				</div>
-				<div>
-					<input type="checkbox" id="transparent" /><label for="transparent">背景を透明にする(背景のピクセルをクリック)</label>
-				</div>
-				<div>
-					<input type="checkbox" id="space" /><label for="space">余白をつける</label>
-					<input type="checkbox" id="tiling" /><label for="tiling">タイリング</label>
-				</div>
-				<!-- <div>
-					<input type="checkbox" id="twitter-id" /><label for="twitter-id">TwitterのIDを入れる</label>
-				</div> -->
 				<div id="dot-preview"><canvas id="canvas"></canvas></div>
 				<div id="image-reload">
 					<input type="button" id="reload" value="更新" />
