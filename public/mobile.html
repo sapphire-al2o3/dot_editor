@@ -2,7 +2,7 @@
 <html lang="ja">
 	<head>
 		<meta charset="utf-8" />
-		<meta name="viewport" content="width=400" />
+		<meta name="viewport" content="width=400 user-scalable=no" />
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<title>Dot Editor</title>
 		<link href="./css/dot_common.css" media="screen" rel="stylesheet" type="text/css" />
@@ -558,6 +558,7 @@
 					if (y !== 0) shiftV(ctx, image, y, scale);
 					grid();
 					e.preventDefault();
+					e.stopPropagation();
 				}
 
 				$('shift-left').addEventListener('click', (e) => {
