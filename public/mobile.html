@@ -58,7 +58,7 @@
 				line-height: 1.5;
 				
 			}
-			.scroll div {
+			#canvas-container {
 				width: 384px;
 				height: 384px;
 				overflow: hidden;
@@ -119,6 +119,46 @@
 				height: 32px;
 				display: block;
 /*				opacity: 1;*/
+			}
+
+			span.shift {
+				width: 32px;
+				height: 32px;
+				background: none;
+				background-position: 4px 4px;
+				background-repeat: no-repeat;
+			}
+
+			#shift-button {
+				display: none;
+			}
+
+			#shift-button.active {
+				display: block;
+			}
+
+			#shift-left {
+				top: 184px;
+				left: 0px;
+				background-image: url("./images/shift_l_icon.png");
+			}
+
+			#shift-right {
+				top: 184px;
+				left: 368px;
+				background-image: url("./images/shift_r_icon.png");
+			}
+
+			#shift-up {
+				top: 0px;
+				left: 184px;
+				background-image: url("./images/shift_u_icon.png");
+			}
+
+			#shift-down {
+				top: 368px;
+				left: 184px;
+				background-image: url("./images/shift_d_icon.png");
 			}
 			
 			h2 {
@@ -357,7 +397,7 @@
 				<li id="trash"><img src="./images/trash_icon.png"></li>
 				<li id="pen"><img src="./images/pen_icon.png"></li>
 				<li id="paint"><img src="./images/paint_icon.png"></li>
-				<li id="shiftl"><img src="images/shift_l_icon.png"></li>
+				<li id="shift"><img src="images/shift_icon.png"></li>
 				<!-- <li id="shiftr"><img src="images/shift_r_icon.png"></li> -->
 				<!-- <li id="shiftu"><img src="images/shift_u_icon.png"></li> -->
 				<!-- <li id="shiftd"><img src="images/shift_d_icon.png"></li> -->
@@ -370,7 +410,13 @@
 				<span id="thumb-top" class="thumb-top"></span>
 <!--				<span class="thumb-bottom"></span>-->
 <!--				<span class="thumb-right"></span>-->
-				<div><canvas id="canvas" width="256" height="256"></canvas></div>
+				<div id="canvas-container"><canvas id="canvas" width="256" height="256"></canvas></div>
+				<div id="shift-button">
+					<span id="shift-left" class="shift"></span>
+					<span id="shift-right" class="shift"></span>
+					<span id="shift-up" class="shift"></span>
+					<span id="shift-down" class="shift"></span>
+				</div>
 			</div>
 <!--			<p><img id="preview" /><canvas id="buffer"></canvas></p>-->
 			<div>
@@ -502,10 +548,32 @@
 					tool = 1;
 				});
 
-				$('shiftl').addEventListener('click', () => {
+				$('shift').addEventListener('click', () => {
+					$('shift-button').classList.toggle('active');
+				});
+
+				function shift(e, x, y) {
 					record();
-					shiftH(ctx, image, -1, scale);
+					if (x !== 0) shiftH(ctx, image, x, scale);
+					if (y !== 0) shiftV(ctx, image, y, scale);
 					grid();
+					e.preventDefault();
+				}
+
+				$('shift-left').addEventListener('click', (e) => {
+					shift(e, -1, 0);
+				});
+
+				$('shift-right').addEventListener('click', (e) => {
+					shift(e, 1, 0);
+				});
+
+				$('shift-up').addEventListener('click', (e) => {
+					shift(e, 0, -1);
+				});
+
+				$('shift-down').addEventListener('click', (e) => {
+					shift(e, 0, 1);
 				});
 
 				// $('edit-palette').addEventListener('click', () => {
