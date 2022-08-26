@@ -762,9 +762,12 @@
 					e.style['background'] = 'linear-gradient(to right,' + start + ',' + end + ')';
 				}
 
-				function setCursor(e, v) {
+				function setCursor(e, v, s) {
 					e.style.left = v + 'px';
-					e.style.backgroundColor = v >= 128 ? '#444' : '#FFF';
+					let color = v >= 128 ? '#444' : '#FFF'
+					// if (s < 128) color = '#FFF';
+					if (s > 256 + 128) color = '#444';
+					e.style.backgroundColor = color;
 				}
 
 				function setGradBar(r, g, b) {
@@ -772,9 +775,9 @@
 					setGradient(sliders[1], Color.rgb(r, 0, b), Color.rgb(r, 255, b));
 					setGradient(sliders[2], Color.rgb(r, g, 0), Color.rgb(r, g, 255));
 
-					setCursor(cursors[0], r);
-					setCursor(cursors[1], g);
-					setCursor(cursors[2], b);
+					setCursor(cursors[0], r, g + b);
+					setCursor(cursors[1], g, r + b);
+					setCursor(cursors[2], b, r + g);
 				}
 
 				function setValue(r, g, b) {
