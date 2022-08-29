@@ -533,17 +533,14 @@
 					e.stopPropagation();
 				}
 
-				$('shift-left').addEventListener('mousedown', (e) => shift(e, -1, 0));
-				$('shift-left').addEventListener('touchstart', (e) => shift(e, -1, 0));
+				const onTouchStart = (e, f) => {
+					e.addEventListener('ontouchstart' in e ? 'touchstart' : 'mousedown', f);
+				};
 
-				$('shift-right').addEventListener('mousedown', (e) => shift(e, 1, 0));
-				$('shift-right').addEventListener('touchstart', (e) => shift(e, 1, 0));
-
-				$('shift-up').addEventListener('mousedown', (e) => shift(e, 0, -1));
-				$('shift-up').addEventListener('touchstart', (e) => shift(e, 0, -1));
-
-				$('shift-down').addEventListener('mousedown', (e) => shift(e, 0, 1));
-				$('shift-down').addEventListener('touchstart', (e) => shift(e, 0, 1));
+				onTouchStart($('shift-left'), (e) => shift(e, -1, 0));
+				onTouchStart($('shift-right'), (e) => shift(e, 1, 0));
+				onTouchStart($('shift-up'), (e) => shift(e, 0, -1));
+				onTouchStart($('shift-down'), (e) => shift(e, 0, 1));
 
 				// $('edit-palette').addEventListener('click', () => {
 
