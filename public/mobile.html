@@ -610,8 +610,8 @@
 						}
 					} else if (e.button == 2) {
 						const r = e.target.getBoundingClientRect();
-						const x = (e.pageX - window.scrollX + r.left) / scale ^ 0;
-						const y = (e.pageY - window.scrollY + r.top) / scale ^ 0;
+						const x = (e.pageX - (window.scrollX + r.left)) / scale ^ 0;
+						const y = (e.pageY - (window.scrollY + r.top)) / scale ^ 0;
 						index = image.data[y * image.width + x];
 						
 					}
@@ -855,8 +855,7 @@
 				};
 
 				sliders.forEach((v) => {
-					v.addEventListener('mousedown', changeSlider);
-					v.addEventListener('touchstart', changeSlider);
+					onTouchStart(v, changeSlider);
 				});
 				
 				function sub(data, p) {
