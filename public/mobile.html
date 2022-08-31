@@ -534,7 +534,7 @@
 				}
 
 				const onTouchStart = (e, f) => {
-					e.addEventListener('ontouchstart' in e ? 'touchstart' : 'mousedown', f);
+					e.addEventListener('ontouchstart' in e ? 'touchstart' : 'mousedown', f, false);
 				};
 
 				onTouchStart($('shift-left'), (e) => shift(e, -1, 0));
@@ -560,8 +560,7 @@
 					}
 				};
 
-				$('palette').addEventListener('touchstart', selectPalette);
-				$('palette').addEventListener('mousedown', selectPalette);
+				onTouchStart($('palette'), selectPalette);
 				
 				$('palette').querySelectorAll('td').forEach(v => {
 					v.style.backgroundColor = palette[v.cellIndex];
@@ -836,20 +835,53 @@
 					v.addEventListener('click', changeSpin);
 				});
 
-				const changeSlider = (e) => {
-					let border = 2,
-						width = e.target.clientWidth,
-						input = $(e.target.getAttribute('for')),
-						x = 0;
+				let targetInput;
+				let targetWidth;
+				let targetLeft;
+
+				const moveSlider = (e) => {
+					let x = 0;
 					
 					if (e.changedTouches && e.changedTouches.length > 0) {
-						x = e.changedTouches[0].clientX - e.target.offsetLeft - border;
+						const border = 2;
+						x = e.changedTouches[0].clientX - targetLeft;
 					} else {
-						x = e.offsetX;
+						x = e.pageX - targetLeft;
 					}
 
-					let v = clamp(x / width * 255 ^ 0, 0, 255);
-					input.value = v.toString();
+					let v = clamp(x / targetWidth * 255 ^ 0, 0, 255);
+					targetInput.value = v.toString();
+					changeColor();
+					// e.preventDefault();
+				};
+
+				const upSlider = (e) => {
+					document.removeEventListener('mousemove', moveSlider);
+					document.removeEventListener('mouseup', upSlider);
+					document.removeEventListener('touchmove', moveSlider);
+					document.removeEventListener('touchup', upSlider);
+				};
+
+				const changeSlider = (e) => {
+					const t = e.currentTarget;
+					const border = 2;
+					targetWidth = t.clientWidth;
+					targetInput = $(t.getAttribute('for'));
+					targetLeft = t.offsetLeft + border;
+					r = t.getBoundingClientRect();
+					let x = 0;
+					
+					if (e.changedTouches && e.changedTouches.length > 0) {
+						x = e.changedTouches[0].clientX - targetLeft;
+						document.addEventListener('touchmove', moveSlider);
+						document.addEventListener('touchend', upSlider);
+					} else {
+						x = e.pageX - targetLeft;
+						document.addEventListener('mousemove', moveSlider);
+						document.addEventListener('mouseup', upSlider);
+					}
+					let v = clamp(x / targetWidth * 255 ^ 0, 0, 255);
+					targetInput.value = v.toString();
 					changeColor();
 					e.preventDefault();
 				};
