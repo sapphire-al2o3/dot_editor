@@ -754,9 +754,7 @@
 					t.addEventListener('touchend', scrollTouchUp);
 				});
 
-				let rNum = $('r-num'),
-					gNum = $('g-num'),
-					bNum = $('b-num'),
+				let nums = [$('r-num'), $('g-num'), $('b-num')],
 					sliders = [$('r-bar'), $('g-bar'), $('b-bar')],
 					cursors = [$('r-cursor'), $('g-cursor'), $('b-cursor')];
 
@@ -784,9 +782,9 @@
 				}
 
 				function setValue(r, g, b) {
-					rNum.value = r.toString();
-					gNum.value = g.toString();
-					bNum.value = b.toString();
+					nums[0].value = r.toString();
+					nums[1].value = g.toString();
+					nums[2].value = b.toString();
 				}
 
 				function getNumValue(e) {
@@ -796,9 +794,9 @@
 				}
 
 				function changeColor() {
-					let r = getNumValue(rNum),
-						g = getNumValue(gNum),
-						b = getNumValue(bNum);
+					let r = getNumValue(nums[0]),
+						g = getNumValue(nums[1]),
+						b = getNumValue(nums[2]);
 					
 					setGradBar(r, g, b);
 					palette[index] = Color.rgb(r, g, b);
@@ -813,7 +811,7 @@
 					changeColor();
 				};
 
-				[rNum, gNum, bNum].forEach((v) => {
+				nums.forEach((v) => {
 					v.addEventListener('change', changeInput);
 				});
 
