@@ -1012,8 +1012,6 @@
 				let undoBuffer = [];
 				
 				function record() {
-					let back = undoBuffer[undoBuffer.length - 1];
-					
 					let temp = new Uint8Array(image.width * image.height / 2);
 					pack(image.data, temp);
 					undoBuffer.push(temp);
@@ -1050,6 +1048,21 @@
 						paletteData: paletteData,
 					};
 				}
+
+				// auto save
+				window.addEventListener('unload', () => {
+					if (undoBuffer.length > 0) {
+						const indexData = Base64.encode(image.data);
+						const paletteData = convertPalette();
+						const json = JSON.stringify({
+							indexData: indexData,
+							width: image.width,
+							height: image.height,
+							paletteData: Base64.encode(paletteData.data),
+						});
+						localStorage.setItem('auto', json);
+					}
+				});
 
 				setTimeout(() => window.scrollTo(0, 0), 500);
 			})(this);
