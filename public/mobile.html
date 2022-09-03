@@ -482,8 +482,10 @@
 				if (autoSaveJson) {
 					const data = JSON.parse(autoSaveJson);
 					Base64.decode(data.indexData, image.data);
-					Base64.decode(data.paletteData);
-
+					const p = Base64.decode(data.paletteData);
+					for (let i = 0, j = 0; i < palette.length; i++, j += 4) {
+						palette[i] = Color.rgb(p[j], p[j + 1], p[j + 2]);
+					}
 					console.log('load auto save data');
 				}
 
