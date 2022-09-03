@@ -478,6 +478,15 @@
 				let startIndex = index;
 				let tool = 0;
 
+				const autoSaveJson = localStorage.getItem('auto');
+				if (autoSaveJson) {
+					const data = JSON.parse(autoSaveJson);
+					Base64.decode(data.indexData, image.data);
+					Base64.decode(data.paletteData);
+
+					console.log('load auto save data');
+				}
+
 				resize(image, scale);
 
 				$('zoom').addEventListener('click', () => {
@@ -1050,7 +1059,7 @@
 				}
 
 				// auto save
-				window.addEventListener('unload', () => {
+				window.addEventListener('pagehide', () => {
 					if (undoBuffer.length > 0) {
 						const indexData = Base64.encode(image.data);
 						const paletteData = convertPalette();
