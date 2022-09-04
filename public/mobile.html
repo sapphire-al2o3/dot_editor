@@ -1060,8 +1060,7 @@
 					};
 				}
 
-				// auto save
-				window.addEventListener('pagehide', () => {
+				function autoSave() {
 					if (undoBuffer.length > 0) {
 						const indexData = Base64.encode(image.data);
 						const paletteData = convertPalette();
@@ -1073,7 +1072,10 @@
 						});
 						localStorage.setItem('auto', json);
 					}
-				});
+				}
+
+				// auto save
+				window.addEventListener('pagehide', autoSave, false);
 
 				setTimeout(() => window.scrollTo(0, 0), 500);
 			})(this);
