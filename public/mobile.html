@@ -517,6 +517,8 @@
 				$('trash').addEventListener('click', () => {
 					record();
 					clear(ctx, image);
+					ctx.fillStyle = palette[0];
+					ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 					grid();
 				});
 
