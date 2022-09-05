@@ -477,6 +477,7 @@
 				let toggleMode = false;
 				let startIndex = index;
 				let tool = 0;
+				let modify = false;
 
 				const autoSaveJson = localStorage.getItem('auto');
 				if (autoSaveJson) {
@@ -814,6 +815,7 @@
 					selected.style.backgroundColor = palette[index];
 					render(ctx, image, scale);
 					grid();
+					modify = true;
 				}
 
 				const changeInput = (e) => {
@@ -1026,6 +1028,7 @@
 					let temp = new Uint8Array(image.width * image.height / 2);
 					pack(image.data, temp);
 					undoBuffer.push(temp);
+					modify = true;
 				}
 				
 				// undo
@@ -1061,7 +1064,7 @@
 				}
 
 				function autoSave() {
-					if (undoBuffer.length > 0) {
+					if (modify) {
 						const indexData = Base64.encode(image.data);
 						const paletteData = convertPalette();
 						const json = JSON.stringify({
@@ -1071,12 +1074,17 @@
 							paletteData: Base64.encode(paletteData.data),
 						});
 						localStorage.setItem('auto', json);
+						modify = false;
 					}
 				}
 
 				// auto save
 				window.addEventListener('pagehide', autoSave, false);
-
+				document.addEventListener('visibilitychange', (e) => {
+					if (document.visibilityState === 'hidden') {
+						autoSave();
+					}
+				}, false);
 				setTimeout(() => window.scrollTo(0, 0), 500);
 			})(this);
 		</script>
