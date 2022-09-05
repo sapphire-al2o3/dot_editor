@@ -12,14 +12,14 @@
     "express": "^4.15.3",
     "express-session": "^1.15.3",
     "morgan": "^1.8.2",
-    "passport": "0.4.0",
+    "passport": "0.6.0",
     "passport-twitter": "1.0.4",
     "pngjs": "https://github.com/sapphire-al2o3/node-pngjs/tarball/master",
     "request": "^2.68.0",
     "serve-favicon": "^2.4.3"
   },
   "engines": {
-    "node": "12.18.x",
-    "npm": "6.14.x"
+    "node": "16.17.x",
+    "npm": "8.15.x"
   }
 }
