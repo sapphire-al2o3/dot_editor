@@ -630,6 +630,8 @@
 						const y = (e.pageY - (window.scrollY + r.top)) / scale ^ 0;
 						index = image.data[y * image.width + x];
 						
+						const cell = document.querySelectorAll('td')[index];
+						selectPalette({ target: cell });
 					}
 					e.preventDefault();
 					e.stopPropagation();
