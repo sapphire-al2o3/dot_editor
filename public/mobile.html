@@ -563,15 +563,19 @@
 
 				// });
 
+				function selectColor(target) {
+					index = target.cellIndex;
+					selected.className = '';
+					selected = target;
+					target.className = 'selected';
+					const color = Color.strToRGB(palette[index]);
+					setGradBar(color[0], color[1], color[2]);
+					setValue(color[0], color[1], color[2]);
+				}
+
 				const selectPalette = (e) => {
 					if (e.target.localName === 'td') {
-						index = e.target.cellIndex;
-						selected.className = '';
-						selected = e.target;
-						e.target.className = 'selected';
-						const color = Color.strToRGB(palette[index]);
-						setGradBar(color[0], color[1], color[2]);
-						setValue(color[0], color[1], color[2]);
+						selectColor(e.target);
 						// e.preventDefault();
 						e.stopPropagation();
 					}
@@ -631,7 +635,7 @@
 						index = image.data[y * image.width + x];
 						
 						const cell = document.querySelectorAll('td')[index];
-						selectPalette({ target: cell });
+						selectColor(cell);
 					}
 					e.preventDefault();
 					e.stopPropagation();
