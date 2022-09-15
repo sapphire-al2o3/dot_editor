@@ -508,7 +508,7 @@
 				$('zoomout').addEventListener('click', () => {
 					scale = scale === 1 ? defaultScale : 1;
 					canvas.style.marginLeft = '0px';
-					canvas.style.marginTop = (scale === 1 ? 200 - 24 / 2 : 0) + 'px';
+					canvas.style.marginTop = (scale === 1 ? 200 - size / 2 : 0) + 'px';
 					document.querySelector('.scroll').classList.remove('scale');
 					resize(image, scale);
 				});
