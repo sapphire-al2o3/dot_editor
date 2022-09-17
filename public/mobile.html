@@ -550,6 +550,14 @@
 					e.stopPropagation();
 				}
 
+				$('canvas-container').addEventListener('click', () => {
+					scale *= 2;
+					if (scale > 8) scale = 1;
+					canvas.style.marginLeft = '0px';
+					canvas.style.marginTop = (200 - size * scale / 2) + 'px';
+					resize(image, scale);
+				}, false);
+
 				const onTouchStart = (e, f) => {
 					e.addEventListener('ontouchstart' in e ? 'touchstart' : 'mousedown', f, false);
 				};
@@ -558,10 +566,6 @@
 				onTouchStart($('shift-right'), (e) => shift(e, 1, 0));
 				onTouchStart($('shift-up'), (e) => shift(e, 0, -1));
 				onTouchStart($('shift-down'), (e) => shift(e, 0, 1));
-
-				// $('edit-palette').addEventListener('click', () => {
-
-				// });
 
 				function selectColor(target) {
 					index = target.cellIndex;
