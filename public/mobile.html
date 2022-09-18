@@ -160,6 +160,19 @@
 				left: 184px;
 				background-image: url("./images/shift_d_icon.png");
 			}
+
+			#zoom-button {
+				display: none;
+				width: 32px;
+				height: 32px;
+				left: 360px;
+				top: 360px;
+				background: none;
+			}
+
+			#zoom-button.active {
+				display: block;
+			}
 			
 			h2 {
 				font-size: 17px;
@@ -389,6 +402,7 @@
 					<span id="shift-up" class="shift"></span>
 					<span id="shift-down" class="shift"></span>
 				</div>
+				<span id="zoom-button"><img src="images/zoom_icon.png"></span>
 			</div>
 <!--			<p><img id="preview" /><canvas id="buffer"></canvas></p>-->
 			<div>
@@ -503,14 +517,18 @@
 					document.querySelector('.scroll').classList.toggle('scale');
 					resize(image, scale);
 					grid();
+
+					$('zoom-button').classList.remove('active');
 				});
 				
 				$('zoomout').addEventListener('click', () => {
-					scale = scale === 1 ? defaultScale : 1;
+					scale = scale !== defaultScale ? defaultScale : 1;
 					canvas.style.marginLeft = '0px';
 					canvas.style.marginTop = (scale === 1 ? 200 - size / 2 : 0) + 'px';
 					document.querySelector('.scroll').classList.remove('scale');
 					resize(image, scale);
+
+					$('zoom-button').classList.toggle('active');
 				});
 				
 				$('undo').addEventListener('click', () => {
@@ -550,7 +568,7 @@
 					e.stopPropagation();
 				}
 
-				$('canvas-container').addEventListener('click', () => {
+				$('zoom-button').addEventListener('click', () => {
 					scale *= 2;
 					if (scale > 8) scale = 1;
 					canvas.style.marginLeft = '0px';
