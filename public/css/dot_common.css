@@ -41,9 +41,6 @@ body {
 	background-color: #FFF;
 }
 
-#header {
-}
-
 #header h1 {
 	
 	font-size: 20pt;
@@ -102,8 +99,8 @@ body {
 
 #footer {
 	font-size: 9pt;
-	border-top: 2px solid #08D;
-	border-bottom: 8px solid #08D;
+	border-top: 2px solid #0AF;
+	border-bottom: 8px solid #0AF;
 	padding-top: 4px;
 	padding-bottom: 4px;
 }
