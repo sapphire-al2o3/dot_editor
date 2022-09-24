@@ -527,7 +527,7 @@
 				});
 				
 				$('zoomout').addEventListener('click', () => {
-					scale = scale !== defaultScale ? defaultScale : 1;
+					scale = scale < defaultScale ? defaultScale : 1;
 					canvas.style.marginLeft = '0px';
 					canvas.style.marginTop = (scale === 1 ? 200 - size / 2 : 0) + 'px';
 					document.querySelector('.scroll').classList.remove('scale');
