@@ -781,12 +781,11 @@
 				}
 				
 				scroll.addEventListener('mousedown', (e) => {
-					let t = document;
-					r = scroll.getBoundingClientRect();
-					
 					if (scale < 32) {
 						return;
 					}
+					let t = document;
+					r = scroll.getBoundingClientRect();
 					scrollX = scrollY = false;
 					move(e);
 					t.addEventListener('mousemove', move);
@@ -794,12 +793,11 @@
 				});
 				
 				scroll.addEventListener('touchstart', (e) => {
-					let t = document;
-					r = scroll.getBoundingClientRect();
-					
 					if (scale < 32) {
 						return;
 					}
+					let t = document;
+					r = scroll.getBoundingClientRect();
 					scrollX = scrollY = false;
 					move(e);
 					t.addEventListener('touchmove', move, {passive: false});
