@@ -869,7 +869,7 @@
 					let input = $(e.target.getAttribute('for')),
 						radix = e.target.getAttribute('radix') ? 16 : 10,
 						val = parseInt(input.value, radix),
-						step = parseInt(e.target.getAttribute('step'), radix),
+						step = parseInt(e.target.getAttribute('step')),
 						max = 255,
 						min = 0;
 						val = isNaN(val) ? 0 : val + step;
