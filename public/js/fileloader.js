@@ -77,49 +77,64 @@
 		load: function(file) {
 			let reader = new FileReader(),
 				image = new Image(),
-				that = this;
-			
-			reader.onload = function(e) {
-				let result = reader.result.split(',');
-				let str = result[1];
-				let buffer = Base64.decode(str);
-				let paletteData = createPaletteData(256);
-				let hasPalette = false;
-				let backIndex = -1;
+				that = this,
+				type = file.type;
 				
-				if(getPngPalette(buffer, paletteData)) {
-					hasPalette = true;
-					for(let i = 0; i < paletteData.data.length; i += 4) {
-						if(paletteData.data[i + 3] === 0) {
-							backIndex = i / 4;
-							break;
+			reader.onload = (e) => {
+				if (type === 'image/png') {
+					let result = reader.result.split(',');
+					let str = result[1];
+					let buffer = Base64.decode(str);
+					let paletteData = createPaletteData(256);
+					let hasPalette = false;
+					let backIndex = -1;
+					
+					if(getPngPalette(buffer, paletteData)) {
+						hasPalette = true;
+						for(let i = 0; i < paletteData.data.length; i += 4) {
+							if(paletteData.data[i + 3] === 0) {
+								backIndex = i / 4;
+								break;
+							}
 						}
 					}
-				}
-				
-				image.onload = () => {
-				
-					// canvasから画像読み込み
-					let canvas = document.createElement('canvas'),
-						ctx = canvas.getContext('2d'),
-						indexData = createIndexData(image.width, image.height);
 					
-					canvas.width = image.width;
-					canvas.height = image.height;
-					ctx.globalCompositeOperation = 'copy';
-					ctx.clearRect(0, 0, canvas.width, canvas.height);
-					ctx.drawImage(image, 0, 0);
-					if(hasPalette) {
-						convertIndexedImageByPalette(ctx.getImageData(0, 0, image.width, image.height), indexData, paletteData, backIndex);
-					} else {
-						convertIndexedImage(ctx.getImageData(0, 0, image.width, image.height), indexData, paletteData);
-					}
-					if(that.onload) that.onload(indexData, paletteData);
-				};
-				image.src = result[0] + ',' + Base64.encode(buffer);
+					image.onload = () => {
+					
+						// canvasから画像読み込み
+						let canvas = document.createElement('canvas'),
+							ctx = canvas.getContext('2d'),
+							indexData = createIndexData(image.width, image.height);
+						
+						canvas.width = image.width;
+						canvas.height = image.height;
+						ctx.globalCompositeOperation = 'copy';
+						ctx.clearRect(0, 0, canvas.width, canvas.height);
+						ctx.drawImage(image, 0, 0);
+						if(hasPalette) {
+							convertIndexedImageByPalette(ctx.getImageData(0, 0, image.width, image.height), indexData, paletteData, backIndex);
+						} else {
+							convertIndexedImage(ctx.getImageData(0, 0, image.width, image.height), indexData, paletteData);
+						}
+						if(that.onload) that.onload(indexData, paletteData);
+					};
+					image.src = result[0] + ',' + Base64.encode(buffer);
+				} else if (type === 'application/json') {
+					const data = JSON.parse(reader.result);
+					const indexData = createIndexData(data.width, data.height);
+					const paletteData = createPaletteData(256);
+					Base64.decode(data.indexData[0], indexData.data);
+					Base64.decode(data.paletteData, paletteData.data);
+					if (that.onload) that.onload(indexData, paletteData);
+				}
 				console.log('image loaded');
 			};
-			reader.readAsDataURL(file);
+
+			if (type === 'image/png') {
+				reader.readAsDataURL(file);
+			} else if (type === 'application/json') {
+				reader.readAsText(file);
+			}
 		},
 		dropHandler: function(e) {
 			e.preventDefault();
