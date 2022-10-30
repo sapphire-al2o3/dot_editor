@@ -121,11 +121,15 @@
 					image.src = result[0] + ',' + Base64.encode(buffer);
 				} else if (type === 'application/json') {
 					const data = JSON.parse(reader.result);
-					const indexData = createIndexData(data.width, data.height);
+					const indexDatas = [];
 					const paletteData = createPaletteData(256);
-					Base64.decode(data.indexData[0], indexData.data);
 					Base64.decode(data.paletteData, paletteData.data);
-					if (that.onload) that.onload(indexData, paletteData);
+					for(let i = 0; i < data.indexData.length; i++) {
+						const indexData = createIndexData(data.width, data.height);
+						Base64.decode(data.indexData[i], indexData.data);
+						indexDatas.push(indexData);
+					}
+					if (that.onload) that.onload(indexDatas[0], paletteData);
 				}
 				console.log('image loaded');
 			};
