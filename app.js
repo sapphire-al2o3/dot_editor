@@ -28,8 +28,8 @@ const app = express();
 const passport = require('passport'),
 	TwitterStrategy = require('passport-twitter').Strategy;
 
-var CONSUMER_KEY = config.consumerKey,
-	CONSUMER_SECRET = config.consumerSecret;
+const CONSUMER_KEY = config.consumerKey;
+const CONSUMER_SECRET = config.consumerSecret;
 
 // Passport sessionのセットアップ
 passport.serializeUser(function(user, done) {
