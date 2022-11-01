@@ -15,7 +15,6 @@ const imageUtils = require('./imagescaling.js');
 const scaling = imageUtils.scaling;
 const frame = imageUtils.frame;
 const tiling = imageUtils.tiling;
-const config = require('./config.json');
 const favicon = require('serve-favicon');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -28,8 +27,14 @@ const app = express();
 const passport = require('passport'),
 	TwitterStrategy = require('passport-twitter').Strategy;
 
-const CONSUMER_KEY = config.consumerKey;
-const CONSUMER_SECRET = config.consumerSecret;
+let CONSUMER_KEY = process.env.CONSUMER_KEY;
+let CONSUMER_SECRET = process.env.CONSUMER_SECRET;
+
+if (CONSUMER_KEY === undefined || CONSUMER_SECRET === undefined) {
+	const config = require('./config.json');
+	CONSUMER_KEY = config.consumerKey;
+	CONSUMER_SECRET = config.consumerSecret;
+}
 
 // Passport sessionのセットアップ
 passport.serializeUser(function(user, done) {
