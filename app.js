@@ -24,8 +24,8 @@ const morgan = require('morgan');
 
 const app = express();
 
-const passport = require('passport'),
-	TwitterStrategy = require('passport-twitter').Strategy;
+const passport = require('passport');
+const TwitterStrategy = require('passport-twitter').Strategy;
 
 let CONSUMER_KEY = process.env.CONSUMER_KEY;
 let CONSUMER_SECRET = process.env.CONSUMER_SECRET;
@@ -75,7 +75,7 @@ app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // 404
-app.use(function(err, req, res, next) {
+app.use((err, req, res, next) => {
 	console.log(err);
 	res.status(404);
 	res.redirect('/404.html');
