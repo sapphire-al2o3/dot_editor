@@ -37,11 +37,11 @@ if (CONSUMER_KEY === undefined || CONSUMER_SECRET === undefined) {
 }
 
 // Passport sessionのセットアップ
-passport.serializeUser(function(user, done) {
+passport.serializeUser((user, done) => {
 	done(null, user);
 });
 
-passport.deserializeUser(function(obj, done) {
+passport.deserializeUser((obj, done) => {
 	done(null, obj);
 });
 
@@ -50,11 +50,11 @@ passport.use(new TwitterStrategy({
 	consumerKey: CONSUMER_KEY,
 	consumerSecret: CONSUMER_SECRET,
 	callbackURL: '/auth/twitter/callback'
-}, function(token, tokenSecret, profile, done) {
+}, (token, tokenSecret, profile, done) => {
 	profile.twitter_token = token;
 	profile.twitter_token_secret = tokenSecret;
 	
-	process.nextTick(function() {
+	process.nextTick(() => {
 		return done(null, profile);
 	});
 }));
@@ -90,7 +90,7 @@ if ('development' == app.get('env')) {
 app.get('/', express.static(path.join(__dirname, 'public')));
 
 // Twitterの認証
-app.get('/auth/twitter', function(req, res) {
+app.get('/auth/twitter', (req, res) => {
 	if(!req.user) {
 		passport.authenticate('twitter')(req, res);
 	} else {
@@ -99,12 +99,12 @@ app.get('/auth/twitter', function(req, res) {
 	}
 });
 
-app.get('/auth', function(req, res) {
+app.get('/auth', (req, res) => {
 	res.contentType('application/json');
 	res.send(JSON.stringify({twitter: !req.user}));
 });
 
-app.post('/auth/twitter/post', function(req, res) {
+app.post('/auth/twitter/post', (req, res) => {
 	let text = req.body.text,
 		image = JSON.parse(req.body.image);
 	if(req.user && image) {
