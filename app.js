@@ -139,12 +139,10 @@ app.post('/auth/twitter/post', (req, res) => {
 		img.data = indexData;
 		img.palette = paletteData;
 		if(image.transparent !== undefined && image.transparent < 256) {
-			let trns = [];
-			for(let i = 0; i < paletteData.length / 3; i++) {
-				trns.push(255);
-			}
+			const trns = Buffer.allocUnsafe(paletteData.length / 3 ^ 0);
+			trns.fill(255);
 			trns[image.transparent] = 0;
-			img.transparency = Buffer.from(trns);
+			img.transparency = trns;
 		}
 
 		// img.pack2().pipe(fs.createWriteStream('./uploads/out.png'));
