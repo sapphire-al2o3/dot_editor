@@ -9,7 +9,7 @@ module.exports.scaling = (data, width, height, scale, result) => {
 	let w = width * scale,
 		h = height * scale;
 
-	result = result || Buffer.alloc(w * h);
+	result = result || Buffer.allocUnsafe(w * h);
 	
 	for(let i = 0; i < h; i++) {
 		let y = i / scale ^ 0;
@@ -28,7 +28,7 @@ module.exports.frame = (data, width, height, frameWidth, frameHeight, result) =>
 		return data;
 	}
 
-	result = result || Buffer.alloc(frameWidth * frameHeight);
+	result = result || Buffer.allocUnsafe(frameWidth * frameHeight);
 	
 	for(let i = 0; i < frameWidth * frameHeight; i++) {
 		result[i] = 0;
@@ -56,7 +56,7 @@ module.exports.tiling = (data, width, height, frameWidth, frameHeight, result) =
 		return data;
 	}
 
-	result = result || Buffer.alloc(frameWidth * frameHeight);
+	result = result || Buffer.allocUnsafe(frameWidth * frameHeight);
 
 	const offsetX = ((frameWidth - width) / 2 ^ 0) % width - width;
 	const offsetY = ((frameHeight - height) / 2 ^ 0) % height - height;
