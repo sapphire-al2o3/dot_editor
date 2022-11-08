@@ -116,7 +116,7 @@
 						} else {
 							convertIndexedImage(ctx.getImageData(0, 0, image.width, image.height), indexData, paletteData);
 						}
-						if(that.onload) that.onload(indexData, paletteData);
+						if(that.onload) that.onload([indexData], paletteData);
 					};
 					image.src = result[0] + ',' + Base64.encode(buffer);
 				} else if (type === 'application/json') {
@@ -129,7 +129,7 @@
 						Base64.decode(data.indexData[i], indexData.data);
 						indexDatas.push(indexData);
 					}
-					if (that.onload) that.onload(indexDatas[0], paletteData);
+					if (that.onload) that.onload(indexDatas, paletteData);
 				}
 				console.log('image loaded');
 			};

@@ -513,11 +513,11 @@ editor: Editor
 	$.show($('overlay'));
 	
 	// ローカルファイルの読み込み
-	FileLoader.onload = (i, p) => {
+	FileLoader.onload = (indexDatas, p) => {
 		record();
 		deselect();
 		clearLayer();
-		indexData = i;
+		indexData = indexDatas[0];
 		paletteData = p;
 		selection.indexData = createIndexData(indexData.width, indexData.height);
 		Palette.setPaletteData(paletteData, true);
