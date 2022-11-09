@@ -519,6 +519,8 @@ editor: Editor
 		clearLayer();
 		indexData = indexDatas[0];
 		paletteData = p;
+		// グリッドの設定
+		option.imageWidth = indexData.width;
 		selection.indexData = createIndexData(indexData.width, indexData.height);
 		Palette.setPaletteData(paletteData, true);
 		Palette.setFrontColor(0);
