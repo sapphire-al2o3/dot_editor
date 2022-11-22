@@ -197,6 +197,9 @@ editor: Editor
 
 	let activeTool,
 		selectHandler;
+
+	// 下絵
+	let sketchImage = null;
 	
 	// 描画状態
 	const context = {
@@ -600,6 +603,11 @@ editor: Editor
 	});
 	
 	$.bind($('open-sketch'), 'change', e => {
+		sketchImage = null;
+		createImageBitmap(e.target.files[0]).then(image => {
+			sketchImage = image;
+			console.log(sketchImage);
+		});
 		e.target.value = null;
 	});
 
