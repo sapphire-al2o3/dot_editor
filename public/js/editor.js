@@ -595,6 +595,14 @@ editor: Editor
 		e.target.value = null;
 	});
 
+	$.bind($('sketch'), 'click', () => {
+		$('open-sketch').click();
+	});
+	
+	$.bind($('open-sketch'), 'change', e => {
+		e.target.value = null;
+	});
+
 	$.bind($('layer'), 'click', () => {
 		$.toggle($('layers'));
 		$('layer').classList.toggle('selected');
