@@ -599,14 +599,19 @@ editor: Editor
 	});
 
 	$.bind($('sketch'), 'click', () => {
-		$('open-sketch').click();
+		if (sketchImage) {
+			sketchImage = null;
+			backgroundCtx.clearRect(0, 0, backgroundCtx.canvas.width, backgroundCtx.canvas.height);
+		} else {
+			$('open-sketch').click();
+		}
 	});
 	
 	$.bind($('open-sketch'), 'change', e => {
 		sketchImage = null;
 		createImageBitmap(e.target.files[0]).then(image => {
 			sketchImage = image;
-			console.log(sketchImage);
+			backgroundCtx.drawImage(sketchImage, 0, 0);
 		});
 		e.target.value = null;
 	});
