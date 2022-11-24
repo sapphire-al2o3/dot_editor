@@ -611,7 +611,7 @@ editor: Editor
 		sketchImage = null;
 		createImageBitmap(e.target.files[0]).then(image => {
 			sketchImage = image;
-			backgroundCtx.drawImage(sketchImage, 0, 0);
+			backgroundCtx.drawImage(sketchImage, 0, 0, backgroundCtx.canvas.width, backgroundCtx.canvas.height);
 		});
 		e.target.value = null;
 	});
