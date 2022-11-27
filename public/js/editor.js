@@ -611,7 +611,6 @@ editor: Editor
 		sketchImage = null;
 		createImageBitmap(e.target.files[0]).then(image => {
 			sketchImage = image;
-			backgroundCtx.globalAlpha = 0.5;
 			const aspect = sketchImage.width / sketchImage.height;
 			let width = backgroundCtx.canvas.width,
 				height = backgroundCtx.canvas.height,
@@ -624,6 +623,7 @@ editor: Editor
 				width = width * aspect ^ 0;
 				x = (backgroundCtx.canvas.width - width) / 2 ^ 0;
 			}
+			backgroundCtx.globalAlpha = 0.5;
 			backgroundCtx.drawImage(sketchImage, x, y, width, height);
 			backgroundCtx.globalAlpha = 1.0;
 		});
