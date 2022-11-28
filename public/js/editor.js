@@ -606,26 +606,33 @@ editor: Editor
 			$('open-sketch').click();
 		}
 	});
+
+	function drawSketch() {
+		if (sketchImage === null) {
+			return;
+		}
+		const aspect = sketchImage.width / sketchImage.height;
+		let width = backgroundCtx.canvas.width,
+			height = backgroundCtx.canvas.height,
+			x = 0,
+			y = 0;
+		if (aspect > 1) {
+			height = height / aspect ^ 0;
+			y = (backgroundCtx.canvas.height - height) / 2 ^ 0;
+		} else {
+			width = width * aspect ^ 0;
+			x = (backgroundCtx.canvas.width - width) / 2 ^ 0;
+		}
+		backgroundCtx.globalAlpha = 0.5;
+		backgroundCtx.drawImage(sketchImage, x, y, width, height);
+		backgroundCtx.globalAlpha = 1.0;
+	}
 	
 	$.bind($('open-sketch'), 'change', e => {
 		sketchImage = null;
 		createImageBitmap(e.target.files[0]).then(image => {
 			sketchImage = image;
-			const aspect = sketchImage.width / sketchImage.height;
-			let width = backgroundCtx.canvas.width,
-				height = backgroundCtx.canvas.height,
-				x = 0,
-				y = 0;
-			if (aspect > 1) {
-				height = height / aspect ^ 0;
-				y = (backgroundCtx.canvas.height - height) / 2 ^ 0;
-			} else {
-				width = width * aspect ^ 0;
-				x = (backgroundCtx.canvas.width - width) / 2 ^ 0;
-			}
-			backgroundCtx.globalAlpha = 0.5;
-			backgroundCtx.drawImage(sketchImage, x, y, width, height);
-			backgroundCtx.globalAlpha = 1.0;
+			drawSketch();
 		});
 		e.target.value = null;
 	});
