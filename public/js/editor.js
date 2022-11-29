@@ -243,6 +243,7 @@ editor: Editor
 			layer.width = canvas.width;
 			layer.height = canvas.height;
 		}
+		drawSketch();
 	}
 	
 	function zoom() {
