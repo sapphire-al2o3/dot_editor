@@ -1,9 +1,9 @@
 dot_editor
 ==========
 
-これはブラウザで動くドット絵エディタなのだ
+ブラウザで動くドット絵エディタ
 
-https://dot-a.herokuapp.com/
+https://dot-a.onrender.com/
 
 ![スクリーンショット](dot_editor_ss.png)
 
