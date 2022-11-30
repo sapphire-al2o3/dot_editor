@@ -40,7 +40,7 @@
 				<div id="image-reload">
 					<input type="button" id="reload" value="更新" />
 				</div>
-				<p><textarea id="text" name="text">#pixelart https://dot-a.herokuapp.com/</textarea></p>
+				<p><textarea id="text" name="text">#pixelart https://dot-a.onrender.com/</textarea></p>
 				<p><span id="text-count">134</span></p>
 				<p><img id="loading" src="./images/loading_1.gif" /></p>
 				<p><input type="submit" id="post" value="投稿する" /></p>
@@ -91,7 +91,8 @@
 					
 					if (window.opener && window.opener.getImage) {
 						if (window.opener.location.href.indexOf('mobile') >= 0) {
-							text.value = '#pixelart https://dot-a.herokuapp.com/mobile.html';
+							text.value = '#pixelart https://dot-a.onrender.com/mobile.html';
+							// text.value = '#pixelart https://dot-a.herokuapp.com/mobile.html';
 						}
 						image = window.opener.getImage();
 						if (image) {
