@@ -470,7 +470,8 @@
 					ctx = canvas.getContext('2d'),
 					w = canvas.width,
 					h = canvas.height,
-					scale = 12;
+					scale = 12,
+					previewScale = 1;
 				const defaultScale = 12;
 				const size = 32;
 				const $ = Selector;
@@ -520,9 +521,9 @@
 				});
 				
 				$('zoomout').addEventListener('click', () => {
-					scale = scale < defaultScale ? defaultScale : 1;
+					scale = scale < defaultScale ? defaultScale : previewScale;
 					canvas.style.marginLeft = '0px';
-					canvas.style.marginTop = (scale === 1 ? 200 - size / 2 : 0) + 'px';
+					canvas.style.marginTop = (scale !== defaultScale ? 200 - size * previewScale / 2 : 0) + 'px';
 					document.querySelector('.scroll').classList.remove('scale');
 					resize(image, scale);
 
@@ -567,11 +568,11 @@
 				}
 
 				$('zoom-button').addEventListener('click', () => {
-					scale *= 2;
-					if (scale > 8) scale = 1;
+					previewScale *= 2;
+					if (previewScale > 8) previewScale = 1;
 					canvas.style.marginLeft = '0px';
-					canvas.style.marginTop = (200 - size * scale / 2) + 'px';
-					resize(image, scale);
+					canvas.style.marginTop = (200 - size * previewScale / 2) + 'px';
+					resize(image, previewScale);
 				}, false);
 
 				const onTouchStart = (e, f) => {
