@@ -570,6 +570,7 @@
 				$('zoom-button').addEventListener('click', () => {
 					previewScale *= 2;
 					if (previewScale > 8) previewScale = 1;
+					scale = previewScale;
 					canvas.style.marginLeft = '0px';
 					canvas.style.marginTop = (200 - size * previewScale / 2) + 'px';
 					resize(image, previewScale);
