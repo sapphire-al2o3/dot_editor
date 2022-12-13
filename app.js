@@ -11,6 +11,7 @@ const path = require('path');
 // const fs = require('fs');
 const PNG = require('pngjs').PNG;
 const request = require('request');
+const https = require('https');
 const imageUtils = require('./imagescaling.js');
 const scaling = imageUtils.scaling;
 const frame = imageUtils.frame;
@@ -25,6 +26,7 @@ const morgan = require('morgan');
 const app = express();
 
 const passport = require('passport');
+const { response } = require('express');
 const TwitterStrategy = require('passport-twitter').Strategy;
 
 let CONSUMER_KEY = process.env.CONSUMER_KEY;
@@ -169,6 +171,15 @@ app.post('/auth/twitter/post', (req, res) => {
 			// console.log(response);
 			res.redirect('/success.html');
 		});
+
+		// const options = {
+		// 	method: 'POST',
+		// 	headers: headers
+		// };
+		// const r = https.request(url, options, response => {
+		// 	console.log(response);
+		// 	res.redirect('/success.html');
+		// });
 		
 		const form = r.form();
 		
