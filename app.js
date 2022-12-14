@@ -12,6 +12,7 @@ const path = require('path');
 const PNG = require('pngjs').PNG;
 const request = require('request');
 const https = require('https');
+const FormData = require('form-data');
 const imageUtils = require('./imagescaling.js');
 const scaling = imageUtils.scaling;
 const frame = imageUtils.frame;
@@ -177,12 +178,21 @@ app.post('/auth/twitter/post', (req, res) => {
 		// 	headers: headers
 		// };
 		// const r = https.request(url, options, response => {
-		// 	console.log(response);
+		// 	console.log(response.statusCode);
 		// 	res.redirect('/success.html');
 		// });
 		
+		// const form = new FormData();
+		// form.append('status', text);
+		// form.append('media[]', img.packSync());
+
+		// form.pipe(r);
+
+		// r.on('error', e => {
+		// 	console.log(error);
+		// });
+
 		const form = r.form();
-		
 		form.append('status', text);
 		// form.append('media[]', img.pack2());
 		form.append('media[]', img.packSync());
