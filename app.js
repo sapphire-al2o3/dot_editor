@@ -2,17 +2,13 @@
 /**
  * Module dependencies.
  */
-
 'use strict';
-
 const express = require('express');
 const http = require('http');
 const path = require('path');
 // const fs = require('fs');
 const PNG = require('pngjs').PNG;
 const request = require('request');
-const https = require('https');
-const FormData = require('form-data');
 const imageUtils = require('./imagescaling.js');
 const scaling = imageUtils.scaling;
 const frame = imageUtils.frame;

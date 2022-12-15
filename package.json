@@ -12,6 +12,7 @@
     "express": "^4.17.3",
     "express-session": "^1.15.3",
     "morgan": "^1.8.2",
+    "node-fetch": "^2.6.7",
     "passport": "0.6.0",
     "passport-twitter": "1.0.4",
     "pngjs": "https://github.com/sapphire-al2o3/node-pngjs/tarball/master",
