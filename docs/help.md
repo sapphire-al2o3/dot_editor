@@ -136,6 +136,8 @@ Twitterアイコンをクリックすると描いた絵をTwitterへ投稿する
 
 ブラウザに描いている絵を保存します。最大9つまで保存できます。
 
+![save load](./images/save_load.png)
+
 ## パレット
 
 ![palette](./images/palette.png)
