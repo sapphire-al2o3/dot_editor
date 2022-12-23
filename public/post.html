@@ -89,11 +89,10 @@
 						}
 					}
 					
+					console.log(location.href);
+
 					if (window.opener && window.opener.getImage) {
-						if (window.opener.location.href.indexOf('mobile') >= 0) {
-							text.value = '#pixelart https://dot-a.onrender.com/mobile.html';
-							// text.value = '#pixelart https://dot-a.herokuapp.com/mobile.html';
-						}
+						text.value = '#pixelart ' + window.opener.location.href;
 						image = window.opener.getImage();
 						if (image) {
 							render(image.indexData, image.paletteData);
