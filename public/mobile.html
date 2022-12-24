@@ -604,9 +604,9 @@
 						e.stopPropagation();
 					}
 				};
-
-				onTouchStart($('palette'), selectPalette);
-				const paletteCells = $('palette').querySelectorAll('td');
+				const paletteTable = $('palette');
+				onTouchStart(paletteTable, selectPalette);
+				const paletteCells = paletteTable.querySelectorAll('td');
 				paletteCells.forEach(v => {
 					v.style.backgroundColor = palette[v.cellIndex];
 					if (v.cellIndex === index) {
@@ -982,9 +982,7 @@
 				
 				
 				function encode(image) {
-					let w = image.width,
-						h = image.height,
-						data = image.data;
+					let data = image.data;
 					return Base64.encode(data);
 				}
 				
@@ -999,7 +997,6 @@
 						w = image.width,
 						h = image.height;
 					scale = scale || ctx.canvas.width / w;
-//					ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 					ctx.fillStyle = palette[0];
 					ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 					for (let i = 0; i < h; i++) {
@@ -1118,6 +1115,7 @@
 						autoSave();
 					}
 				}, false);
+				
 				setTimeout(() => window.scrollTo(0, 0), 500);
 			})(this);
 		</script>
