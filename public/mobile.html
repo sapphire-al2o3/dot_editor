@@ -312,7 +312,7 @@
 				left: 0px;
 			}
 
-			input {
+			.color-sliders input {
 				width: 24px;
 				font-size: 10pt;
 				text-align: right;
@@ -371,6 +371,9 @@
 				background: linear-gradient(to right, #000, #00F);
 			}
 
+			input[type=file] {
+				display: none;
+			}
 		</style>
 	</head>
 	<body>
@@ -456,6 +459,7 @@
 					<li><img src="./images/shift_icon.png" />移動</li>
 					<li><img src="./images/twitter_icon.png" />Twitterに投稿する</li>
 				</ul>
+				<label for="open-sketch"><img src="./images/sketch_icon.png" /></label><input type="file" id="open-sketch">
 				<p><a id="to-top" href="#">上へ戻る</a></p>
 			</div>
 			<div id="footer">
@@ -495,6 +499,7 @@
 				let startIndex = index;
 				let tool = 0;
 				let modify = false;
+				let sketchImage = null;
 
 				const autoSaveJson = localStorage.getItem('auto');
 				if (autoSaveJson) {
@@ -557,6 +562,36 @@
 				$('shift').addEventListener('click', () => {
 					$('shift-button').classList.toggle('active');
 				});
+
+				$('open-sketch').addEventListener('change', e => {
+					sketchImage = null;
+					createImageBitmap(e.target.files[0]).then(image => {
+						sketchImage = image;
+						drawSketch();
+					});
+					e.target.value = null;
+				});
+
+				function drawSketch() {
+					if (sketchImage === null) {
+						return;
+					}
+					const aspect = sketchImage.width / sketchImage.height;
+					let width = canvas.width,
+						height = canvas.height,
+						x = 0,
+						y = 0;
+					if (aspect > 1) {
+						height = height / aspect ^ 0;
+						y = (canvas.height - height) / 2 ^ 0;
+					} else {
+						width = width * aspect ^ 0;
+						x = (canvas.width - width) / 2 ^ 0;
+					}
+					ctx.globalAlpha = 0.5;
+					ctx.drawImage(sketchImage, x, y, width, height);
+					ctx.globalAlpha = 1.0;
+				}
 
 				function shift(e, x, y) {
 					record();
