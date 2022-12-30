@@ -195,7 +195,7 @@ app.post('/auth/twitter/post', (req, res) => {
 		console.log('ok');
 		
 	} else {
-		console.log('ng');
+		console.log(`ng user:${req.user} image:${image}`);
 		res.redirect('/auth/twitter');
 	}
 });
