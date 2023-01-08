@@ -374,6 +374,21 @@
 			input[type=file] {
 				display: none;
 			}
+
+			.sub-tools {
+				margin-top: 8px;
+				padding: 4px;
+			}
+
+			#dropper {
+				width: 80px;
+				height: 80px;
+				box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+				border-radius: 8px;
+				border: 2px solid #EEE;
+				background-image: linear-gradient(rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.03));
+				cursor: pointer;
+			}
 		</style>
 	</head>
 	<body>
@@ -447,6 +462,9 @@
 					<span class="right" step="1" for="b-num"></span>
 				</div>
 			</div>
+			<div class="sub-tools">
+				<div id="dropper"></div>
+			</div>
 			<div class="help">
 				<h2>Help</h2>
 				<ul>
@@ -500,6 +518,7 @@
 				let tool = 0;
 				let modify = false;
 				let sketchImage = null;
+				let subTool = 0;
 
 				const autoSaveJson = localStorage.getItem('auto');
 				if (autoSaveJson) {
@@ -561,6 +580,14 @@
 
 				$('shift').addEventListener('click', () => {
 					$('shift-button').classList.toggle('active');
+				});
+
+				$('dropper').addEventListener('touchstart', e => {
+					subTool = 1;
+				});
+
+				$('dropper').addEventListener('touchend', e => {
+					subTool = 0;
 				});
 
 				$('open-sketch').addEventListener('change', e => {
@@ -722,12 +749,13 @@
 					e.stopPropagation();
 					const touches = e.changedTouches;
 					if (touches.length > 0) {
+						const touch = subTool === 1 && touches.length > 1 ? touches[1] : touches[0];
 						record();
 						const r = canvas.getBoundingClientRect();
 						left = window.scrollX + r.left;
 						top = window.scrollY + r.top;
-						px = (touches[0].pageX - left) / scale ^ 0;
-						py = (touches[0].pageY - top) / scale ^ 0;
+						px = (touch.pageX - left) / scale ^ 0;
+						py = (touch.pageY - top) / scale ^ 0;
 						startIndex = index;
 						let p = image.data[py * image.width + px];
 						if (toggleMode) {
@@ -735,7 +763,10 @@
 						} 
 						ctx.fillStyle = palette[startIndex];
 						const padding = scale === 32 ? 1 : 0;
-						if (tool === 0) {
+						if (subTool === 1) {
+							const cell = paletteCells[p];
+							selectColor(cell);
+						} else if (tool === 0) {
 							drawDot(ctx, px, py, image, startIndex, scale, padding);
 							document.addEventListener('touchmove', touchmove);
 							document.addEventListener('touchend', touchend);
