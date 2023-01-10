@@ -67,7 +67,12 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
 app.use(cookieParser('madomado'));
-app.use(session({secret: 'homuhomu', resave: false, saveUninitialized: true}));
+app.use(session({
+	secret: 'homuhomu',
+	cookie: { maxAge: 60 * 60 * 1000 },
+	resave: false,
+	saveUninitialized: true
+}));
 app.use(passport.initialize());
 app.use(passport.session());
 
