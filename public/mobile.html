@@ -380,7 +380,7 @@
 				padding: 4px;
 			}
 
-			#dropper {
+			.sub-tools div {
 				width: 80px;
 				height: 80px;
 				box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
@@ -389,8 +389,9 @@
 				background-image: linear-gradient(rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.03));
 				cursor: pointer;
 				user-select: none;
+				display: inline-block;
 			}
-			#dropper:active {
+			.sub-tools div:active {
 				background-image: linear-gradient(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.07));
 			}
 		</style>
@@ -468,6 +469,7 @@
 			</div>
 			<div class="sub-tools">
 				<div id="dropper"></div>
+				<!-- <div id="drag"></div> -->
 			</div>
 			<div class="help">
 				<h2>Help</h2>
@@ -591,6 +593,14 @@
 				});
 
 				$('dropper').addEventListener('touchend', e => {
+					subTool = 0;
+				});
+
+				$('drag')?.addEventListener('touchstart', e => {
+					subTool = 2;
+				});
+
+				$('drag')?.addEventListener('touchend', e => {
 					subTool = 0;
 				});
 
