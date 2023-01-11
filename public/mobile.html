@@ -469,7 +469,7 @@
 			</div>
 			<div class="sub-tools">
 				<div id="dropper"></div>
-				<!-- <div id="drag"></div> -->
+				<div id="drag"></div>
 			</div>
 			<div class="help">
 				<h2>Help</h2>
@@ -597,8 +597,7 @@
 				});
 
 				$('drag')?.addEventListener('touchstart', e => {
-					subTool = 2;
-				});
+					subTool = 2;				});
 
 				$('drag')?.addEventListener('touchend', e => {
 					subTool = 0;
@@ -780,6 +779,11 @@
 						if (subTool === 1) {
 							const cell = paletteCells[p];
 							selectColor(cell);
+						} else if (subTool === 2 && scale === 32) {
+							px = (touch.pageX - left) ^ 0;
+							py = (touch.pageY - top) ^ 0;
+							document.addEventListener('touchmove', dragmove);
+							document.addEventListener('touchend', dragend);
 						} else if (tool === 0) {
 							drawDot(ctx, px, py, image, startIndex, scale, padding);
 							document.addEventListener('touchmove', touchmove);
@@ -788,6 +792,29 @@
 							paint(ctx, px, py, image, startIndex, scale, padding);
 						}
 					}
+				}
+
+				function dragmove(e) {
+					let touches = e.changedTouches;
+					if (touches.length > 1) {
+						let x = touches[1].pageX - left ^ 0,
+							y = touches[1].pageY - top ^ 0;
+						
+						offsetX = clamp(offsetX + x - px, -688, 0);
+						offsetY = clamp(offsetY + y - py, -688, 0);
+						
+						canvas.style.marginLeft = offsetX + 'px';
+						canvas.style.marginTop = offsetY + 'px';
+						thumbTop.style.left = (-offsetX / 688 * 304 ^ 0) + 32 + 'px';
+						thumbLeft.style.top = (-offsetY / 688 * 304 ^ 0) + 32 + 'px';
+						px = x;
+						py = y;
+					}
+				}
+
+				function dragend(e) {
+					document.removeEventListener('touchmove', dragmove);
+					document.removeEventListener('touchend', dragend);
 				}
 				
 				canvas.addEventListener('mousedown', mousedown);
