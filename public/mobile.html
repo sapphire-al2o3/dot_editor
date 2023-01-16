@@ -596,6 +596,7 @@
 
 				$('dropper').addEventListener('touchstart', e => {
 					subTool = 1;
+					e.preventDefault();
 				});
 
 				$('dropper').addEventListener('touchend', e => {
@@ -603,7 +604,9 @@
 				});
 
 				$('drag')?.addEventListener('touchstart', e => {
-					subTool = 2;				});
+					subTool = 2;
+					e.preventDefault();
+				});
 
 				$('drag')?.addEventListener('touchend', e => {
 					subTool = 0;
