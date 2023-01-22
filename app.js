@@ -17,6 +17,7 @@ const favicon = require('serve-favicon');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const cookieSession = require('cookie-session');
 const errorHandler = require('errorhandler');
 const morgan = require('morgan');
 
@@ -67,12 +68,17 @@ app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
 app.use(cookieParser('madomado'));
-app.use(session({
+// app.use(session({
+// 	secret: 'homuhomu',
+// 	cookie: { maxAge: 60 * 60 * 1000 },
+// 	resave: false,
+// 	saveUninitialized: true
+// }));
+app.use(cookieSession({
+	name: 'session',
 	secret: 'homuhomu',
-	cookie: { maxAge: 60 * 60 * 1000 },
-	resave: false,
-	saveUninitialized: true
-}));
+	maxAge: 60 * 60 * 1000
+}))
 app.use(passport.initialize());
 app.use(passport.session());
 
