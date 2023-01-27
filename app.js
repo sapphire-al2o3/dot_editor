@@ -22,7 +22,7 @@ const morgan = require('morgan');
 
 const app = express();
 
-var FileStore = require('session-file-store')(session);
+const FileStore = require('session-file-store')(session);
 
 const passport = require('passport');
 const { response } = require('express');
