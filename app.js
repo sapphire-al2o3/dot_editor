@@ -21,9 +21,6 @@ const errorHandler = require('errorhandler');
 const morgan = require('morgan');
 
 const app = express();
-
-const FileStore = require('session-file-store')(session);
-
 const passport = require('passport');
 const { response } = require('express');
 const TwitterStrategy = require('passport-twitter').Strategy;
@@ -68,10 +65,18 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
-const fileStoreOptions = {};
 app.use(cookieParser('madomado'));
+
+// セッション情報をファイルに保存する
+let store;
+if (process.env.FILE_SESSION) {
+	const FileStore = require('session-file-store')(session);
+	const fileStoreOptions = {};
+	store = new FileStore(fileStoreOptions);
+}
+
 app.use(session({
-	store: new FileStore(fileStoreOptions),
+	store: store,
 	secret: 'homuhomu',
 	cookie: { maxAge: 60 * 60 * 1000 },
 	resave: false,
