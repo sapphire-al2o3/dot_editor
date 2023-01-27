@@ -22,6 +22,8 @@ const morgan = require('morgan');
 
 const app = express();
 
+var FileStore = require('session-file-store')(session);
+
 const passport = require('passport');
 const { response } = require('express');
 const TwitterStrategy = require('passport-twitter').Strategy;
@@ -66,8 +68,10 @@ app.use(morgan('dev'));
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json());
 
+const fileStoreOptions = {};
 app.use(cookieParser('madomado'));
 app.use(session({
+	store: new FileStore(fileStoreOptions),
 	secret: 'homuhomu',
 	cookie: { maxAge: 60 * 60 * 1000 },
 	resave: false,
