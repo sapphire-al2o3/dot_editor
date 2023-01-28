@@ -71,7 +71,9 @@ app.use(cookieParser('madomado'));
 let store;
 if (process.env.FILE_SESSION) {
 	const FileStore = require('session-file-store')(session);
-	const fileStoreOptions = {};
+	const fileStoreOptions = {
+		path: './tmp/sessions'
+	};
 	store = new FileStore(fileStoreOptions);
 }
 
