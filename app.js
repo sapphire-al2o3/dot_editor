@@ -72,7 +72,7 @@ let store;
 if (process.env.FILE_SESSION) {
 	const FileStore = require('session-file-store')(session);
 	const fileStoreOptions = {
-		path: './tmp/sessions'
+		path: process.env.FILE_SESSION_PATH ?? './sessions'
 	};
 	store = new FileStore(fileStoreOptions);
 }
