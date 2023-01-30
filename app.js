@@ -69,7 +69,7 @@ app.use(cookieParser('madomado'));
 
 // セッション情報をファイルに保存する
 let store;
-if (process.env.FILE_SESSION) {
+if (process.env.FILE_SESSION == 1) {
 	const FileStore = require('session-file-store')(session);
 	const fileStoreOptions = {
 		path: process.env.FILE_SESSION_PATH ?? './sessions'
