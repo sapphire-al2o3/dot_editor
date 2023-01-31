@@ -22,7 +22,7 @@ const morgan = require('morgan');
 
 const app = express();
 const passport = require('passport');
-const { response } = require('express');
+// const { response } = require('express');
 const TwitterStrategy = require('passport-twitter').Strategy;
 
 let CONSUMER_KEY = process.env.CONSUMER_KEY;
