@@ -77,6 +77,18 @@ if (process.env.FILE_SESSION == 1) {
 	store = new FileStore(fileStoreOptions);
 }
 
+if (process.env.DYNAMODB_SESSION == 1) {
+	const DynamoDBStore = require('connect-dynamodb')({session: session});
+	const dynamoDBStoreOptions = {
+		AWSConfigJSON: {
+			accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+			secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+			region: process.env.AWS_REGION
+		}
+	};
+	store = new DynamoDBStore(dynamoDBStoreOptions);
+}
+
 app.use(session({
 	store: store,
 	secret: 'homuhomu',
