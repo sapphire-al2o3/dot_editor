@@ -131,46 +131,54 @@ app.get('/auth', (req, res) => {
 	res.send(JSON.stringify({twitter: !req.user}));
 });
 
+function createPNG(image, scale) {
+	let paletteData = Buffer.from(image.palette, 'base64');
+
+	// 拡大する
+	let indexData = scaling(Buffer.from(image.index, 'base64'), image.width, image.height, scale);
+	image.width *= scale;
+	image.height *= scale;
+
+	// 余白をつける
+	if (image.space) {
+		const frameWidth = image.frameWidth;
+		const frameeHeight = image.frameHeight;
+		if(image.tiling) {
+			indexData = tiling(indexData, image.width, image.height, frameWidth, frameeHeight);
+		} else {
+			indexData = frame(indexData, image.width, image.height, frameWidth, frameeHeight);
+		}
+		image.width = frameWidth;
+		image.height = frameeHeight;
+	}
+
+	let img = new PNG({
+		width: image.width,
+		height: image.height,
+		colorType: 3,
+		filterType: 0,
+	});
+
+	img.data = indexData;
+	img.palette = paletteData;
+	
+	// 透明色指定
+	if (image.transparent !== undefined && image.transparent < 256) {
+		const trns = Buffer.allocUnsafe(paletteData.length / 3 ^ 0);
+		trns.fill(255);
+		trns[image.transparent] = 0;
+		img.transparency = trns;
+	}
+
+	return img;
+}
+
 app.post('/auth/twitter/post', (req, res) => {
 	let text = req.body.text,
 		image = JSON.parse(req.body.image);
 	if(req.user && image) {
-		let scale = req.body.scale ? parseInt(req.body.scale, 10) : 1,
-			paletteData = Buffer.from(image.palette, 'base64');
-		
-		// 拡大する
-		let indexData = scaling(Buffer.from(image.index, 'base64'), image.width, image.height, scale);
-		image.width *= scale;
-		image.height *= scale;
-		
-		// 余白をつける
-		if(image.space) {
-			const frameWidth = image.frameWidth;
-			const frameeHeight = image.frameHeight;
-			if(image.tiling) {
-				indexData = tiling(indexData, image.width, image.height, frameWidth, frameeHeight);
-			} else {
-				indexData = frame(indexData, image.width, image.height, frameWidth, frameeHeight);
-			}
-			image.width = frameWidth;
-			image.height = frameeHeight;
-		}
-
-		let img = new PNG({
-			width: image.width,
-			height: image.height,
-			colorType: 3,
-			filterType: 0,
-		});
-		
-		img.data = indexData;
-		img.palette = paletteData;
-		if(image.transparent !== undefined && image.transparent < 256) {
-			const trns = Buffer.allocUnsafe(paletteData.length / 3 ^ 0);
-			trns.fill(255);
-			trns[image.transparent] = 0;
-			img.transparency = trns;
-		}
+		const scale = req.body.scale ? parseInt(req.body.scale, 10) : 1;
+		const img = createPNG(image, scale);
 
 		// img.pack2().pipe(fs.createWriteStream('./uploads/out.png'));
 		// res.redirect('/success.html');
@@ -239,6 +247,15 @@ app.get('/auth/twitter/callback', (req, res) => {
 
 app.get('/post', (req, res) => {
 	res.sendFile(path.join(__dirname, 'public/post.html'));
+});
+
+app.get('/download', (req, res) => {
+	const image = JSON.parse(req.body.image);
+	const scale = req.body.scale ? parseInt(req.body.scale, 10) : 1;
+	const img = createPNG(image, scale);
+	res.set('Content-disposition', 'attachment; filename=download.png');
+	res.set('Content-Type', 'image/png;');
+	res.send(img.packSync());
 });
 
 http.createServer(app).listen(app.get('port'), () => {
