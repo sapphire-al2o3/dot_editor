@@ -249,7 +249,8 @@ app.get('/post', (req, res) => {
 	res.sendFile(path.join(__dirname, 'public/post.html'));
 });
 
-app.get('/download', (req, res) => {
+app.post('/download', (req, res) => {
+	console.log(req.body);
 	const image = JSON.parse(req.body.image);
 	const scale = req.body.scale ? parseInt(req.body.scale, 10) : 1;
 	const img = createPNG(image, scale);
