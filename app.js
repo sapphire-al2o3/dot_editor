@@ -176,6 +176,7 @@ function createPNG(image, scale) {
 app.post('/auth/twitter/post', (req, res) => {
 	let text = req.body.text,
 		image = JSON.parse(req.body.image);
+
 	if(req.user && image) {
 		const scale = req.body.scale ? parseInt(req.body.scale, 10) : 1;
 		const img = createPNG(image, scale);
@@ -250,7 +251,6 @@ app.get('/post', (req, res) => {
 });
 
 app.post('/download', (req, res) => {
-	console.log(req.body);
 	const image = JSON.parse(req.body.image);
 	const scale = req.body.scale ? parseInt(req.body.scale, 10) : 1;
 	const img = createPNG(image, scale);

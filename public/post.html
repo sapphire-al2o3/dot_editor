@@ -187,10 +187,11 @@
 					document.getElementById('download').addEventListener('click', e => {
 						const json = getJsonData();
 						const xhr = new XMLHttpRequest();
-						const fd = new FormData();
-						fd.append('image', JSON.stringify(json));
+						const params = new URLSearchParams();
+						params.append('image', JSON.stringify(json));
+						params.append('scale', scale);
 						xhr.open('POST', '/download');
-						xhr.send(fd);
+						xhr.send(params);
 					});
 				})();
 			</script>
