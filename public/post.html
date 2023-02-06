@@ -176,22 +176,21 @@
 						return json;
 					}
 					
-					document.getElementById('post-form').addEventListener('submit', e => {
+					const form = document.getElementById('post-form');
+					form.addEventListener('submit', e => {
 						const json = getJsonData();
 						
 						document.getElementById('post').setAttribute('disabled', '');
 						document.getElementById('image').value = JSON.stringify(json);
 						document.getElementById('loading').style.display = 'inline';
+						form.action = '/auth/twitter/post';
 					}, true);
 
 					document.getElementById('download').addEventListener('click', e => {
 						const json = getJsonData();
-						const xhr = new XMLHttpRequest();
-						const params = new URLSearchParams();
-						params.append('image', JSON.stringify(json));
-						params.append('scale', scale);
-						xhr.open('POST', '/download');
-						xhr.send(params);
+						document.getElementById('image').value = JSON.stringify(json);
+						form.action = '/download';
+						form.submit();
 					});
 				})();
 			</script>
