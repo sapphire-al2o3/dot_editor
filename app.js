@@ -131,8 +131,9 @@ app.get('/auth', (req, res) => {
 	res.send(JSON.stringify({twitter: !req.user}));
 });
 
-function createPNG(image, scale) {
-	let paletteData = Buffer.from(image.palette, 'base64');
+function createPNG(image) {
+	const paletteData = Buffer.from(image.palette, 'base64');
+	const scale = image.scale ?? 1;
 
 	// 拡大する
 	let indexData = scaling(Buffer.from(image.index, 'base64'), image.width, image.height, scale);
