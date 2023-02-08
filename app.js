@@ -179,8 +179,7 @@ app.post('/auth/twitter/post', (req, res) => {
 		image = JSON.parse(req.body.image);
 
 	if(req.user && image) {
-		const scale = req.body.scale ? parseInt(req.body.scale, 10) : 1;
-		const img = createPNG(image, scale);
+		const img = createPNG(image);
 
 		// img.pack2().pipe(fs.createWriteStream('./uploads/out.png'));
 		// res.redirect('/success.html');
@@ -253,11 +252,12 @@ app.get('/post', (req, res) => {
 
 app.post('/download', (req, res) => {
 	const image = JSON.parse(req.body.image);
-	const scale = req.body.scale ? parseInt(req.body.scale, 10) : 1;
-	const img = createPNG(image, scale);
-	res.set('Content-disposition', 'attachment; filename=download.png');
-	res.set('Content-Type', 'image/png;');
-	res.send(img.packSync());
+	if (image) {
+		const img = createPNG(image);
+		res.set('Content-disposition', 'attachment; filename=download.png');
+		res.set('Content-Type', 'image/png;');
+		res.send(img.packSync());
+	}
 });
 
 http.createServer(app).listen(app.get('port'), () => {
