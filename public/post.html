@@ -57,6 +57,7 @@
 						transparent = 256,
 						space = false,
 						tiling = false,
+						depth4 = false,
 						image;
 					
 					const spaceW = 512;
@@ -161,8 +162,16 @@
 						const palette = image.paletteData.data.filter((e, i) => {
 							return i % 4 !== 3;
 						});
+						const index = image.indexData.data;
+						if (depth4) {
+							palette.length = 16;
+							index = new Uint8Array(index.length);
+							for (let i = 0; i < index.length; i++) {
+								index[i] = image.indexData.data[i] > 15 ? 0 : image.indexData.data[i];
+							}
+						}
 						const json = {
-							index: Base64.encode(image.indexData.data),
+							index: Base64.encode(index),
 							palette: Base64.encode(palette),
 							width: image.indexData.width,
 							height: image.indexData.height,
