@@ -124,9 +124,15 @@
 					const indexDatas = [];
 					const paletteData = createPaletteData(256);
 					Base64.decode(data.paletteData, paletteData.data);
-					for(let i = 0; i < data.indexData.length; i++) {
+					if (Array.isArray(data.indexData)) {
+						for (let i = 0; i < data.indexData.length; i++) {
+							const indexData = createIndexData(data.width, data.height);
+							Base64.decode(data.indexData[i], indexData.data);
+							indexDatas.push(indexData);
+						}
+					} else {
 						const indexData = createIndexData(data.width, data.height);
-						Base64.decode(data.indexData[i], indexData.data);
+						Base64.decode(data.indexData, indexData.data);
 						indexDatas.push(indexData);
 					}
 					if (that.onload) that.onload(indexDatas, paletteData);
