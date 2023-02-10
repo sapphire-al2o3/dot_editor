@@ -31,6 +31,7 @@
 					<div>
 						<input type="checkbox" id="space" /><label for="space">余白をつける</label>
 						<input type="checkbox" id="tiling" /><label for="tiling">タイリング</label>
+						<input type="checkbox" id="depth4" /><label for="depth4">16色で保存</label>
 					</div>
 					<!-- <div>
 						<input type="checkbox" id="twitter-id" /><label for="twitter-id">TwitterのIDを入れる</label>
@@ -114,6 +115,10 @@
 						transparent = e.target.checked ? 0 : 256;
 						render(image.indexData, image.paletteData);
 					}, false);
+
+					document.getElementById('depth4').addEventListener('change', e => {
+						depth4 = e.target.checked;
+					}, false);
 					
 					canvas.addEventListener('click', e => {
 						if(document.getElementById('transparent').checked) {
@@ -159,12 +164,12 @@
 					});
 
 					function getJsonData() {
-						const palette = image.paletteData.data.filter((e, i) => {
+						let palette = image.paletteData.data.filter((e, i) => {
 							return i % 4 !== 3;
 						});
-						const index = image.indexData.data;
+						let index = image.indexData.data;
 						if (depth4) {
-							palette.length = 16;
+							palette = palette.slice(0, 16 * 3);
 							index = new Uint8Array(index.length);
 							for (let i = 0; i < index.length; i++) {
 								index[i] = image.indexData.data[i] > 15 ? 0 : image.indexData.data[i];
