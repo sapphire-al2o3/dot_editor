@@ -532,6 +532,7 @@
 				let modify = false;
 				let sketchImage = null;
 				let subTool = 0;
+				let touchId = 0;
 
 				const autoSaveJson = localStorage.getItem('auto');
 				if (autoSaveJson) {
@@ -794,6 +795,7 @@
 							py = (touch.pageY - top) ^ 0;
 							document.addEventListener('touchmove', dragmove);
 							document.addEventListener('touchend', dragend);
+							touchId = touch.identifier;
 						} else if (tool === 0) {
 							drawDot(ctx, px, py, image, startIndex, scale, padding);
 							document.addEventListener('touchmove', touchmove);
@@ -806,19 +808,22 @@
 
 				function dragmove(e) {
 					let touches = e.changedTouches;
-					if (touches.length > 1) {
-						let x = touches[1].pageX - left ^ 0,
-							y = touches[1].pageY - top ^ 0;
-						
-						offsetX = clamp(offsetX + x - px, -688, 0);
-						offsetY = clamp(offsetY + y - py, -688, 0);
-						
-						canvas.style.marginLeft = offsetX + 'px';
-						canvas.style.marginTop = offsetY + 'px';
-						thumbTop.style.left = (-offsetX / 688 * 304 ^ 0) + 32 + 'px';
-						thumbLeft.style.top = (-offsetY / 688 * 304 ^ 0) + 32 + 'px';
-						px = x;
-						py = y;
+					
+					for (let i = 0; i < touches.length; i++) {
+						if (touchId == touches[i].identifier) {
+							let x = touches[i].pageX - left ^ 0,
+								y = touches[i].pageY - top ^ 0;
+							
+							offsetX = clamp(offsetX + x - px, -688, 0);
+							offsetY = clamp(offsetY + y - py, -688, 0);
+							
+							canvas.style.marginLeft = offsetX + 'px';
+							canvas.style.marginTop = offsetY + 'px';
+							thumbTop.style.left = (-offsetX / 688 * 304 ^ 0) + 32 + 'px';
+							thumbLeft.style.top = (-offsetY / 688 * 304 ^ 0) + 32 + 'px';
+							px = x;
+							py = y;
+						}
 					}
 				}
 
