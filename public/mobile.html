@@ -392,8 +392,9 @@
 				display: inline-block;
 				margin: 0 8px;
 			}
-			.sub-tools div:active {
-				background-image: linear-gradient(rgba(0, 0, 0, 0.04), rgba(0, 0, 0, 0.07));
+			.sub-tools div.active {
+				border: 2px solid #DDD;
+				background-image: linear-gradient(rgba(0, 30, 60, 0.04), rgba(0, 30, 60, 0.07));
 			}
 			.sub-tools div img {
 				padding: 17px;
@@ -596,22 +597,28 @@
 					$('shift-button').classList.toggle('active');
 				});
 
-				$('dropper').addEventListener('touchstart', e => {
+				const dropper = $('dropper');
+				dropper.addEventListener('touchstart', e => {
 					subTool = 1;
+					dropper.classList.add('active');
 					e.preventDefault();
 				});
 
-				$('dropper').addEventListener('touchend', e => {
+				dropper.addEventListener('touchend', e => {
 					subTool = 0;
+					dropper.classList.remove('active');
 				});
 
-				$('drag')?.addEventListener('touchstart', e => {
+				const drag = $('drag');
+				drag?.addEventListener('touchstart', e => {
 					subTool = 2;
+					drag.classList.add('active');
 					e.preventDefault();
 				});
 
-				$('drag')?.addEventListener('touchend', e => {
+				drag?.addEventListener('touchend', e => {
 					subTool = 0;
+					drag.classList.remove('active');
 				});
 
 				$('open-sketch').addEventListener('change', e => {
