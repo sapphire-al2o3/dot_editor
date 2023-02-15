@@ -134,6 +134,7 @@ app.get('/auth', (req, res) => {
 function createPNG(image) {
 	const paletteData = Buffer.from(image.palette, 'base64');
 	const scale = image.scale ?? 1;
+	const depth = image.depth ?? 8;
 
 	// 拡大する
 	let indexData = scaling(Buffer.from(image.index, 'base64'), image.width, image.height, scale);
@@ -158,6 +159,7 @@ function createPNG(image) {
 		height: image.height,
 		colorType: 3,
 		filterType: 0,
+		bitDepth: depth
 	});
 
 	img.data = indexData;
