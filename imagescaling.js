@@ -73,7 +73,7 @@ module.exports.tiling = (data, width, height, frameWidth, frameHeight, result) =
 	return result;
 };
 
-module.exports.bitDepth4 = (data) => {
+module.exports.bitDepth4 = (data, result) => {
 
 	result = result ?? Buffer.allocUnsafe(data.length / 2);
 
