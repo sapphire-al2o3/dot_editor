@@ -13,6 +13,7 @@ const imageUtils = require('./imagescaling.js');
 const scaling = imageUtils.scaling;
 const frame = imageUtils.frame;
 const tiling = imageUtils.tiling;
+const bitDepth4 = imageUtils.bitDepth4;
 const favicon = require('serve-favicon');
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
@@ -152,6 +153,10 @@ function createPNG(image) {
 		}
 		image.width = frameWidth;
 		image.height = frameeHeight;
+	}
+
+	if (depth === 4) {
+		indexData = bitDepth4(indexData);
 	}
 
 	let img = new PNG({
