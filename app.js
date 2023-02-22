@@ -70,7 +70,7 @@ app.use(cookieParser('madomado'));
 
 // セッション情報をファイルに保存する
 let store;
-if (process.env.FILE_SESSION == 1) {
+if (process.env.USE_FILE_SESSION == 1) {
 	const FileStore = require('session-file-store')(session);
 	const fileStoreOptions = {
 		path: process.env.FILE_SESSION_PATH ?? './sessions'
@@ -78,7 +78,7 @@ if (process.env.FILE_SESSION == 1) {
 	store = new FileStore(fileStoreOptions);
 }
 
-if (process.env.DYNAMODB_SESSION == 1) {
+if (process.env.USE_DYNAMODB_SESSION == 1) {
 	const DynamoDBStore = require('connect-dynamodb')({session: session});
 	const dynamoDBStoreOptions = {
 		AWSConfigJSON: {
