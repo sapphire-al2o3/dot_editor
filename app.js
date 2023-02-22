@@ -85,7 +85,8 @@ if (process.env.USE_DYNAMODB_SESSION == 1) {
 			accessKeyId: process.env.AWS_ACCESS_KEY_ID,
 			secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
 			region: process.env.AWS_REGION
-		}
+		},
+		reapInterval: 24 * 60* 60 * 1000
 	};
 	store = new DynamoDBStore(dynamoDBStoreOptions);
 }
