@@ -79,6 +79,7 @@ if (process.env.USE_FILE_SESSION == 1) {
 }
 
 if (process.env.USE_DYNAMODB_SESSION == 1) {
+	console.log(`table:${process.env.CYCLIC_DB}`);
 	console.log(`key:${process.env.AWS_ACCESS_KEY_ID}`);
 	console.log(`region:${process.env.AWS_REGION}`);
 	const DynamoDBStore = require('connect-dynamodb')({session: session});
