@@ -85,11 +85,11 @@ if (process.env.USE_DYNAMODB_SESSION == 1) {
 	const DynamoDBStore = require('connect-dynamodb')({session: session});
 	const dynamoDBStoreOptions = {
 		table: process.env.CYCLIC_DB,
-		AWSConfigJSON: {
-			accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-			secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-			region: process.env.AWS_REGION
-		},
+		// AWSConfigJSON: {
+		// 	accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+		// 	secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+		// 	region: process.env.AWS_REGION
+		// },
 		reapInterval: 24 * 60* 60 * 1000
 	};
 	store = new DynamoDBStore(dynamoDBStoreOptions);
