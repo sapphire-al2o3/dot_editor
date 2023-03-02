@@ -93,6 +93,7 @@ if (process.env.USE_DYNAMODB_SESSION == 1) {
 		reapInterval: 24 * 60* 60 * 1000
 	};
 	store = new DynamoDBStore(dynamoDBStoreOptions);
+	console.log('DynamoDBStore');
 }
 
 app.use(session({
