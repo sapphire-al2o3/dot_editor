@@ -652,6 +652,11 @@ editor: Editor
 	$.bind($('transparent'), 'click', () => {
 		$('transparent').classList.toggle('selected');
 	});
+	$.bind($('view-button'), 'click', () => {
+		$.toggle($('view'));
+		$('view-button').classList.toggle('selected');
+
+	});
 
 	// サイズの指定
 	$.bind($('new-image-submit'), 'click', e => {
