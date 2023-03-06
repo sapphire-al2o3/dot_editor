@@ -606,6 +606,10 @@
 	content: url("../images/sketch_icon.png");
 }
 
+.editor-tools #preview-button:before {
+	content: url("../images/preview_icon.png");
+}
+
 .editor-tools #open-image label {
 	width: 100%;
 	height: 100%;
