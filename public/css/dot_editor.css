@@ -606,7 +606,7 @@
 	content: url("../images/sketch_icon.png");
 }
 
-.editor-tools #preview-button:before {
+.editor-tools #view-button:before {
 	content: url("../images/preview_icon.png");
 }
 
