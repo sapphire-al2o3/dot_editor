@@ -656,7 +656,7 @@ editor: Editor
 	$.bind($('view-button'), 'click', () => {
 		$.toggle($('view'));
 		$('view-button').classList.toggle('selected');
-		let rect = canvas.getBoundingClientRect();;
+		let rect = canvas.getBoundingClientRect();
 		$.position($('view'), rect.left + 420, rect.top + 300);
 	});
 
