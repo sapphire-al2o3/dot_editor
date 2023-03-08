@@ -652,16 +652,15 @@ editor: Editor
 	$.bind($('transparent'), 'click', () => {
 		$('transparent').classList.toggle('selected');
 	});
+	// プレビューウィンドウの表示
 	$.bind($('view-button'), 'click', () => {
 		$.toggle($('view'));
 		$('view-button').classList.toggle('selected');
-
 	});
 
 	// サイズの指定
 	$.bind($('new-image-submit'), 'click', e => {
 		$.hide($('new-image'));
-//			$('#overlay').fadeOut();
 		$.fadeOut($('overlay'));
 		KeyMapper.bind(document, 'trigger');
 		const index = parseInt($.q('#new-image input[name="size"]:checked').value, 10);
