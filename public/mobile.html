@@ -208,6 +208,10 @@
 				background-image: none;
 				box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
 			}
+
+			ul.tools li.selected {
+				outline: 3px solid rgba(0, 0, 0, 0.1);
+			}
 			
 			#canvas {
 				background-color: #FFF;
@@ -412,7 +416,7 @@
 				<li id="zoomout"><img src="./images/zoomout_icon.png"></li>
 				<li id="undo"><img src="./images/undo_icon.png"></li>
 				<li id="trash"><img src="./images/trash_icon.png"></li>
-				<li id="pen"><img src="./images/pen_icon.png"></li>
+				<li id="pen" class="selected"><img src="./images/pen_icon.png"></li>
 				<li id="paint"><img src="./images/paint_icon.png"></li>
 				<li id="shift"><img src="images/shift_icon.png"></li>
 				<!-- <li id="grid"><img src="./images/grid_icon.png"></li> -->
@@ -588,10 +592,14 @@
 
 				$('pen').addEventListener('click', () => {
 					tool = 0;
+					$('pen').classList.add('selected');
+					$('paint').classList.remove('selected');
 				});
 
 				$('paint').addEventListener('click', () => {
 					tool = 1;
+					$('pen').classList.remove('selected');
+					$('paint').classList.add('selected');
 				});
 
 				$('shift').addEventListener('click', () => {
