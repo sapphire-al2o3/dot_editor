@@ -234,8 +234,6 @@ editor: Editor
 		option.canvasHeight = canvas.height;
 		work.canvas.width = canvas.width;
 		work.canvas.height = canvas.height;
-		backgroundCtx.canvas.width = canvas.width;
-		backgroundCtx.canvas.height = canvas.height;
 		if(selection.enable) {
 		}
 		for(let i = 0; i < Layer.count(); i++) {
@@ -243,6 +241,8 @@ editor: Editor
 			layer.width = canvas.width;
 			layer.height = canvas.height;
 		}
+		backgroundCtx.canvas.width = canvas.width;
+		backgroundCtx.canvas.height = canvas.height;
 		drawSketch();
 	}
 	
@@ -1417,7 +1417,7 @@ editor: Editor
 
 		if(temp) {
 			pushRecord(redoData);
-			drawSketch();
+			// drawSketch();
 			copyRangeIndexData(temp, indexData);
 			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData, Palette.getTransparentIndex());
 			drawPreview();
@@ -1430,7 +1430,7 @@ editor: Editor
 		
 		if(temp) {
 			pushRecord(undoData);
-			drawSketch();
+			// drawSketch();
 			copyRangeIndexData(temp, indexData);
 			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData, Palette.getTransparentIndex());
 			drawPreview();
