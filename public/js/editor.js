@@ -617,6 +617,7 @@ editor: Editor
 			height = backgroundCtx.canvas.height,
 			x = 0,
 			y = 0;
+		backgroundCtx.clearRect(0, 0, width, height);
 		if (aspect > 1) {
 			height = height / aspect ^ 0;
 			y = (backgroundCtx.canvas.height - height) / 2 ^ 0;
@@ -624,6 +625,7 @@ editor: Editor
 			width = width * aspect ^ 0;
 			x = (backgroundCtx.canvas.width - width) / 2 ^ 0;
 		}
+		
 		backgroundCtx.globalAlpha = 0.5;
 		backgroundCtx.drawImage(sketchImage, x, y, width, height);
 		backgroundCtx.globalAlpha = 1.0;
@@ -1415,9 +1417,9 @@ editor: Editor
 
 		if(temp) {
 			pushRecord(redoData);
-
+			drawSketch();
 			copyRangeIndexData(temp, indexData);
-			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
+			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData, Palette.getTransparentIndex());
 			drawPreview();
 		}
 	}
@@ -1428,9 +1430,9 @@ editor: Editor
 		
 		if(temp) {
 			pushRecord(undoData);
-
+			drawSketch();
 			copyRangeIndexData(temp, indexData);
-			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
+			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData, Palette.getTransparentIndex());
 			drawPreview();
 		}
 	}
