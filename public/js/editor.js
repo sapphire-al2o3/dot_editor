@@ -724,16 +724,17 @@ editor: Editor
 	Palette.change(e => {
 		// パレットが変更された際のイベント
 		Palette.convert(paletteData);
+		const trans = Palette.getTransparentIndex();
 		for(let i = 0;i < Layer.count(); i++) {
 			let layer = Layer.get(i);
 			if(e !== undefined) {
 				// 色の入れ替え
 				swapColor(layer.indexData, e[0], e[1]);
 			}
-			drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, Palette.getTransparentIndex());
+			drawIndexedImage(layer.ctx, layer.indexData, palette, option.scale, paletteData, trans);
 		}
 		drawPreview();
-		backgroundCtx.canvas.style.backgroundColor = palette[Palette.getTransparentIndex()];
+		backgroundCtx.canvas.style.backgroundColor = palette[trans];
 	});
 	
 	Palette.setFrontColor(1);
@@ -1417,7 +1418,6 @@ editor: Editor
 
 		if(temp) {
 			pushRecord(redoData);
-			// drawSketch();
 			copyRangeIndexData(temp, indexData);
 			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData, Palette.getTransparentIndex());
 			drawPreview();
@@ -1430,7 +1430,6 @@ editor: Editor
 		
 		if(temp) {
 			pushRecord(undoData);
-			// drawSketch();
 			copyRangeIndexData(temp, indexData);
 			drawIndexedImage(ctx, indexData, palette, option.scale, paletteData, Palette.getTransparentIndex());
 			drawPreview();
