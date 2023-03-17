@@ -530,10 +530,11 @@ editor: Editor
 		Palette.setFrontColor(0);
 		palette = Palette.getPaletteData();
 		resize();
-		drawIndexedImage(ctx, indexData, palette, option.scale, paletteData);
+		const trans = Palette.getTransparentIndex();
+		drawIndexedImage(ctx, indexData, palette, option.scale, paletteData, trans);
 		grid();
 		drawPreview();
-		backgroundCtx.canvas.style.backgroundColor = palette[Palette.getTransparentIndex()];
+		backgroundCtx.canvas.style.backgroundColor = palette[trans];
 		Layer.clear();
 		Layer.set(ctx, ctx.canvas, indexData);
 	};
