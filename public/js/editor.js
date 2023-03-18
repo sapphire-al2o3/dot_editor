@@ -537,6 +537,12 @@ editor: Editor
 		backgroundCtx.canvas.style.backgroundColor = palette[trans];
 		Layer.clear();
 		Layer.set(ctx, ctx.canvas, indexData);
+		for(let i = 1; i < data.indexData.length; i++) {
+			let layer = addLayer(data.width, data.height);
+			layer.canvas.width = ctx.canvas.width;
+			layer.canvas.height = ctx.canvas.height;
+			Base64.decode(indexDatas[i], layer.indexData.data);
+		}
 	};
 	FileLoader.bind($('container'));
 	
