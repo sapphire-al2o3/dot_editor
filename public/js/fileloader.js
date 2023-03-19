@@ -73,7 +73,7 @@
 	
 	const FileLoader = {
 		target: null,
-		onload: function() {},
+		onload: null,
 		load: function(file) {
 			let reader = new FileReader(),
 				image = new Image(),
@@ -100,7 +100,6 @@
 					}
 					
 					image.onload = () => {
-					
 						// canvasから画像読み込み
 						let canvas = document.createElement('canvas'),
 							ctx = canvas.getContext('2d'),
@@ -120,6 +119,7 @@
 					};
 					image.src = result[0] + ',' + Base64.encode(buffer);
 				} else if (type === 'application/json') {
+					// jsonから読み込み
 					const data = JSON.parse(reader.result);
 					const indexDatas = [];
 					const paletteData = createPaletteData(256);
