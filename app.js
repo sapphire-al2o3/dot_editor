@@ -26,6 +26,7 @@ const passport = require('passport');
 // const { response } = require('express');
 const TwitterStrategy = require('passport-twitter').Strategy;
 
+let DISABLE_TWEET = process.env.DISABLE_TWEET;
 let CONSUMER_KEY = process.env.CONSUMER_KEY;
 let CONSUMER_SECRET = process.env.CONSUMER_SECRET;
 
@@ -125,7 +126,7 @@ app.get('/', express.static(path.join(__dirname, 'public')));
 
 // Twitterの認証
 app.get('/auth/twitter', (req, res) => {
-	if(!req.user) {
+	if (!DISABLE_TWEET && !req.user) {
 		passport.authenticate('twitter')(req, res);
 	} else {
 		// 認証済み
