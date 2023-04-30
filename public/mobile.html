@@ -1165,7 +1165,9 @@
 					scale = scale || ctx.canvas.width / w;
 					ctx.fillStyle = palette[0];
 					ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
-					ctx.clearRect(0, 0, canvas.width, canvas.height);
+					if (bgVisible) {
+						ctx.clearRect(0, 0, canvas.width, canvas.height);
+					}
 					for (let i = 0; i < h; i++) {
 						for (let j = 0; j < w; j++) {
 							if (data[i * w + j] > 0) {
