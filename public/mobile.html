@@ -482,6 +482,7 @@
 			<div class="sub-tools">
 				<div id="dropper"><img src="./images/dropper_icon_l.png" /></div>
 				<div id="drag"><img src="./images/scroll_icon_l.png" /></div>
+				<div id="visible-sketch"></div>
 			</div>
 			<div class="help">
 				<h2>Help</h2>
@@ -632,12 +633,37 @@
 					drag.classList.remove('active');
 				});
 
+				const visibleSketch = $('visible-sketch');
+				visibleSketch?.addEventListener('click', e => {
+					if (bgImage) {
+						bgVisible = !bgVisible;
+						canvas.style.backgroundImage = bgVisible ? bgImage : 'none';
+						render(ctx, image, scale);
+					}
+				});
+
+				let bgImage = null;
+				let bgVisible = false;
 				$('open-sketch').addEventListener('change', e => {
 					sketchImage = null;
-					createImageBitmap(e.target.files[0]).then(image => {
-						sketchImage = image;
-						drawSketch();
-					});
+					// createImageBitmap(e.target.files[0]).then(image => {
+					// 	sketchImage = image;
+					// 	drawSketch();
+					// });
+
+					const reader = new FileReader();
+					reader.onload = (e) => {
+						bgVisible = true;
+						bgImage = `url(${e.target.result})`;
+						canvas.style.backgroundImage = bgImage;
+						canvas.style.backgroundSize = 'contain'
+						canvas.style.backgroundRepeat = 'no-repeat';
+						canvas.style.backgroundPosition = 'center';
+						render(ctx, image, scale);
+					};
+					reader.readAsDataURL(e.target.files[0]);
+
+					bgImage = null;
 					e.target.value = null;
 				});
 
@@ -1139,6 +1165,7 @@
 					scale = scale || ctx.canvas.width / w;
 					ctx.fillStyle = palette[0];
 					ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+					ctx.clearRect(0, 0, canvas.width, canvas.height);
 					for (let i = 0; i < h; i++) {
 						for (let j = 0; j < w; j++) {
 							if (data[i * w + j] > 0) {
