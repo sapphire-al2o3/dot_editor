@@ -543,6 +543,9 @@
 				let subTool = 0;
 				let touchId = 0;
 
+				let bgImage = null;
+				let bgVisible = false;
+
 				const autoSaveJson = localStorage.getItem('auto');
 				if (autoSaveJson) {
 					const data = JSON.parse(autoSaveJson);
@@ -642,8 +645,6 @@
 					}
 				});
 
-				let bgImage = null;
-				let bgVisible = false;
 				$('open-sketch').addEventListener('change', e => {
 					sketchImage = null;
 					// createImageBitmap(e.target.files[0]).then(image => {
