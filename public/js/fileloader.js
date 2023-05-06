@@ -107,9 +107,9 @@
 						
 						canvas.width = image.width;
 						canvas.height = image.height;
-						ctx.globalCompositeOperation = 'copy';
-						ctx.clearRect(0, 0, canvas.width, canvas.height);
-						ctx.drawImage(image, 0, 0);
+						// ctx.clearRect(0, 0, canvas.width, canvas.height);
+						ctx.imageSmoothingEnabled = false;
+						ctx.drawImage(image, 0, 0, image.width, image.height, 0, 0, image.width, image.height);
 						if(hasPalette) {
 							convertIndexedImageByPalette(ctx.getImageData(0, 0, image.width, image.height), indexData, paletteData, backIndex);
 						} else {
