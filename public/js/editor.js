@@ -538,10 +538,9 @@ editor: Editor
 		Layer.clear();
 		Layer.set(ctx, ctx.canvas, indexData);
 		for(let i = 1; i < indexDatas.length; i++) {
-			let layer = addLayer(indexDatas[i].width, indexDatas[i].height);
+			let layer = addLayer(indexDatas[i].width, indexDatas[i].height, indexDatas[i]);
 			layer.canvas.width = ctx.canvas.width;
 			layer.canvas.height = ctx.canvas.height;
-			Base64.decode(indexDatas[i], layer.indexData.data);
 		}
 	};
 	FileLoader.bind($('container'));

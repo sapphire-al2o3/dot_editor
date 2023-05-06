@@ -33,11 +33,11 @@ Model
 	let layers = [];
 	let uid = 0;
 	
-	Layer.add = function(w, h) {
+	Layer.add = function(w, h, indexData) {
 		let layer = {
 			width: w,
 			height: h,
-			indexData: createIndexData(w, h),
+			indexData: indexData ?? createIndexData(w, h),
 			transparent: 0,
 			visibility: true,
 			index: uid
