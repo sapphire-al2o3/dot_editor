@@ -638,6 +638,9 @@ editor: Editor
 	}
 	
 	$.bind($('open-sketch'), 'change', e => {
+		if (e.target.files[0].type.indexOf('image') < 0) {
+			return;
+		}
 		sketchImage = null;
 		createImageBitmap(e.target.files[0]).then(image => {
 			sketchImage = image;
