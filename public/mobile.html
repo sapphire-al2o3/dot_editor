@@ -668,11 +668,27 @@
 					e.target.value = null;
 				});
 
-				function drawSketch() {
-					if (sketchImage === null) {
+				function resizeSketch(image) {
+					let w = image.width;
+					let h = image.height;
+					let canvas = document.createElement('canvas');
+					if (h > w) {
+						w = h;
+					}
+					w = w > 800 ? 800 : w;
+					canvas.width = w;
+					canvas.height = w;
+					let ctx = canvas.getContext('2d');
+					
+					drawSketch(canvas, ctx, image);
+					bgImage = canvas.toDataURL();
+				}
+
+				function drawSketch(canvas, ctx, image) {
+					if (image === null) {
 						return;
 					}
-					const aspect = sketchImage.width / sketchImage.height;
+					const aspect = image.width / image.height;
 					let width = canvas.width,
 						height = canvas.height,
 						x = 0,
@@ -685,7 +701,7 @@
 						x = (canvas.width - width) / 2 ^ 0;
 					}
 					ctx.globalAlpha = 0.5;
-					ctx.drawImage(sketchImage, x, y, width, height);
+					ctx.drawImage(image, x, y, width, height);
 					ctx.globalAlpha = 1.0;
 				}
 
