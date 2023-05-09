@@ -645,29 +645,40 @@
 					}
 				});
 
-				$('open-sketch').addEventListener('change', e => {
+				$('open-sketch')?.addEventListener('change', e => {
 					sketchImage = null;
-					// createImageBitmap(e.target.files[0]).then(image => {
-					// 	sketchImage = image;
-					// 	drawSketch();
-					// });
+					
 					const file = e.target.files[0];
 
 					if (file.type.indexOf('image') < 0) {
 						return;
 					}
 
-					const reader = new FileReader();
-					reader.onload = (e) => {
+					// const reader = new FileReader();
+					// reader.onload = (e) => {
+					// 	bgVisible = true;
+					// 	bgImage = `url(${e.target.result})`;
+					// 	canvas.style.backgroundImage = bgImage;
+					// 	canvas.style.backgroundSize = 'contain'
+					// 	canvas.style.backgroundRepeat = 'no-repeat';
+					// 	canvas.style.backgroundPosition = 'center';
+					// 	render(ctx, image, scale);
+					// };
+					// reader.readAsDataURL(file);
+
+					createImageBitmap(e.target.files[0]).then(bitmap => {
+						// sketchImage = image;
+						// drawSketch();
+
 						bgVisible = true;
-						bgImage = `url(${e.target.result})`;
+						bgImage = `url(${resizeSketch(bitmap)})`;
 						canvas.style.backgroundImage = bgImage;
 						canvas.style.backgroundSize = 'contain'
 						canvas.style.backgroundRepeat = 'no-repeat';
 						canvas.style.backgroundPosition = 'center';
 						render(ctx, image, scale);
-					};
-					reader.readAsDataURL(file);
+						console.log(bgImage.length);
+					});
 
 					bgImage = null;
 					e.target.value = null;
@@ -680,13 +691,13 @@
 					if (h > w) {
 						w = h;
 					}
-					w = w > 800 ? 800 : w;
+					w = w > 1024 ? 1024 : w;
 					canvas.width = w;
 					canvas.height = w;
 					let ctx = canvas.getContext('2d');
 					
 					drawSketch(canvas, ctx, image);
-					bgImage = canvas.toDataURL();
+					return canvas.toDataURL('image/jpeg', 0.7);
 				}
 
 				function drawSketch(canvas, ctx, image) {
@@ -705,6 +716,8 @@
 						width = width * aspect ^ 0;
 						x = (canvas.width - width) / 2 ^ 0;
 					}
+					ctx.fillStyle = '#FFF';
+					ctx.fillRect(0, 0, canvas.width, canvas.height);
 					ctx.globalAlpha = 0.5;
 					ctx.drawImage(image, x, y, width, height);
 					ctx.globalAlpha = 1.0;
