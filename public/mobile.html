@@ -590,6 +590,9 @@
 					ctx.fillStyle = palette[0];
 					ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 					grid();
+					bgImage = null;
+					bgVisible = false;
+					canvas.style.backgroundImage = 'none';
 				});
 
 				$('tweet').addEventListener('click', () => {
@@ -641,6 +644,9 @@
 					if (bgImage) {
 						bgVisible = !bgVisible;
 						canvas.style.backgroundImage = bgVisible ? bgImage : 'none';
+						canvas.style.backgroundColor = palette[0];
+						render(ctx, image, scale);
+						grid();
 					}
 				});
 
