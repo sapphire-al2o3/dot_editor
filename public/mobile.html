@@ -644,7 +644,11 @@
 					if (bgImage) {
 						bgVisible = !bgVisible;
 						canvas.style.backgroundImage = bgVisible ? bgImage : 'none';
-						canvas.style.backgroundColor = palette[0];
+						// canvas.style.backgroundColor = palette[0];
+						if (bgVisible) {
+							canvas.width = canvas.width + 1;
+							canvas.width = canvas.width - 1;
+						}
 						render(ctx, image, scale);
 						grid();
 					}
@@ -681,8 +685,13 @@
 						canvas.style.backgroundSize = 'contain'
 						canvas.style.backgroundRepeat = 'no-repeat';
 						canvas.style.backgroundPosition = 'center';
+						
+						canvas.width = canvas.width + 1;
+						canvas.width = canvas.width - 1;
+
 						render(ctx, image, scale);
 						grid();
+
 						console.log(bgImage.length);
 					});
 
@@ -697,7 +706,7 @@
 					if (h > w) {
 						w = h;
 					}
-					w = w > 1024 ? 1024 : w;
+					w = w > 800 ? 800 : w;
 					canvas.width = w;
 					canvas.height = w;
 					let ctx = canvas.getContext('2d');
@@ -1205,9 +1214,11 @@
 						h = image.height;
 					scale = scale || ctx.canvas.width / w;
 					ctx.fillStyle = palette[0];
-					ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+					
 					if (bgVisible) {
 						ctx.clearRect(0, 0, canvas.width, canvas.height);
+					} else {
+						ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 					}
 					for (let i = 0; i < h; i++) {
 						for (let j = 0; j < w; j++) {
