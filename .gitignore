@@ -2,4 +2,5 @@
 /uploads
 /sessions
 /tmp
+/.vscode
 config.json
