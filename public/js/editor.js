@@ -772,6 +772,16 @@ editor: Editor
 		e.stopPropagation();
 		return false;
 	});
+
+	// ブラウザのサイズが変更されたときにパレットの位置を調整する
+	$.bind(window, 'resize', e => {
+		let left = canvas.getBoundingClientRect().left,
+			top = canvas.getBoundingClientRect().top;
+	
+		$.position($('palette'), left + 420, top + 4);
+		$.position($('view'), left + 420, top + 300);
+		$.position($('layers'), left + 420, top + 380);
+	});
 	
 	// 範囲選択
 	selectHandler = {
