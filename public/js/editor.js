@@ -777,8 +777,11 @@ editor: Editor
 	$.bind(window, 'resize', e => {
 		let left = canvas.getBoundingClientRect().left,
 			top = canvas.getBoundingClientRect().top;
-	
-		$.position($('palette'), left + 420, top + 4);
+		const p = $('palette');
+		let x = parseInt(p.style.left, 10);
+		if (window.innerWidth < x + p.clientWidth) {
+			$.position($('palette'), left + 420, top + 4);
+		}
 		$.position($('view'), left + 420, top + 300);
 		$.position($('layers'), left + 420, top + 380);
 	});
