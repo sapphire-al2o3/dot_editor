@@ -778,12 +778,17 @@ editor: Editor
 		let left = canvas.getBoundingClientRect().left,
 			top = canvas.getBoundingClientRect().top;
 		const p = $('palette');
-		let x = parseInt(p.style.left, 10);
-		if (window.innerWidth < x + p.clientWidth) {
-			$.position($('palette'), left + 420, top + 4);
+		if (window.innerWidth < parseInt(p.style.left, 10) + p.clientWidth) {
+			$.position(p, left + 420, top + 4);
 		}
-		$.position($('view'), left + 420, top + 300);
-		$.position($('layers'), left + 420, top + 380);
+		const v = $('view');
+		if (window.innerWidth < parseInt(v.style.left, 10) + v.clientWidth) {
+			$.position($('view'), left + 420, top + 300);
+		}
+		const l = $('layers');
+		if (window.innerWidth < parseInt(l.style.left, 10) + l.clientWidth) {
+			$.position(l, left + 420, top + 380);
+		}
 	});
 	
 	// 範囲選択
