@@ -783,7 +783,7 @@ editor: Editor
 		}
 		const v = $('view');
 		if (window.innerWidth < parseInt(v.style.left, 10) + v.clientWidth) {
-			$.position($('view'), left + 420, top + 300);
+			$.position(v, left + 420, top + 300);
 		}
 		const l = $('layers');
 		if (window.innerWidth < parseInt(l.style.left, 10) + l.clientWidth) {
