@@ -494,13 +494,15 @@ editor: Editor
 		});
 	}
 	
+	const view = $('view');
+
 	if(typeof Widget !== 'undefined') {
 		new Widget('palette');
 		new Widget('color-picker');
 		new Widget('view');
 		new Widget('layers');
 		
-		preview = $('view').lastChild.getContext('2d');
+		preview = view.lastChild.getContext('2d');
 	}
 
 	let usedPalette = {};
@@ -510,9 +512,9 @@ editor: Editor
 	
 	let left = canvas.getBoundingClientRect().left,
 		top = canvas.getBoundingClientRect().top;
-	
+
 	$.position($('palette'), left + 420, top + 4);
-	$.position($('view'), left + 420, top + 300);
+	$.position(view, left + 420, top + 300);
 	$.position($('layers'), left + 420, top + 380);
 	$.show($('overlay'));
 	
@@ -665,10 +667,10 @@ editor: Editor
 	});
 	// プレビューウィンドウの表示
 	$.bind($('view-button'), 'click', () => {
-		$.toggle($('view'));
+		$.toggle(view);
 		$('view-button').classList.toggle('selected');
 		let rect = canvas.getBoundingClientRect();
-		$.position($('view'), rect.left + 420, rect.top + 300);
+		$.position(view, rect.left + 420, rect.top + 300);
 	});
 
 	// サイズの指定
@@ -781,9 +783,8 @@ editor: Editor
 		if (window.innerWidth < parseInt(p.style.left, 10) + p.clientWidth) {
 			$.position(p, left + 420, top + 4);
 		}
-		const v = $('view');
-		if (window.innerWidth < parseInt(v.style.left, 10) + v.clientWidth) {
-			$.position(v, left + 420, top + 300);
+		if (window.innerWidth < parseInt(view.style.left, 10) + view.clientWidth) {
+			$.position(view, left + 420, top + 300);
 		}
 		const l = $('layers');
 		if (window.innerWidth < parseInt(l.style.left, 10) + l.clientWidth) {
