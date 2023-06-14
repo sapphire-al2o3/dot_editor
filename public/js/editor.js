@@ -495,6 +495,7 @@ editor: Editor
 	}
 	
 	const view = $('view');
+	const layers = $('layers');
 
 	if(typeof Widget !== 'undefined') {
 		new Widget('palette');
@@ -515,7 +516,7 @@ editor: Editor
 
 	$.position($('palette'), left + 420, top + 4);
 	$.position(view, left + 420, top + 300);
-	$.position($('layers'), left + 420, top + 380);
+	$.position(layers, left + 420, top + 380);
 	$.show($('overlay'));
 	
 	// ローカルファイルの読み込み
@@ -652,7 +653,7 @@ editor: Editor
 	});
 
 	$.bind($('layer'), 'click', () => {
-		$.toggle($('layers'));
+		$.toggle(layers);
 		$('layer').classList.toggle('selected');
 	});
 	// $.bind($('scroll'), 'click', e => {
@@ -786,9 +787,8 @@ editor: Editor
 		if (window.innerWidth < parseInt(view.style.left, 10) + view.clientWidth) {
 			$.position(view, left + 420, top + 300);
 		}
-		const l = $('layers');
-		if (window.innerWidth < parseInt(l.style.left, 10) + l.clientWidth) {
-			$.position(l, left + 420, top + 380);
+		if (window.innerWidth < parseInt(layers.style.left, 10) + layers.clientWidth) {
+			$.position(layers, left + 420, top + 380);
 		}
 	});
 	
