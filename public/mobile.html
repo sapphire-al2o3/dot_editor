@@ -428,6 +428,7 @@
 				<!-- <li id="grid"><img src="./images/grid_icon.png"></li> -->
 				<!-- <li><img id="preview" /><canvas id="buffer"></canvas></li> -->
 				<li id="tweet"><img src="images/twitter_icon.png"></li>
+				<!-- <li id="post"><img src="images/post_icon.png"></li> -->
 			</ul>
 			<div id="scroll" class="scroll">
 				<span id="thumb-left" class="thumb-left"></span>
@@ -603,6 +604,10 @@
 
 				$('tweet').addEventListener('click', () => {
 					window.open('/auth/twitter');
+				});
+
+				$('post')?.addEventListener('click', () => {
+					window.open('post.html');
 				});
 
 				$('pen').addEventListener('click', () => {
