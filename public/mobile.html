@@ -426,15 +426,12 @@
 				<li id="paint"><img src="./images/paint_icon.png"></li>
 				<li id="shift"><img src="images/shift_icon.png"></li>
 				<!-- <li id="grid"><img src="./images/grid_icon.png"></li> -->
-				<!-- <li><img id="preview" /><canvas id="buffer"></canvas></li> -->
 				<li id="tweet"><img src="images/twitter_icon.png"></li>
 				<!-- <li id="post"><img src="images/post_icon.png"></li> -->
 			</ul>
 			<div id="scroll" class="scroll">
 				<span id="thumb-left" class="thumb-left"></span>
 				<span id="thumb-top" class="thumb-top"></span>
-<!--				<span class="thumb-bottom"></span>-->
-<!--				<span class="thumb-right"></span>-->
 				<div id="canvas-container"><canvas id="canvas" width="256" height="256"></canvas></div>
 				<div id="shift-button">
 					<span id="shift-left" class="shift"></span>
@@ -444,7 +441,6 @@
 				</div>
 				<span id="zoom-button"><img src="images/zoom_icon.png"></span>
 			</div>
-<!--			<p><img id="preview" /><canvas id="buffer"></canvas></p>-->
 			<div>
 				<table id="palette">
 					<tbody>
@@ -988,7 +984,6 @@
 						offsetY = -y * 688 ^ 0;
 						canvas.style.marginTop = offsetY + 'px';
 						thumbLeft.style.top = (y * 304 ^ 0) + 32 + 'px';
-//						thumbRight.style.top = (y * 304 ^ 0) + 32 + 'px';
 					}
 				}
 				
@@ -1060,7 +1055,6 @@
 				}
 
 				function getNumValue(e) {
-					// let radix = e.getAttribute('radix') ^ 0;
 					const radix = 10;
 					return clamp(parseInt(e.value, radix), 0, 255);
 				}
@@ -1114,7 +1108,6 @@
 					let x = 0;
 					
 					if (e.changedTouches && e.changedTouches.length > 0) {
-						const border = 2;
 						x = e.changedTouches[0].clientX - targetLeft;
 					} else {
 						x = e.pageX - targetLeft;
@@ -1123,7 +1116,6 @@
 					let v = clamp(x / targetWidth * 255 ^ 0, 0, 255);
 					targetInput.value = v.toString();
 					changeColor();
-					// e.preventDefault();
 				};
 
 				const upSlider = (e) => {
