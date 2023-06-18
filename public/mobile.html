@@ -1090,7 +1090,7 @@
 						max = 255,
 						min = 0;
 						val = isNaN(val) ? 0 : val + step;
-					val = val < min ? 0 : val > max ? max : val;
+					val = clamp(val, min, max);
 					input.value = val.toString(radix).toUpperCase();
 					changeColor();
 					e.preventDefault();
