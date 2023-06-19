@@ -27,6 +27,7 @@ const passport = require('passport');
 const TwitterStrategy = require('passport-twitter').Strategy;
 
 let DISABLE_TWEET = process.env.DISABLE_TWEET;
+DISABLE_TWEET = true;
 let CONSUMER_KEY = process.env.CONSUMER_KEY;
 let CONSUMER_SECRET = process.env.CONSUMER_SECRET;
 
@@ -192,7 +193,9 @@ app.post('/auth/twitter/post', (req, res) => {
 	let text = req.body.text,
 		image = JSON.parse(req.body.image);
 
-	if(req.user && image) {
+	if (DISABLE_TWEET) {
+		res.redirect('https://twitter.com/intent/tweet?text=' + encodeURIComponent(text));
+	} else if(req.user && image) {
 		const img = createPNG(image);
 
 		// img.pack2().pipe(fs.createWriteStream('./uploads/out.png'));
