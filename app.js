@@ -27,7 +27,6 @@ const passport = require('passport');
 const TwitterStrategy = require('passport-twitter').Strategy;
 
 let DISABLE_TWEET = process.env.DISABLE_TWEET;
-DISABLE_TWEET = true;
 let CONSUMER_KEY = process.env.CONSUMER_KEY;
 let CONSUMER_SECRET = process.env.CONSUMER_SECRET;
 
