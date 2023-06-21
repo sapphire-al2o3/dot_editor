@@ -26,7 +26,7 @@ const passport = require('passport');
 // const { response } = require('express');
 const TwitterStrategy = require('passport-twitter').Strategy;
 
-let DISABLE_TWEET = process.env.DISABLE_TWEET;
+const DISABLE_TWEET = process.env.DISABLE_TWEET;
 let CONSUMER_KEY = process.env.CONSUMER_KEY;
 let CONSUMER_SECRET = process.env.CONSUMER_SECRET;
 
