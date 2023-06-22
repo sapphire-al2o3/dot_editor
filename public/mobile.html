@@ -1082,6 +1082,54 @@
 					v.addEventListener('change', changeInput);
 				});
 
+				class Spin {
+					constructor(target) {
+						this.target = target;
+						this.input =  $(target.getAttribute('for'));
+						this.step = parseInt(target.getAttribute('step'));
+						this.down = false;
+						this.repeat = false;
+						this.timerId = 0;
+					}
+
+					setValue() {
+						const min = 0;
+						const max = 255;
+						const radix = 10;
+						let val = parseInt(this.input.value, 10);
+						val = isNaN(val) ? 0 : val + this.step;
+						val = clamp(val, min, max);
+						this.input.value = val.toString(radix).toUpperCase();
+						changeColor();
+					}
+
+					downHandler(e) {
+						const delay = 200;
+						const interval = 100;
+						this.setValue();
+						this.down = true;
+
+						// if(!repeat) {
+						// 	clearInterval(this.timerId);
+						// 	this.repeat = true;
+						// 	setTimeout(() => {
+						// 		this.timerId = setInterval(this.repeat, interval);
+						// 	}, delay);
+						// }
+					}
+					upHandler(e) {
+						down = false;
+					}
+					repeatHandler() {
+						if(!this.down) {
+							clearInterval(this.timerId);
+							repeat = false;
+						} else {
+							this.setValue();
+						}
+					}
+				}
+
 				const changeSpin = (e) => {
 					let input = $(e.target.getAttribute('for')),
 						radix = e.target.getAttribute('radix') ? 16 : 10,
@@ -1089,7 +1137,7 @@
 						step = parseInt(e.target.getAttribute('step')),
 						max = 255,
 						min = 0;
-						val = isNaN(val) ? 0 : val + step;
+					val = isNaN(val) ? 0 : val + step;
 					val = clamp(val, min, max);
 					input.value = val.toString(radix).toUpperCase();
 					changeColor();
@@ -1097,7 +1145,9 @@
 				};
 
 				$qa('.left, .right').forEach((v) => {
-					v.addEventListener('click', changeSpin);
+					const spin = new Spin(v);
+					v.addEventListener('click', e => spin.downHandler(e));
+					// v.addEventListener('click', changeSpin);
 				});
 
 				let targetInput;
