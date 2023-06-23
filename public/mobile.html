@@ -1109,21 +1109,25 @@
 						this.setValue();
 						this.down = true;
 
-						// if(!repeat) {
-						// 	clearInterval(this.timerId);
-						// 	this.repeat = true;
-						// 	setTimeout(() => {
-						// 		this.timerId = setInterval(this.repeat, interval);
-						// 	}, delay);
-						// }
+						if(!this.repeat) {
+							clearInterval(this.timerId);
+							this.repeat = true;
+							setTimeout(() => {
+								this.timerId = setInterval(() => this.repeatHandler(), interval);
+							}, delay);
+						}
+						e.preventDefault();
 					}
 					upHandler(e) {
-						down = false;
+						this.down = false;
+					}
+					outHandler(e) {
+						this.down = false;
 					}
 					repeatHandler() {
 						if(!this.down) {
 							clearInterval(this.timerId);
-							repeat = false;
+							this.repeat = false;
 						} else {
 							this.setValue();
 						}
@@ -1146,7 +1150,12 @@
 
 				$qa('.left, .right').forEach((v) => {
 					const spin = new Spin(v);
-					v.addEventListener('click', e => spin.downHandler(e));
+					v.addEventListener('mousedown', e => spin.downHandler(e));
+					v.addEventListener('mouseup', e => spin.upHandler(e));
+					v.addEventListener('mouseout', e => spin.outHandler(e));
+					v.addEventListener('touchstart', e => spin.downHandler(e), false);
+					v.addEventListener('touchend', e => spin.upHandler(e));
+					// v.addEventListener('click', e => spin.downHandler(e));
 					// v.addEventListener('click', changeSpin);
 				});
 
@@ -1172,7 +1181,7 @@
 					document.removeEventListener('mousemove', moveSlider);
 					document.removeEventListener('mouseup', upSlider);
 					document.removeEventListener('touchmove', moveSlider);
-					document.removeEventListener('touchup', upSlider);
+					document.removeEventListener('touchend', upSlider);
 				};
 
 				const changeSlider = (e) => {
