@@ -1113,7 +1113,9 @@
 							clearInterval(this.timerId);
 							this.repeat = true;
 							setTimeout(() => {
-								this.timerId = setInterval(() => this.repeatHandler(), interval);
+								if (this.down) {
+									this.timerId = setInterval(() => this.repeatHandler(), interval);
+								}
 							}, delay);
 						}
 						e.preventDefault();
@@ -1153,7 +1155,7 @@
 					v.addEventListener('mousedown', e => spin.downHandler(e));
 					v.addEventListener('mouseup', e => spin.upHandler(e));
 					v.addEventListener('mouseout', e => spin.outHandler(e));
-					v.addEventListener('touchstart', e => spin.downHandler(e), false);
+					v.addEventListener('touchstart', e => spin.downHandler(e));
 					v.addEventListener('touchend', e => spin.upHandler(e));
 					// v.addEventListener('click', e => spin.downHandler(e));
 					// v.addEventListener('click', changeSpin);
