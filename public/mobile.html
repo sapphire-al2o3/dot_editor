@@ -1109,8 +1109,9 @@
 						this.setValue();
 						this.down = true;
 
-						if(!this.repeat) {
+						if (!this.repeat) {
 							clearInterval(this.timerId);
+							this.timerId = 0;
 							this.repeat = true;
 							setTimeout(() => {
 								if (this.down) {
@@ -1122,13 +1123,16 @@
 					}
 					upHandler(e) {
 						this.down = false;
+						this.repeat = false;
 					}
 					outHandler(e) {
 						this.down = false;
+						this.repeat = false;
 					}
 					repeatHandler() {
-						if(!this.down) {
+						if (!this.down) {
 							clearInterval(this.timerId);
+							this.timerId = 0;
 							this.repeat = false;
 						} else {
 							this.setValue();
