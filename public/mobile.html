@@ -1103,7 +1103,7 @@
 						changeColor();
 					}
 
-					downHandler(e) {
+					start(e) {
 						const delay = 200;
 						const interval = 100;
 						this.setValue();
@@ -1121,11 +1121,7 @@
 						}
 						e.preventDefault();
 					}
-					upHandler(e) {
-						this.down = false;
-						this.repeat = false;
-					}
-					outHandler(e) {
+					end(e) {
 						this.down = false;
 						this.repeat = false;
 					}
@@ -1156,11 +1152,12 @@
 
 				$qa('.left, .right').forEach((v) => {
 					const spin = new Spin(v);
-					v.addEventListener('mousedown', e => spin.downHandler(e));
-					v.addEventListener('mouseup', e => spin.upHandler(e));
-					v.addEventListener('mouseout', e => spin.outHandler(e));
-					v.addEventListener('touchstart', e => spin.downHandler(e));
-					v.addEventListener('touchend', e => spin.upHandler(e));
+					v.addEventListener('mousedown', e => spin.start(e));
+					v.addEventListener('mouseup', e => spin.end(e));
+					v.addEventListener('mouseout', e => spin.end(e));
+					v.addEventListener('touchstart', e => spin.start(e));
+					v.addEventListener('touchend', e => spin.end(e));
+					v.addEventListener('touchcancel', e => spin.end(e));
 					// v.addEventListener('click', e => spin.downHandler(e));
 					// v.addEventListener('click', changeSpin);
 				});
