@@ -1344,7 +1344,7 @@
 				}
 
 				function convertPalette() {
-					let paletteData = createPaletteData(8),
+					let paletteData = createPaletteData(palette.length),
 						data = paletteData.data;
 					for (let i = 0, n = data.length; i < n; i += 4) {
 						let c = Color.strToRGB(palette[i >> 2]);
