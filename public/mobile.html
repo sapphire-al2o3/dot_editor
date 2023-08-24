@@ -555,8 +555,16 @@
 					const data = JSON.parse(autoSaveJson);
 					Base64.decode(data.indexData, image.data);
 					const p = Base64.decode(data.paletteData);
-					for (let i = 0, j = 0; i < palette.length; i++, j += 4) {
+					const count = p.length / 4;
+					let i = 0,
+						j = 0;
+					for (; i < palette.length && i < count; i++, j += 4) {
 						palette[i] = Color.rgb(p[j], p[j + 1], p[j + 2]);
+					}
+					if (count > palette.length) {
+						for (; i < count; i++, j += 4) {
+							palette.push(Color.rgb(p[j], p[j + 1], p[j + 2]));
+						}
 					}
 				}
 
