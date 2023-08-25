@@ -442,7 +442,7 @@
 				</div>
 				<span id="zoom-button"><img src="images/zoom_icon.png"></span>
 			</div>
-			<div>
+			<div id="palette-container">
 				<table id="palette">
 					<tbody>
 						<tr>
@@ -785,6 +785,9 @@
 
 				function selectColor(target) {
 					index = target.cellIndex;
+					if (index >= palette.length) {
+						return;
+					}
 					if (selected) {
 						selected.className = '';
 					}
