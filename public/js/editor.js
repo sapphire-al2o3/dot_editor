@@ -1334,6 +1334,7 @@ editor: Editor
 		}
 		storageMode = isSave;
 
+		// サムネイル表示
 		const p = createPaletteData(256);
 		const idx = createIndexData(64, 64);
 		for (let i = 0; i < 9; i++) {
