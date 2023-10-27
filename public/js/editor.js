@@ -579,6 +579,7 @@ editor: Editor
 	});
 	
 	$.bind($('twitter'), 'click', () => {
+		saveStorage('backup');
 		window.open('/auth/twitter');
 	});
 	
