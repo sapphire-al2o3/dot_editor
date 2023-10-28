@@ -1390,12 +1390,16 @@ editor: Editor
 			option.imageWidth = indexData.width;
 			Layer.clear();
 			Layer.set(ctx, ctx.canvas, indexData);
-			Base64.decode(data.indexData[0], indexData.data);
-			for(let i = 1; i < data.indexData.length; i++) {
-				let layer = addLayer(data.width, data.height);
-				layer.canvas.width = ctx.canvas.width;
-				layer.canvas.height = ctx.canvas.height;
-				Base64.decode(data.indexData[i], layer.indexData.data);
+			if (Array.isArray(data.indexData)) {
+				Base64.decode(data.indexData[0], indexData.data);
+				for(let i = 1; i < data.indexData.length; i++) {
+					let layer = addLayer(data.width, data.height);
+					layer.canvas.width = ctx.canvas.width;
+					layer.canvas.height = ctx.canvas.height;
+					Base64.decode(data.indexData[i], layer.indexData.data);
+				}
+			} else {
+				Base64.decode(data.indexData, indexData.data);
 			}
 			Base64.decode(data.paletteData, paletteData.data);
 			selection.indexData = createIndexData(indexData.width, indexData.height);
