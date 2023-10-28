@@ -421,10 +421,10 @@ editor: Editor
 	KeyMapper.assign('Ctrl+D', deselect);
 	KeyMapper.assign('Shift+3', toggleGrid);
 	KeyMapper.assign('Ctrl+S', () => {
-		saveStorage('0');
+		saveStorage('backup');
 	});
 	KeyMapper.assign('Ctrl+L', () => {
-		loadStorage('0');
+		loadStorage('backup');
 	});
 	KeyMapper.assign('O', toggleTool('outline'));
 	KeyMapper.bind(document, 'trigger');
