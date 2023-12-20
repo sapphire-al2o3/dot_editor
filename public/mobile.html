@@ -549,6 +549,7 @@
 
 				let bgImage = null;
 				let bgVisible = false;
+				let canvasVisible = true;
 
 				const autoSaveJson = localStorage.getItem('auto');
 				if (autoSaveJson) {
@@ -605,6 +606,7 @@
 					grid();
 					bgImage = null;
 					bgVisible = false;
+					canvasVisible = true;
 					canvas.style.backgroundImage = 'none';
 				});
 
@@ -659,7 +661,8 @@
 				const visibleSketch = $('visible-sketch');
 				visibleSketch?.addEventListener('click', e => {
 					if (bgImage) {
-						bgVisible = !bgVisible;
+						// bgVisible = !bgVisible;
+						canvasVisible = !canvasVisible;
 						canvas.style.backgroundImage = bgVisible ? bgImage : 'none';
 						// canvas.style.backgroundColor = palette[0];
 						if (bgVisible) {
@@ -668,6 +671,8 @@
 						}
 						render(ctx, image, scale);
 						grid();
+					} else {
+						$('open-sketch')?.click();
 					}
 				});
 
@@ -1308,11 +1313,13 @@
 					} else {
 						ctx.fillRect(0, 0, ctx.canvas.width, ctx.canvas.height);
 					}
-					for (let i = 0; i < h; i++) {
-						for (let j = 0; j < w; j++) {
-							if (data[i * w + j] > 0) {
-								ctx.fillStyle = palette[data[i * w + j]];
-								ctx.fillRect(j * scale, i * scale, scale, scale);
+					if (canvasVisible) {
+						for (let i = 0; i < h; i++) {
+							for (let j = 0; j < w; j++) {
+								if (data[i * w + j] > 0) {
+									ctx.fillStyle = palette[data[i * w + j]];
+									ctx.fillRect(j * scale, i * scale, scale, scale);
+								}
 							}
 						}
 					}
