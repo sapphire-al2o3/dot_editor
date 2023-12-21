@@ -411,6 +411,32 @@
 				padding: 17px;
 				margin: 0;
 			}
+
+			.dropdown {
+				/* height: 40px; */
+				/* width: 24px; */
+				position: absolute;
+				margin-left: -4px;
+				/* left: 1px; */
+				/* top: 48px; */
+				z-index: 1;
+				padding-bottom: 0px;
+				box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+				background-color: rgba(240, 240, 240, 0.75);
+				/* background-image: linear-gradient(rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.03)); */
+				display: none;
+				border-radius: 4px;
+			}
+
+			.dropdown div {
+				padding: 4px;
+				width: 24px;
+				height: 24px;
+			}
+
+			.show {
+				display: block;
+			}
 		</style>
 	</head>
 	<body>
@@ -423,7 +449,14 @@
 				<li id="zoomout"><img src="./images/zoomout_icon.png"></li>
 				<li id="undo"><img src="./images/undo_icon.png"></li>
 				<li id="trash"><img src="./images/trash_icon.png"></li>
-				<li id="pen" class="selected"><img src="./images/pen_icon.png"></li>
+				<!-- <li id="pen" class="selected"><img src="./images/pen_icon.png"></li> -->
+				<li id="pen" class="selected"><img src="./images/pen_icon.png">
+					<div id="pen-menu" class="dropdown">
+						<div><img src="./images/pen_icon.png"></div>
+						<div id="line"><img src="./images/line_icon.png"></div>
+						<div id="rect"><img src="./images/rect_icon.png"></div>
+					</div>
+				</li>
 				<li id="paint"><img src="./images/paint_icon.png"></li>
 				<li id="shift"><img src="images/shift_icon.png"></li>
 				<!-- <li id="grid"><img src="./images/grid_icon.png"></li> -->
@@ -610,7 +643,7 @@
 					canvas.style.backgroundImage = 'none';
 				});
 
-				$('tweet').addEventListener('click', () => {
+				$('tweet')?.addEventListener('click', () => {
 					window.open('/auth/twitter');
 				});
 
@@ -622,6 +655,8 @@
 					tool = 0;
 					$('pen').classList.add('selected');
 					$('paint').classList.remove('selected');
+
+					$('pen-menu').classList.toggle('show');
 				});
 
 				$('paint').addEventListener('click', () => {
