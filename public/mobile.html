@@ -437,6 +437,16 @@
 			.show {
 				display: block;
 			}
+
+			.icon {
+				width: 24px;
+				height: 24px;
+				display: inline-block;
+			}
+
+			.pen {
+				background-image: url("./images/pen_icon.png");
+			}
 		</style>
 	</head>
 	<body>
@@ -450,7 +460,7 @@
 				<li id="undo"><img src="./images/undo_icon.png"></li>
 				<li id="trash"><img src="./images/trash_icon.png"></li>
 				<!-- <li id="pen" class="selected"><img src="./images/pen_icon.png"></li> -->
-				<li id="pen" class="selected"><img src="./images/pen_icon.png">
+				<li id="pen" class="selected"><span class="icon pen"></span>
 					<div id="pen-menu" class="dropdown">
 						<div><img src="./images/pen_icon.png"></div>
 						<div id="line"><img src="./images/line_icon.png"></div>
@@ -657,6 +667,9 @@
 					$('paint').classList.remove('selected');
 
 					// $('pen-menu').classList.toggle('show');
+				});
+
+				$('line')?.addEventListener('click', () => {
 				});
 
 				$('paint').addEventListener('click', () => {
