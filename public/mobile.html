@@ -781,11 +781,11 @@
 					canvas.height = w;
 					let ctx = canvas.getContext('2d');
 					
-					drawSketch(canvas, ctx, image);
+					drawSketch(canvas, ctx, image, 0.5);
 					return canvas.toDataURL('image/jpeg', 0.7);
 				}
 
-				function drawSketch(canvas, ctx, image) {
+				function drawSketch(canvas, ctx, image, alpha) {
 					if (image === null) {
 						return;
 					}
@@ -804,7 +804,7 @@
 					ctx.fillStyle = '#FFF';
 					ctx.globalCompositeOperation = 'source-over';
 					ctx.fillRect(0, 0, canvas.width, canvas.height);
-					ctx.globalAlpha = 0.5;
+					ctx.globalAlpha = alpha;
 					ctx.drawImage(image, x, y, width, height);
 					ctx.globalAlpha = 1.0;
 				}
