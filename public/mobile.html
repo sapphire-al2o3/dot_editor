@@ -446,6 +446,30 @@
 
 			.pen {
 				background-image: url("./images/pen_icon.png");
+				width: 24px;
+				height: 24px;
+				display: inline-block;
+			}
+
+			.paint {
+				background-image: url("./images/paint_icon.png");
+				width: 24px;
+				height: 24px;
+				display: inline-block;
+			}
+
+			.line {
+				background-image: url("./images/line_icon.png");
+				width: 24px;
+				height: 24px;
+				display: inline-block;
+			}
+
+			.rect {
+				background-image: url("./images/rect_icon.png");
+				width: 24px;
+				height: 24px;
+				display: inline-block;
 			}
 		</style>
 	</head>
@@ -460,9 +484,10 @@
 				<li id="undo"><img src="./images/undo_icon.png"></li>
 				<li id="trash"><img src="./images/trash_icon.png"></li>
 				<!-- <li id="pen" class="selected"><img src="./images/pen_icon.png"></li> -->
-				<li id="pen" class="selected"><span class="icon pen"></span>
+				<li id="pen" class="selected"><span id="draw-icon" class="icon pen"></span>
 					<div id="pen-menu" class="dropdown">
 						<div><img src="./images/pen_icon.png"></div>
+						<div><img src="./images/paint_icon.png"></div>
 						<div id="line"><img src="./images/line_icon.png"></div>
 						<div id="rect"><img src="./images/rect_icon.png"></div>
 					</div>
@@ -669,7 +694,22 @@
 					// $('pen-menu').classList.toggle('show');
 				});
 
+				const icon = $('draw-icon');
+				function changeIcon(newIcon) {
+					for (let e of icon.classList.values()) {
+						if (e !== 'icon') {
+							icon.classList.remove(e);
+							break;
+						}
+					}
+					icon.classList.add(newIcon);
+				}
 				$('line')?.addEventListener('click', () => {
+					changeIcon('line');
+				});
+
+				$('rect')?.addEventListener('click', () => {
+					changeIcon('rect');
 				});
 
 				$('paint').addEventListener('click', () => {
