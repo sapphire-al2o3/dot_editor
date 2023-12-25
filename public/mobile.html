@@ -493,7 +493,14 @@
 					</div>
 				</li>
 				<li id="paint"><img src="./images/paint_icon.png"></li>
-				<li id="shift"><img src="images/shift_icon.png"></li>
+				<li id="trans"><img src="images/shift_icon.png">
+					<div id="trans-menu" class="dropdown">
+						<div id="shift"><img src="./images/shift_icon.png"></div>
+						<div id="rotate"><img src="./images/rotate_right_icon.png"></div>
+						<div id="fliph"><img src="./images/flip_h_icon.png"></div>
+						<div id="flipv"><img src="./images/flip_v_icon.png"></div>
+					</div>
+				</li>
 				<!-- <li id="grid"><img src="./images/grid_icon.png"></li> -->
 				<li id="tweet"><img src="images/twitter_icon.png"></li>
 				<!-- <li id="post"><img src="images/post_icon.png"></li> -->
@@ -718,8 +725,31 @@
 					$('paint').classList.add('selected');
 				});
 
-				$('shift').addEventListener('click', () => {
+				$('trans')?.addEventListener('click', () => {
+					$('trans-menu').classList.toggle('show');
+				});
+
+				$('shift')?.addEventListener('click', () => {
 					$('shift-button').classList.toggle('active');
+				});
+
+				
+				$('rotate')?.addEventListener('click', () => {
+					record();
+					rotate90R(ctx, image);
+					grid();
+				});
+
+				$('fliph')?.addEventListener('click', () => {
+					record();
+					flipH(ctx, image);
+					grid();
+				});
+
+				$('flipv')?.addEventListener('click', () => {
+					record();
+					flipV(ctx, image);
+					grid();
 				});
 
 				const dropper = $('dropper');
