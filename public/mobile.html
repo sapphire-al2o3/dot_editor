@@ -582,6 +582,7 @@
 					<li><img src="./images/scroll_icon.png" />スクロール</li>
 					<li><label for="open-sketch"><img src="./images/sketch_icon.png" /></label><input type="file" id="open-sketch">下絵</li>
 					<li id="switch-sketch">下絵切り替え</li>
+					<li id="sketch-alpha">下絵アルファ</li>
 				</ul>
 				
 				<p><a id="to-top" href="#">上へ戻る</a></p>
@@ -631,6 +632,7 @@
 				let bgVisible = false;
 				let canvasVisible = true;
 				let switchSketch = false;
+				let sketchAlpha = true;
 
 				const autoSaveJson = localStorage.getItem('auto');
 				if (autoSaveJson) {
@@ -815,6 +817,10 @@
 					}
 				});
 
+				$('sketch-alpha')?.addEventListener('click', e => {
+					sketchAlpha = !sketchAlpha;
+				});
+
 				$('open-sketch')?.addEventListener('change', e => {
 					sketchImage = null;
 					
@@ -872,7 +878,7 @@
 					canvas.height = w;
 					let ctx = canvas.getContext('2d');
 					
-					drawSketch(canvas, ctx, image, 0.5);
+					drawSketch(canvas, ctx, image, sketchAlpha ? 0.5 : 1.0);
 					return canvas.toDataURL('image/jpeg', 0.7);
 				}
 
