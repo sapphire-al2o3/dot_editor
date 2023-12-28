@@ -471,6 +471,10 @@
 				height: 24px;
 				display: inline-block;
 			}
+
+			.hide {
+				display: none;
+			}
 		</style>
 	</head>
 	<body>
@@ -564,8 +568,8 @@
 				</div>
 			</div>
 			<div class="help">
-				<h2>Help</h2>
-				<ul>
+				<h2 id="help">Help</h2>
+				<ul id="help-list">
 					<li><img src="./images/zoomin_icon.png" />拡大する</li>
 					<li><img src="./images/zoomout_icon.png" />縮小する</li>
 					<li><img src="./images/undo_icon.png" />元に戻す</li>
@@ -577,6 +581,7 @@
 					<li><img src="./images/dropper2_icon.png"/>スポイト</li>
 					<li><img src="./images/scroll_icon.png" />スクロール</li>
 					<li><label for="open-sketch"><img src="./images/sketch_icon.png" /></label><input type="file" id="open-sketch">下絵</li>
+					<li id="switch-sketch">下絵切り替え</li>
 				</ul>
 				
 				<p><a id="to-top" href="#">上へ戻る</a></p>
@@ -625,6 +630,7 @@
 				let bgImage = null;
 				let bgVisible = false;
 				let canvasVisible = true;
+				let switchSketch = false;
 
 				const autoSaveJson = localStorage.getItem('auto');
 				if (autoSaveJson) {
@@ -752,6 +758,10 @@
 					grid();
 				});
 
+				$('help')?.addEventListener('click', () => {
+					$('help-list').classList.toggle('hide');
+				});
+
 				const dropper = $('dropper');
 				dropper.addEventListener('touchstart', e => {
 					subTool = 1;
@@ -779,8 +789,11 @@
 				const visibleSketch = $('visible-sketch');
 				visibleSketch?.addEventListener('click', e => {
 					if (bgImage) {
-						// bgVisible = !bgVisible;
-						canvasVisible = !canvasVisible;
+						if (switchSketch) {
+							canvasVisible = !canvasVisible;
+						} else {
+							bgVisible = !bgVisible;
+						}
 						canvas.style.backgroundImage = bgVisible ? bgImage : 'none';
 						// canvas.style.backgroundColor = palette[0];
 						if (bgVisible) {
@@ -791,6 +804,13 @@
 						grid();
 					} else {
 						$('open-sketch')?.click();
+					}
+				});
+
+				$('switch-sketch')?.addEventListener('click', e => {
+					switchSketch = !switchSketch;
+					if (!switchSketch && !canvasVisible) {
+						canvasVisible = true;
 					}
 				});
 
