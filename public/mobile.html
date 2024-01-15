@@ -177,6 +177,23 @@
 			#zoom-button img {
 				margin-top: 12px;
 			}
+
+			#sketch-button {
+				display: none;
+				width: 48px;
+				height: 48px;
+				left: 8px;
+				top: 344px;
+				background: none;
+			}
+
+			#sketch-button.active {
+				display: block;
+			}
+
+			#sketch-button img {
+				margin-top: 12px;
+			}
 			
 			h2 {
 				font-size: 16px;
@@ -520,6 +537,7 @@
 					<span id="shift-down" class="shift"></span>
 				</div>
 				<span id="zoom-button"><img src="images/zoom_icon.png"></span>
+				<span id="sketch-button"><img src="images/sketch_icon.png"></span>
 			</div>
 			<div id="palette-container">
 				<table id="palette">
@@ -664,6 +682,7 @@
 					grid();
 
 					$('zoom-button').classList.remove('active');
+					$('sketch-button').classList.remove('active');
 				});
 				
 				$('zoomout').addEventListener('click', () => {
@@ -674,6 +693,7 @@
 					resize(image, scale);
 
 					$('zoom-button').classList.toggle('active');
+					$('sketch-button').classList.toggle('active');
 				});
 				
 				$('undo').addEventListener('click', () => {
