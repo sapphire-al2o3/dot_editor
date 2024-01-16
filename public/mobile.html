@@ -944,6 +944,11 @@
 					resize(image, previewScale);
 				}, false);
 
+				$('sketch-button')?.addEventListener('click', () => {
+					$('open-sketch')?.click();
+				}, false);
+				
+
 				const onTouchStart = (e, f) => {
 					e.addEventListener('ontouchstart' in e ? 'touchstart' : 'mousedown', f, false);
 				};
