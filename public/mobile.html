@@ -969,6 +969,17 @@
 				$('sketch-button')?.addEventListener('click', () => {
 					$('open-sketch')?.click();
 				}, false);
+
+				$('sketch-hide-button')?.addEventListener('click', () => {
+					bgVisible = !bgVisible;
+					canvas.style.backgroundImage = bgVisible ? bgImage : 'none';
+					if (bgVisible) {
+						canvas.width = canvas.width + 1;
+						canvas.width = canvas.width - 1;
+					}
+					render(ctx, image, scale);
+					grid();
+				}, false);
 				
 
 				const onTouchStart = (e, f) => {
