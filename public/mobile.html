@@ -211,6 +211,23 @@
 			#sketch-hide-button img {
 				margin-top: 12px;
 			}
+
+			#image-hide-button {
+				display: none;
+				width: 48px;
+				height: 48px;
+				left: 104px;
+				top: 344px;
+				background: none;
+			}
+
+			#image-hide-button.active {
+				display: block;
+			}
+
+			#image-hide-button img {
+				margin-top: 12px;
+			}
 			
 			h2 {
 				font-size: 16px;
@@ -557,6 +574,7 @@
 					<span id="zoom-button"><img src="images/zoom_icon.png"></span>
 					<span id="sketch-button"><img src="images/sketch_icon.png"></span>
 					<span id="sketch-hide-button"><img src="images/sketch_hide_icon.png"></span>
+					<span id="image-hide-button"><img src="images/image_hide_icon.png"></span>
 				</div>
 			</div>
 			<div id="palette-container">
@@ -979,6 +997,10 @@
 					}
 					render(ctx, image, scale);
 					grid();
+				}, false);
+
+				$('image-hide-button')?.addEventListener('click', () => {
+
 				}, false);
 				
 
