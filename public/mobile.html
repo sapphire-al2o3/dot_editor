@@ -291,6 +291,18 @@
 				margin-top: 8px;
 			}
 			
+			#help::before {
+				content: "▼";
+				font-size: 14px;
+				margin-right: 4px;
+			}
+
+			#help.open::before {
+				content: "▶";
+				font-size: 14px;
+				margin-right: 4px;
+			}
+			
 			.help ul {
 				list-style: none;
 			}
@@ -823,6 +835,7 @@
 				$('help')?.addEventListener('click', () => {
 					$('help-list').classList.toggle('hide');
 					$('to-top').classList.toggle('hide');
+					$('help').classList.toggle('open');
 				});
 
 				const dropper = $('dropper');
