@@ -290,17 +290,21 @@
 				padding: 8px;
 				margin-top: 8px;
 			}
+
+			#help {
+				cursor: default;
+			}
 			
 			#help::before {
-				content: "▼";
+				content: "▶";
 				font-size: 14px;
-				margin-right: 4px;
+				margin-right: 6px;
 			}
 
 			#help.open::before {
-				content: "▶";
+				content: "▼";
 				font-size: 14px;
-				margin-right: 4px;
+				margin-right: 6px;
 			}
 			
 			.help ul {
@@ -637,7 +641,7 @@
 			</div>
 			<div class="help">
 				<h2 id="help">Help</h2>
-				<ul id="help-list">
+				<ul id="help-list" class="hide">
 					<li><img src="./images/zoomin_icon.png" />拡大する</li>
 					<li><img src="./images/zoomout_icon.png" />縮小する</li>
 					<li><img src="./images/undo_icon.png" />元に戻す</li>
@@ -653,7 +657,7 @@
 					<li id="sketch-alpha">下絵アルファ</li>
 				</ul>
 				
-				<p><a id="to-top" href="#">上へ戻る</a></p>
+				<p><a id="to-top" href="#" class="hide">上へ戻る</a></p>
 			</div>
 			<div id="footer">
 				<p class="copyright">Copyright 2014 <a href="https://twitter.com/sapphire_al2o3">@sapphire_al2o3</a></p>
