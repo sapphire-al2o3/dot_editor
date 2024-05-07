@@ -64,8 +64,10 @@
 					const spaceW = 512;
 					const spaceH = 288;
 
-					textCount.textContent = '' + (140 - text.value.length);
-					
+					if (text) {
+						textCount.textContent = '' + (140 - text.value.length);
+					}
+
 					function render(index, paltte) {
 						let left = 0,
 							top = 0;
@@ -95,7 +97,9 @@
 					console.log(location.href);
 
 					if (window.opener && window.opener.getImage) {
-						text.value = '#pixelart ' + window.opener.location.href;
+						if (text) {
+							text.value = '#pixelart ' + window.opener.location.href;
+						}
 						image = window.opener.getImage();
 						if (image) {
 							render(image.indexData, image.paletteData);
@@ -159,7 +163,7 @@
 						return str.length - (str.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g)||[]).length;
 					}
 					
-					text.addEventListener('keyup', e => {
+					text?.addEventListener('keyup', e => {
 						textCount.textContent = '' + (140 - strlen(text.value));
 					});
 
