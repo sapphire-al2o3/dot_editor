@@ -334,10 +334,16 @@
 				text-shadow: 1px 1px 1px #FFF;
 			}
 
+			#palette-container {
+				overflow-x: hidden;
+				/* scrollbar-width: none; */
+			}
+
 			table {
 				display: inline-block;
 				margin-top: 8px;
 				margin-left: 8px;
+				width: max-content;
 			}
 			tr {
 				height: 36px;
@@ -352,6 +358,14 @@
 			td.selected {
 				outline: 4px solid #34c0f4;
 				/* border: 1px solid #000; */
+			}
+
+			#add-palette {
+				/* width: 32px;
+				height: 32px; */
+				/* display: inline-block; */
+				text-align: center;
+				vertical-align: middle;
 			}
 
 			#edit-palette {
@@ -605,6 +619,7 @@
 							<td></td>
 							<td></td>
 							<td></td>
+							<!-- <td id="add-palette">+</td> -->
 						</tr>
 					</tbody>
 				</table>
@@ -1061,6 +1076,11 @@
 						v.className = 'selected';
 						selected = v;
 					}
+				});
+
+				$('add-palette')?.addEventListener('click', e => {
+					const tr = paletteTable.querySelector('tr');
+					tr.insertBefore(document.createElement('td'), $('add-palette'));
 				});
 
 				function mousemove(e) {
