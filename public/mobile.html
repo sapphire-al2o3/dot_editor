@@ -782,6 +782,9 @@
 					bgVisible = false;
 					canvasVisible = true;
 					canvas.style.backgroundImage = 'none';
+					while (palette.length > 8) {
+						palette.pop();
+					}
 				});
 
 				$('tweet')?.addEventListener('click', () => {
