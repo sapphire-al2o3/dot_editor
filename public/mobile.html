@@ -1080,7 +1080,10 @@
 
 				$('add-palette')?.addEventListener('click', e => {
 					const tr = paletteTable.querySelector('tr');
-					tr.insertBefore(document.createElement('td'), $('add-palette'));
+					const td = document.createElement('td');
+					td.style.backgroundColor = '#FFF';
+					tr.insertBefore(td, $('add-palette'));
+					palette.push('#FFF');
 				});
 
 				function mousemove(e) {
