@@ -1,0 +1,218 @@
+<!doctype HTML>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=512" />
+		<title>Dot Editor</title>
+		<link href="./css/dot_common.css" media="screen" rel="stylesheet" type="text/css" />
+		<link href="./css/dot_post.css" media="screen" rel="stylesheet" type="text/css" />
+		<link rel="shortcut icon" href="./images/favicon.png" />
+		<script src="./js/color.js"></script>
+		<script src="./js/canvas.js"></script>
+		<script src="./js/base64.js"></script>
+	</head>
+	<body>
+		<div id="container">
+			<div id="header">
+				<h1><a href="/"><img src="./images/dota_32x32.png" /></a></h1>
+			</div>
+			<p>ドット絵をダウンロードします。</p>
+			<form action="/auth/twitter/post" method="post" id="post-form">
+				<div id="option">
+					<div id="image-scale">
+						<input type="radio" name="scale" id="scale-1" value="1" checked /><label for="scale-1">等倍</label>
+						<input type="radio" name="scale" id="scale-2" value="2" /><label for="scale-2">2倍</label>
+						<input type="radio" name="scale" id="scale-3" value="3" /><label for="scale-3">3倍</label>
+						<input type="radio" name="scale" id="scale-4" value="4" /><label for="scale-4">4倍</label>
+					</div>
+					<div>
+						<input type="checkbox" id="transparent" /><label for="transparent">背景を透明にする(背景のピクセルをクリック)</label>
+					</div>
+					<div>
+						<input type="checkbox" id="space" /><label for="space">余白をつける</label>
+						<input type="checkbox" id="tiling" /><label for="tiling">タイリング</label>
+						<!-- <input type="checkbox" id="depth4" /><label for="depth4">16色で保存</label> -->
+					</div>
+					<!-- <div>
+						<input type="checkbox" id="twitter-id" /><label for="twitter-id">TwitterのIDを入れる</label>
+					</div> -->
+				</div>
+				<div id="dot-preview"><canvas id="canvas"></canvas></div>
+				<div id="image-reload">
+					<input type="button" id="reload" value="更新" />
+					<input type="button" id="download" value="ダウンロード" />
+				</div>
+				<p><img id="loading" src="./images/loading_1.gif" /></p>
+				<input type="hidden" id="image" name="image" />
+			</form>
+			<script>
+				(function() {
+					let canvas = document.getElementById('canvas'),
+						ctx = canvas.getContext('2d'),
+						text = document.getElementById('text'),
+						textCount = document.getElementById('text-count'),
+						scale = 1,
+						transparent = 256,
+						space = false,
+						tiling = false,
+						depth4 = false,
+						image;
+					
+					const spaceW = 512;
+					const spaceH = 288;
+
+					if (text) {
+						textCount.textContent = '' + (140 - text.value.length);
+					}
+
+					function render(index, paltte) {
+						let left = 0,
+							top = 0;
+						if(space) {
+							canvas.width = spaceW;
+							canvas.height = spaceH;
+							left = (spaceW - index.width * scale) / 2;
+							top = (spaceH - index.height * scale) / 2;
+							const palette = image.paletteData.data;
+							if(transparent === 0) {
+								ctx.clearRect(0, 0, spaceW, spaceH);
+							} else {
+								ctx.fillStyle = Color.rgb(palette[0], palette[1], palette[2]);
+								ctx.fillRect(0, 0, spaceW, spaceH);
+							}
+						} else {
+							canvas.width = index.width * scale;
+							canvas.height = index.height * scale;
+						}
+						if(tiling) {
+							tilingIndexedImageData(ctx, image.indexData, image.paletteData, scale, transparent, canvas.width, canvas.height);
+						} else {
+							drawIndexedImageData(ctx, image.indexData, image.paletteData, scale, transparent, left, top);
+						}
+					}
+					
+					console.log(location.href);
+
+					if (window.opener && window.opener.getImage) {
+						if (text) {
+							text.value = '#pixelart ' + window.opener.location.href;
+						}
+						image = window.opener.getImage();
+						if (image) {
+							render(image.indexData, image.paletteData);
+						}
+					} else {
+						// window.location.href = '/';
+					}
+					
+					document.getElementById('image-scale').addEventListener('change', e => {
+						if(image && /scale-[1-4]/.test(e.target.getAttribute('id'))) {
+							scale = parseInt(e.target.value, 10);
+							render(image.indexData, image.paletteData);
+						}
+					}, false);
+					
+					document.getElementById('transparent').addEventListener('change', e => {
+						transparent = e.target.checked ? 0 : 256;
+						render(image.indexData, image.paletteData);
+					}, false);
+
+					document.getElementById('depth4')?.addEventListener('change', e => {
+						depth4 = e.target.checked;
+					}, false);
+					
+					canvas.addEventListener('click', e => {
+						if(document.getElementById('transparent').checked) {
+							let rect = e.target.getBoundingClientRect(),
+								offsetX = space ? (spaceW - image.indexData.width * scale) / 2 : 0,
+								offsetY = space ? (spaceH - image.indexData.height * scale) / 2 : 0,
+								x = (e.pageX - rect.left - offsetX) / scale ^ 0,
+								y = (e.pageY - rect.top - offsetY) / scale ^ 0;
+							if(space && (x < 0 || y < 0 || x >= image.indexData.width || y >= image.indexData.height)) {
+								transparent = 0;
+							} else {
+								transparent = image.indexData.data[y * image.indexData.width + x];
+							}
+							render(image.indexData, image.paletteData);
+						}
+					}, false);
+
+					document.getElementById('space').addEventListener('click', e => {
+						space = e.target.checked;
+						render(image.indexData, image.paletteData);
+					}, false);
+
+					document.getElementById('tiling').addEventListener('click', e => {
+						tiling = e.target.checked;
+						render(image.indexData, image.paletteData);
+					}, false);
+					
+					document.getElementById('reload').addEventListener('click', e => {
+						if (window.opener && window.opener.getImage) {
+							image = window.opener.getImage();
+							if (image) {
+								render(image.indexData, image.paletteData);
+							}
+						}
+					}, false);
+
+					function strlen(str) {
+						return str.length - (str.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g)||[]).length;
+					}
+					
+					text?.addEventListener('keyup', e => {
+						textCount.textContent = '' + (140 - strlen(text.value));
+					});
+
+					function getJsonData() {
+						let palette = image.paletteData.data.filter((e, i) => {
+							return i % 4 !== 3;
+						});
+						let index = image.indexData.data;
+						if (depth4) {
+							palette = palette.slice(0, 16 * 3);
+							index = new Uint8Array(index.length);
+							for (let i = 0; i < index.length; i++) {
+								index[i] = image.indexData.data[i] > 15 ? 0 : image.indexData.data[i];
+							}
+						}
+						const json = {
+							index: Base64.encode(index),
+							palette: Base64.encode(palette),
+							width: image.indexData.width,
+							height: image.indexData.height,
+							transparent: transparent,
+							space: space,
+							frameWidth: spaceW,
+							frameHeight: spaceH,
+							tiling: tiling,
+							scale: scale,
+							depth: depth4 ? 4 : 8
+						};
+						return json;
+					}
+					
+					const form = document.getElementById('post-form');
+					form.addEventListener('submit', e => {
+						const json = getJsonData();
+						
+						document.getElementById('post').setAttribute('disabled', '');
+						document.getElementById('image').value = JSON.stringify(json);
+						document.getElementById('loading').style.display = 'inline';
+						form.action = '/auth/twitter/post';
+					}, true);
+
+					document.getElementById('download').addEventListener('click', e => {
+						const json = getJsonData();
+						document.getElementById('image').value = JSON.stringify(json);
+						form.action = '/download';
+						form.submit();
+					});
+				})();
+			</script>
+		<div id="footer">
+			<p class="copyright">Copyright 2014 <a href="https://twitter.com/sapphire_al2o3">@sapphire_al2o3</a></p>
+		</div>
+		</div>
+	</body>
+</html>
