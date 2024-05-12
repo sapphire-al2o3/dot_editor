@@ -56,6 +56,7 @@
 						space = false,
 						tiling = false,
 						depth4 = false,
+						showPalette = false,
 						image;
 					
 					const spaceW = 512;
@@ -68,17 +69,27 @@
 					function render(index, paltte) {
 						let left = 0,
 							top = 0;
-						if(space) {
+						if (space) {
 							canvas.width = spaceW;
 							canvas.height = spaceH;
 							left = (spaceW - index.width * scale) / 2;
 							top = (spaceH - index.height * scale) / 2;
 							const palette = image.paletteData.data;
-							if(transparent === 0) {
+							if (transparent === 0) {
 								ctx.clearRect(0, 0, spaceW, spaceH);
 							} else {
 								ctx.fillStyle = Color.rgb(palette[0], palette[1], palette[2]);
 								ctx.fillRect(0, 0, spaceW, spaceH);
+							}
+							if (showPalette) {
+								const x = 16;
+								const y = 16;
+								const b = 8;
+								const count = palette.length / 4 ^ 0;
+								for (let i = 0; i < palette.length; i += 4) {
+									ctx.fillStyle = Color.rgb(palette[i], palette[i + 1], palette[i + 2]);
+									ctx.fillRect(spaceW - count * (b + 2) - x + (i / 4 ^ 0) * (b + 2), spaceH - y, b, b);
+								}
 							}
 						} else {
 							canvas.width = index.width * scale;
