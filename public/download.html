@@ -31,6 +31,7 @@
 					<div>
 						<input type="checkbox" id="space" /><label for="space">余白をつける</label>
 						<input type="checkbox" id="tiling" /><label for="tiling">タイリング</label>
+						<!-- <input type="checkbox" id="show-palette" /><label for="show-palette">パレット表示</label> -->
 						<!-- <input type="checkbox" id="depth4" /><label for="depth4">16色で保存</label> -->
 					</div>
 					<!-- <div>
@@ -95,7 +96,7 @@
 							canvas.width = index.width * scale;
 							canvas.height = index.height * scale;
 						}
-						if(tiling) {
+						if (tiling) {
 							tilingIndexedImageData(ctx, image.indexData, image.paletteData, scale, transparent, canvas.width, canvas.height);
 						} else {
 							drawIndexedImageData(ctx, image.indexData, image.paletteData, scale, transparent, left, top);
@@ -117,7 +118,7 @@
 					}
 					
 					document.getElementById('image-scale').addEventListener('change', e => {
-						if(image && /scale-[1-4]/.test(e.target.getAttribute('id'))) {
+						if (image && /scale-[1-4]/.test(e.target.getAttribute('id'))) {
 							scale = parseInt(e.target.value, 10);
 							render(image.indexData, image.paletteData);
 						}
@@ -133,13 +134,13 @@
 					}, false);
 					
 					canvas.addEventListener('click', e => {
-						if(document.getElementById('transparent').checked) {
+						if (document.getElementById('transparent').checked) {
 							let rect = e.target.getBoundingClientRect(),
 								offsetX = space ? (spaceW - image.indexData.width * scale) / 2 : 0,
 								offsetY = space ? (spaceH - image.indexData.height * scale) / 2 : 0,
 								x = (e.pageX - rect.left - offsetX) / scale ^ 0,
 								y = (e.pageY - rect.top - offsetY) / scale ^ 0;
-							if(space && (x < 0 || y < 0 || x >= image.indexData.width || y >= image.indexData.height)) {
+							if (space && (x < 0 || y < 0 || x >= image.indexData.width || y >= image.indexData.height)) {
 								transparent = 0;
 							} else {
 								transparent = image.indexData.data[y * image.indexData.width + x];
@@ -155,6 +156,11 @@
 
 					document.getElementById('tiling').addEventListener('click', e => {
 						tiling = e.target.checked;
+						render(image.indexData, image.paletteData);
+					}, false);
+
+					document.getElementById('show-palette')?.addEventListener('click', e => {
+						showPalette = e.target.checked;
 						render(image.indexData, image.paletteData);
 					}, false);
 					
