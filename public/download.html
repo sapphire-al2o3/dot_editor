@@ -118,7 +118,7 @@
 					}
 					
 					document.getElementById('image-scale').addEventListener('change', e => {
-						if (image && /scale-[1-4]/.test(e.target.getAttribute('id'))) {
+						if (image && e.target.getAttribute('id').indexOf('scale-') >= 0) {
 							scale = parseInt(e.target.value, 10);
 							render(image.indexData, image.paletteData);
 						}
