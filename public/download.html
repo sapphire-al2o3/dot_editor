@@ -126,7 +126,9 @@
 					
 					document.getElementById('transparent').addEventListener('change', e => {
 						transparent = e.target.checked ? 0 : 256;
-						render(image.indexData, image.paletteData);
+						if (image) {
+							render(image.indexData, image.paletteData);
+						}
 					}, false);
 
 					document.getElementById('depth4')?.addEventListener('change', e => {
@@ -151,17 +153,23 @@
 
 					document.getElementById('space').addEventListener('click', e => {
 						space = e.target.checked;
-						render(image.indexData, image.paletteData);
+						if (image) {
+							render(image.indexData, image.paletteData);
+						}
 					}, false);
 
 					document.getElementById('tiling').addEventListener('click', e => {
 						tiling = e.target.checked;
-						render(image.indexData, image.paletteData);
+						if (image) {
+							render(image.indexData, image.paletteData);
+						}
 					}, false);
 
 					document.getElementById('show-palette')?.addEventListener('click', e => {
 						showPalette = e.target.checked;
-						render(image.indexData, image.paletteData);
+						if (image) {
+							render(image.indexData, image.paletteData);
+						}
 					}, false);
 					
 					document.getElementById('reload').addEventListener('click', e => {
