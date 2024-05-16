@@ -136,7 +136,7 @@
 					}, false);
 					
 					canvas.addEventListener('click', e => {
-						if (document.getElementById('transparent').checked) {
+						if (image && document.getElementById('transparent').checked) {
 							let rect = e.target.getBoundingClientRect(),
 								offsetX = space ? (spaceW - image.indexData.width * scale) / 2 : 0,
 								offsetY = space ? (spaceH - image.indexData.height * scale) / 2 : 0,
