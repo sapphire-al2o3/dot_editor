@@ -335,7 +335,8 @@
 			}
 
 			#palette-container {
-				overflow-x: hidden;
+				/* overflow-x: scroll; */
+				/* scrollbar-width: thin; */
 				/* scrollbar-width: none; */
 			}
 
@@ -1064,7 +1065,7 @@
 				}
 
 				const selectPalette = (e) => {
-					if (e.target.localName === 'td') {
+					if (e.target.localName === 'td' && e.target.getAttribute('id') !== 'add-palette') {
 						selectColor(e.target);
 						// e.preventDefault();
 						e.stopPropagation();
@@ -1072,7 +1073,9 @@
 				};
 				const paletteTable = $('palette');
 				onTouchStart(paletteTable, selectPalette);
-				const paletteCells = paletteTable.querySelectorAll('td');
+				const paletteCells = Array.prototype.filter.call(paletteTable.querySelectorAll('td'), e => {
+					return e.getAttribute('id') !== 'add-palette';
+				});
 				paletteCells.forEach(v => {
 					v.style.backgroundColor = palette[v.cellIndex];
 					if (v.cellIndex === index) {
@@ -1081,12 +1084,20 @@
 					}
 				});
 
-				$('add-palette')?.addEventListener('click', e => {
+				function addPalette(color) {
 					const tr = paletteTable.querySelector('tr');
 					const td = document.createElement('td');
-					td.style.backgroundColor = '#FFF';
+					td.style.backgroundColor = color;
 					tr.insertBefore(td, $('add-palette'));
-					palette.push('#FFF');
+					paletteCells[td.cellIndex] = td;
+					palette.push(color);
+				}
+
+				$('add-palette')?.addEventListener('click', e => {
+					addPalette('#FFF');
+					if (paletteCells.length >= 16) {
+						$('add-palette').style.display = 'none';
+					}
 				});
 
 				function mousemove(e) {
