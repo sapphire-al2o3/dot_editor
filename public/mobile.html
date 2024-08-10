@@ -335,7 +335,7 @@
 			}
 
 			#palette-container {
-				/* overflow-x: scroll; */
+				overflow-x: scroll;
 				/* scrollbar-width: thin; */
 				/* scrollbar-width: none; */
 			}
@@ -344,6 +344,7 @@
 				display: inline-block;
 				margin-top: 8px;
 				margin-left: 8px;
+				margin-right: 8px;
 				width: max-content;
 			}
 			tr {
@@ -620,7 +621,7 @@
 							<td></td>
 							<td></td>
 							<td></td>
-							<!-- <td id="add-palette">+</td> -->
+							<td id="add-palette">+</td>
 						</tr>
 					</tbody>
 				</table>
@@ -1090,11 +1091,13 @@
 					td.style.backgroundColor = color;
 					tr.insertBefore(td, $('add-palette'));
 					paletteCells[td.cellIndex] = td;
-					palette.push(color);
+					palette[td.cellIndex] = color;
 				}
 
 				$('add-palette')?.addEventListener('click', e => {
-					addPalette('#FFF');
+					for (let i = 0; i < 8; i++) {
+						addPalette('#FFF');
+					}
 					if (paletteCells.length >= 16) {
 						$('add-palette').style.display = 'none';
 					}
