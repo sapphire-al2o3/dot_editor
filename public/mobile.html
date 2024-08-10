@@ -558,6 +558,17 @@
 			.hide {
 				display: none;
 			}
+
+			#palette-container span {
+				text-align: center;
+				width: 32px;
+				height: 32px;
+				display: inline-block;
+				margin-top: 16px;
+				padding-top: 4px;
+				vertical-align: top;
+				background-color: #AAA;
+			}
 		</style>
 	</head>
 	<body>
@@ -625,6 +636,7 @@
 						</tr>
 					</tbody>
 				</table>
+				<!-- <span>+</span> -->
 			</div>
 			<div class="color-sliders">
 				<div>
@@ -1085,21 +1097,55 @@
 					}
 				});
 
+				const paletteAddButton = $('add-palette');
+				if (palette.length > paletteCells.length) {
+					for (let i = paletteCells.length; i < palette.length; i++) {
+						addPalette(palette[i]);
+					}
+					if (paletteAddButton) {
+						paletteAddButton.textContent = '-';
+					}
+				}
+
 				function addPalette(color) {
 					const tr = paletteTable.querySelector('tr');
 					const td = document.createElement('td');
-					td.style.backgroundColor = color;
-					tr.insertBefore(td, $('add-palette'));
+					tr.insertBefore(td, paletteAddButton);
 					paletteCells[td.cellIndex] = td;
 					palette[td.cellIndex] = color;
+					td.style.backgroundColor = color;
 				}
 
-				$('add-palette')?.addEventListener('click', e => {
-					for (let i = 0; i < 8; i++) {
-						addPalette('#FFF');
+				function removePalette() {
+					const td = paletteCells.pop();
+					td.remove();
+					palette.pop();
+				}
+
+				paletteAddButton?.addEventListener('click', e => {
+					if (paletteCells.length < 16) {
+						for (let i = 0; i < 8; i++) {
+							addPalette(palette[i + 8] ?? '#FFFFFF');
+						}
+						paletteAddButton.textContent = '-';
+					} else {
+						for (let i = 0; i < 8; i++) {
+							removePalette();
+						}
+						paletteAddButton.textContent = '+';
+
+						let data = image.data;
+						for (let i = 0, l = data.length; i < l; i++) {
+							if (data[i] >= 8) {
+								data[i] = 0;
+							}
+						}
+						render(ctx, image, scale);
+						grid();
+						modify = true;
 					}
 					if (paletteCells.length >= 16) {
-						$('add-palette').style.display = 'none';
+						// $('add-palette').style.display = 'none';
 					}
 				});
 
