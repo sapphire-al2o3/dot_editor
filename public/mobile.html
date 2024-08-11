@@ -767,6 +767,7 @@
 					$('zoom-button').classList.remove('active');
 					$('sketch-button').classList.remove('active');
 					$('sketch-hide-button').classList.remove('active');
+					$('image-hide-button').classList.remove('active');
 				});
 				
 				$('zoomout').addEventListener('click', () => {
@@ -779,6 +780,7 @@
 					$('zoom-button').classList.toggle('active');
 					$('sketch-button').classList.toggle('active');
 					$('sketch-hide-button').classList.toggle('active');
+					$('image-hide-button').classList.toggle('active');
 				});
 				
 				$('undo').addEventListener('click', () => {
@@ -1049,7 +1051,9 @@
 				}, false);
 
 				$('image-hide-button')?.addEventListener('click', () => {
-
+					canvasVisible = !canvasVisible;
+					render(ctx, image, scale);
+					grid();
 				}, false);
 				
 
