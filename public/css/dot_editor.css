@@ -549,7 +549,7 @@
 }
 
 .editor-tools #load:before {
-	content: url("../images/download_icon.png");
+	content: url("../images/load_icon.png");
 }
 
 .editor-tools #upload {
