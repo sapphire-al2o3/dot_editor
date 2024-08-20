@@ -1144,6 +1144,11 @@
 								data[i] = 0;
 							}
 						}
+						if (index >= 8) {
+							index = 0;
+							selected = paletteCells[0];
+							selected.className = 'selected';
+						}
 						render(ctx, image, scale);
 						grid();
 						modify = true;
