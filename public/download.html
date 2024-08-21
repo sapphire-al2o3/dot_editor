@@ -106,6 +106,30 @@
 					
 					console.log(location.href);
 
+					let settings = {
+						scale: scale,
+						space: space,
+						transparent: transparent,
+						tiling: tiling
+					};
+					const settingsText = localStorage.getItem('settings');
+					if (settingsText) {
+						settings = JSON.parse(settingsText);
+						scale = settings.scale;
+						space = settings.space;
+						transparent = settings.transparent;
+						tiling = settings.tiling;
+
+						document.getElementById('space').checked = space;
+						document.getElementById('transparent').checked = transparent < 256;
+						document.getElementById('tiling').checked = tiling;
+						document.getElementsByName('scale').forEach(e => {
+							if (parseInt(e.value, 10) === scale) {
+								e.checked = true;
+							}
+						});
+					}
+
 					if (window.opener && window.opener.getImage) {
 						if (text) {
 							text.value = '#pixelart ' + window.opener.location.href;
@@ -122,6 +146,8 @@
 						if (image && e.target.getAttribute('id').indexOf('scale-') >= 0) {
 							scale = parseInt(e.target.value, 10);
 							render(image.indexData, image.paletteData);
+							settings.scale = scale;
+							localStorage.setItem('settings', JSON.stringify(settings));
 						}
 					}, false);
 					
@@ -130,6 +156,8 @@
 						if (image) {
 							render(image.indexData, image.paletteData);
 						}
+						settings.transparent = transparent;
+						localStorage.setItem('settings', JSON.stringify(settings));
 					}, false);
 
 					document.getElementById('depth4')?.addEventListener('change', e => {
@@ -157,6 +185,8 @@
 						if (image) {
 							render(image.indexData, image.paletteData);
 						}
+						settings.space = space;
+						localStorage.setItem('settings', JSON.stringify(settings));
 					}, false);
 
 					document.getElementById('tiling').addEventListener('click', e => {
@@ -164,6 +194,8 @@
 						if (image) {
 							render(image.indexData, image.paletteData);
 						}
+						settings.tiling = tiling;
+						localStorage.setItem('settings', JSON.stringify(settings));
 					}, false);
 
 					document.getElementById('show-palette')?.addEventListener('click', e => {
