@@ -335,8 +335,8 @@
 			}
 
 			#palette-container {
-				overflow-x: scroll;
-				/* scrollbar-width: thin; */
+				overflow-x: auto;
+				scrollbar-width: thin;
 				/* scrollbar-width: none; */
 			}
 
@@ -370,6 +370,13 @@
 				vertical-align: middle;
 				border: none;
 				cursor: default;
+				background-image: url("./images/add_remove_icon.png");
+				background-repeat: no-repeat;
+				background-position: 6px 8px;
+			}
+
+			#add-palette.remove {
+				background-position: 6px -16px;
 			}
 
 			#edit-palette {
@@ -634,7 +641,7 @@
 							<td></td>
 							<td></td>
 							<td></td>
-							<td id="add-palette">+</td>
+							<td id="add-palette"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -1109,7 +1116,7 @@
 						addPalette(palette[i]);
 					}
 					if (paletteAddButton) {
-						paletteAddButton.textContent = '-';
+						//paletteAddButton.textContent = '-';
 					}
 				}
 
@@ -1133,12 +1140,14 @@
 						for (let i = 0; i < 8; i++) {
 							addPalette(palette[i + 8] ?? '#FFFFFF');
 						}
-						paletteAddButton.textContent = '-';
+						// paletteAddButton.textContent = '-';
+						paletteAddButton.classList.add('remove');
 					} else {
 						for (let i = 0; i < 8; i++) {
 							removePalette();
 						}
-						paletteAddButton.textContent = '+';
+						// paletteAddButton.textContent = '+';
+						paletteAddButton.classList.remove('remove');
 
 						let data = image.data;
 						for (let i = 0, l = data.length; i < l; i++) {
