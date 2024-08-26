@@ -130,16 +130,22 @@
 						});
 					}
 
-					if (window.opener && window.opener.getImage) {
+					// if (window.opener !== null && window.opener.getImage) {
+					// 	if (text) {
+					// 		text.value = '#pixelart ' + window.opener.location.href;
+					// 	}
+					// 	image = window.opener.getImage();
+					// 	if (image) {
+					// 		render(image.indexData, image.paletteData);
+					// 	}
+					// } else {
+					// 	// window.location.href = '/';
+					// }
+					if (window.opener !== null) {
 						if (text) {
 							text.value = '#pixelart ' + window.opener.location.href;
 						}
-						image = window.opener.getImage();
-						if (image) {
-							render(image.indexData, image.paletteData);
-						}
-					} else {
-						// window.location.href = '/';
+						window.opener.postMessage('getImage', '*');
 					}
 					
 					document.getElementById('image-scale').addEventListener('change', e => {
@@ -206,13 +212,17 @@
 					}, false);
 					
 					document.getElementById('reload').addEventListener('click', e => {
-						if (window.opener && window.opener.getImage) {
-							image = window.opener.getImage();
-							if (image) {
-								render(image.indexData, image.paletteData);
-							}
+						if (window.opener !== null) {
+							window.opener.postMessage('getImage', '*');
 						}
 					}, false);
+
+					window.addEventListener('message', e => {
+						image = e.data;
+						if (image) {
+							render(image.indexData, image.paletteData);
+						}
+					});
 
 					function strlen(str) {
 						return str.length - (str.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g)||[]).length;

@@ -1755,6 +1755,12 @@
 				}, false);
 				
 				setTimeout(() => window.scrollTo(0, 0), 500);
+
+				window.addEventListener('message', e => {
+					if (e.data === 'getImage') {
+						e.source.postMessage(getImage(), '*');
+					}
+				});
 			})(this);
 		</script>
 	</body>
