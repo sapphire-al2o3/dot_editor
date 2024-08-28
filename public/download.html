@@ -10,6 +10,18 @@
 		<script src="./js/color.js"></script>
 		<script src="./js/canvas.js"></script>
 		<script src="./js/base64.js"></script>
+		<style>
+			#option {
+				padding-left: 16px;
+			}
+
+			input[type="button"] {
+				width: 120px;
+				box-shadow: 0 0 1px rgba(0, 0, 0, 0.2);
+				background-image: linear-gradient(rgba(0, 0, 0, 0.01), rgba(0, 0, 0, 0.03));
+				border: 1px solid #EEE;
+			}
+		</style>
 	</head>
 	<body>
 		<div id="container">
@@ -130,17 +142,6 @@
 						});
 					}
 
-					// if (window.opener !== null && window.opener.getImage) {
-					// 	if (text) {
-					// 		text.value = '#pixelart ' + window.opener.location.href;
-					// 	}
-					// 	image = window.opener.getImage();
-					// 	if (image) {
-					// 		render(image.indexData, image.paletteData);
-					// 	}
-					// } else {
-					// 	// window.location.href = '/';
-					// }
 					if (window.opener !== null) {
 						if (text) {
 							text.value = '#pixelart ' + window.opener.location.href;
