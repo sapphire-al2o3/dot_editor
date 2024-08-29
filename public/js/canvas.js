@@ -818,11 +818,11 @@ function tilingIndexedImageData(ctx, image, palette, scale, transparent, width, 
 	let index = 0,
 		data = image.data,
 		paletteData = palette.data,
-		dest = ctx.createImageData(image.width * scale, image.height * scale),
-		w = dest.width,
-		h = dest.height,
+		tile = ctx.createImageData(image.width * scale, image.height * scale),
+		w = tile.width,
+		h = tile.height,
 		stride = image.width,
-		destData = dest.data,
+		tileData = tile.data,
 		t = transparent === undefined ? 256 : transparent;
 	for(let i = 0, p = 0; i < h; i++) {
 		let y = i / scale ^ 0;
@@ -830,10 +830,10 @@ function tilingIndexedImageData(ctx, image, palette, scale, transparent, width, 
 			let x = j / scale ^ 0;
 			index = y * stride + x;
 			let pindex = data[index] * 4;
-			destData[p] = paletteData[pindex];
-			destData[p + 1] = paletteData[pindex + 1];
-			destData[p + 2] = paletteData[pindex + 2];
-			destData[p + 3] = t === data[index] ? 0 : 255;
+			tileData[p] = paletteData[pindex];
+			tileData[p + 1] = paletteData[pindex + 1];
+			tileData[p + 2] = paletteData[pindex + 2];
+			tileData[p + 3] = t === data[index] ? 0 : 255;
 			p += 4;
 		}
 	}
@@ -841,7 +841,7 @@ function tilingIndexedImageData(ctx, image, palette, scale, transparent, width, 
 		offsetY = ((height - h) / 2 ^ 0) % h - h;
 	for(let y = offsetY; y < height; y += h) {
 		for(let x = offsetX; x < width; x += w) {
-			ctx.putImageData(dest, x, y);
+			ctx.putImageData(tile, x, y);
 		}
 	}
 }
