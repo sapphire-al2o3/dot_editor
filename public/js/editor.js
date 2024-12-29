@@ -611,6 +611,7 @@ editor: Editor
 
 	$.bind($('sketch'), 'click', () => {
 		if (sketchImage) {
+			sketchImage.close();
 			sketchImage = null;
 			backgroundCtx.clearRect(0, 0, backgroundCtx.canvas.width, backgroundCtx.canvas.height);
 		} else {
