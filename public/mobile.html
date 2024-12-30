@@ -968,7 +968,7 @@
 
 						bgVisible = true;
 						bgImage = `url(${resizeSketch(bitmap)})`;
-						bitmap.clear();
+						bitmap.close();
 						canvas.style.backgroundImage = bgImage;
 						canvas.style.backgroundSize = 'contain'
 						canvas.style.backgroundRepeat = 'no-repeat';
