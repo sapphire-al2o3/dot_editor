@@ -1644,8 +1644,9 @@
 				}
 				
 				function resize(image, scale) {
-					canvas.width = scale * image.width;
-					canvas.height = scale * image.height;
+					const padding = scale === 32 ? 1 : 0;
+					canvas.width = scale * image.width - padding;
+					canvas.height = scale * image.height - padding;
 					render(ctx, image, scale);
 				}
 				
