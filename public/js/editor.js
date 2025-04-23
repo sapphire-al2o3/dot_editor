@@ -1490,7 +1490,11 @@ editor: Editor
 		selectionCtx.drawImage(ctx.canvas, x, y, w, h, 0, 0, w, h);
 
 		ctx.fillStyle = palette[Palette.getTransparentIndex()];
-		ctx.fillRect(r.x * s, r.y * s, r.w * s, r.h * s);
+		if (sketchImage !== null) {
+			ctx.clearRect(r.x * s, r.y * s, r.w * s, r.h * s);
+		} else {
+			ctx.fillRect(r.x * s, r.y * s, r.w * s, r.h * s);
+		}
 		selection.indexData.width = r.w;
 		selection.indexData.height = r.h;
 		copyIndexData(indexData, selection.indexData, r.x, r.y, r.w, r.h);
@@ -1500,7 +1504,8 @@ editor: Editor
 //		if(option.gridOn && option.zoom > 2) {
 //			drawGrid(selectionCtx, option, option.scale);
 //		}
-		if(transparent) {
+
+		if(transparent || sketchImage !== null) {
 			// 背景色を抜く
 			drawClearColor(selectionCtx, selection.indexData, Palette.getTransparentIndex(), option.scale);
 		}
