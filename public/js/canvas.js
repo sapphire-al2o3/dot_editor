@@ -1154,11 +1154,11 @@ function convertIndexedImage(src, indexData, paletteData) {
 		idx[j] = index;
 	}
 	
-	return pal;
+	return count;
 }
 
 // フルカラーイメージをインデックスイメージに変換する
-function convertIndexedImageByPalette(src, indexData, paletteData, backIndex) {
+function convertIndexedImageByPalette(src, indexData, paletteData) {
 	let data = src.data,
 		idx = indexData.data,
 		pal = paletteData.data;
