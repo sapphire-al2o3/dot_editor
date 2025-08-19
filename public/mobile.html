@@ -12,6 +12,7 @@
 		<script src="./js/canvas.js"></script>
 		<script src="./js/color.js"></script>
 		<script src="./js/selector.js"></script>
+		<script src="./js/fileloader.js"></script>
 		<style>
 			#header {
 				float: right;
@@ -691,6 +692,7 @@
 					<li><img src="./images/dropper2_icon.png"/>スポイト</li>
 					<li><img src="./images/scroll_icon.png" />スクロール</li>
 					<li><label for="open-sketch"><img src="./images/sketch_icon.png" /></label><input type="file" id="open-sketch">下絵</li>
+					<li><label for="open-file"><img src="./images/image_open_icon.png" /></label><input type="file" id="open-file">ファイル</li>
 					<li id="switch-sketch">下絵切り替え</li>
 					<li id="sketch-alpha">下絵アルファ</li>
 				</ul>
@@ -1035,6 +1037,39 @@
 					e.preventDefault();
 					e.stopPropagation();
 				}
+
+				FileLoader.onload = (indexDatas, p) => {
+					const indexData = indexDatas[0];
+					if (indexData.width !== 32 || indexData.height !== 32) {
+						return;
+					}
+
+					record();
+
+					image.data = indexData.data;
+					const count = p.count > 16 ? 16 : p.count;
+					let i = 0,
+						j = 0;
+					for (; i < palette.length && i < count; i++, j += 4) {
+						palette[i] = Color.rgb(p.data[j], p.data[j + 1], p.data[j + 2]);
+						paletteCells[i].style.backgroundColor = palette[i];
+					}
+					if (count > palette.length) {
+						for (; i < count; i++, j += 4) {
+							palette.push(Color.rgb(p.data[j], p.data[j + 1], p.data[j + 2]));
+							addPalette(palette[i] ?? '#FFFFFF');
+						}
+						paletteAddButton.classList.add('remove');
+					}
+
+					render(ctx, image, scale);
+				};
+
+				$('open-file')?.addEventListener('change', e => {
+					const file = e.target.files[0];
+					FileLoader.load(file);
+					e.target.value = null;
+				}, false);
 
 				$('zoom-button').addEventListener('click', () => {
 					previewScale *= 2;

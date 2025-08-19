@@ -1166,17 +1166,14 @@ function convertIndexedImageByPalette(src, indexData, paletteData) {
 	for(let i = 0, n = data.length; i < n; i += 4) {
 		let r = data[i],
 			g = data[i + 1],
-			b = data[i + 2],
-			a = data[i + 3],
-			index = -1;
+			b = data[i + 2];
 		
 		for(let j = 0; j < pal.length; j += 4) {
 			if(r === pal[j] && g === pal[j + 1] && b === pal[j + 2]) {
-				index = j / 4;
+				idx[i / 4 ^ 0] = j / 4 ^ 0;
 				break;
 			}
 		}
-		idx[i / 4] = index;
 	}
 }
 
