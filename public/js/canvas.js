@@ -1141,15 +1141,16 @@ function convertIndexedImage(src, indexData, paletteData) {
 		if(index < 0) {
 			palette.push(color);
 			index = count++;
+
+			if(count > 256) {
+				throw '色数オーバー';
+			}
+
 			let p = index * 4;
 			pal[p] = r;
 			pal[p + 1] = g;
 			pal[p + 2] = b;
 			pal[p + 3] = 255;
-			
-			if(count > 256) {
-				throw '色数オーバー';
-			}
 		}
 		idx[j] = index;
 	}
