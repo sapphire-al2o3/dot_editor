@@ -121,6 +121,11 @@
 				} else if (type === 'application/json') {
 					// jsonから読み込み
 					const data = JSON.parse(reader.result);
+
+					if (data.paletteData === undefined || data.indexData === undefined) {
+						return;
+					}
+
 					const indexDatas = [];
 					const paletteData = createPaletteData(256);
 					Base64.decode(data.paletteData, paletteData.data);
