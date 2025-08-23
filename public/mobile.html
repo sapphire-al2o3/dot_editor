@@ -723,7 +723,9 @@
 				
 				if (hash) {
 					let data = Base64.decode(hash);
-					unpack(data, image.data);
+					if (data.length === size * size / 2) {
+						unpack(data, image.data);
+					}
 				}
 				
 				const palette = ['#FFF', '#000', '#F88', '#8F8', '#88F', '#FF8', '#8FF', '#F8F'];
