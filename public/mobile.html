@@ -725,6 +725,8 @@
 					let data = Base64.decode(hash);
 					if (data.length === size * size / 2) {
 						unpack(data, image.data);
+					} else if (data.length === size * size / 8) {
+						unpackN(data, image.data, 1);
 					}
 				}
 				
@@ -1655,6 +1657,36 @@
 					for (let i = 0, n = data.length; i < n; i++) {
 						for (let j = 0; j < 2; j++) {
 							p[k++] = (data[i] >> (j * 4)) & 0xF;
+						}
+					}
+					return p;
+				}
+
+				function packSizeN(b) {
+					return size * size * (8 / b ^ 0);
+				}
+
+				function packN(data, p, b) {
+					let k = 0;
+					let m = (1 << b) - 1;
+					let n = data.length / (8 / b) ^ 0;
+					p = p || [];
+					for (let i = 0; i < n; i++) {
+						p[i] = 0;
+						for (let j = 0; j < 8 / b; j++) {
+							p[i] |= (data[k++] & m) << (j * b);
+						}
+					}
+					return p;
+				}
+
+				function unpackN(data, p, b) {
+					let k = 0;
+					let m = (1 << b) - 1;
+					p = p || [];
+					for (let i = 0, n = data.length; i < n; i++) {
+						for (let j = 0; j < 8 / b; j++) {
+							p[k++] = (data[i] >> (j * b)) & m;
 						}
 					}
 					return p;
