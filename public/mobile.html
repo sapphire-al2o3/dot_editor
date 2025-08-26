@@ -695,6 +695,7 @@
 					<li><label for="open-file"><img src="./images/image_open_icon.png" /></label><input type="file" id="open-file">ファイル</li>
 					<li id="switch-sketch">下絵切り替え</li>
 					<li id="sketch-alpha">下絵アルファ</li>
+					<li id="create-url">URLハッシュ化</li>
 				</ul>
 				
 				<p><a id="to-top" href="#" class="hide">上へ戻る</a></p>
@@ -1105,6 +1106,11 @@
 					grid();
 				}, false);
 				
+				$('create-url')?.addEventListener('click', () => {
+					const data = packN(image.data, null, 1);
+					const hash = Base64.encode(data);
+					location.hash = hash;
+				}, false);
 
 				const onTouchStart = (e, f) => {
 					e.addEventListener('ontouchstart' in e ? 'touchstart' : 'mousedown', f, false);
