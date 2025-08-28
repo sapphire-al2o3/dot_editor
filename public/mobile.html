@@ -734,7 +734,7 @@
 				const palette = ['#FFF', '#000', '#F88', '#8F8', '#88F', '#FF8', '#8FF', '#F8F'];
 				let selected;
 
-				let r, px, py, left, top, index = 1,
+				let rect, px, py, left, top, index = 1,
 					offsetX = 0, offsetY = 0;
 				
 				let toggleMode = false;
@@ -1232,7 +1232,7 @@
 				function mousedown(e) {
 					if (e.button == 0) {
 						record();
-						let r = e.target.getBoundingClientRect();
+						const r = e.target.getBoundingClientRect();
 						left = window.scrollX + r.left;
 						top = window.scrollY + r.top;
 						px = (e.pageX - left) / scale ^ 0;
@@ -1386,8 +1386,8 @@
 						pageY = e.pageY;
 					}
 					
-					let x = ((pageX - r.left - 32) / (400 - 64)),
-						y = ((pageY - r.top - 32) / (400 - 64));
+					let x = ((pageX - rect.left - 32) / (400 - 64)),
+						y = ((pageY - rect.top - 32) / (400 - 64));
 
 					if (scrollX) {
 						x = clamp(x, 0, 1);
@@ -1424,7 +1424,7 @@
 						return;
 					}
 					let t = document;
-					r = scroll.getBoundingClientRect();
+					rect = scroll.getBoundingClientRect();
 					scrollX = scrollY = false;
 					move(e);
 					t.addEventListener('mousemove', move);
@@ -1436,7 +1436,7 @@
 						return;
 					}
 					let t = document;
-					r = scroll.getBoundingClientRect();
+					rect = scroll.getBoundingClientRect();
 					scrollX = scrollY = false;
 					move(e);
 					t.addEventListener('touchmove', move, {passive: false});
