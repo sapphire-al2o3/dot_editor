@@ -117,7 +117,8 @@
 						}
 						if(that.onload) that.onload([indexData], paletteData);
 					};
-					image.src = result[0] + ',' + Base64.encode(buffer);
+					// image.src = result[0] + ',' + Base64.encode(buffer);
+					image.src = reader.result;
 				} else if (type === 'application/json') {
 					// jsonから読み込み
 					const data = JSON.parse(reader.result);
