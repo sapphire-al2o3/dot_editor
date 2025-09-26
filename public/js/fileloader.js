@@ -103,7 +103,8 @@
 						// canvasから画像読み込み
 						let canvas = document.createElement('canvas'),
 							ctx = canvas.getContext('2d'),
-							indexData = createIndexData(image.width, image.height);
+							indexData = createIndexData(image.width, image.height),
+							paletteCount = 256;
 						
 						canvas.width = image.width;
 						canvas.height = image.height;
@@ -113,9 +114,9 @@
 						if(hasPalette) {
 							convertIndexedImageByPalette(ctx.getImageData(0, 0, image.width, image.height), indexData, paletteData, backIndex);
 						} else {
-							convertIndexedImage(ctx.getImageData(0, 0, image.width, image.height), indexData, paletteData);
+							paletteCount = convertIndexedImage(ctx.getImageData(0, 0, image.width, image.height), indexData, paletteData);
 						}
-						if(that.onload) that.onload([indexData], paletteData);
+						if(that.onload) that.onload([indexData], paletteData, paletteCount);
 					};
 					// image.src = result[0] + ',' + Base64.encode(buffer);
 					image.src = reader.result;
