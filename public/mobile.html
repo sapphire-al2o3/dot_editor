@@ -1051,14 +1051,15 @@
 
 					record();
 
-					while (paletteCells.length > 8) {
-						removePalette();
-					}
-					paletteAddButton.classList.remove('remove');
-
 					image.data = indexData.data;
 					let count = p.count;
 					if (paletteCount <= 8) {
+
+						while (paletteCells.length > 8) {
+							removePalette();
+						}
+						paletteAddButton.classList.remove('remove');
+
 						count = 8;
 					} else {
 						count = 16;
