@@ -1043,7 +1043,7 @@
 					e.stopPropagation();
 				}
 
-				FileLoader.onload = (indexDatas, p) => {
+				FileLoader.onload = (indexDatas, p, paletteCount) => {
 					const indexData = indexDatas[0];
 					if (indexData.width !== 32 || indexData.height !== 32) {
 						return;
@@ -1051,8 +1051,19 @@
 
 					record();
 
+					while (paletteCells.length > 8) {
+						removePalette();
+					}
+					paletteAddButton.classList.remove('remove');
+
 					image.data = indexData.data;
-					const count = p.count > 16 ? 16 : p.count;
+					let count = p.count;
+					if (paletteCount <= 8) {
+						count = 8;
+					} else {
+						count = 16;
+					}
+					
 					let i = 0,
 						j = 0;
 					for (; i < palette.length && i < count; i++, j += 4) {
@@ -1067,6 +1078,7 @@
 						paletteAddButton.classList.add('remove');
 					}
 
+					selectColor(paletteCells[1]);
 					render(ctx, image, scale);
 				};
 
