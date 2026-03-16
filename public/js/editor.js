@@ -1554,4 +1554,11 @@ editor: Editor
 		};
 	}
 
+	// メッセージでやりとりする
+	window.addEventListener('message', e => {
+		if (e.data === 'getImage') {
+			e.source.postMessage(getImage(), '*');
+		}
+	});
+
 }(this, Selector));
