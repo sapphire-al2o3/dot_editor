@@ -1427,7 +1427,7 @@ editor: Editor
 		let diff = true;
 		if (tempData.length > 0) {
 			let back = tempData[tempData.length - 1];
-			diff = hasDiffIndexData(back.data, indexData.data)
+			diff = hasDiffIndexData(back.data, indexData.data);
 		}
 
 		// 画像に差があるときだけ保存する
