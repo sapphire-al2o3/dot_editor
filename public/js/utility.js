@@ -1,9 +1,9 @@
 (function(global) {
 	'use strict';
 	
-	var Utility = {
+	const Utility = {
 		rect: function (x0, y0, x1, y1) {
-			var dx0 = Math.min(x0, x1),
+			let dx0 = Math.min(x0, x1),
 				dy0 = Math.min(y0, y1),
 				dx1 = Math.max(x0, x1),
 				dy1 = Math.max(y0, y1);

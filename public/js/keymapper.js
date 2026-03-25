@@ -13,7 +13,7 @@ const KeyMapper = (function () {
 		trigger = false;
 	
 	function getKeyCode(key, option) {
-		var op = option ? [
+		let op = option ? [
 			option[0] ? 'Ctrl+' : '',
 			option[1] ? 'Alt+' : '',
 			option[2] ? 'Shift+' : ''

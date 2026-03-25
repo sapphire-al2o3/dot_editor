@@ -7,7 +7,7 @@
 	'use strict';
 	
 	const History = function() {
-		var stack = [],
+		let stack = [],
 			capacity = 20;
 		return {
 			undo: () => {

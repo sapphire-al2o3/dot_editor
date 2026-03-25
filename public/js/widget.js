@@ -1,9 +1,9 @@
 (function(global, $) {
 	'use strict';
 	
-	var Widget = function (document) {
+	const Widget = function (document) {
 		
-		var element = $(document),
+		let element = $(document),
 			down = false,
 			offsetX = 0,
 			offsetY = 0,
@@ -12,11 +12,11 @@
 			h = 0;
 		
 		return function(elm) {
-			var that = this,
+			let that = this,
 				mousemove = function (e) {
 					if (down) {
 						e.preventDefault();
-						var x = e.pageX - offsetX + offset.left,
+						let x = e.pageX - offsetX + offset.left,
 							y = e.pageY - offsetY + offset.top;
 						$.position(elm, x, y);
 					}

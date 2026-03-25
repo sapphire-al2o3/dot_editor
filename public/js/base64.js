@@ -177,9 +177,9 @@
 			
 			
 			/*
-			for(var j = 0; j < l; j++) {
+			for(let j = 0; j < l; j++) {
 				block.push(line.join(''));
-				var v = line.shift(0);
+				let v = line.shift(0);
 				line.push(v);
 			}*/
 			

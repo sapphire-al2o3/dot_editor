@@ -140,7 +140,7 @@ Model
 		layers.length = 0;
 	};
 	
-	var LayerRenderer = {};
+	const LayerRenderer = {};
 	LayerRenderer.render = function (layer, option) {
 		drawIndexedImage(layer.ctx, layer.indexData, layer.palette, option);
 	};

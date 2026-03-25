@@ -6,8 +6,8 @@
 	
 	const document = $.d;
 	
-	var ToolMapper = function() {
-		var toolmap = {},
+	const ToolMapper = function() {
+		let toolmap = {},
 			tool = '',
 			down = false,
 			left = 0,
@@ -19,7 +19,7 @@
 		
 		function move(e) {
 			if(down && toolmap[tool] && toolmap[tool].move) {
-				var x = e.pageX - left,
+				let x = e.pageX - left,
 					y = e.pageY - top;
 				
 				e.preventDefault();
@@ -32,7 +32,7 @@
 		
 		function up(e) {
 			if(down && toolmap[tool] && toolmap[tool].up) {
-				var x = e.pageX - left,
+				let x = e.pageX - left,
 					y = e.pageY - top;
 				
 				e.preventDefault();
@@ -60,7 +60,7 @@
 		
 		function downHandler(e) {
 			if(toolmap[tool] && toolmap[tool].down) {
-				var x = e.pageX - left,
+				let x = e.pageX - left,
 					y = e.pageY - top;
 				
 				e.preventDefault();

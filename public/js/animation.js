@@ -69,7 +69,7 @@
 	};
 	
 	AnimationView.prototype.render = function() {
-		var f = this.frames[this.current];
+		let f = this.frames[this.current];
 		this.draw(f);
 		this.current++;
 		if(this.current >= this.frames.length) this.current = 0;

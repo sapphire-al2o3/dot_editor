@@ -3,7 +3,7 @@
  *
  */
 
-var url = './json/';
+const url = './json/';
 function load(id, callback) {
 	$.getJSON(url + id, {}, function(data) {
 		callback(data);
@@ -14,7 +14,7 @@ function load(id, callback) {
 
 
 function post(indexData, paletteData, option) {
-	var json = {
+	const json = {
 		_index: Base64.encode(indexData.data, option.imageWidth * option.imageHeight),
 		_palette: Base64.encode(paletteData.data),
 		_image: $('#property img').get(0).src,

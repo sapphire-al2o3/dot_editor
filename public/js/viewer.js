@@ -1,12 +1,12 @@
 (function(global, $) {
 
-	var Veiwer = {};
+	const Veiwer = {};
 	
 	if(global.Viewer) {
 		global.Viewer = Viewer;
 	}
 	
-	var zoom = 1,
+	let zoom = 1,
 		zoomMax = 8,
 		element = $('viewer');
 	
@@ -42,7 +42,7 @@
 	
 	global.addEventListener('keydown', onkeydown, false);
 	
-	var onkeydown = function(e) {
+	let onkeydown = function(e) {
 		if(active) {
 			KeyMapper.invoke('x');
 		}
