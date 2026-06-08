@@ -209,7 +209,7 @@ function paint(ctx, x, y, indexData, paletteIndex, scale, padding = 0) {
 		s = scale,
 		b = s - padding;
 	
-	if(c == paletteIndex) {
+	if(c === paletteIndex) {
 		return;
 	}
 	
@@ -240,7 +240,7 @@ function paintTone(ctx, x, y, indexData, paletteIndex, scale) {
 		tmp = tmpIndexData.data,
 		tone = (x & 1) ^ (y & 1);
 	
-	if (c == paletteIndex) {
+	if (c === paletteIndex) {
 		return;
 	}
 	
@@ -284,7 +284,7 @@ function drawOutline(ctx, x, y, indexData, paletteIndex, scale) {
 		tmpIndexData = createIndexData(w, h),
 		tmp = tmpIndexData.data;
 	
-	if(c == paletteIndex) {
+	if(c === paletteIndex) {
 		return;
 	}
 	
@@ -1359,7 +1359,7 @@ function swapColor(indexData, a, b) {
 	for(let i = 0, l = data.length; i < l; i++) {
 		if(data[i] === a) {
 			data[i] = b;
-		} else if(data[i] == b) {
+		} else if(data[i] === b) {
 			data[i] = a;
 		}
 	}
